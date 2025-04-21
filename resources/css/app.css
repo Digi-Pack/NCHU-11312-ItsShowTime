@@ -89,3 +89,29 @@ html {
     @apply bg-background text-foreground;
   }
 }
+
+/* 特殊字體 */
+@font-face {
+  font-family: Bakudai-Regular;
+  src: url(https://cdn.jsdelivr.net/gh/max32002/bakudaifont@1.48/webfont/Bakudai-Regular.woff2) format("woff2");
+}
+
+@font-face {
+  font-family: 'PingFang SC Regular';
+  src: url('/fonts/PingFang-SC-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Taipei Sans TC Beta Bold';
+  src: url('/fonts/Taipei Sans TC Beta.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Taipei Sans TC Beta Regular';
+  src: url('/fonts/TaipeiSansTCBeta-Regular.ttf') format('truetype');
+}
+
+/* @font-face {
+  font-family: Bakudai;
+  src: url('/fonts/Bakudai.ttf') format('truetype');
+} */

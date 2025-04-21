@@ -32,6 +32,14 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
+        {{-- 載入字體 --}}
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+CJK+TC&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Freckle+Face&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Freckle+Face&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
+
+
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
