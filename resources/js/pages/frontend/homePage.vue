@@ -5,7 +5,7 @@
 <template>
   <nav class="max-w-[1903px] mx-auto">
     <!-- 紅色品牌名稱 -->
-    <div class="fixed top-0 left-0 w-full z-9">
+    <div class="fixed top-0 left-0 w-full z-10">
       <div class="max-w-[1903px] h-[40px] bg-[#B41900] mx-auto flex justify-center items-center text-white">
         <p class="font-noto-cjk text-sm font-normal leading-[1.2]">
           台湾無敵の特工服オーダーメイドブランド
@@ -92,7 +92,7 @@
       <img src="/image/1-2.png" alt="">
     </section>
     <!-- 網站功能簡介 -->
-    <section class="w-full bg-white flex flex-col gap-6 border-b px-50 py-20">
+    <section class="w-full bg-white flex flex-col gap-6 border-b px-[200px] py-20">
       <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">網站功能簡介</p>
       <div class="flex gap-6">
         <div class="w-1/3 flex flex-col gap-4">
@@ -151,7 +151,7 @@
     <!-- 設計 -->
     <section class="w-full bg-white">
       <!-- 設計自己的暴走魂 -->
-      <div class="w-full flex justify-center items-center gap-6 px-50 py-20">
+      <div class="w-full flex justify-center items-center gap-6 px-[200px] py-20">
         <div class="w-full flex justify-center items-center gap-10">
           <div class="flex-1 flex flex-col justify-center gap-6">
             <!-- 訂製方式 -->
@@ -236,7 +236,7 @@
         </div>
       </div>
       <!-- 下單購買 -->
-      <div class="w-full bg-[#333333] flex flex-col gap-4 px-50 py-8">
+      <div class="w-full bg-[#333333] flex flex-col gap-4 px-[200px] py-8">
         <div class="flex items-center gap-6">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M24 0V24H0L24 0Z" fill="white" />
