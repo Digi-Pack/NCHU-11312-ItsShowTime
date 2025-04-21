@@ -12,33 +12,33 @@
         </p>
       </div>
     </div>
-    <div class="w-full h-[230px] bg-white relative">
+    <div class="w-full mt-[40px] h-[230px] bg-white relative min-[577px]:h-[300px]">
       <!-- h-[334px] top-[69px] -->
-      <div class="w-full h-full absolute top-[40px] flex flex-col">
+      <div class="w-full absolute flex flex-col justify-center min-[577px]:flex-row min-[577px]:top-[40px]">
         <!-- 左：logo absolute top-[-29px] -->
-        <div class="w-full relative mb-[10px]">
+        <div class="w-full min-[577px]:w-[50%] relative mb-[10px] lg:pl-[100px] xl:pl-[100px]">
           <div class="relative w-full h-[93px] px-[21px] pt-7 xl:w-[724px] xl:h-[132.84px] 2xl:w-[1041px] 2xl:h-[191px]">
-            <img class="absolute top-[32px] left-[20px] 2xl:top-[0.5px] 2xl:left-[82px] w-[52.71px] h-[60.84] xl:w-[107.81px] xl:h-[124.43px] 2xl:w-[155.01px] 2xl:h-[178.92px]" src="/image/LOGO-方.png" alt="logo">
+            <img class="absolute top-[32px] left-[20px] 2xl:top-[0.5px] 2xl:left-[82px] w-[52.71px] lg:w-[70px] xl:w-[107.81px] 2xl:w-[155.01px] " src="/image/LOGO-方.png" alt="logo">
             <p
-              class="w-[152px] h-[8px] text-[11px] xl:w-[309px] xl:h-[16px] xl:text-[22.26px] 2xl:w-[445px] 2xl:h-[23px] 2xl:text-[32px] font-noto-jp text-[#444444] font-black leading-[1.2] tracking-[-0.08em] absolute top-[30px] left-[80px]">
+              class="w-[152px] h-[8px] text-[11px] lg:w-[309px] lg:h-[16px] lg:text-[22.26px] 2xl:w-[445px] 2xl:h-[23px] 2xl:text-[32px] font-noto-jp text-[#444444] font-black leading-[1.2] tracking-[-0.08em] absolute top-[30px] left-[80px] lg:left-[100px] xl:left-[140px] xl:top-[40px] 2xl:left-[240px] 2xl:top-[10px]">
               天下無敵、台湾特工服の第一品牌
             </p>
             <p
-              class="w-[264px] h-[36px] text-[47.61px] xl:w-[540px] xl:h-[74px] xl:text-[97.37px] 2xl:w-[776px] 2xl:h-[107px] 2xl:text-[140px] font-freckle text-[#444444] font-normal leading-[1] tracking-[-0.08em] absolute bottom-[10px] left-[80px]">
+              class="w-[264px] h-[36px] text-[47.61px] lg:w-[540px] lg:text-[97.37px] 2xl:w-[776px] 2xl:h-[107px] 2xl:text-[140px] font-freckle text-[#444444] font-normal leading-[1] tracking-[-0.08em] absolute bottom-[10px] left-[80px] lg:left-[100px] xl:left-[140px] xl:bottom-[30px] 2xl:left-[240px] 2xl:bottom-[50px]">
               ITS SHOW TIME
             </p>
           </div>
         </div>
         <!-- 右：menu absolute top-[-29px] -->
-        <div class="w-full h-[95px] relative font-noto-cjk text-[#000000]">
-          <div class="w-[372.31px] flex flex-col gap-3 absolute top-[1px] left-[20px]">
+        <div class="w-full h-auto pl-4 relative font-noto-cjk justify-center text-[#000000] min-[577px]:flex min-[577px]:w-[50%]">
+          <div class=" flex flex-col gap-3">
             <div class="flex items-center gap-[5px]">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 0V12H0L12 0Z" fill="#4B402A" />
               </svg>
               <p class="font-noto font-normal leading-[1.2]">Menu</p>
             </div>
-            <div class="flex gap-3 pl-4">
+            <div class="flex flex-wrap gap-3 pl-4 min-[577px]:flex-col">
               <div class="flex items-center gap-[9px]">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path
