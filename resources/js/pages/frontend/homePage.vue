@@ -17,8 +17,11 @@
       <div class="w-full absolute flex flex-col justify-center min-[577px]:flex-row min-[577px]:top-[40px]">
         <!-- 左：logo absolute top-[-29px] -->
         <div class="w-full min-[577px]:w-[50%] relative mb-[10px] lg:pl-[100px] xl:pl-[100px]">
-          <div class="relative w-full h-[93px] px-[21px] pt-7 xl:w-[724px] xl:h-[132.84px] 2xl:w-[1041px] 2xl:h-[191px]">
-            <img class="absolute top-[32px] left-[20px] 2xl:top-[0.5px] 2xl:left-[82px] w-[52.71px] lg:w-[70px] xl:w-[107.81px] 2xl:w-[155.01px] " src="/image/LOGO-方.png" alt="logo">
+          <div
+            class="relative w-full h-[93px] px-[21px] pt-7 xl:w-[724px] xl:h-[132.84px] 2xl:w-[1041px] 2xl:h-[191px]">
+            <img
+              class="absolute top-[32px] left-[20px] 2xl:top-[0.5px] 2xl:left-[82px] w-[52.71px] lg:w-[70px] xl:w-[107.81px] 2xl:w-[155.01px] "
+              src="/image/LOGO-方.png" alt="logo">
             <p
               class="w-[152px] h-[8px] text-[11px] lg:w-[309px] lg:h-[16px] lg:text-[22.26px] 2xl:w-[445px] 2xl:h-[23px] 2xl:text-[32px] font-noto-jp text-[#444444] font-black leading-[1.2] tracking-[-0.08em] absolute top-[30px] left-[80px] lg:left-[100px] xl:left-[140px] xl:top-[40px] 2xl:left-[240px] 2xl:top-[10px]">
               天下無敵、台湾特工服の第一品牌
@@ -30,7 +33,8 @@
           </div>
         </div>
         <!-- 右：menu absolute top-[-29px] -->
-        <div class="w-full h-auto pl-4 relative font-noto-cjk justify-center text-[#000000] min-[577px]:flex min-[577px]:w-[50%]">
+        <div
+          class="w-full h-auto pl-4 relative font-noto-cjk justify-center text-[#000000] min-[577px]:flex min-[577px]:w-[50%]">
           <div class=" flex flex-col gap-3">
             <div class="flex items-center gap-[5px]">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -151,7 +155,8 @@
     <!-- 設計 -->
     <section class="w-full bg-white">
       <!-- 設計自己的暴走魂 -->
-      <div class="w-full flex justify-center items-center gap-6 px-[200px] py-20">
+      <div
+        class="w-full flex justify-center items-center gap-6 min-[1201px]:px-[200px] min-[769px]:px-[120px] px-10 py-20">
         <div class="w-full flex justify-center items-center min-[1201px]:gap-10 gap-6">
           <div class="w-full flex-1 flex flex-col justify-center gap-6">
             <!-- 訂製方式 -->
@@ -162,7 +167,7 @@
                   <path d="M24 0.5V24.5H0L24 0.5Z" fill="#4B402A" />
                 </svg>
                 <p
-                  class="font-noto-cjk text-[#444444] min-[1314px]:text-[64px] min-[1201px]:text-[56px] text-[48px] font-bold leading-[1.2]">
+                  class="font-noto-cjk text-[#444444] min-[1314px]:text-[64px] min-[1201px]:text-[56px] min-[769px]:text-[48px] text-[32px] font-bold leading-[1.2]">
                   設計自己的暴走魂</p>
               </div>
               <p class="font-Noto-serif-jp text-[#444444] text-lg font-normal leading-[1.5]">
@@ -170,14 +175,14 @@
             </div>
             <!-- 進度條 -->
             <div
-              class="min-[1441px]:w-[731px] min-[1314px]:w-[600px] min-[1276px]:w-[560px] min-[1201px]:w-[535px] w-[469px] min-[1201px]:h-[123px] h-[105px] relative">
+              class="min-[1441px]:w-[731px] min-[1314px]:w-[600px] min-[1276px]:w-[560px] min-[1201px]:w-[535px] min-[769px]:w-[469px] w-[376px] min-[1201px]:h-[123px] h-[105px] relative">
               <div class="w-full flex min-[1314px]:gap-20 min-[1201px]:gap-10 gap-2">
                 <div class="w-1/3 flex flex-col items-center gap-2">
                   <p
                     class="font-noto text-[#444444] text-lg min-[1314px]:font-normal font-bold leading-[1.5] tracking-[1.35px]">
                     Step1.</p>
                   <button
-                    class="w-full bg-[#444444] font-noto-cjk text-white text-lg min-[1201px]:font-normal font-bold leading-[100%] rounded-[8px] min-[1441px]:whitespace-nowrap min-[1441px]:py-3 py-[22px] min-[1441px]:px-0 px-6"
+                    class="w-full bg-[#444444] font-noto-cjk text-white min-[769px]:text-lg text-[14px] min-[1201px]:font-normal font-bold leading-[100%] rounded-[8px] min-[1441px]:whitespace-nowrap min-[1441px]:py-3 min-[1021px]:py-[26px] min-[769px]:py-[27px] py-[20px] min-[1441px]:px-0 px-6"
                     type="button">
                     特攻服初稿
                   </button>
@@ -187,7 +192,7 @@
                     class="font-noto text-[#444444] text-lg min-[1314px]:font-normal font-bold leading-[1.5] tracking-[1.35px]">
                     Step2.</p>
                   <button
-                    class="w-full font-noto-cjk text-[#444444] text-lg min-[1314px]:font-normal font-bold leading-[100%] rounded-[8px] min-[1441px]:whitespace-nowrap border border-[#444444] py-3 min-[1441px]:px-0 px-6"
+                    class="w-full font-noto-cjk text-[#444444] min-[769px]:text-lg text-[14px] min-[1314px]:font-normal font-bold leading-[100%] rounded-[8px] min-[1441px]:whitespace-nowrap border border-[#444444] py-3 min-[1441px]:px-0 px-6"
                     type="button">
                     回傳給小編排稿+估價
                   </button>
@@ -197,7 +202,7 @@
                     class="font-noto text-[#444444] text-lg min-[1314px]:font-normal font-bold leading-[1.5] tracking-[1.35px]">
                     Step3.</p>
                   <button
-                    class="w-full font-noto-cjk text-[#444444] text-lg min-[1314px]:font-normal font-bold leading-[100%] rounded-[8px] min-[1441px]:whitespace-nowrap border border-[#444444] py-3 min-[1441px]:px-0 px-6"
+                    class="w-full font-noto-cjk text-[#444444] min-[769px]:text-lg text-[14px] min-[1314px]:font-normal font-bold leading-[100%] rounded-[8px] min-[1441px]:whitespace-nowrap border border-[#444444] py-3 min-[1441px]:px-0 px-6"
                     type="button">
                     完成訂製、付訂金
                   </button>
@@ -209,8 +214,12 @@
                 <div class="min-[1441px]:w-[122px] min-[1201px]:w-[80px] w-[32px] border border-[#444444]"></div>
               </div>
             </div>
+
+            <img src="/image/3-1.png" alt=""
+              class=" min-[1201px]:w-0 min-[769px]:w-[630.75px] min-[500px]:w-[500px] w-[345.11px]">
+
             <!-- 價目樣式參考表 -->
-            <div class="flex flex-col gap-6 py-6">
+            <div class="flex-col gap-6 py-6">
               <div class="flex gap-6">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M24 0V24H0L24 0Z" fill="#4B402A" />
@@ -243,7 +252,7 @@
               </div>
             </div>
           </div>
-          <img src="/image/3-1.png" alt="" class="min-[1201px]:w-[630.75px] min-[769px]:w-[450px] w-[345.11px]">
+          <img src="/image/3-1.png" alt="" class="min-[1201px]:w-[630.75px] w-0">
         </div>
       </div>
       <!-- 下單購買 -->
@@ -313,7 +322,8 @@
   </main>
   <!-- footer -->
 
-  <footer class="max-w-[1903px] bg-[#272727] flex flex-col min-[522px]:justify-center min-[522px]:items-center gap-10 mx-auto min-[769px]:py-10 relative min-[476px]:px-4 px-3 pt-[110px] pb-10">
+  <footer
+    class="max-w-[1903px] bg-[#272727] flex flex-col min-[522px]:justify-center min-[522px]:items-center gap-10 mx-auto min-[769px]:py-10 relative min-[476px]:px-4 px-3 pt-[110px] pb-10">
 
     <!-- 回到頂部 -->
     <button type="button"
@@ -325,10 +335,12 @@
     <div class="flex items-start min-[476px]:gap-2 gap-[6px]">
       <img src="/image/LOGO-中.png" alt="" class="min-[522px]:w-[73.85px] w-[57.36px]">
       <div class="flex-col gap-[5.76px]">
-        <p class="font-noto-jp text-white min-[522px]:text-[14.8px] text-[11.5px] font-black leading-[1.2] tracking-[-0.08em]">
+        <p
+          class="font-noto-jp text-white min-[522px]:text-[14.8px] text-[11.5px] font-black leading-[1.2] tracking-[-0.08em]">
           天下無敵、台湾特工服の第一品牌
         </p>
-        <p class="font-freckle text-white min-[522px]:text-[64.77px] text-[50.31px] font-normal leading-[1.2] tracking-[-0.08em]">
+        <p
+          class="font-freckle text-white min-[522px]:text-[64.77px] text-[50.31px] font-normal leading-[1.2] tracking-[-0.08em]">
           ITS SHOW TIME
         </p>
       </div>
