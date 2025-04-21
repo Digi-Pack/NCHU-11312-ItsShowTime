@@ -243,7 +243,7 @@
               </div>
             </div>
           </div>
-          <img src="/image/3-1.png" alt="">
+          <img src="/image/3-1.png" alt="" class="min-[1201px]:w-[630.75px] min-[769px]:w-[450px] w-[345.11px]">
         </div>
       </div>
       <!-- 下單購買 -->
