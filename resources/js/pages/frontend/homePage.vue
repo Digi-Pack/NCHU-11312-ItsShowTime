@@ -236,7 +236,7 @@
         </div>
       </div>
       <!-- 下單購買 -->
-      <div class="w-full bg-[#333333] flex flex-col gap-4 min-[1335px]:px-[94px] min-[1201px]:px-[200px] px-10 py-8">
+      <div class="w-full bg-[#333333] flex flex-col gap-4 min-[1335px]:px-[95px] min-[1201px]:px-[200px] px-10 py-8">
         <div class="flex items-center gap-6">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M24 0V24H0L24 0Z" fill="white" />
