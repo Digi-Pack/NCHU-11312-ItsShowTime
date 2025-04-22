@@ -11,6 +11,9 @@ export default {
     ],
     theme: {
         extend: {
+            screens:{
+                'min-769px':'769px',
+            },
             fontFamily: {
                 sans: ['Instrument Sans', ...defaultTheme.fontFamily.sans],
             },
