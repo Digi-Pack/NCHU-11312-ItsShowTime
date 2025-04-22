@@ -230,15 +230,15 @@
               <p class="font-Noto-serif-jp text-[#444444] text-lg font-normal leading-[1.5] mb-6 text-nowrap">完全客製化，透過連結下載模板自行設計</p>
               <div class="w-full min-[1441px]:flex grid grid-cols-2 gap-4">
                 <button type="button"
-                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3">
+                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3 text-nowrap">
                   中文字體樣式
                 </button>
                 <button type="button"
-                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3 ">
+                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3 text-nowrap">
                   英文字體樣式
                 </button>
                 <button type="button"
-                  class="bg-[#444444] font-noto-cjk min-[567px]:text-lg text-[15px] text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3">
+                  class="bg-[#444444] font-noto-cjk min-[567px]:text-lg text-[15px] text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3 text-nowrap">
                   繡字價目表
                 </button>
                 <button type="button"
@@ -249,7 +249,7 @@
                       fill="#4D4D4D" />
                   </svg>
                   <p
-                    class="font-Microsoft text-lg text-[#4D4D4D] font-bold leading-[100%] tracking-[1.35px]">
+                    class="font-Microsoft text-lg text-[#4D4D4D] font-bold leading-[100%] tracking-[1.35px] text-nowrap">
                     下載模板</p>
                 </button>
               </div>
