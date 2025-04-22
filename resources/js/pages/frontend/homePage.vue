@@ -14,7 +14,7 @@
     </div>
     <div class="w-full mt-[40px] h-[230px] bg-white relative min-[577px]:h-[300px]">
       <!-- h-[334px] top-[69px] -->
-      <div class="w-full absolute flex flex-col justify-center min-[577px]:flex-row min-[577px]:top-[40px]">
+      <div class="w-full absolute flex flex-col justify-center min-[577px]:flex-row min-[577px]:top-[60px]">
         <!-- 左：logo absolute top-[-29px] -->
         <div class="w-full min-[577px]:w-[50%] relative mb-[10px] lg:pl-[10px] xl:pl-[100px] md:ms-10 lg:ms-0">
           <div
@@ -124,7 +124,7 @@
         <div class="w-1/3 flex flex-col gap-4">
           <div class="flex flex-col sm:flex-row justify-start items-center sm:items-end md:gap-[15px] text-[#444444]">
             <div class="h-[96px] flex items-center">
-              <img class="xl:w-[70.78px] xl:h-[35.63px] 2xl:w-[151px] 2xl:h-full" src="/image/svg/infinity.svg" alt="">
+              <img class="w-[55.05px] xl:w-[70.78px] xl:h-[35.63px] 2xl:w-[151px] 2xl:h-full" src="/image/svg/infinity.svg" alt="">
             </div>
             <p class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">無極限客製</p>
           </div>
@@ -154,14 +154,14 @@
     <section class="w-full bg-white">
       <!-- 設計自己的暴走魂 -->
       <div
-        class="w-full flex justify-center items-center gap-6 min-[1201px]:px-[200px] min-[769px]:px-[120px] min-[567px]:px-10 px-6 py-20">
-        <div class="w-full flex justify-center items-center min-[1314px]:gap-10 gap-6">
+        class="w-full flex justify-center items-center gap-6 min-[1201px]:px-[200px] min-[769px]:px-[120px] min-[567px]:px-10 px-4 py-20">
+        <div class="w-full flex justify-center items-center min-[1314px]:gap-10 min-[476px]:gap-6">
           <div class="w-full flex-1 flex flex-col justify-center gap-6">
             <!-- 訂製方式 -->
             <div class="flex flex-col justify-center gap-6 py-6">
               <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">訂製方式</p>
-              <div class="flex items-center gap-6">
-                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <div class="flex items-center min-[769px]:gap-6 gap-3">
+                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" class="min-[769px]:w-6 w-3">
                   <path d="M24 0.5V24.5H0L24 0.5Z" fill="#4B402A" />
                 </svg>
                 <p
@@ -173,7 +173,7 @@
             </div>
             <!-- 進度條 -->
             <div
-              class="min-[1441px]:w-[731px] min-[1314px]:w-[600px] min-[1276px]:w-[560px] min-[1201px]:w-[535px] min-[567px]:w-[469px] w-[343px] min-[1201px]:h-[123px] min-[567px]:h-[105px] h-[93px] relative min-[976px]:mb-0 mb-8 min-[976px]:pl-0 min-[657px]:pl-6 pl-2">
+              class="min-[1441px]:w-[731px] min-[1314px]:w-[600px] min-[1276px]:w-[560px] min-[1201px]:w-[535px] min-[567px]:w-[469px] w-[332px] min-[1201px]:h-[123px] min-[567px]:h-[105px] h-[93px] relative min-[976px]:mb-0 mb-8 min-[976px]:pl-0 min-[567px]:pl-2 pl-0">
               <div class="w-full flex min-[1314px]:gap-20 min-[1201px]:gap-10 gap-2">
                 <div class="w-1/3 flex flex-col items-center gap-2">
                   <p
@@ -207,38 +207,38 @@
                 </div>
               </div>
               <div
-                class="flex min-[603px]:gap-[102px] gap-[80px] absolute top-[16px] min-[1441px]:left-[192px] min-[1314px]:left-[165px] min-[976px]:left-[142px] min-[567px]:left-[160px] left-[100px]">
+                class="flex min-[603px]:gap-[102px] gap-[80px] absolute top-[16px] min-[1441px]:left-[192px] min-[1314px]:left-[165px] min-[976px]:left-[142px] min-[567px]:left-[160px] left-[85px]">
                 <div class="min-[1441px]:w-[122px] min-[1201px]:w-[80px] w-[32px] border border-[#444444]"></div>
                 <div class="min-[1441px]:w-[122px] min-[1201px]:w-[80px] w-[32px] border border-[#444444]"></div>
               </div>
             </div>
 
-            <div class=" min-[376px]:pl-0 pl-6">
+            <div class="">
               <img src="/image/3-1.png" alt=""
-                class="min-[976px]:w-0 min-769px:w-[630.75px] min-[500px]:w-[480px] w-[345.11px]">
+                class="min-[976px]:w-0 min-[769px]:w-[630.75px] min-[500px]:w-[480px] w-[353.11px]">
 
             </div>
 
             <!-- 價目樣式參考表 -->
             <div class="flex-col gap-6 py-6">
-              <div class="flex gap-6 mb-6">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <div class="flex min-[769px]:gap-6 gap-3 mb-6">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="min-[769px]:w-6 w-3">
                   <path d="M24 0V24H0L24 0Z" fill="#4B402A" />
                 </svg>
                 <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">價目樣式參考表</p>
               </div>
-              <p class="font-Noto-serif-jp text-[#444444] text-lg font-normal leading-[1.5] mb-6">完全客製化，透過連結下載模板自行設計</p>
+              <p class="font-Noto-serif-jp text-[#444444] text-lg font-normal leading-[1.5] mb-6 text-nowrap">完全客製化，透過連結下載模板自行設計</p>
               <div class="w-full min-[1441px]:flex grid grid-cols-2 gap-4">
                 <button type="button"
-                  class="bg-[#444444] font-noto-cjk min-[567px]:text-lg text-[15px] text-white font-normal leading-[100%] rounded-[8px] px-8 py-3">
+                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3">
                   中文字體樣式
                 </button>
                 <button type="button"
-                  class="bg-[#444444] font-noto-cjk min-[567px]:text-lg text-[15px] text-white font-normal leading-[100%] rounded-[8px] px-8 py-3">
+                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3 ">
                   英文字體樣式
                 </button>
                 <button type="button"
-                  class="bg-[#444444] font-noto-cjk min-[567px]:text-lg text-[15px] text-white font-normal leading-[100%] rounded-[8px] px-8 py-3">
+                  class="bg-[#444444] font-noto-cjk min-[567px]:text-lg text-[15px] text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3">
                   繡字價目表
                 </button>
                 <button type="button"
@@ -249,7 +249,7 @@
                       fill="#4D4D4D" />
                   </svg>
                   <p
-                    class="font-Microsoft min-[567px]:text-lg text-[15px] text-[#4D4D4D] font-bold leading-[100%] tracking-[1.35px]">
+                    class="font-Microsoft text-lg text-[#4D4D4D] font-bold leading-[100%] tracking-[1.35px]">
                     下載模板</p>
                 </button>
               </div>
