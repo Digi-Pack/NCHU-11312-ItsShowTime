@@ -16,18 +16,18 @@
       <!-- h-[334px] top-[69px] -->
       <div class="w-full absolute flex flex-col justify-center min-[577px]:flex-row min-[577px]:top-[40px]">
         <!-- 左：logo absolute top-[-29px] -->
-        <div class="w-full min-[577px]:w-[50%] relative mb-[10px] lg:pl-[100px] xl:pl-[100px]">
+        <div class="w-full min-[577px]:w-[50%] relative mb-[10px] lg:pl-[10px] xl:pl-[100px] md:ms-10 lg:ms-0">
           <div
             class="relative w-full h-[93px] px-[21px] pt-7 xl:w-[724px] xl:h-[132.84px] 2xl:w-[1041px] 2xl:h-[191px]">
             <img
-              class="absolute top-[32px] left-[20px] 2xl:top-[0.5px] 2xl:left-[82px] w-[52.71px] lg:w-[70px] xl:w-[107.81px] 2xl:w-[155.01px] "
+              class="absolute top-[32px] left-[20px md:left-[60px] 2xl:top-[0.5px] 2xl:left-[82px] w-[52.71px] md:w-[80px] lg:w-[107.81px] 2xl:w-[155.01px] "
               src="/image/LOGO-方.png" alt="logo">
             <p
-              class="w-[152px] h-[8px] text-[11px] lg:w-[309px] lg:h-[16px] lg:text-[22.26px] 2xl:w-[445px] 2xl:h-[23px] 2xl:text-[32px] font-noto-jp text-[#444444] font-black leading-[1.2] tracking-[-0.08em] absolute top-[30px] left-[80px] lg:left-[100px] xl:left-[140px] xl:top-[40px] 2xl:left-[240px] 2xl:top-[10px]">
+              class="w-[300px] h-[8px] text-[11px] md:text-[20px] lg:w-[309px] lg:h-[16px] lg:text-[22.26px] 2xl:w-[445px] 2xl:h-[23px] 2xl:text-[32px] font-noto-jp text-[#444444] font-black leading-[1.2] tracking-[-0.08em] absolute top-[30px] left-[80px] md:top-[35px] md:left-[150px] lg:left-[180px] xl:top-[40px] 2xl:left-[240px] 2xl:top-[10px]">
               天下無敵、台湾特工服の第一品牌
             </p>
             <p
-              class="w-[264px] h-[36px] text-[47.61px] lg:w-[540px] lg:text-[97.37px] 2xl:w-[776px] 2xl:h-[107px] 2xl:text-[140px] font-freckle text-[#444444] font-normal leading-[1] tracking-[-0.08em] absolute bottom-[10px] left-[80px] lg:left-[100px] xl:left-[140px] xl:bottom-[30px] 2xl:left-[240px] 2xl:bottom-[50px]">
+              class="w-[300px] h-[36px] text-[47.61px] md:text-[54px] lg:w-[540px] lg:text-[97.37px] 2xl:w-[776px] 2xl:h-[107px] 2xl:text-[140px] font-freckle text-[#444444] font-normal leading-[1] tracking-[-0.08em] absolute bottom-[10px] left-[80px] md:bottom-0 md:left-[150px] lg:left-[180px] xl:bottom-[30px] 2xl:left-[240px] 2xl:bottom-[50px]">
               ITS SHOW TIME
             </p>
           </div>
@@ -92,65 +92,63 @@
   <main class="max-w-[1903px] mx-auto">
     <!-- 第一張大圖 -->
     <section class="w-full flex justify-center items-center">
-      <img src="/image/1-1.png" alt="">
-      <img src="/image/1-2.png" alt="">
+      <div class="w-2/5">
+        <img class="w-full object-cover" src="/image/1-1.png" alt="">
+      </div>
+      <div class="w-3/5">
+        <img class="w-full object-cover" src="/image/1-2.png" alt="">
+      </div>
     </section>
     <!-- 網站功能簡介 -->
-    <section class="w-full bg-white flex flex-col gap-6 border-b px-[200px] py-20">
-      <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">網站功能簡介</p>
-      <div class="flex gap-6">
+    <section class="w-full bg-white flex flex-col gap-6 border-b px-[20px] md:px-[40px] lg:px-[100px] xl:px-[200px] py-20">
+      <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2] ">網站功能簡介</p>
+      <div class="flex gap-2 md:gap-6">
         <div class="w-1/3 flex flex-col gap-4">
-          <div class="flex items-end gap-[15px] text-[#444444]">
-            <p class="font-jockey text-[96px] font-normal leading-[96px] uppercase">10+</p>
-            <p class="font-pingfang text-[30px] font-medium leading-[1.14] tracking-[2.25px]">年電繡經驗</p>
+          <div class="flex flex-col sm:flex-row justify-start items-center sm:items-end md:gap-[15px] text-[#444444]">
+            <p class="font-jockey text-[50px] xl:text-[64px] 2xl:text-[96px] font-normal leading-[96px] uppercase">10+</p>
+            <p class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">年電繡經驗</p>
           </div>
-          <p class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px]">
+          <p class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px] hidden md:block">
             保證刺出不羈的靈魂，讓每一位顧客擁有最優質的服務。
           </p>
         </div>
         <div class="w-1/3 flex flex-col gap-4">
-          <div class="flex items-end gap-[15px] text-[#444444]">
-            <p class="font-jockey text-[96px] font-normal leading-[96px] uppercase">2,000+</p>
-            <p class="font-pingfang text-[30px] font-medium leading-[1.14] tracking-[2.25px]">番長指定</p>
+          <div class="flex flex-col sm:flex-row justify-start items-center sm:items-end md:gap-[15px] text-[#444444]">
+            <p class="font-jockey text-[50px] xl:text-[64px] 2xl:text-[96px] font-normal leading-[96px] uppercase">2,000+</p>
+            <p class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">番長指定</p>
           </div>
-          <p class="font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px]">
+          <p class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px] hidden md:block">
             治霸全國指定品牌，日常暴走穿搭首選。
           </p>
         </div>
         <div class="w-1/3 flex flex-col gap-4">
-          <div class="flex items-end gap-[15px] text-[#444444]">
-            <svg width="151" height="96" viewBox="0 0 151 96" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <g clip-path="url(#clip0_148_2135)">
-                <path
-                  d="M36.2819 86C29.5708 86 23.419 84.4814 17.8264 81.4441C12.3736 78.2689 8.03935 73.851 4.82361 68.1907C1.60787 62.5304 0 55.8347 0 48.1035C0 40.3724 1.60787 33.6767 4.82361 28.0163C8.03935 22.218 12.3736 17.8002 17.8264 14.7629C23.419 11.5876 29.5708 10 36.2819 10C41.1755 10 45.6495 10.7593 49.7042 12.2779C53.7588 13.7965 57.8134 16.3506 61.868 19.9401C66.0625 23.5295 70.6065 28.4995 75.5 34.8501C80.3935 28.4995 84.8676 23.5295 88.9222 19.9401C92.9768 16.3506 97.0315 13.7965 101.086 12.2779C105.281 10.7593 109.825 10 114.718 10C121.569 10 127.721 11.5876 133.174 14.7629C138.626 17.8002 142.961 22.218 146.176 28.0163C149.392 33.6767 151 40.3724 151 48.1035C151 55.8347 149.392 62.5304 146.176 68.1907C142.961 73.851 138.626 78.2689 133.174 81.4441C127.721 84.4814 121.569 86 114.718 86C107.448 86 100.876 84.2053 95.0042 80.6158C89.1319 76.8883 82.6306 70.3306 75.5 60.9428C68.3694 70.3306 61.868 76.8883 55.9958 80.6158C50.2634 84.2053 43.6921 86 36.2819 86ZM36.2819 71.7112C40.3366 71.7112 44.1116 70.6067 47.6069 68.3978C51.1023 66.0509 54.388 63.0826 57.4639 59.4932C60.6796 55.7657 63.6157 51.9691 66.2722 48.1035C63.8954 44.376 61.169 40.6485 58.0931 36.921C55.1569 33.1935 51.8713 30.0872 48.2361 27.6022C44.7407 25.1172 40.756 23.8747 36.2819 23.8747C29.5708 23.8747 24.3278 26.0836 20.5528 30.5014C16.9176 34.7811 15.1 40.6485 15.1 48.1035C15.1 55.4205 17.1972 61.2189 21.3917 65.4986C25.5861 69.6403 30.5495 71.7112 36.2819 71.7112ZM114.718 71.7112C120.45 71.7112 125.414 69.6403 129.608 65.4986C133.803 61.2189 135.9 55.4205 135.9 48.1035C135.9 40.6485 134.012 34.7811 130.237 30.5014C126.602 26.0836 121.429 23.8747 114.718 23.8747C110.244 23.8747 106.189 25.1172 102.554 27.6022C99.0588 30.0872 95.843 33.1935 92.9069 36.921C89.9708 40.6485 87.2444 44.376 84.7278 48.1035C87.5241 52.1072 90.4602 55.9037 93.5361 59.4932C96.612 63.0826 99.8977 66.0509 103.393 68.3978C106.888 70.6067 110.663 71.7112 114.718 71.7112Z"
-                  fill="#444444" />
-              </g>
-              <defs>
-                <clipPath id="clip0_148_2135">
-                  <rect width="151" height="74" fill="white" transform="translate(0 11)" />
-                </clipPath>
-              </defs>
-            </svg>
-            <p class="font-pingfang text-[30px] font-medium leading-[1.14] tracking-[2.25px]">無極限客製</p>
+          <div class="flex flex-col sm:flex-row justify-start items-center sm:items-end md:gap-[15px] text-[#444444]">
+            <div class="h-[96px] flex items-center">
+              <img class="xl:w-[70.78px] xl:h-[35.63px] 2xl:w-[151px] 2xl:h-full" src="/image/svg/infinity.svg" alt="">
+            </div>
+            <p class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">無極限客製</p>
           </div>
-          <p class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px]">
+          <p class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px] hidden md:block">
             多種版型可供下載，客製化屬於你自己的自由靈魂。
           </p>
         </div>
       </div>
     </section>
     <!-- 第二張大圖 -->
-    <section class="w-full bg-[#333333] flex justify-center items-center gap-10 pl-50">
-      <div class="w-[639px] flex flex-col gap-6 border-l border-[#333333] py-20">
-        <p class="w-[417px] font-bakudai-r text-white text-[64px] font-normal leading-[1.2]">
-          繡上自由想法, 秀出自信態度
+    <section class="w-full bg-[#333333] flex justify-center items-center gap-10 2xl:pl-[200px] flex-col 2xl:flex-row">
+      <div class="w-full 2xl:w-1/2 flex flex-col gap-6 pb-20 px-2 md:px-20 2xl:py-20 2xl:px-0 order-1 2xl:order-0">
+        <p class=" font-bakudai-r text-white text-[52.51px] md:text-[64px] font-normal leading-[1.2]">
+          繡上自由想法, 
+          <span class="iniline-block md:inline 2xl:inline-block">秀出自信態度</span>
         </p>
-        <p class="font-noto-cjk text-[#D9D9D9] font-normal leading-[1.6]">
-          桀驁不馴，既是對社會規範的挑戰，也是對自身風格的堅持。<br><br>
+        <p class="font-noto-cjk text-[#D9D9D9] font-normal leading-[1.6] px-2">
+          桀驁不馴，既是對社會規範的挑戰，也是對自身風格的堅持。
           我們堅信透過刺繡，繡上的每一針一線都能傳遞情感與故事。​​無論是個人訂製還是團體需求，我們都以專業態度滿足，期望每件作品都能成為您生活中的亮點。
         </p>
       </div>
-      <img src="/image/2.png" alt="">
+      <div class="w-full order-0 2xl:order-1">
+        <img class="w-full object-cover" src="/image/2.png" alt="">
+      </div>
     </section>
     <!-- 設計 -->
     <section class="w-full bg-white">
