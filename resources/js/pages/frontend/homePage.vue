@@ -1,5 +1,25 @@
 <script setup>
-// import logo from "p/image/LOGO-方.png";
+import { ref } from 'vue'
+
+// Swiper Vue.js components
+import { Swiper, SwiperSlide } from 'swiper/vue'
+
+// Swiper styles
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/navigation'
+import 'swiper/css/thumbs'
+
+// Swiper modules
+import { FreeMode, Navigation, Thumbs, Autoplay } from 'swiper/modules'
+
+const thumbsSwiper = ref(null);
+
+const setThumbsSwiper = (swiper) => {
+  thumbsSwiper.value = swiper
+};
+
+const modules = [FreeMode, Navigation, Thumbs, Autoplay];
 </script>
 
 <template>
@@ -100,35 +120,48 @@
       </div>
     </section>
     <!-- 網站功能簡介 -->
-    <section class="w-full bg-white flex flex-col gap-6 border-b px-[20px] md:px-[40px] lg:px-[100px] xl:px-[200px] py-20">
+    <section
+      class="w-full bg-white flex flex-col gap-6 border-b px-[20px] md:px-[40px] lg:px-[100px] xl:px-[200px] py-20">
       <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2] ">網站功能簡介</p>
       <div class="flex gap-2 md:gap-6">
         <div class="w-1/3 flex flex-col gap-4">
           <div class="flex flex-col sm:flex-row justify-start items-center sm:items-end md:gap-[15px] text-[#444444]">
-            <p class="font-jockey text-[50px] xl:text-[64px] 2xl:text-[96px] font-normal leading-[96px] uppercase">10+</p>
-            <p class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">年電繡經驗</p>
+            <p class="font-jockey text-[50px] xl:text-[64px] 2xl:text-[96px] font-normal leading-[96px] uppercase">10+
+            </p>
+            <p
+              class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">
+              年電繡經驗</p>
           </div>
-          <p class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px] hidden md:block">
+          <p
+            class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px] hidden md:block">
             保證刺出不羈的靈魂，讓每一位顧客擁有最優質的服務。
           </p>
         </div>
         <div class="w-1/3 flex flex-col gap-4">
           <div class="flex flex-col sm:flex-row justify-start items-center sm:items-end md:gap-[15px] text-[#444444]">
-            <p class="font-jockey text-[50px] xl:text-[64px] 2xl:text-[96px] font-normal leading-[96px] uppercase">2,000+</p>
-            <p class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">番長指定</p>
+            <p class="font-jockey text-[50px] xl:text-[64px] 2xl:text-[96px] font-normal leading-[96px] uppercase">
+              2,000+</p>
+            <p
+              class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">
+              番長指定</p>
           </div>
-          <p class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px] hidden md:block">
+          <p
+            class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px] hidden md:block">
             治霸全國指定品牌，日常暴走穿搭首選。
           </p>
         </div>
         <div class="w-1/3 flex flex-col gap-4">
           <div class="flex flex-col sm:flex-row justify-start items-center sm:items-end md:gap-[15px] text-[#444444]">
             <div class="h-[96px] flex items-center">
-              <img class="w-[55.05px] xl:w-[70.78px] xl:h-[35.63px] 2xl:w-[151px] 2xl:h-full" src="/image/svg/infinity.svg" alt="">
+              <img class="w-[55.05px] xl:w-[70.78px] xl:h-[35.63px] 2xl:w-[151px] 2xl:h-full"
+                src="/image/svg/infinity.svg" alt="">
             </div>
-            <p class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">無極限客製</p>
+            <p
+              class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">
+              無極限客製</p>
           </div>
-          <p class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px] hidden md:block">
+          <p
+            class="h-[54px] font-pingfang text-[#444444] text-lg font-normal leading-[1.5] tracking-[1.35px] hidden md:block">
             多種版型可供下載，客製化屬於你自己的自由靈魂。
           </p>
         </div>
@@ -138,7 +171,7 @@
     <section class="w-full bg-[#333333] flex justify-center items-center gap-10 2xl:pl-[200px] flex-col 2xl:flex-row">
       <div class="w-full 2xl:w-1/2 flex flex-col gap-6 pb-20 px-2 md:px-20 2xl:py-20 2xl:px-0 order-1 2xl:order-0">
         <p class=" font-bakudai-r text-white text-[52.51px] md:text-[64px] font-normal leading-[1.2]">
-          繡上自由想法, 
+          繡上自由想法,
           <span class="iniline-block md:inline 2xl:inline-block">秀出自信態度</span>
         </p>
         <p class="font-noto-cjk text-[#D9D9D9] font-normal leading-[1.6] px-2">
@@ -150,116 +183,146 @@
         <img class="w-full object-cover" src="/image/2.png" alt="">
       </div>
     </section>
-    <!-- 設計 -->
+    <!-- 商品製作 -->
     <section class="w-full bg-white">
       <!-- 設計自己的暴走魂 -->
-      <div
-        class="w-full flex justify-center items-center gap-6 min-[1201px]:px-[200px] min-[769px]:px-[120px] min-[567px]:px-10 px-4 py-20">
-        <div class="w-full flex justify-center items-center min-[1314px]:gap-10 min-[476px]:gap-6">
-          <div class="w-full flex-1 flex flex-col justify-center gap-6">
+      <div class="w-full flex justify-center items-center min-[1180px]:px-10 px-4 py-20">
+        <div
+          class="w-full max-w-[1503px] flex flex-col min-[1120px]:flex-row justify-center items-center min-[1500px]:gap-10 min-[1120px]:gap-6 gap-4 mx-auto">
+          <div class="w-full min-[1120px]:w-[calc(100% - 666.9px)] flex-1 flex flex-col justify-center gap-6">
             <!-- 訂製方式 -->
-            <div class="flex flex-col justify-center gap-6 py-6">
+            <div class="w-full flex flex-col justify-center gap-6 min-[1120px]:py-6 py-4">
               <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">訂製方式</p>
               <div class="flex items-center min-[769px]:gap-6 gap-3">
-                <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg" class="min-[769px]:w-6 w-3">
-                  <path d="M24 0.5V24.5H0L24 0.5Z" fill="#4B402A" />
-                </svg>
+                <img src="/image/svg/Polygon 1.svg" class="w-6 h-6" alt="">
                 <p
-                  class="font-noto-cjk text-[#444444] min-[1314px]:text-[64px] min-[1201px]:text-[56px] min-[769px]:text-[48px] text-[32px] font-bold leading-[1.2]">
+                  class="font-noto-cjk text-[#444444] min-[1501px]:text-[64px] min-[769px]:text-[48px] text-[32px] font-bold leading-[1.2]">
                   設計自己的暴走魂</p>
               </div>
               <p class="font-Noto-serif-jp text-[#444444] min-[567px]:text-lg text-[16px] font-normal leading-[1.5]">
                 完全客製化，透過連結下載模板自行設計，有長版/短版/特工褲各4色可做挑選。</p>
             </div>
             <!-- 進度條 -->
-            <div
-              class="min-[1441px]:w-[731px] min-[1314px]:w-[600px] min-[1276px]:w-[560px] min-[1201px]:w-[535px] min-[567px]:w-[469px] w-[332px] min-[1201px]:h-[123px] min-[567px]:h-[105px] h-[93px] relative min-[976px]:mb-0 mb-8 min-[976px]:pl-0 min-[567px]:pl-2 pl-0">
-              <div class="w-full flex min-[1314px]:gap-20 min-[1201px]:gap-10 gap-2">
-                <div class="w-1/3 flex flex-col items-center gap-2">
-                  <p
-                    class="font-noto text-[#444444] text-lg min-[1314px]:font-normal font-bold leading-[1.5] tracking-[1.35px]">
-                    Step1.</p>
-                  <button
-                    class="w-full bg-[#444444] font-noto-cjk text-white min-[769px]:text-lg text-[14px] min-[1201px]:font-normal font-bold leading-[100%] rounded-[8px] min-[1441px]:whitespace-nowrap min-[1441px]:py-3 min-[1021px]:py-[26px] min-[769px]:py-[27px] py-[20px] min-[1441px]:px-0 min-[567px]:px-6 px-3"
-                    type="button">
+            <div class="w-full min-[1120px]:max-w-[731px] relative">
+              <swiper @swiper="setThumbsSwiper" :loop="true" :slidesPerView="'auto'" :freeMode="true"
+                :watchSlidesProgress="true" :modules="modules" class="mySwiper">
+                <!-- min-[1314px]:gap-20 min-[1201px]:gap-10 gap-2 -->
+                <swiper-slide class="flex flex-col items-center gap-2">
+                  <p class="font-noto text-[#444444] text-lg min-[1500px]:font-normal 
+                    font-bold leading-[1.5] tracking-[1.35px]">
+                    Step1.
+                  </p>
+                  <button type="button"
+                    class="w-full font-noto-cjk border border-[#444444] min-[1120px]:text-lg text-[14px] font-normal leading-[100%] rounded-[8px] py-2">
                     特攻服初稿
                   </button>
-                </div>
-                <div class="w-1/3 flex flex-col items-center gap-2">
-                  <p
-                    class="font-noto text-[#444444] text-lg min-[1314px]:font-normal font-bold leading-[1.5] tracking-[1.35px]">
-                    Step2.</p>
-                  <button
-                    class="w-full font-noto-cjk text-[#444444] min-[769px]:text-lg text-[14px] min-[1314px]:font-normal font-bold leading-[100%] rounded-[8px] min-[1441px]:whitespace-nowrap border border-[#444444] py-3 min-[1441px]:px-0 min-[567px]:px-6 px-3"
-                    type="button">
-                    回傳給小編排稿+估價
+                </swiper-slide>
+                <swiper-slide class="flex flex-col items-center gap-2">
+                  <p class="font-noto text-[#444444] text-lg min-[1500px]:font-normal 
+                    font-bold leading-[1.5] tracking-[1.35px] relative step-line">
+                    Step2.
+                  </p>
+                  <button type="button"
+                    class="w-full font-noto-cjk border border-[#444444] min-[1120px]:text-lg text-[14px] font-normal leading-[100%] rounded-[8px] py-2">
+                    <span>回傳給小編</span>
+                    <span>排搞+估價</span>
                   </button>
-                </div>
-                <div class="w-1/3 flex flex-col items-center gap-2">
-                  <p
-                    class="font-noto text-[#444444] text-lg min-[1314px]:font-normal font-bold leading-[1.5] tracking-[1.35px]">
-                    Step3.</p>
-                  <button
-                    class="w-full font-noto-cjk text-[#444444] min-[769px]:text-lg text-[14px] min-[1314px]:font-normal font-bold leading-[100%] rounded-[8px] min-[1441px]:whitespace-nowrap border border-[#444444] py-3 min-[1441px]:px-0 min-[567px]:px-6 px-3"
-                    type="button">
-                    完成訂製、付訂金
+                </swiper-slide>
+                <swiper-slide class="flex flex-col items-center gap-2">
+                  <p class="font-noto text-[#444444] text-lg min-[1500px]:font-normal 
+                    font-bold leading-[1.5] tracking-[1.35px]">
+                    Step3.
+                  </p>
+                  <button type="button"
+                    class="w-full font-noto-cjk border border-[#444444] min-[1120px]:text-lg text-[14px] font-normal leading-[100%] rounded-[8px] py-2">
+                    <span>完成訂製、</span>
+                    <span>付訂金</span>
                   </button>
-                </div>
-              </div>
-              <div
-                class="flex min-[603px]:gap-[102px] gap-[80px] absolute top-[16px] min-[1441px]:left-[192px] min-[1314px]:left-[165px] min-[976px]:left-[142px] min-[567px]:left-[160px] left-[85px]">
-                <div class="min-[1441px]:w-[122px] min-[1201px]:w-[80px] w-[32px] border border-[#444444]"></div>
-                <div class="min-[1441px]:w-[122px] min-[1201px]:w-[80px] w-[32px] border border-[#444444]"></div>
-              </div>
+                </swiper-slide>
+              </swiper>
             </div>
-
-            <div class="">
-              <img src="/image/3-1.png" alt=""
-                class="min-[976px]:w-0 min-[769px]:w-[630.75px] min-[500px]:w-[480px] w-[353.11px]">
-
-            </div>
-
             <!-- 價目樣式參考表 -->
-            <div class="flex-col gap-6 py-6">
+            <div class="hidden min-[1120px]:flex flex-col gap-6 py-6">
               <div class="flex min-[769px]:gap-6 gap-3 mb-6">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="min-[769px]:w-6 w-3">
-                  <path d="M24 0V24H0L24 0Z" fill="#4B402A" />
-                </svg>
-                <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">價目樣式參考表</p>
+                <img src="/image/svg/Polygon 1.svg" class="w-6 h-6" alt="">
+                <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">
+                  價目樣式參考表
+                </p>
               </div>
-              <p class="font-Noto-serif-jp text-[#444444] text-lg font-normal leading-[1.5] mb-6 text-nowrap">完全客製化，透過連結下載模板自行設計</p>
+              <p class="font-Noto-serif-jp text-[#444444] text-lg font-normal leading-[1.5] mb-6 text-nowrap">
+                完全客製化，透過連結下載模板自行設計
+              </p>
               <div class="w-full min-[1441px]:flex grid grid-cols-2 gap-4">
                 <button type="button"
-                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3 text-nowrap">
+                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-2">
                   中文字體樣式
                 </button>
                 <button type="button"
-                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3 text-nowrap">
+                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-2">
                   英文字體樣式
                 </button>
                 <button type="button"
-                  class="bg-[#444444] font-noto-cjk min-[567px]:text-lg text-[15px] text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-3 text-nowrap">
+                  class="bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] min-[567px]:px-8 px-4 py-2">
                   繡字價目表
                 </button>
                 <button type="button"
-                  class="bg-[#FFC051] flex items-center justify-center gap-1 rounded-[8px] min-[567px]:px-11 px-6 py-3">
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M8 12L3 7L4.4 5.55L7 8.15V0H9V8.15L11.6 5.55L13 7L8 12ZM2 16C1.45 16 0.979333 15.8043 0.588 15.413C0.196666 15.0217 0.000666667 14.5507 0 14V11H2V14H14V11H16V14C16 14.55 15.8043 15.021 15.413 15.413C15.0217 15.805 14.5507 16.0007 14 16H2Z"
-                      fill="#4D4D4D" />
-                  </svg>
-                  <p
-                    class="font-Microsoft text-lg text-[#4D4D4D] font-bold leading-[100%] tracking-[1.35px] text-nowrap">
-                    下載模板</p>
+                  class="bg-[#FFC051] flex justify-center items-center gap-1 rounded-[8px] px-10 py-2">
+                  <img src="/image/svg/material-symbols_download.svg" alt="">
+                  <span class="font-Microsoft text-lg text-[#4D4D4D] font-bold leading-[100%] tracking-[1.35px]">
+                    下載模板</span>
                 </button>
               </div>
             </div>
           </div>
-
-          <img src="/image/3-1.png" alt="" class="min-[1201px]:w-[630.75px] min-[976px]:w-[480px] w-0">
+          <swiper :speed="1" :loop="true" :slidesPerView="'auto'" :navigation="false" :thumbs="{ swiper: thumbsSwiper }"
+            :modules="modules" :autoplay="{
+              delay: 3000,
+              disableOnInteraction: false
+            }" class="mySwiper2">
+            <swiper-slide>
+              <img src="/image/3-1.png" alt="" />
+            </swiper-slide>
+            <swiper-slide>
+              <img src="/image/3-2.png" alt="" />
+            </swiper-slide>
+            <swiper-slide>
+              <img src="/image/3-3.png" alt="" />
+            </swiper-slide>
+          </swiper>
+          <!-- 價目參考樣式 -->
+          <div class="w-full flex min-[1120px]:hidden flex-col gap-6 py-6">
+            <div class="flex min-[769px]:gap-6 gap-3 mb-6">
+              <img src="/image/svg/Polygon 1.svg" class="w-6 h-6" alt="">
+              <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">
+                價目樣式參考表
+              </p>
+            </div>
+            <p class="font-Noto-serif-jp text-[#444444] text-lg font-normal leading-[1.5] mb-6 text-nowrap">
+              完全客製化，透過連結下載模板自行設計
+            </p>
+            <div class="w-full min-[1441px]:flex grid grid-cols-2 gap-4">
+              <button type="button"
+                class="h-10 bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] py-2">
+                中文字體樣式
+              </button>
+              <button type="button"
+                class="h-10 bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] py-2">
+                英文字體樣式
+              </button>
+              <button type="button"
+                class="h-10 bg-[#444444] font-noto-cjk text-lg text-white font-normal leading-[100%] rounded-[8px] py-2">
+                繡字價目表
+              </button>
+              <button type="button" class="h-10 bg-[#FFC051] flex justify-center items-center gap-1 rounded-[8px] py-2">
+                <img src="/image/svg/material-symbols_download.svg" alt="">
+                <span
+                  class="font-Microsoft text-lg text-[#4D4D4D] font-bold leading-[100%] tracking-[1.35px] text-nowrap">
+                  下載模板</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-
       <!-- 下單購買 -->
       <div class="w-full bg-[#333333] flex flex-col gap-4 min-[1904px]:px-[200px] min-[1201px]:px-[120px] px-10 py-8">
         <div class="flex items-center gap-6">
@@ -270,7 +333,7 @@
         </div>
         <div class="min-[1201px]:flex grid grid-cols-1 gap-4">
           <div
-            class="min-[1201px]:w-1/3 w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0, 0, 0, 0.1)] rounded-tl-2xl rounded-tr-2xl">
+            class="min-[1201px]:w-1/3 w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
             <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.png" alt="">
             <div class="flex flex-col gap-2 px-2">
               <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
@@ -283,7 +346,7 @@
             </div>
           </div>
           <div
-            class="min-[1201px]:w-1/3 w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0, 0, 0, 0.1)] rounded-tl-2xl rounded-tr-2xl">
+            class="min-[1201px]:w-1/3 w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
             <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-2.png" alt="">
             <div class="flex flex-col gap-2 px-2">
               <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
@@ -296,7 +359,7 @@
             </div>
           </div>
           <div
-            class="min-[1201px]:w-1/3 w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0, 0, 0, 0.1)] rounded-tl-2xl rounded-tr-2xl">
+            class="min-[1201px]:w-1/3 w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
             <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-3.png" alt="">
             <div class="flex flex-col gap-2 px-2">
               <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
@@ -311,7 +374,7 @@
         </div>
         <div class="w-full flex justify-center">
           <button
-            class="bg-white flex items-center gap-[10px] px-10 py-4 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0, 0, 0, 0.25)]"
+            class="bg-white flex items-center gap-[10px] px-10 py-4 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]"
             type="button">
             <img src="/image/svg/Shopee_logo.svg" alt="">
             <p class="font-noto-cjk text-[#444444] text-lg font-normal leading-[1.5]">蝦皮賣場</p>
@@ -393,6 +456,117 @@
 </template>
 
 <style>
+.step-line::before {
+  content: '';
+  position: absolute;
+  width: 122px;
+  border: 1px solid #444444;
+  top: 50%;
+  left: -25px;
+  transform: translate(-100%, -50%);
+}
+
+.step-line::after {
+  content: '';
+  position: absolute;
+  width: 122px;
+  border: 1px solid #444444;
+  top: 50%;
+  right: -25px;
+  transform: translate(100%, -50%);
+}
+
+@media (max-width: 1500px) {
+  .step-line::before {
+    width: 32px;
+    left: -10px;
+  }
+
+  .step-line::after {
+    width: 32px;
+    right: -10px;
+  }
+}
+
+.mySwiper {
+  display: inline-flex;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mySwiper .swiper-slide {
+  width: 190.33px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 80px;
+}
+
+@media (max-width: 1500px) {
+  .mySwiper .swiper-slide {
+    width: calc((100% - 10px*2) / 3);
+    margin-right: 10px;
+  }
+}
+
+/* @media (max-width: 1120px) {
+  .mySwiper .swiper-slide {
+    width: 100%;
+    margin-right: 10px;
+  }
+} */
+
+@media (max-width: 1500px) {
+  .mySwiper .swiper-slide button {
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 1120px) {
+  .mySwiper .swiper-slide button {
+    height: 58px;
+  }
+}
+
+.mySwiper .swiper-slide-thumb-active button {
+  background-color: #444444;
+  color: #ffffff;
+}
+
+.mySwiper2 {
+  width: 626.9px;
+}
+
+@media (max-width: 1119px) {
+  .mySwiper2 {
+    width: 100%;
+  }
+}
+
+.swiper-slide img {
+  display: block;
+  width: 626.9px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 6.86px;
+}
+
+@media (max-width: 1200px) {
+  .swiper-slide img {
+    width: 100%;
+    border-radius: 6.86px;
+  }
+}
+
+
+
+
 html,
 body {
   font-size: 16px;
