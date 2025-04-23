@@ -35,7 +35,6 @@
         {{-- 載入字體 --}}
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+CJK+TC&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Freckle+Face&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Freckle+Face&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Jockey+One&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap" rel="stylesheet">
 

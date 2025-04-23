@@ -17,6 +17,18 @@ export default {
             },
             fontFamily: {
                 sans: ['Instrument Sans', ...defaultTheme.fontFamily.sans],
+                'noto-cjk': ['Noto Sans CJK TC'],
+                noto: ['Noto Sans TC'],
+                'noto-jp': ['Noto Sans JP'],
+                'freckle': ['Freckle Face'],
+                jockey: ['Jockey One'],
+                pingfang: ['PingFang SC'],
+                'pingfang-r': ['PingFang SC Regular'],
+                'bakudai-r': ['Bakudai-Regular'],
+                'noto-serif-jp': ['Noto Serif JP'],
+                'microsoft-jh': ['Microsoft JhengHei'],
+                'taipei-sans-tc-bold': ['Taipei Sans TC Beta Bold'],
+                'taipei-sans-tc-r': ['Taipei Sans TC Beta Regular'],
             },
             borderRadius: {
                 lg: 'var(--radius)',
