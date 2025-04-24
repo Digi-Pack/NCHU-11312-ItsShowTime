@@ -79,7 +79,7 @@ const hideImage = () => {
     </div> -->
 
     <!-- header -->
-    <div class="w-full mt-[40px] h-[403px] bg-white relative min-[577px]:h-[300px]">
+    <div class="w-full mt-[40px] h-[210px] bg-white relative min-[577px]:h-[300px]">
       <!-- h-[334px] top-[69px] -->
       <div class="w-full absolute flex flex-col justify-center min-[577px]:flex-row min-[577px]:top-[60px]">
         <!-- 左：logo absolute top-[-29px] -->
@@ -90,11 +90,11 @@ const hideImage = () => {
               class="absolute top-[32px] left-[20px md:left-[60px] 2xl:top-[0.5px] 2xl:left-[82px] w-[52.71px] md:w-[80px] lg:w-[107.81px] 2xl:w-[155.01px] "
               src="/image/LOGO-方.webp" alt="logo">
             <p
-              class="w-[300px] h-[8px] text-[11px] md:text-[20px] lg:w-[309px] lg:h-[16px] lg:text-[22.26px] 2xl:w-[445px] 2xl:h-[23px] 2xl:text-[32px] font-noto-jp text-[#444444] font-black leading-[1.2] tracking-[-0.08em] absolute top-[30px] left-[80px] md:top-[35px] md:left-[150px] lg:left-[180px] xl:top-[40px] 2xl:left-[240px] 2xl:top-[10px]">
+              class="h-[8px] text-[11px] md:text-[20px] lg:h-[16px] lg:text-[22.26px] 2xl:h-[23px] 2xl:text-[32px] font-noto-jp text-[#444444] font-black leading-[1.2] tracking-[-0.08em] absolute top-[30px] left-[80px] md:top-[35px] md:left-[150px] lg:left-[180px] xl:top-[40px] 2xl:left-[240px] 2xl:top-[10px]">
               天下無敵、台湾特工服の第一品牌
             </p>
             <p
-              class="w-[300px] h-[36px] text-[47.61px] md:text-[54px] lg:w-[540px] lg:text-[97.37px] 2xl:w-[776px] 2xl:h-[107px] 2xl:text-[140px] font-freckle text-[#444444] font-normal leading-[1] tracking-[-0.08em] absolute bottom-[10px] left-[80px] md:bottom-0 md:left-[150px] lg:left-[180px] xl:bottom-[30px] 2xl:left-[240px] 2xl:bottom-[50px]">
+              class="h-[36px] text-[47.61px] md:text-[54px] lg:text-[97.37px] 2xl:h-[107px] 2xl:text-[140px] font-freckle text-[#444444] font-normal leading-[1] tracking-[-0.08em] absolute bottom-[10px] left-[80px] md:bottom-0 md:left-[150px] lg:left-[180px] xl:bottom-[30px] 2xl:left-[240px] 2xl:bottom-[50px]">
               ITS SHOW TIME
             </p>
           </div>
@@ -599,5 +599,41 @@ body {
 
 button {
   cursor: pointer;
+}
+
+/* 暴走族特工服風格滾動條 - 黑紅配色 */
+/* 滾動條整體樣式 */
+::-webkit-scrollbar {
+  width: 17px;
+  height: 14px;
+  background-color: #000;
+}
+
+/* 滾動條軌道 */
+::-webkit-scrollbar-track {
+  background: #111;
+  border: 2px solid #333;
+  box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.2);
+}
+
+/* 自訂 scrollbar 方塊樣式 */
+::-webkit-scrollbar-thumb {
+  background: #FFC051;
+  position: relative;
+  border-radius: 0;
+  background-image: url("/public/image/svg/scroll_bar_black.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+/* 滑鼠hover在方塊上的樣式 */
+::-webkit-scrollbar-thumb:hover {
+  background-image: url("/public/image/svg/scroll_bar_red.svg");
+}
+
+/* 滑動條角落 */
+::-webkit-scrollbar-corner {
+  background-color: #000;
 }
 </style>
