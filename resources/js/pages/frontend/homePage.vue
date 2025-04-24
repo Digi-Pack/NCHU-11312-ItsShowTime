@@ -621,7 +621,7 @@ button {
   background: #FFC051;
   position: relative;
   border-radius: 0;
-  background-image: url("/public/image/svg/scroll_bar_black.svg");
+  background-image: url("/public/image/svg/scroll_bar_text_black.svg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -629,7 +629,7 @@ button {
 
 /* 滑鼠hover在方塊上的樣式 */
 ::-webkit-scrollbar-thumb:hover {
-  background-image: url("/public/image/svg/scroll_bar_red.svg");
+  background-image: url("/public/image/svg/scroll_bar_text_red.svg");
 }
 
 /* 滑動條角落 */
