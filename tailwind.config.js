@@ -11,15 +11,15 @@ export default {
     ],
     theme: {
         extend: {
-            screens:{
-                'min-769px':'769px',
-                'min-976px':'976px',
+            screens: {
+                'min-769px': '769px',
+                'min-976px': '976px',
             },
             fontFamily: {
                 sans: ['Instrument Sans', ...defaultTheme.fontFamily.sans],
                 'noto-cjk': ['Noto Sans CJK TC'],
                 noto: ['Noto Sans TC'],
-                'noto-jp': ['Noto Sans JP'],
+                'noto-jp': ['Noto Sans JP', 'sans-serif'],
                 'freckle': ['Freckle Face'],
                 jockey: ['Jockey One'],
                 pingfang: ['PingFang SC'],
@@ -29,6 +29,7 @@ export default {
                 'microsoft-jh': ['Microsoft JhengHei'],
                 'taipei-sans-tc-bold': ['Taipei Sans TC Beta Bold'],
                 'taipei-sans-tc-r': ['Taipei Sans TC Beta Regular'],
+
             },
             borderRadius: {
                 lg: 'var(--radius)',

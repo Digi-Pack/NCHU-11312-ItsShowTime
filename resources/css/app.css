@@ -111,6 +111,20 @@ html {
   src: url('/fonts/TaipeiSansTCBeta-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: 'Noto Sans JP';
+  src: url('/fonts/NotoSansJP/NotoSansJP-Regular.otf') format('opentype');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Noto Sans JP';
+  src: url('/fonts/NotoSansJP/NotoSansJP-Bold.otf') format('opentype');
+  font-weight: 700;
+}
+
+/* 加其他字重也可以 */
+
 /* @font-face {
   font-family: Bakudai;
   src: url('/fonts/Bakudai.ttf') format('truetype');
