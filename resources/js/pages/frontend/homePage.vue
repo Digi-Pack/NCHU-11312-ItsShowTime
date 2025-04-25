@@ -713,7 +713,6 @@ const hideImage = () => {
 </template>
 
 <style>
-
 .banner-swiper-slide {
   width: 100%;
   height: 600px;
@@ -721,14 +720,18 @@ const hideImage = () => {
   position: relative;
 }
 
+@media (max-width: 1240px) {
+  .banner-swiper-slide {
+    height: 500px;
+  }
+}
+
 .banner-swiper-slide .big-img {
   position: absolute;
   width: 100%;
   height: auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1.1);
-  object-fit: cover;
+  object-position: center;
+  /* object-fit: cover; */
   background-color: #000;
   opacity: 0.5;
 }
@@ -746,77 +749,78 @@ const hideImage = () => {
   width: auto;
   margin: 0 auto;
   height: 100%;
-  object-fit: cover;
+  /* object-fit: cover; */
   object-position: center;
 }
 
+
 .banner-swiper-slide .slide-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
 
 .banner-swiper-slide .char {
-    display: inline-block;
-    position: relative;
+  display: inline-block;
+  position: relative;
 }
 
- .swiper-custom-pagination {
-    position: absolute;
-    bottom: 20px;
-    left: 0;
-    width: 100%;
-    text-align: center;
-    z-index: 10;
+.swiper-custom-pagination {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
 }
 
 .custom-pagination-container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 .pagination-item-group {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    width: auto !important;
-    height: auto !important;
-    border-radius: 0 !important;
-    margin: 0 !important;
-    background: transparent !important;
-    opacity: 1 !important;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  width: auto !important;
+  height: auto !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  opacity: 1 !important;
 }
 
 .custom-bullet {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: #9e9e9e;
-    display: block;
-    flex-shrink: 0;
-    transition: background-color 0.3s;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #9e9e9e;
+  display: block;
+  flex-shrink: 0;
+  transition: background-color 0.3s;
 }
 
 .custom-bullet.active {
-    background-color: white;
+  background-color: white;
 }
 
 .custom-progress-container {
-    height: 3px;
-    background-color: #9e9e9e;
-    overflow: hidden;
-    border-radius: 1.5px;
+  height: 3px;
+  background-color: #9e9e9e;
+  overflow: hidden;
+  border-radius: 1.5px;
 }
 
 .custom-progress-bar {
-    height: 100%;
-    background-color: white;
-    width: 0%;
-    transition: width 0.1s linear;
+  height: 100%;
+  background-color: white;
+  width: 0%;
+  transition: width 0.1s linear;
 }
 
 
