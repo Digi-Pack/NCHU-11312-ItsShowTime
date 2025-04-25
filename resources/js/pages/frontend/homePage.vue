@@ -182,7 +182,7 @@ const hideImage = () => {
       </div>
     </div>
     <!-- nav fixed --->
-    <div :class="[isFixed ? 'block' : 'hidden']" class="absolute top-[236px] left-0 right-0  z-50">
+    <div :class="[isFixed ? 'sm:block' : 'sm:hidden']" class="hidden absolute top-[236px] left-0 right-0 z-50">
       <div
         class="max-w-[1903px] mx-auto fixed top-[40px] left-0 right-0 shadow-[0px_4px_8px_0px_rgba(0,0,0,0.1)] z-15 bg-white">
         <div class="flex justify-between items-center 2xl:px-[200px] px-[150px] py-[10px]">
@@ -223,7 +223,7 @@ const hideImage = () => {
     </div>
 
     <!-- 沒 fixed 的 nav -->
-    <div id="portfolio" v-if="!isFixed" class="w-full flex items-center sm:mt-[40px] bg-white min-[577px]:h-[363px]">
+    <div id="portfolio" :class="[isFixed ? 'hidden' : 'block']" class="w-full flex items-center sm:mt-[40px] bg-white min-[577px]:h-[363px]">
       <div class="w-full  flex flex-col justify-between min-[577px]:flex-row">
         <!-- 左：logo -->
         <div class="w-full relative lg:pl-[30px] xl:pl-[100px] sm:pt-6 pt-0 md:ms-10 lg:ms-0">
@@ -275,7 +275,7 @@ const hideImage = () => {
         </div>
       </div>
     </div>
-    <div v-if="isFixed" class="h-[363px]"></div>
+    <div v-if="isFixed" class="h-[363px] bg-white"></div>
   </nav>
   <main class="max-w-[1903px] mx-auto">
     <!-- banner -->
@@ -713,6 +713,15 @@ const hideImage = () => {
 </template>
 
 <style>
+html,
+body {
+  font-size: 16px;
+  background-color: #0A1109;
+  margin: 0;
+  padding: 0;
+}
+
+/* banner Swiper */
 .banner-swiper-slide {
   width: 100%;
   height: 600px;
@@ -731,7 +740,7 @@ const hideImage = () => {
   width: 100%;
   height: auto;
   object-position: center;
-  /* object-fit: cover; */
+  object-fit: cover;
   background-color: #000;
   opacity: 0.5;
 }
@@ -749,7 +758,7 @@ const hideImage = () => {
   width: auto;
   margin: 0 auto;
   height: 100%;
-  /* object-fit: cover; */
+  object-fit: cover;
   object-position: center;
 }
 
@@ -821,18 +830,6 @@ const hideImage = () => {
   background-color: white;
   width: 0%;
   transition: width 0.1s linear;
-}
-
-
-
-
-
-html,
-body {
-  font-size: 16px;
-  background-color: #0A1109;
-  margin: 0;
-  padding: 0;
 }
 
 /* 商品製作 Swiper */
