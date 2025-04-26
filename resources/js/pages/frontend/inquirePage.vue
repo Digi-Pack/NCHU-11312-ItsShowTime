@@ -8,12 +8,12 @@ import { ref } from 'vue'
 
     <section class="flex flex-col items-center w-full bg-[#1F1B1B]">
 
-        <!-- navbar -->
+        <!-- Banner -->
         <nav class="w-full flex justify-center text-[#F0BD22] py-6">
-            <p class="font-noto-jp text-[32px] tracking-[0.06em] mb-2">itsshowtime．無敵の特工服オーダーメイドブランド</p>
+            <p class="font-noto-jp text-[30px] tracking-[0.06em] mb-2">itsshowtime．無敵の特工服オーダーメイドブランド</p>
         </nav>
         <div class="w-[821.46px] mb-12">
-            <img src="/image/ITS SHOW TIME.png" class="w-full h-full object-cover">
+            <img src="/image/ITS SHOW TIME.webp" class="w-full h-full object-cover">
         </div>
         <p
             class="w-[493px] font-noto-jp font-bold text-[32px] text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[4px] py-3 px-5 tracking-[-0.08em]">
@@ -30,6 +30,38 @@ import { ref } from 'vue'
                     1
                 </p>
             </div>
+        </div>
+
+        <!-- NavBar -->
+        <div class="flex flex-col fixed top-64 left-16 z-10 font-noto-cjk text-white">
+            <div class="w-[80px] mb-4">
+                <img src="/image/LOGO-底部有字.webp" class="w-full h-full object-cover">
+            </div>
+            <img src="/image/svg/Menu.svg" class="w-full h-full object-cover mb-4">
+
+            <div class="gap-6">
+                <a href="#about" class="flex items-center gap-[9px]">
+                    <p class="font-normal leading-[1.8]">品牌理念</p>
+                    <img src="/image/svg/Arrow.svg" alt="">
+                </a>
+                <a href="#portfolio" class="flex items-center gap-[9px]">
+                    <p class="font-normal leading-[1.8]">作品集</p>
+                    <img src="/image/svg/Arrow.svg" alt="">
+                </a>
+                <a href="#method" class="flex items-center gap-[9px]">
+                    <p class="font-normal leading-[1.8]">製作方式</p>
+                    <img src="/image/svg/Arrow.svg" alt="">
+                </a>
+                <a href="#product" class="flex items-center gap-[9px]">
+                    <p class="font-normal leading-[1.8]">商品列表</p>
+                    <img src="/image/svg/Arrow.svg" alt="">
+                </a>
+                <a href="#contact" class="flex items-center gap-[9px]">
+                    <p class="font-normal leading-[1.8]">聯絡方式</p>
+                    <img src="/image/svg/Arrow.svg" alt="">
+                </a>
+            </div>
+
         </div>
 
 
@@ -122,8 +154,6 @@ import { ref } from 'vue'
                     </div>
                 </div>
 
-
-
             </div>
 
             <div class="flex flex-col mb-10">
@@ -165,7 +195,7 @@ import { ref } from 'vue'
 
         <!-- 送出詢價按鈕 -->
         <p
-            class="font-noto-jp font-bold text-[24px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[2px] px-12 py-6 cursor-pointer mb-36">
+            class="font-noto-jp font-bold text-[24px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[5px] px-12 py-4 cursor-pointer mb-36">
             送出詢價單</p>
     </section>
 
