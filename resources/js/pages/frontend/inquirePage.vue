@@ -17,4 +17,9 @@
 
     </section>
 
+    <div class="w-[100px] fixed top-10 right-0 z-10">
+        <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover">
+    </div>
+
+
 </template>
