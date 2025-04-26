@@ -10,7 +10,8 @@ import { ref } from 'vue'
 
         <!-- Banner -->
         <nav class="w-full flex justify-center text-[#F0BD22] py-6">
-            <p class="font-noto-jp xl:text-[30px] md:text-[20px] min-[374px]:text-[14px] sm:tracking-[0.06em] mb-2">itsshowtime．無敵の特工服オーダーメイドブランド</p>
+            <p class="font-noto-jp xl:text-[30px] md:text-[20px] min-[374px]:text-[14px] sm:tracking-[0.06em] mb-2">
+                itsshowtime．無敵の特工服オーダーメイドブランド</p>
         </nav>
         <div class="xl:w-[821.46px] md:w-[45%] w-[80%] mb-12">
             <img src="/image/ITS SHOW TIME.webp" class="w-full h-full object-cover">
@@ -75,14 +76,18 @@ import { ref } from 'vue'
                 全部刪除</p>
         </div>
 
-        <div class="flex-col xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center xl:font-bold font-noto-jp mb-12">
+
+        <!-- min-[956px]以上的選擇規格商品圖 -->
+        <div
+            class="flex-col xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center xl:font-bold font-noto-jp mb-12">
 
             <div class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
                 <div class="flex xl:flex-1 items-center ml-4">
                     <div class="xl:w-[125.07px] w-[65px] xl:mr-8 mr-4">
                         <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.webp" alt="">
                     </div>
-                    <p class="xl:w-[394px] lg:w-[200px] md:w-[160px] xl:text-[20px] text-white">【IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨</p>
+                    <p class="xl:w-[394px] lg:w-[200px] md:w-[160px] xl:text-[20px] text-white">【IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走
+                        特攻 極惡 客製化 刺繡 現貨 快速出貨</p>
                 </div>
                 <div class="xl:w-[300px] w-[240px] flex justify-center">
                     <p
@@ -95,23 +100,32 @@ import { ref } from 'vue'
                 </div>
             </div>
 
+            
+            <!-- min-[956px]以下才出現的選擇規格商品圖 -->
             <div
-                class="min-[956px]:hidden w-[30%] flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl my-8">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="flex text-left font-noto-jp text-white leading-[1.2]">
-                    IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨
-                  </p>
-                  <p
-                    class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $1000
-                  </p>
+                class="min-[956px]:hidden w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden">
+                <img class="rounded-tl-2xl rounded-tr-2xl w-full" src="/image/4-1.webp" alt="">
+
+                <div class="flex flex-col gap-2 px-2 pb-4">
+                    <p class="text-left font-noto-jp text-white leading-[1.2]">
+                        IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨
+                    </p>
+                    <p
+                        class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80">
+                        $1000
+                    </p>
                 </div>
-              </div>
+
+                <div
+                    class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-10">
+                    <button class="border-[#F0BD22] border-2 text-[#F0BD22] px-4 py-2 rounded-md ">
+                        規格
+                    </button>
+                </div>
+            </div>
 
 
-
-<!-- 
+            <!-- 
             <div class="w-full flex border-t-2 border-[#F0BD22]">
                 <div class="w-full flex items-center my-10">
                     <div class="flex flex-1 items-center ml-4">
