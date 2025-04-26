@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
@@ -16,15 +16,16 @@ const setThumbsSwiper = (swiper) => {
 };
 const modules = [FreeMode, Pagination, Navigation, Thumbs, Autoplay];
 
-// Nav Fixed
+// nav fixed
 const isFixed = ref(false);
 let lastScrollY = 0;
 
 const handleScroll = () => {
   const currentScrollY = window.scrollY;
-  if (currentScrollY > 280) {
+  // scroll buffer
+  if (currentScrollY > 270 && !isFixed.value) {
     isFixed.value = true;
-  } else if (currentScrollY < 230) {
+  } else if (currentScrollY < 230 && isFixed.value) {
     isFixed.value = false;
   };
   lastScrollY = currentScrollY;
@@ -32,28 +33,67 @@ const handleScroll = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
+  window.addEventListener('resize', handleResize);
 })
 
 onBeforeUnmount(() => {
   window.removeEventListener('scroll', handleScroll);
+  // 還原滾動條狀態
+  document.body.style.overflow = 'auto';
+  window.removeEventListener('resize', handleResize);
 })
 
-// banner swiper
-const slideTexts = [
-  { id: 1, 'content': '特攻服', img: '/image/1-1.webp' },
-  { id: 2, 'content': '橫須賀', img: '/image/1-2.webp' },
-  { id: 3, 'content': '水手服', img: '/image/1-3.webp' },
-  { id: 4, 'content': 'Ado 狂言劇場 ', img: '/image/1-4wrong.webp' },
-  { id: 5, 'content': '至尊戰袍', img: '/image/1-5.webp' },
-  { id: 6, 'content': '舊車會', img: '/image/1-6.webp' },
-  { id: 7, 'content': '#SGT4', img: '/image/1-7.webp' },
-];
+// hamberger menu
+const isOpen = ref(false);
+const windowWidth = ref(window.innerWidth);
 
-const slidesCount = slideTexts.length;
+const toggleMenu = () => {
+  isOpen.value = !isOpen.value;
+
+  if (isOpen.value) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  };
+};
+
+const closeHamMenu = () => {
+  isOpen.value = false;
+  document.body.style.overflow = 'auto';
+}
+
+const handleResize = () => {
+  windowWidth.value = window.innerWidth;
+  // 螢幕寬度超過1200px，自動關閉漢堡選單
+  if (windowWidth.value >= 1201) {
+    isOpen.value = false;
+  }
+};
+
+// nav menu links
+const menuItems = [
+  { id: 'portfolio', name: '作品集', href: '#portfolio' },
+  { id: 'about', name: '品牌理念', href: '#about' },
+  { id: 'method', name: '製作方式', href: '#method' },
+  { id: 'product', name: '商品列表', href: '#product' },
+  { id: 'contact', name: '聯絡方式', href: '#contact' },
+]
+
+// banner swiper
+const slides = [
+  { id: 1, content: '特攻服', img: '/image/1-1.webp' },
+  { id: 2, content: '橫須賀', img: '/image/1-2.webp' },
+  { id: 3, content: '水手服', img: '/image/1-3.webp' },
+  { id: 4, content: 'Ado 狂言劇場 ', img: '/image/1-4wrong.webp' },
+  { id: 5, content: '至尊戰袍', img: '/image/1-5.webp' },
+  { id: 6, content: '舊車會', img: '/image/1-6.webp' },
+  { id: 7, content: '#SGT4', img: '/image/1-7.webp' },
+];
+const slidesCount = slides.length;
 let activeIndex = ref(0);
 let swiperInstance = null;
 
-const slidesCharacters = ref(slideTexts.map(text => text.content.split('')));
+const slidesCharacters = ref(slides.map(item => item.content.split('')));
 
 // 保存當前活動的動畫
 let activeAnimation = null;
@@ -64,12 +104,10 @@ const animateSlideText = () => {
     activeAnimation.kill();
   }
 
-  // 選擇當前活動幻燈片的字符
   const charElements = document.querySelectorAll('.swiper-slide-active .char');
 
   if (charElements.length === 0) return;
 
-  // 使用 fromTo 來明確定義起始和結束狀態
   activeAnimation = gsap.fromTo(charElements,
     {
       y: 30,
@@ -107,11 +145,13 @@ const updateProgressBars = (swiper, progress = null) => {
   }
 };
 
+// 追蹤自動撥放剩餘時間
 const onAutoplayTimeLeft = (swiper, time, progress) => {
   swiperInstance = swiper;
   updateProgressBars(swiper, progress);
 };
 
+// slide過渡動畫完成後觸發
 const onTransitionEnd = (swiper) => {
   swiperInstance = swiper;
   updateProgressBars(swiper);
@@ -130,12 +170,11 @@ const renderCustomPagination = (swiper, current, total) => {
 
     paginationHTML += `<div class="pagination-item-group swiper-pagination-bullet ${activeClass}" data-slide-index="${index}">`;
     paginationHTML += `<span class="custom-bullet ${activeClass}"></span>`;
-    paginationHTML += `<div class="custom-progress-container progress-container-${index}" style="width: ${containerWidth}">`;
+    paginationHTML += `<div class="hidden min-[900px]:block custom-progress-container progress-container-${index}" style="width: ${containerWidth}">`;
     paginationHTML += `<div class="custom-progress-bar progress-bar-${index}" style="width: 0%"></div>`;
     paginationHTML += `</div>`;
     paginationHTML += `</div>`;
   }
-
   paginationHTML += '</div>';
   return paginationHTML;
 };
@@ -173,126 +212,92 @@ const hideImage = () => {
 
 <template>
   <nav class="max-w-[1903px] mx-auto">
-    <!-- 最上方品牌名稱 -->
-    <div class="static sm:fixed top-0 left-0 w-full z-10">
+    <div class="fixed top-0 left-0 w-full z-10">
       <div class="max-w-[1903px] h-[40px] bg-[#B41900] mx-auto flex justify-center items-center text-white">
         <p class="font-noto-cjk text-sm font-normal leading-[1.2]">
           台湾無敵の特工服オーダーメイドブランド
         </p>
       </div>
     </div>
-    <!-- nav fixed --->
-    <div :class="[isFixed ? 'sm:block' : 'sm:hidden']" class="hidden absolute top-[236px] left-0 right-0 z-50">
+    <div id="portfolio"
+      :class="[isFixed ? 'max-w-[1903px] mx-auto fixed top-[40px] left-0 right-0 shadow-[0px_4px_8px_0px_rgba(0,0,0,0.1)] z-10 bg-white' : ' ']">
       <div
-        class="max-w-[1903px] mx-auto fixed top-[40px] left-0 right-0 shadow-[0px_4px_8px_0px_rgba(0,0,0,0.1)] z-15 bg-white">
-        <div class="flex justify-between items-center 2xl:px-[200px] px-[150px] py-[10px]">
-          <div class="flex items-center gap-2">
-            <img src="/image/LOGO-方.webp" class="w-12 -mb-2" alt="">
-            <div class="flex flex-col">
-              <p class="font-noto-jp text-[#444444] text-[12px] font-black leading-[2] tracking-[-0.08em]">
-                天下無敵、台湾特工服の第一品牌
-              </p>
-              <pre
-                class="font-freckle text-[#444444] text-[43.48px] font-normal leading-[0.7] tracking-[-0.08em]">ITS SHOW  TIME</pre>
-            </div>
-          </div>
-          <div class="hidden 2xl:flex gap-6 pl-6">
-            <a href="#portfolio" class="flex items-center gap-[9px]">
-              <img src="/image/svg/Arrow 2.svg" alt="">
-              <p class="font-normal leading-[1.2]">作品集</p>
-            </a>
-            <a href="#about" class="flex items-center gap-[9px]">
-              <img src="/image/svg/Arrow 2.svg" alt="">
-              <p class="font-normal leading-[1.2]">品牌理念</p>
-            </a>
-            <a href="#method" class="flex items-center gap-[9px]">
-              <img src="/image/svg/Arrow 2.svg" alt="">
-              <p class="font-normal leading-[1.2]">製作方式</p>
-            </a>
-            <a href="#product" class="flex items-center gap-[9px]">
-              <img src="/image/svg/Arrow 2.svg" alt="">
-              <p class="font-normal leading-[1.2]">商品列表</p>
-            </a>
-            <a href="#contact" class="flex items-center gap-[9px]">
-              <img src="/image/svg/Arrow 2.svg" alt="">
-              <p class="font-normal leading-[1.2]">聯絡方式</p>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 沒 fixed 的 nav -->
-    <div id="portfolio" :class="[isFixed ? 'hidden' : 'block']" class="w-full flex items-center sm:mt-[40px] bg-white min-[577px]:h-[363px]">
-      <div class="w-full  flex flex-col justify-between min-[577px]:flex-row">
-        <!-- 左：logo -->
-        <div class="w-full relative lg:pl-[30px] xl:pl-[100px] sm:pt-6 pt-0 md:ms-10 lg:ms-0">
-          <div
-            class="logo-container relative w-full h-[93px] xl:w-[724px] xl:h-[132.84px] 2xl:w-[1041px] 2xl:h-[191px] mr-auto">
-            <img
-              class="absolute top-[32px] left-[20px] md:left-[60px] 2xl:top-[0.5px] 2xl:left-[82px] w-[52.71px] md:w-[80px] lg:w-[107.81px] 2xl:w-[155.01px] "
-              src="/image/LOGO-方.webp" alt="logo">
-            <p
-              class="h-[8px] text-[11px] md:text-[20px] lg:h-[16px] lg:text-[22.26px] 2xl:h-[23px] 2xl:text-[32px] font-noto-jp text-[#444444] font-black leading-[1.2] tracking-[-0.08em] absolute top-[30px] left-[80px] md:top-[35px] md:left-[150px] lg:left-[180px] xl:top-[40px] 2xl:left-[240px] 2xl:top-[10px]">
-              天下無敵、台湾特工服の第一品牌
-            </p>
-            <pre
-              class="h-[36px] text-[47.61px] md:text-[54px] lg:text-[97.37px] 2xl:h-[107px] 2xl:text-[140px] font-freckle text-[#444444] font-normal leading-[1.1] tracking-[-0.08em] absolute bottom-[10px] left-[80px] md:bottom-0 md:left-[150px] lg:left-[180px] xl:bottom-[30px] 2xl:left-[240px] 2xl:bottom-[50px]">ITS SHOW  TIME</pre>
-          </div>
-        </div>
-        <!-- 右：menu -->
+        :class="[isFixed ? 'justify-between 2xl:px-[200px] lg:px-[100px] px-5 py-[10px]' : 'mt-[40px] min-[577px]:h-[363px]']"
+        class="w-full bg-white flex items-center">
         <div
-          class="w-full h-auto relative font-noto-cjk justify-center text-[#000000] min-[577px]:flex min-[577px]:w-[50%] sm:pr-20 px-4 min-[577px]:pb-0 pb-6 min-[557px]:pt-0 pt-3">
-          <div class=" flex flex-col gap-4">
-            <div class="flex items-center gap-[5px]">
-              <img src="/image/svg/Polygon 1.svg" alt="">
-              <p class="font-noto font-normal leading-[1.2]">Menu</p>
-            </div>
+          :class="[isFixed ? 'w-full flex justify-between items-center' : 'w-full flex flex-col justify-between min-[577px]:flex-row']">
+          <!-- 左：logo -->
+          <div
+            :class="[isFixed ? 'flex items-center gap-2' : 'w-full relative lg:pl-[30px] xl:pl-[100px] sm:pt-6 pt-0 md:ms-10 lg:ms-0']">
             <div
-              class="menu-items flex flex-wrap min-[577px]:gap-4 gap-x-8 gap-y-4 min-[577px]:pl-4 min-[577px]:flex-col">
-              <a href="#portfolio" class="flex items-center gap-[9px]">
-                <img src="/image/svg/Arrow 2.svg" alt="">
-                <p class="font-normal leading-[1.2]">作品集</p>
-              </a>
-              <a href="#about" class="flex items-center gap-[9px]">
-                <img src="/image/svg/Arrow 2.svg" alt="">
-                <p class="font-normal leading-[1.2]">品牌理念</p>
-              </a>
-              <a href="#method" class="flex items-center gap-[9px]">
-                <img src="/image/svg/Arrow 2.svg" alt="">
-                <p class="font-normal leading-[1.2]">製作方式</p>
-              </a>
-              <a href="#product" class="flex items-center gap-[9px]">
-                <img src="/image/svg/Arrow 2.svg" alt="">
-                <p class="font-normal leading-[1.2]">商品列表</p>
-              </a>
-              <a href="#contact" class="flex items-center gap-[9px]">
-                <img src="/image/svg/Arrow 2.svg" alt="">
-                <p class="font-normal leading-[1.2]">聯絡方式</p>
-              </a>
+              :class="[isFixed ? 'flex items-center gap-2' : 'relative w-full h-[93px] xl:w-[724px] xl:h-[132.84px] 2xl:w-[1041px] 2xl:h-[191px] mr-auto']">
+              <img
+                :class="[isFixed ? 'w-12 -mb-2' : 'absolute top-[32px] left-[20px] md:left-[60px] 2xl:top-[0.5px] 2xl:left-[82px] w-[52.71px] md:w-[80px] lg:w-[107.81px] 2xl:w-[155.01px]']"
+                src="/image/LOGO-方.webp" alt="logo">
+              <div :class="[isFixed ? 'flex flex-col' : ' ']">
+                <p
+                  :class="[isFixed ? 'font-noto-jp text-[#444444] text-[12px] font-black leading-[2] tracking-[-0.08em]' : 'h-[8px] text-[11px] md:text-[20px] lg:h-[16px] lg:text-[22.26px] 2xl:h-[23px] 2xl:text-[32px] font-noto-jp text-[#444444] font-black leading-[1.2] tracking-[-0.08em] absolute top-[30px] left-[80px] md:top-[35px] md:left-[150px] lg:left-[180px] xl:top-[40px] 2xl:left-[240px] 2xl:top-[10px]']">
+                  天下無敵、台湾特工服の第一品牌
+                </p>
+                <pre
+                  :class="[isFixed ? 'font-freckle text-[#444444] sm:text-[40px] text-[32px] font-normal leading-[0.7] tracking-[-0.08em]' : 'h-[36px] text-[47.61px] md:text-[54px] lg:text-[97.37px] 2xl:h-[107px] 2xl:text-[140px] font-freckle text-[#444444] font-normal leading-[1.1] tracking-[-0.08em] absolute bottom-[10px] left-[80px] md:bottom-0 md:left-[150px] lg:left-[180px] xl:bottom-[30px] 2xl:left-[240px] 2xl:bottom-[50px]']">ITS SHOW  TIME</pre>
+              </div>
+            </div>
+          </div>
+          <!-- 右：menu -->
+          <div
+            :class="[isFixed ? ' ' : 'w-full h-auto relative font-noto-cjk justify-center text-[#000000] min-[577px]:flex min-[577px]:w-[50%] sm:pr-20 px-4 min-[577px]:pb-0 pb-6 min-[557px]:pt-0 pt-3']"
+            class="">
+            <!-- hamberger menu icon -->
+            <button type="button"
+              :class="[isFixed ? 'w-9 h-9 flex min-[1201px]:hidden justify-center items-center cursor-pointer p-6 hover:bg-slate-100' : 'hidden']"
+              @click="toggleMenu">
+              <i :class="[isOpen ? 'fa-xmark text-4xl' : 'fa-bars text-3xl']" class="fa-solid fa-bars text-3xl"></i>
+            </button>
+            <!-- menu -->
+            <div :class="[isFixed ? ' ' : 'flex flex-col gap-4']">
+              <div :class="[isFixed ? 'hidden' : 'flex items-center gap-[5px]']">
+                <img src="/image/svg/Polygon 1.svg" alt="">
+                <p class="font-noto font-normal leading-[1.2]">Menu</p>
+              </div>
+              <div
+                :class="[isFixed ? 'hidden min-[1201px]:flex gap-6 pl-6' : 'flex flex-wrap min-[577px]:gap-4 gap-x-8 gap-y-4 min-[577px]:pl-4 min-[577px]:flex-col']">
+                <a v-for="item in menuItems" :key="item.id" :href="item.href" class="flex items-center gap-[9px]">
+                  <img src="/image/svg/Arrow 2.svg" alt="">
+                  <p class="font-normal leading-[1.2]">{{ item.name }}</p>
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <!-- hamberger menu -->
+      <div v-show="isOpen"
+        class="min-[1201px]:hidden w-full h-[calc(100vh-100px)] flex flex-col justify-center items-center gap-8 text-xl">
+        <a v-for="item in menuItems" :key="item.id" :href="item.href" class="flex items-center gap-[9px]"
+          @click="closeHamMenu">
+          <img src="/image/svg/Arrow 2.svg" alt="">
+          <p class="font-normal leading-[1.2]">{{ item.name }}</p>
+        </a>
+      </div>
     </div>
-    <div v-if="isFixed" class="h-[363px] bg-white"></div>
+    <div v-if="isFixed" class="bg-white h-[363px]"></div>
   </nav>
   <main class="max-w-[1903px] mx-auto">
     <!-- banner -->
     <section class="w-full">
       <swiper :loop="true" :pagination="{
-        el: '.swiper-custom-pagination',
+        el: '.banner-swiper-pagination',
         clickable: true,
         type: 'custom',
         renderCustom: renderCustomPagination
       }" :navigation="false" :autoplay="{ delay: 2500, disableOnInteraction: false }" @transitionEnd="onTransitionEnd"
         @autoplayTimeLeft="onAutoplayTimeLeft" :modules="modules" class="banner-swiper">
-
         <swiper-slide v-for="(chars, index) in slidesCharacters" :key="index" :class="`slide-${index}`"
           class="banner-swiper-slide">
-          <img :src="slideTexts[index].img" alt="" class="big-img">
+          <img :src="slides[index].img" alt="" class="big-img">
           <div class="container">
-            <img :src="slideTexts[index].img" alt="" class="center-img">
+            <img :src="slides[index].img" alt="" class="center-img">
             <div class="absolute inset-0 flex items-center justify-center">
               <span v-for="(char, charIndex) in chars" :key="charIndex"
                 class="char text-white text-[80px] font-bold tracking-[6px] opacity-0 block">
@@ -301,7 +306,7 @@ const hideImage = () => {
             </div>
           </div>
         </swiper-slide>
-        <div class="swiper-custom-pagination"></div>
+        <div class="banner-swiper-pagination"></div>
       </swiper>
     </section>
     <!-- 網站功能簡介 -->
@@ -519,7 +524,6 @@ const hideImage = () => {
         </div>
       </div>
       <!-- 下單購買 -->
-      <!-- min-[1904px]:px-[200px] min-[1201px]:px-[120px] px-10 -->
       <div id="product" class="w-full bg-[#333333] flex flex-col gap-4 py-8">
         <div class="flex items-center gap-6 2xl:px-[200px] md:px-10 px-4">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -528,7 +532,7 @@ const hideImage = () => {
           <p class="font-noto-cjk 2xl:text-[80px] md:text-[48px] text-[32px] text-white font-bold leading-[1.2]">下單購買
           </p>
         </div>
-        <!-- 商品列表Swiper -->
+        <!-- 商品列表 Swiper -->
         <div class="product-swiper-container">
           <div class="custom-swiper-pagination"></div>
           <swiper :loop="true" :navigation="true" :spaceBetween="20" :centeredSlides="true" :slidesPerView="'auto'"
@@ -724,25 +728,22 @@ body {
 /* banner Swiper */
 .banner-swiper-slide {
   width: 100%;
-  height: 600px;
+  height: calc(100vh - 100px);
   text-align: center;
   position: relative;
 }
 
-@media (max-width: 1240px) {
-  .banner-swiper-slide {
-    height: 500px;
-  }
-}
-
 .banner-swiper-slide .big-img {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 100%;
-  height: auto;
+  height: 100%;
   object-position: center;
   object-fit: cover;
   background-color: #000;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 .banner-swiper-slide .container {
@@ -762,6 +763,13 @@ body {
   object-position: center;
 }
 
+@media (max-width: 1000px) {
+  .banner-swiper-slide .center-img {
+    width: 100%;
+    margin: 0 auto;
+    height: auto;
+  }
+}
 
 .banner-swiper-slide .slide-content {
   display: flex;
@@ -775,7 +783,7 @@ body {
   position: relative;
 }
 
-.swiper-custom-pagination {
+.banner-swiper-pagination {
   position: absolute;
   bottom: 20px;
   left: 0;
@@ -785,9 +793,17 @@ body {
 }
 
 .custom-pagination-container {
+  width: 80%;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
-  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .custom-pagination-container {
+    width: 60%;
+    gap: 8px;
+  }
 }
 
 .pagination-item-group {
