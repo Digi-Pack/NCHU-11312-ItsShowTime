@@ -13,6 +13,7 @@ export default {
         extend: {
             screens: {
                 'min-769px': '769px',
+                'min-956px': '956px',
                 'min-976px': '976px',
             },
             fontFamily: {
