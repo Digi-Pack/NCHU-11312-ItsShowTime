@@ -67,6 +67,7 @@ const handleResize = () => {
   // 螢幕寬度超過1200px，自動關閉漢堡選單
   if (windowWidth.value >= 1201) {
     isOpen.value = false;
+    document.body.style.overflow = 'auto';
   }
 };
 
