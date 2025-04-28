@@ -48,41 +48,10 @@ onBeforeUnmount(() => {
 
     <section class="flex flex-col items-center w-full bg-[#1F1B1B]">
 
-        <!-- <nav class="w-full flex min-[476px]:justify-center py-6 text-nowrap">
-            <div class="lg:block flex">
-                <p
-                    class="font-noto-jp text-[#F0BD22] 2xl:text-[30px] md:text-[20px] min-[476px]:text-[14px] min-[374px]:text-[12px] sm:tracking-[0.06em] mb-2 min-[476px]:pl-0 pl-3">
-                    itsshowtime．無敵の特工服オーダーメイドブランド</p> -->
-
-        <!-- NavBar 1204px 以下 -->
-        <!-- <nav class="lg:hidden fixed top-0 left-0 w-full z-20 font-noto-jp "> -->
-        <!-- Ham Btn -->
-        <!-- <button type="button"
-                class="w-9 h-9 flex justify-center items-center cursor-pointer p-6 fixed min-[476px]:top-4 top-2 right-4 z-20"
-                @click="toggleMenu">
-                <i class="fa-solid fa-bars text-3xl" style="color:#F0BD22"></i>
-            </button>
-
-            <div :class="[
-                'fixed left-0 top-0 w-full h-[400px] bg-slate-100 z-10',
-                'flex flex-col gap-6 p-8 overflow-y-auto',
-                isOpen ? 'flex' : 'hidden'
-            ]">
-                <a v-for="item in menuItems" :key="item.id" :href="item.href" @click="toggleMenu"
-                    class="flex items-center gap-[9px] text-xl">
-                    <img src="/image/svg/Arrow 2.svg" alt="" />
-                    <p class="font-normal leading-[1.2]">{{ item.name }}</p>
-                </a>
-            </div>
-        </nav>
-
-
-        </div>
-        </nav> -->
-
+        <!-- NavBar -->
         <nav :class="[
             'w-full flex min-[476px]:justify-center py-6 text-nowrap',
-            isScrolled ? 'fixed top-0 left-0 bg-black z-20' : ''
+            isScrolled ? 'fixed top-0 left-0 bg-stone-50 font-bold z-20' : ''
         ]">
             <div class="lg:block flex">
                 <p
@@ -90,7 +59,7 @@ onBeforeUnmount(() => {
                     itsshowtime．無敵の特工服オーダーメイドブランド
                 </p>
 
-                <nav class="lg:hidden fixed top-0 left-0 w-full z-20 font-noto-jp ">
+                <nav class="lg:hidden fixed top-0 left-0 w-full z-20 font-noto-jp">
                     <!-- Ham Btn -->
                     <button type="button"
                         class="w-9 h-9 flex justify-center items-center cursor-pointer p-6 fixed min-[476px]:top-4 top-2 right-4 z-20"
@@ -104,39 +73,15 @@ onBeforeUnmount(() => {
                         isOpen ? 'flex' : 'hidden'
                     ]">
                         <a v-for="item in menuItems" :key="item.id" :href="item.href" @click="toggleMenu"
-                            class="flex items-center gap-[9px] text-xl">
+                            class="flex items-center gap-[9px] text-xl ">
                             <img src="/image/svg/Arrow 2.svg" alt="" />
-                            <p class="font-normal leading-[1.2]">{{ item.name }}</p>
+                            <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
                         </a>
                     </div>
                 </nav>
             </div>
         </nav>
 
-
-
-
-
-        <!-- Banner -->
-        <div class="2xl:w-[821.46px] md:w-[45%] w-[80%] mb-12">
-            <img src="/image/ITS SHOW TIME.webp" class="w-full h-full object-cover">
-        </div>
-        <p
-            class="2xl:w-[493px] font-noto-jp font-bold 2xl:text-[32px] sm:text-[20px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[4px] py-3 px-5 tracking-[-0.08em] text-nowrap">
-            天下無敵、台湾特工服の第一品牌</p>
-        <p class="text-white font-noto-jp 2xl:text-[36px] sm:text-[20px] tracking-[-0.08em] py-4 mb-28">詢價清單列表</p>
-
-
-        <!-- 購物車icon -->
-        <div class="md:w-[100px] w-0 fixed top-60 right-2 z-10 cursor-pointer">
-            <div class="relative w-full h-full">
-                <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover">
-                <p class="absolute top-[19px] right-[79px] translate-x-1/2 -translate-y-1/2 
-               md:text-xl text-[0px] font-bold">
-                    1
-                </p>
-            </div>
-        </div>
 
         <!-- NavBar 1204px以上 -->
         <nav class="hidden lg:flex flex-col fixed top-64 2xl:left-16 left-10 z-10 font-noto-cjk text-white">
@@ -168,6 +113,43 @@ onBeforeUnmount(() => {
                 </a>
             </div>
         </nav>
+
+
+
+        <!-- Banner -->
+        <div class="2xl:w-[821.46px] md:w-[45%] w-[80%] mb-12">
+            <img src="/image/ITS SHOW TIME.webp" class="w-full h-full object-cover">
+        </div>
+        <p
+            class="2xl:w-[493px] font-noto-jp font-bold 2xl:text-[32px] sm:text-[20px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[4px] py-3 px-5 tracking-[-0.08em] text-nowrap">
+            天下無敵、台湾特工服の第一品牌</p>
+        <p class="text-white font-noto-jp 2xl:text-[36px] sm:text-[20px] tracking-[-0.08em] py-4 mb-28">詢價清單列表</p>
+
+
+        <!-- 購物車icon -->
+        <div class="md:w-[100px] w-0 fixed top-60 right-2 z-10 cursor-pointer">
+            <div class="relative w-full h-full">
+                <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover">
+                <p class="absolute top-[19px] right-[79px] translate-x-1/2 -translate-y-1/2 
+               md:text-xl text-[0px] font-bold">
+                    1
+                </p>
+            </div>
+        </div>
+
+        <div class="md:w-0 min-[476px]:w-[50px] w-[30px] fixed top-80 left-2 z-10 cursor-pointer">
+            <div class="relative w-full h-full">
+                <img src="/image/svg/shipping-cart-small.svg" class="w-full h-full object-cover">
+                <p
+                    class="absolute top-[-2px] right-[3px] translate-x-1/2 -translate-y-1/2 
+                 md:text-[0px] min-[476px]:font-bold text-white bg-red-600 rounded-full md:w-0 min-[476px]:w-[24px] w-[18px] md:h-0 min-[476px]:h-[24px] h-[18px] flex justify-center items-center">
+                    1
+                </p>
+            </div>
+        </div>
+
+
+
 
 
 
@@ -326,11 +308,13 @@ onBeforeUnmount(() => {
                 <label for="remark" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                     備註 | Remark
                 </label>
-                <input id="remark" type="text"
-                    class="2xl:w-[895px] h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[22px]">
+                <textarea id="remark"
+                    class="2xl:w-[895px] w-full h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[22px] ">
+                </textarea>
             </div>
 
         </div>
+
 
         <!-- 送出詢價按鈕 -->
         <p
@@ -339,3 +323,40 @@ onBeforeUnmount(() => {
     </section>
 
 </template>
+
+<style>
+::-webkit-scrollbar {
+    width: 17px;
+    height: 14px;
+    background-color: #000;
+}
+
+/* 滾動條軌道 */
+::-webkit-scrollbar-track {
+    background: #111;
+    border: 2px solid #333;
+    box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.2);
+}
+
+/* 自訂 scrollbar 方塊樣式 */
+::-webkit-scrollbar-thumb {
+    background: #fff7e0;
+    position: relative;
+    border-radius: 0;
+    background-image: url("/public/image/svg/scroll_bar_text_red.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border-radius: 100px;
+}
+
+/* 滑鼠hover在方塊上的樣式 */
+::-webkit-scrollbar-thumb:hover {
+    background-image: url("/public/image/svg/scroll_bar_text_black.svg");
+}
+
+/* 滑動條角落 */
+::-webkit-scrollbar-corner {
+    background-color: #000;
+}
+</style>
