@@ -53,3 +53,8 @@ Route::get('/more/products/{id}', function ($id) {
     
     return response()->json($product);
 });
+
+// 購物車樣式選擇彈窗路徑
+Route::get('/shoppingcart', function () {
+    return Inertia::render('ShoppingCart');
+})->name('shoppingcart.page');
