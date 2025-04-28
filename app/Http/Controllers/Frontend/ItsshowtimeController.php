@@ -12,14 +12,16 @@ class ItsshowtimeController extends Controller
 {
     
 
+
 // public function inquire($id)
-// {
-//     $product = Product::find($id);
-    
-//     return Inertia::render('frontend/inquirePage', [
-//         'product' => $product, // pass the product to the Vue component
-//     ]);
-// }
+//     {
+//         $product = Product::with(['products'])->find($id);
+
+//         return Inertia::render('frontend/inquirePage', [
+//             'response' => $product,
+//         ]);
+//     }
+
 
     
 }

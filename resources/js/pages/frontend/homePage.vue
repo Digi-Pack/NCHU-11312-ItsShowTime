@@ -222,13 +222,13 @@ const hideImage = () => {
 
 // 抓下單購買資料
 const props = defineProps({ response: Array | Object });
+console.log(props.response);
+
 
 // 點擊MORE出現更多資訊頁面
 const isMoreOpen = ref(false);
 const currentProductId = ref(null);
 
-
-// console.log(props.response);
 
 const openModal = (productId) => {
   currentProductId.value = productId;
@@ -252,6 +252,9 @@ const currentProduct = () => {
   return props.response.find(product => product.id === currentProductId.value) || null;
 };
 
+// const inquireBtn = ($id) => {
+//   router.get(route('inquirePage', { id: $id }));
+// }
 
 
 
@@ -724,15 +727,15 @@ const currentProduct = () => {
             <div class="flex justify-end">
 
             
-              
-                    <!-- <Link :href="route('inquire', { id: product.id })"
-                      class="border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
-                    <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
-                    <p class="text-white text-2xl font-bold">加入詢價</p>
-                    </Link>
-                 -->
-            
+               
+              <!-- <Link type="button" @click="inquireBtn(id)"
+                class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
+              <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
+              <p class="text-white text-2xl font-bold">加入詢價</p>
+              </Link> -->
 
+
+              
               <Link :href="route('inquire')"
                 class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
               <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">

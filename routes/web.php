@@ -29,8 +29,8 @@ Route::get('/inquire', function () {
     return Inertia::render('frontend/inquirePage');
 })->name('inquire');
 
-// Route::get('/inquire/{id}', [ItsshowtimeController::class, 'inquire'])->name('inquire');
 
+// Route::get('/inquire/{id}', [ItsshowtimeController::class, 'inquire'])->name('inquirePage');
 
 
 

@@ -39,11 +39,11 @@ onBeforeUnmount(() => {
 })
 
 
+// const { response } = defineProps({
+//     response: Array | Object,
+// })
 
-const props = defineProps({ response: Array | Object });
-
-console.log(props.response);  
-
+// console.log(response);
 
 
 </script>
@@ -154,9 +154,6 @@ console.log(props.response);
 
 
 
-
-
-
         <!-- 詢價清單列表 -->
         <div class="2xl:w-[1320px] w-[70%] flex items-end mb-6 2xl:px-0 xl:px-1">
             <p
@@ -186,15 +183,21 @@ console.log(props.response);
                         暴走
                         特攻 極惡 客製化 刺繡 現貨 快速出貨</p>
 
-
-<!--                    
+                 
+                        <!-- <div v-if="product">
+                            <h2>{{ product.name }}</h2>
+                            <img :src="product.img_url" alt="Product Image" />
+                            <p>{{ product.price }} 元</p>
+                        </div> -->
+              
+                    <!--                    
                         <div v-if="product" class="text-white">
                             <h1>{{ product.name }}</h1>
                             <p>{{ product.id }}</p>
             
                         </div>
                         -->
-                   
+
 
 
                 </div>
