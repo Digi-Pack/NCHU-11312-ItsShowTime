@@ -228,6 +228,8 @@ const isMoreOpen = ref(false);
 const currentProductId = ref(null);
 
 
+// console.log(props.response);
+
 const openModal = (productId) => {
   currentProductId.value = productId;
 
@@ -249,6 +251,9 @@ const currentProduct = () => {
   if (!currentProductId.value) return null;
   return props.response.find(product => product.id === currentProductId.value) || null;
 };
+
+
+
 
 
 </script>
@@ -717,10 +722,24 @@ const currentProduct = () => {
             </div>
 
             <div class="flex justify-end">
-              <Link :href="route('inquire')" class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
-                <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
-                <p class="text-white text-2xl font-bold">加入詢價</p>
+
+            
+              
+                    <!-- <Link :href="route('inquire', { id: product.id })"
+                      class="border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
+                    <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
+                    <p class="text-white text-2xl font-bold">加入詢價</p>
+                    </Link>
+                 -->
+            
+
+              <Link :href="route('inquire')"
+                class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
+              <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
+              <p class="text-white text-2xl font-bold">加入詢價</p>
               </Link>
+
+
             </div>
           </div>
         </div>
@@ -786,7 +805,8 @@ const currentProduct = () => {
           天下無敵、台湾特工服の第一品牌
         </p>
         <pre
-          class="font-freckle text-white min-[522px]:text-[64.77px] text-[50.31px] font-normal leading-[1.2] tracking-[-0.08em]">ITS SHOW  TIME</pre>
+          class="font-freckle text-white min-[522px]:text-[64.77px] text-[50.31px] font-normal leading-[1.2] tracking-[-0.08em]">
+        ITS SHOW TIME</pre>
       </div>
     </div>
     <!-- 聯絡 -->

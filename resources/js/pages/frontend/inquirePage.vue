@@ -20,7 +20,6 @@ const menuItems = [
 ]
 
 
-
 const isScrolled = ref(false) // 用來控制是否超過 230px
 
 const handleScroll = () => {
@@ -39,6 +38,11 @@ onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll)
 })
 
+
+
+const props = defineProps({ response: Array | Object });
+
+console.log(props.response);  
 
 
 
@@ -181,6 +185,18 @@ onBeforeUnmount(() => {
                         神風
                         暴走
                         特攻 極惡 客製化 刺繡 現貨 快速出貨</p>
+
+
+<!--                    
+                        <div v-if="product" class="text-white">
+                            <h1>{{ product.name }}</h1>
+                            <p>{{ product.id }}</p>
+            
+                        </div>
+                        -->
+                   
+
+
                 </div>
                 <div class="xl:w-[300px] w-[240px] flex justify-center">
                     <p
@@ -310,7 +326,7 @@ onBeforeUnmount(() => {
                 </label>
                 <textarea id="remark"
                     class="2xl:w-[895px] w-full h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[22px] ">
-                </textarea>
+        </textarea>
             </div>
 
         </div>
