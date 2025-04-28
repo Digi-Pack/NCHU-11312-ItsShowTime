@@ -2,21 +2,31 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\Product;
+
+
+
+Route::get('/', function () {
+    return redirect('/home');
+});
 
 // 首頁
-Route::get('/', function () {
-    return Inertia::render('frontend/homePage');
-})->name('home.page');
+Route::get('/home', function () {
+    $products = Product::all();
+    return Inertia::render('frontend/homePage', [
+        'response' => $products,
+    ]);
+});
 
 // 詢價頁
 Route::get('/inquirePage', function () {
     return Inertia::render('frontend/inquirePage');
-})->name('inquire.page');
+})->name('inquire');
 
 // 後台頁
 Route::get('/backend', function () {
     return Inertia::render('backend/homePage');
-})->name('backend.home.page');
+})->name('backend.home');
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome');

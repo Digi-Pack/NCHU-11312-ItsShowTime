@@ -197,18 +197,35 @@ onMounted(() => {
   }, 500);
 });
 
-// 點擊按鈕顯示圖片
-const showImage = ref(false);
+// 商品製作點擊按鈕顯示圖片
+const isShowImage = ref(false);
 const currentImage = ref('');
 
 const handleClick = (event) => {
-  showImage.value = !showImage.value;
+  isShowImage.value = !isShowImage.value;
   const imgUrl = event.currentTarget.dataset.img;
   currentImage.value = imgUrl;
 }
 const hideImage = () => {
-  showImage.value = false;
+  isShowImage.value = false;
 };
+
+// 抓下單購買資料
+const props = defineProps({ response: Array | Object });
+
+// 點擊MORE出現更多資訊頁面
+const isMoreOpen = ref(false);
+
+const openModal = () => {
+  isMoreOpen.value = !isMoreOpen.value;
+  
+}
+
+const hideModal = () => {
+  isMoreOpen.value = false;
+
+}
+
 </script>
 
 <template>
@@ -541,98 +558,34 @@ const hideImage = () => {
               el: '.custom-swiper-pagination',
               clickable: true,
             }" :modules="modules" class="product-swiper">
-            <swiper-slide>
+            <swiper-slide v-for="product in props.response" :key="product.id">
+              <!-- hover 整個 div -> group -->
               <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.webp" alt="">
+                class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
+                <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_url" alt="">
                 <div class="flex flex-col gap-2 px-2">
                   <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
-                    日式特攻服 暴走族 🎌 [白色] 素色特攻服 客製化 團體服
+                    {{ product.name }}
                   </p>
                   <p
                     class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $1000
+                    ${{ product.price }}
                   </p>
                 </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide>
-              <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-2.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
-                    日式中版特攻服 暴走族 🎌 素色特攻服 客製化 團體服
-                  </p>
-                  <p
-                    class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $2000
-                  </p>
+                <!-- 遮罩 -->
+                <div
+                  class="absolute inset-0 z-10 transition-all duration-300 ease-in-out group-hover:bg-black group-hover:bg-opacity-50">
                 </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide>
-              <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-3.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
-                    刺繡 電腦刺繡 客製化 刺繡範例 請看商品描述 歡迎聊聊詢問
-                  </p>
-                  <p
-                    class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $3000
-                  </p>
-                </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide>
-              <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
-                    日式特攻服 暴走族 🎌刺繡特攻服 東京卍會 佐野萬次郎 客製化 刺繡
-                  </p>
-                  <p
-                    class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $4000
-                  </p>
-                </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide>
-              <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-2.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
-                    日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡
-                  </p>
-                  <p
-                    class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $5000
-                  </p>
-                </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide>
-              <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl 2xl:pb-0 pb-10">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-3.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
-                    刺繡 電腦刺繡 客製化 刺繡範例 請看商品描述 歡迎聊聊詢問
-                  </p>
-                  <p
-                    class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $6000
-                  </p>
+                <!-- More -->
+                <div
+                  class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-20">
+                  <button
+                    class="border-2 border-[#FFD83C] rounded-[8px] font-noto-jp text-[#FFD83C] text-2xl font-medium px-5 py-2"
+                    type="button" @click="openModal">MORE</button>
                 </div>
               </div>
             </swiper-slide>
           </swiper>
-
         </div>
         <div class="w-full flex justify-center">
           <a href="#"
@@ -645,12 +598,224 @@ const hideImage = () => {
       </div>
     </section>
   </main>
-  <div v-if="showImage" class="w-full fixed inset-0 z-50" @click="hideImage">
+  <!-- 商品製作 點擊按鈕出現圖片 -->
+  <div v-if="isShowImage" class="w-full fixed inset-0 z-50" @click="hideImage">
     <div class="absolute inset-0 bg-black opacity-50"></div>
-    <div class=" w-full  absolute inset-0 flex justify-center items-center">
-      <img :src="currentImage" class="w-full xl:w-[808px] lg:w-[900px]  z-50" alt="">
+    <div class="w-full absolute inset-0 flex justify-center items-center">
+      <img :src="currentImage" class="w-full xl:w-[808px] lg:w-[900px] z-50" alt="">
     </div>
   </div>
+  <!-- 下單購買 點擊MORE相關資訊 -->
+  <!-- @click="hideImage" -->
+  <div v-show="isMoreOpen" class="w-full fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black opacity-40 z-40" @click="hideModal"></div>
+
+    <div class="relative min-[1200px]:w-[1110px] w-[97%] bg-[#2F2F2F] text-white mx-auto mt-8 z-50">
+      <!-- 商品介紹 -->
+      <div class="w-full min-[641px]:px-16 px-4 py-12">
+        <p class="text-2xl font-semibold mb-10">商品介紹</p>
+        <div class="flex items-center min-[1150px]:flex-nowrap flex-wrap min-[641px]:gap-6 gap-4">
+          <div
+            class="more-container w-full min-[1150px]:w-3/5 flex min-[769px]:flex-row flex-col justify-center min-[641px]:items-center min-[1150px]:gap-6 min-[500px]:gap-[40px] gap-4">
+            <!-- 縮圖 -->
+            <swiper @swiper="setThumbsSwiper" :loop="true" :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'"
+              :spaceBetween="windowWidth <= 500 ? 16 : 24" :slidesPerView="'auto'" :freeMode="true" :modules="modules"
+              class="mySwiper min-[769px]:order-0 order-1">
+              <swiper-slide>
+                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+              </swiper-slide>
+              <swiper-slide>
+                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+              </swiper-slide>
+              <swiper-slide>
+                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+              </swiper-slide>
+              <swiper-slide>
+                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+              </swiper-slide>
+            </swiper>
+            <!-- 大圖 -->
+            <swiper :loop="true" :pagination="{
+              type: 'fraction',
+            }" :navigation="true" :thumbs="{ swiper: thumbsSwiper }" :modules="modules"
+              class="mySwiper2 min-[769px]:order-1 order-0">
+              <swiper-slide>
+                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+              </swiper-slide>
+              <swiper-slide>
+                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+              </swiper-slide>
+              <swiper-slide>
+                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+              </swiper-slide>
+              <swiper-slide>
+                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+              </swiper-slide>
+            </swiper>
+          </div>
+          <!-- 右側商品資訊 -->
+          <div class="w-full min-[1150px]:w-2/5 flex flex-col gap-4">
+            <p class="text-xl font-bold px-3 py-4 border-b border-white">
+              【日式特攻服 暴走族 🎌 [白色] 素色特攻服 客製化 團體服
+            </p>
+            <p class="px-3 pb-4">繡出你的態度，隨時隨地簡單暴走中</p>
+            <p class="text-[#FFD83C] text-2xl font-medium px-3 pb-4">
+              $300 ~ $400
+            </p>
+            <div class="space-y-2 px-3 min-[1150px]:pb-10 pb-4">
+              <div class="flex items-center gap-2">
+                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
+                <p>台製高質感刺繡頭帶</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
+                <p>頭帶約 100*5公分</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
+                <p>可客制刺繡，繡出自己的暴走魂</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
+                <p>灣出產精品品質</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
+                <p>精美原立包裝 送禮自用兩相宜</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
+                <p>時隨地簡單暴走中</p>
+              </div>
+            </div>
+
+            <div class="flex justify-end">
+              <button class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
+                <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
+                <p class="text-white text-2xl font-bold">加入詢價</p>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 推薦商品 -->
+      <div class="w-full py-12">
+        <p class="text-2xl font-semibold border-b-2 border-white min-[641px]:mx-16 mx-4 pb-6 mb-10">推薦商品</p>
+        <!-- 商品列表 Swiper -->
+        <div class="product-swiper-container">
+          <swiper :loop="false" :navigation="true" :spaceBetween="50" :centeredSlides="false"
+            :slidesPerView="windowWidth <= 768 ? 'auto' : 2" :watchOverflow="true" :modules="modules"
+            class="product-swiper">
+            <swiper-slide>
+              <!-- hover 整個 div -> group -->
+              <div
+                class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
+                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.webp" alt="">
+                <div class="flex flex-col gap-2 px-2">
+                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
+                    日式特攻服 暴走族 🎌 [白色] 素色特攻服 客製化 團體服
+                  </p>
+                  <p
+                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
+                    $1000
+                  </p>
+                </div>
+                <!-- 遮罩 -->
+                <div
+                  class="absolute inset-0 z-10 transition-all duration-300 ease-in-out group-hover:bg-black group-hover:bg-opacity-50">
+                </div>
+                <!-- More 確認字體 -->
+                <div
+                  class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-20">
+                  <button class="border-2 border-[#FFD83C] rounded-[8px] text-[#FFD83C] text-2xl font-medium px-5 py-2"
+                    type="button">MORE</button>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div
+                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
+                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-2.webp" alt="">
+                <div class="flex flex-col gap-2 px-2">
+                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
+                    日式中版特攻服 暴走族 🎌 素色特攻服 客製化 團體服
+                  </p>
+                  <p
+                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
+                    $2000
+                  </p>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div
+                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
+                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-3.webp" alt="">
+                <div class="flex flex-col gap-2 px-2">
+                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
+                    刺繡 電腦刺繡 客製化 刺繡範例 請看商品描述 歡迎聊聊詢問
+                  </p>
+                  <p
+                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
+                    $3000
+                  </p>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div
+                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
+                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.webp" alt="">
+                <div class="flex flex-col gap-2 px-2">
+                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
+                    日式特攻服 暴走族 🎌刺繡特攻服 東京卍會 佐野萬次郎 客製化 刺繡
+                  </p>
+                  <p
+                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
+                    $4000
+                  </p>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div
+                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
+                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-2.webp" alt="">
+                <div class="flex flex-col gap-2 px-2">
+                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
+                    日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡
+                  </p>
+                  <p
+                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
+                    $5000
+                  </p>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div
+                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
+                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-3.webp" alt="">
+                <div class="flex flex-col gap-2 px-2">
+                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
+                    刺繡 電腦刺繡 客製化 刺繡範例 請看商品描述 歡迎聊聊詢問
+                  </p>
+                  <p
+                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
+                    $6000
+                  </p>
+                </div>
+              </div>
+            </swiper-slide>
+          </swiper>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- footer -->
   <footer id="contact"
     class="max-w-[1903px] bg-[#272727] flex flex-col min-[522px]:justify-center min-[522px]:items-center gap-10 mx-auto min-[769px]:py-10 relative min-[476px]:px-4 px-3 pt-[110px] pb-10">
