@@ -68,8 +68,8 @@ onBeforeUnmount(() => {
                     </button>
 
                     <div :class="[
-                        'fixed left-0 top-0 w-full h-[400px] bg-slate-100 z-10',
-                        'flex flex-col gap-6 p-8 overflow-y-auto',
+                        'fixed left-0 top-0 w-full h-[380px] bg-slate-100 z-10',
+                        'flex flex-col justify-center gap-6 p-8 overflow-y-auto',
                         isOpen ? 'flex' : 'hidden'
                     ]">
                         <a v-for="item in menuItems" :key="item.id" :href="item.href" @click="toggleMenu"
