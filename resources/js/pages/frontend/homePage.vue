@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
+import { Link } from '@inertiajs/vue3'
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
@@ -9,6 +10,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import { FreeMode, Pagination, Navigation, Thumbs, Autoplay } from 'swiper/modules';
 import { gsap } from 'gsap';
+// import { Link } from 'lucide-vue-next';
 
 // 商品製作的 thumbsSwiper
 const thumbsSwiper1 = ref(null);
@@ -715,10 +717,10 @@ const currentProduct = () => {
             </div>
 
             <div class="flex justify-end">
-              <button class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
+              <Link :href="route('inquire')" class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
                 <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
                 <p class="text-white text-2xl font-bold">加入詢價</p>
-              </button>
+              </Link>
             </div>
           </div>
         </div>

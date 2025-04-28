@@ -19,7 +19,7 @@ Route::get('/home', function () {
 });
 
 // 詢價頁
-Route::get('/inquirePage', function () {
+Route::get('/inquire', function () {
     return Inertia::render('frontend/inquirePage');
 })->name('inquire');
 
@@ -43,13 +43,3 @@ require __DIR__.'/auth.php';
 
 
 
-// 找單一商品詳細資料
-Route::get('/more/products/{id}', function ($id) {
-    $product = Product::find($id);
-    
-    if (!$product) {
-        abort(404, 'Product Not Found');
-    }
-    
-    return response()->json($product);
-});
