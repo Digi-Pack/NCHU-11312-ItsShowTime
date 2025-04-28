@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
@@ -10,10 +10,18 @@ import 'swiper/css/thumbs';
 import { FreeMode, Pagination, Navigation, Thumbs, Autoplay } from 'swiper/modules';
 import { gsap } from 'gsap';
 
-const thumbsSwiper = ref(null);
-const setThumbsSwiper = (swiper) => {
-  thumbsSwiper.value = swiper
+// 商品製作的 thumbsSwiper
+const thumbsSwiper1 = ref(null);
+const setThumbsSwiper1 = (swiper) => {
+  thumbsSwiper1.value = swiper;
 };
+
+// 下單購買的 thumbsSwiper
+const thumbsSwiper2 = ref(null);
+const setThumbsSwiper2 = (swiper) => {
+  thumbsSwiper2.value = swiper;
+};
+
 const modules = [FreeMode, Pagination, Navigation, Thumbs, Autoplay];
 
 // nav fixed
@@ -215,16 +223,31 @@ const props = defineProps({ response: Array | Object });
 
 // 點擊MORE出現更多資訊頁面
 const isMoreOpen = ref(false);
+const currentProductId = ref(null);
 
-const openModal = () => {
-  isMoreOpen.value = !isMoreOpen.value;
-  
+
+const openModal = (productId) => {
+  currentProductId.value = productId;
+
+  isMoreOpen.value = true;
+  // 禁用body頁面滾動條
+  if (isMoreOpen.value) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = 'auto';
+  }
 }
 
 const hideModal = () => {
   isMoreOpen.value = false;
-
+  document.body.style.overflow = 'auto';
 }
+
+const currentProduct = () => {
+  if (!currentProductId.value) return null;
+  return props.response.find(product => product.id === currentProductId.value) || null;
+};
+
 
 </script>
 
@@ -318,7 +341,7 @@ const hideModal = () => {
             <img :src="slides[index].img" alt="" class="center-img">
             <div class="absolute inset-0 flex items-center justify-center">
               <span v-for="(char, charIndex) in chars" :key="charIndex"
-                class="char text-white text-[80px] font-bold tracking-[6px] opacity-0 block">
+                class="char text-white sm:text-[80px] text-[40px] font-bold tracking-[6px] opacity-0 block">
                 {{ char }}
               </span>
             </div>
@@ -412,7 +435,7 @@ const hideModal = () => {
             </div>
             <!-- 進度條 -->
             <div class="w-full min-[1120px]:max-w-[731px] relative">
-              <swiper @swiper="setThumbsSwiper" :loop="true" :slidesPerView="'auto'" :freeMode="true"
+              <swiper @swiper="setThumbsSwiper1" :loop="true" :slidesPerView="'auto'" :freeMode="true"
                 :watchSlidesProgress="true" :modules="modules" class="thumb-swiper">
                 <!-- min-[1314px]:gap-20 min-[1201px]:gap-10 gap-2 -->
                 <swiper-slide class="flex flex-col items-center gap-2">
@@ -487,8 +510,8 @@ const hideModal = () => {
               </div>
             </div>
           </div>
-          <swiper :speed="1" :loop="true" :slidesPerView="'auto'" :navigation="false" :thumbs="{ swiper: thumbsSwiper }"
-            :modules="modules" :autoplay="{
+          <swiper :speed="1" :loop="true" :slidesPerView="'auto'" :navigation="false"
+            :thumbs="{ swiper: thumbsSwiper1 }" :modules="modules" :autoplay="{
               delay: 3000,
               disableOnInteraction: false
             }" class="process-swiper">
@@ -559,7 +582,6 @@ const hideModal = () => {
               clickable: true,
             }" :modules="modules" class="product-swiper">
             <swiper-slide v-for="product in props.response" :key="product.id">
-              <!-- hover 整個 div -> group -->
               <div
                 class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
                 <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_url" alt="">
@@ -581,7 +603,9 @@ const hideModal = () => {
                   class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-20">
                   <button
                     class="border-2 border-[#FFD83C] rounded-[8px] font-noto-jp text-[#FFD83C] text-2xl font-medium px-5 py-2"
-                    type="button" @click="openModal">MORE</button>
+                    type="button" @click="openModal(product.id)">
+                    MORE
+                  </button>
                 </div>
               </div>
             </swiper-slide>
@@ -599,64 +623,65 @@ const hideModal = () => {
     </section>
   </main>
   <!-- 商品製作 點擊按鈕出現圖片 -->
-  <div v-if="isShowImage" class="w-full fixed inset-0 z-50" @click="hideImage">
-    <div class="absolute inset-0 bg-black opacity-50"></div>
+  <div v-if="isShowImage" class="w-full fixed bg-black/50 inset-0 z-50" @click="hideImage">
     <div class="w-full absolute inset-0 flex justify-center items-center">
       <img :src="currentImage" class="w-full xl:w-[808px] lg:w-[900px] z-50" alt="">
     </div>
   </div>
   <!-- 下單購買 點擊MORE相關資訊 -->
-  <!-- @click="hideImage" -->
-  <div v-show="isMoreOpen" class="w-full fixed inset-0 z-50">
-    <div class="absolute inset-0 bg-black opacity-40 z-40" @click="hideModal"></div>
-
-    <div class="relative min-[1200px]:w-[1110px] w-[97%] bg-[#2F2F2F] text-white mx-auto mt-8 z-50">
+  <div v-show="isMoreOpen" class=" w-full h-dvh fixed bg-black/50 inset-0 z-50 overflow-y-auto py-8" @click="hideModal"
+    :keyup.enter="hideModal">
+    <div class="more-container relative min-[1200px]:w-[1110px] w-[97%] bg-[#2F2F2F] text-white mx-auto mt-8 z-50"
+      @click.stop>
       <!-- 商品介紹 -->
       <div class="w-full min-[641px]:px-16 px-4 py-12">
         <p class="text-2xl font-semibold mb-10">商品介紹</p>
         <div class="flex items-center min-[1150px]:flex-nowrap flex-wrap min-[641px]:gap-6 gap-4">
           <div
-            class="more-container w-full min-[1150px]:w-3/5 flex min-[769px]:flex-row flex-col justify-center min-[641px]:items-center min-[1150px]:gap-6 min-[500px]:gap-[40px] gap-4">
+            class="w-full min-[1150px]:w-3/5 flex min-[769px]:flex-row flex-col justify-center min-[641px]:items-center min-[1150px]:gap-6 min-[500px]:gap-[40px] gap-4">
             <!-- 縮圖 -->
-            <swiper @swiper="setThumbsSwiper" :loop="true" :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'"
+            <swiper @swiper="setThumbsSwiper2" :loop="true" :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'"
               :spaceBetween="windowWidth <= 500 ? 16 : 24" :slidesPerView="'auto'" :freeMode="true" :modules="modules"
               class="mySwiper min-[769px]:order-0 order-1">
               <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+                <img :src="currentProduct()?.img_url" alt="">
               </swiper-slide>
               <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                <img src="https://swiperjs.com/demos/images/nature-2.jpg" alt="">
               </swiper-slide>
               <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+                <img src="https://swiperjs.com/demos/images/nature-3.jpg" alt="">
               </swiper-slide>
               <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+                <img src="https://swiperjs.com/demos/images/nature-4.jpg" alt="">
               </swiper-slide>
             </swiper>
             <!-- 大圖 -->
             <swiper :loop="true" :pagination="{
               type: 'fraction',
-            }" :navigation="true" :thumbs="{ swiper: thumbsSwiper }" :modules="modules"
+            }" :navigation="true" :thumbs="{ swiper: thumbsSwiper2 }" :modules="modules"
               class="mySwiper2 min-[769px]:order-1 order-0">
               <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+                <img :src="currentProduct()?.img_url" class="aspect-square object-cover object-center" alt="">
               </swiper-slide>
               <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                <img src="https://swiperjs.com/demos/images/nature-2.jpg"
+                  class="aspect-square object-cover object-center" alt="">
               </swiper-slide>
               <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+                <img src="https://swiperjs.com/demos/images/nature-3.jpg"
+                  class="aspect-square object-cover object-center" alt="">
               </swiper-slide>
               <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+                <img src="https://swiperjs.com/demos/images/nature-4.jpg"
+                  class="aspect-square object-cover object-center" alt="">
               </swiper-slide>
             </swiper>
           </div>
           <!-- 右側商品資訊 -->
           <div class="w-full min-[1150px]:w-2/5 flex flex-col gap-4">
             <p class="text-xl font-bold px-3 py-4 border-b border-white">
-              【日式特攻服 暴走族 🎌 [白色] 素色特攻服 客製化 團體服
+              {{ currentProduct()?.name }}
             </p>
             <p class="px-3 pb-4">繡出你的態度，隨時隨地簡單暴走中</p>
             <p class="text-[#FFD83C] text-2xl font-medium px-3 pb-4">
@@ -695,7 +720,6 @@ const hideModal = () => {
                 <p class="text-white text-2xl font-bold">加入詢價</p>
               </button>
             </div>
-
           </div>
         </div>
       </div>
@@ -708,104 +732,31 @@ const hideModal = () => {
           <swiper :loop="false" :navigation="true" :spaceBetween="50" :centeredSlides="false"
             :slidesPerView="windowWidth <= 768 ? 'auto' : 2" :watchOverflow="true" :modules="modules"
             class="product-swiper">
-            <swiper-slide>
-              <!-- hover 整個 div -> group -->
+            <swiper-slide v-for="product in props.response" :key="product.id">
               <div
                 class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.webp" alt="">
+                <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_url" alt="">
                 <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
-                    日式特攻服 暴走族 🎌 [白色] 素色特攻服 客製化 團體服
+                  <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
+                    {{ product.name }}
                   </p>
                   <p
-                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $1000
+                    class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
+                    ${{ product.price }}
                   </p>
                 </div>
                 <!-- 遮罩 -->
                 <div
                   class="absolute inset-0 z-10 transition-all duration-300 ease-in-out group-hover:bg-black group-hover:bg-opacity-50">
                 </div>
-                <!-- More 確認字體 -->
+                <!-- More -->
                 <div
                   class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-20">
-                  <button class="border-2 border-[#FFD83C] rounded-[8px] text-[#FFD83C] text-2xl font-medium px-5 py-2"
-                    type="button">MORE</button>
-                </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide>
-              <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-2.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
-                    日式中版特攻服 暴走族 🎌 素色特攻服 客製化 團體服
-                  </p>
-                  <p
-                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $2000
-                  </p>
-                </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide>
-              <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-3.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
-                    刺繡 電腦刺繡 客製化 刺繡範例 請看商品描述 歡迎聊聊詢問
-                  </p>
-                  <p
-                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $3000
-                  </p>
-                </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide>
-              <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
-                    日式特攻服 暴走族 🎌刺繡特攻服 東京卍會 佐野萬次郎 客製化 刺繡
-                  </p>
-                  <p
-                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $4000
-                  </p>
-                </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide>
-              <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-2.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
-                    日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡
-                  </p>
-                  <p
-                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $5000
-                  </p>
-                </div>
-              </div>
-            </swiper-slide>
-            <swiper-slide>
-              <div
-                class="w-full flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl">
-                <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-3.webp" alt="">
-                <div class="flex flex-col gap-2 px-2">
-                  <p class="font-noto-cjk min-[521px]:text-2xl text-xl text-white font-bold leading-[1.2]">
-                    刺繡 電腦刺繡 客製化 刺繡範例 請看商品描述 歡迎聊聊詢問
-                  </p>
-                  <p
-                    class="font-pingfang-r min-[521px]:text-[32px] text-[28px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    $6000
-                  </p>
+                  <button
+                    class="border-2 border-[#FFD83C] rounded-[8px] font-noto-jp text-[#FFD83C] text-2xl font-medium px-5 py-2"
+                    type="button" @click="openModal(product.id)">
+                    MORE
+                  </button>
                 </div>
               </div>
             </swiper-slide>
@@ -813,9 +764,7 @@ const hideModal = () => {
         </div>
       </div>
     </div>
-
   </div>
-
   <!-- footer -->
   <footer id="contact"
     class="max-w-[1903px] bg-[#272727] flex flex-col min-[522px]:justify-center min-[522px]:items-center gap-10 mx-auto min-[769px]:py-10 relative min-[476px]:px-4 px-3 pt-[110px] pb-10">
@@ -889,6 +838,10 @@ body {
   background-color: #0A1109;
   margin: 0;
   padding: 0;
+}
+
+button {
+  cursor: pointer;
 }
 
 /* banner Swiper */
@@ -1203,13 +1156,158 @@ body {
   transition: transform 0.1s linear;
 }
 
-button {
+/* more 頁面的 Swiper */
+.more-container .swiper {
+  width: auto;
+  height: auto;
+  margin: 0;
+  box-sizing: border-box;
   cursor: pointer;
 }
 
-/* .custom-shadow {
-  @apply [text-shadow:1px_1px_0_#B41900, -1px_1px_0_#B41900, 1px_-1px_0_#B41900, -1px_-1px_0_#B41900, 0px_1px_0_#B41900, 0px_-1px_0_#B41900, 1px_0px_0_#B41900, -1px_0px_0_#B41900];
-} */
+.more-container .mySwiper2 {
+  width: 450px;
+}
+
+@media (max-width: 640px) {
+  .more-container .mySwiper2 {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 499px) {
+  .more-container .mySwiper2 {
+    width: 300px;
+  }
+}
+
+.more-container .mySwiper2 .swiper-slide img {
+  border-radius: 5px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.more-container .mySwiper {
+  display: inline-flex;
+}
+
+.more-container .mySwiper .swiper-wrapper {
+  width: auto;
+}
+
+@media (max-width: 640px) {
+  .more-container .mySwiper .swiper-wrapper {
+    margin-left: 0 !important;
+    margin-right: auto !important;
+  }
+}
+
+.more-container .mySwiper .swiper-slide {
+  width: auto;
+  height: auto;
+}
+
+.more-container .mySwiper .swiper-slide:last-child {
+  margin: 0 !important;
+}
+
+.more-container .mySwiper .swiper-slide img {
+  width: 100px;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 3px;
+}
+
+@media (max-width: 640px) {
+  .more-container .mySwiper .swiper-slide img {
+    width: 70px;
+  }
+}
+
+@media (max-width: 499px) {
+  .more-container .mySwiper .swiper-slide img {
+    width: 60px;
+  }
+}
+
+.more-container .mySwiper .swiper-slide-thumb-active {
+  border-radius: 3px;
+  border: 2px solid #FFD83C;
+}
+
+.more-container .swiper-pagination-fraction {
+  position: absolute;
+  left: 85%;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  width: auto;
+  color: white;
+  padding: 5px 0;
+}
+
+.more-container .swiper-button-next,
+.more-container .swiper-button-prev {
+  color: white;
+}
+
+/* more 商品列表swiper */
+.more-container .product-swiper-container {
+  position: relative;
+  width: 100%;
+  margin: 0;
+}
+
+.more-container .product-swiper {
+  width: 100%;
+  padding: 0 50px;
+}
+
+.more-container .product-swiper-container .swiper-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .more-container .product-swiper .swiper-slide {
+    width: 400px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .more-container .product-swiper .swiper-slide {
+    width: 260px !important;
+  }
+}
+
+/* 左箭頭 */
+.more-container .product-swiper .swiper-button-prev {
+  left: 15px;
+}
+
+.more-container .product-swiper .swiper-button-prev::after {
+  font-size: 40px;
+  font-weight: 900;
+  color: white;
+}
+
+/* 右箭頭 */
+.more-container .product-swiper .swiper-button-next {
+  right: 15px;
+}
+
+.more-container .product-swiper .swiper-button-next::after {
+  font-size: 40px;
+  font-weight: 900;
+  color: white;
+}
+
+.more-container .product-swiper .swiper-button-prev:hover,
+.more-container .product-swiper .swiper-button-next:hover {
+  transform: scale(1.1);
+  transition: transform 0.1s linear;
+}
 
 /* 暴走族特工服風格滾動條 - 黑紅配色 */
 /* 滾動條整體樣式 */
