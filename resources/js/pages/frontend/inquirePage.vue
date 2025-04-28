@@ -1,5 +1,25 @@
 <script setup>
+
 import { ref } from 'vue'
+
+const isOpen = ref(false)
+
+const toggleMenu = () => {
+    isOpen.value = !isOpen.value
+    document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
+}
+
+
+// nav menu links
+const menuItems = [
+    { id: 'portfolio', name: '作品集', href: '#portfolio' },
+    { id: 'about', name: '品牌理念', href: '#about' },
+    { id: 'method', name: '製作方式', href: '#method' },
+    { id: 'product', name: '商品列表', href: '#product' },
+    { id: 'contact', name: '聯絡方式', href: '#contact' },
+]
+
+
 
 
 </script>
@@ -9,10 +29,11 @@ import { ref } from 'vue'
     <section class="flex flex-col items-center w-full bg-[#1F1B1B]">
 
         <!-- Banner -->
-        <nav class="w-full flex justify-center text-[#F0BD22] py-6">
-            <p class="font-noto-jp 2xl:text-[30px] md:text-[20px] min-[374px]:text-[14px] sm:tracking-[0.06em] mb-2">
+        <nav class="w-full flex min-[476px]:justify-center text-[#F0BD22] py-6 min-[476px]:ml-0 ml-6">
+            <p class="font-noto-jp 2xl:text-[30px] md:text-[20px] min-[476px]:text-[14px] min-[374px]:text-[12px] sm:tracking-[0.06em] mb-2">
                 itsshowtime．無敵の特工服オーダーメイドブランド</p>
         </nav>
+
         <div class="2xl:w-[821.46px] md:w-[45%] w-[80%] mb-12">
             <img src="/image/ITS SHOW TIME.webp" class="w-full h-full object-cover">
         </div>
@@ -33,8 +54,8 @@ import { ref } from 'vue'
             </div>
         </div>
 
-        <!-- NavBar -->
-        <div class="hidden lg:flex flex-col fixed top-64 2xl:left-16 left-10 z-10 font-noto-cjk text-white">
+        <!-- NavBar 1204px以上 -->
+        <nav class="hidden lg:flex flex-col fixed top-64 2xl:left-16 left-10 z-10 font-noto-cjk text-white">
             <div class="w-[80px] mb-4">
                 <img src="/image/LOGO-底部有字.webp" class="w-full h-full object-cover">
             </div>
@@ -62,15 +83,45 @@ import { ref } from 'vue'
                     <img src="/image/svg/Arrow.svg" alt="">
                 </a>
             </div>
+        </nav>
 
-        </div>
+        <!-- NavBar 1204px 以下 -->
+        <nav class="lg:hidden fixed top-0 left-0 w-full z-10 font-noto-jp ">
+            <!-- Ham Btn -->
+            <button type="button"
+                class="w-9 h-9 flex justify-center items-center cursor-pointer p-6 fixed min-[476px]:top-4 top-2 right-4 z-20"
+                @click="toggleMenu">
+                <i class="fa-solid fa-bars text-3xl" style="color:#F0BD22"></i>
+            </button>
+
+            <div :class="[
+                'fixed left-0 top-0 w-full h-[300px] bg-slate-100 z-10',
+                'flex flex-col gap-6 p-8 overflow-y-auto',
+                isOpen ? 'flex' : 'hidden'
+            ]">
+                <a v-for="item in menuItems" :key="item.id" :href="item.href" @click="toggleMenu"
+                    class="flex items-center gap-[9px] text-xl">
+                    <img src="/image/svg/Arrow 2.svg" alt="" />
+                    <p class="font-normal leading-[1.2]">{{ item.name }}</p>
+                </a>
+            </div>
+        </nav>
+
+
+
+
+
 
 
         <!-- 詢價清單列表 -->
         <div class="2xl:w-[1320px] w-[70%] flex items-end mb-6 2xl:px-0 xl:px-1">
-            <p class="2xl:flex-1 2xl:w-0 w-[400px] font-noto-jp font-bold sm:text-[24px] text-[18px] text-[#F0BD22] 2xl:mr-0 xl:mr-4">商品名稱</p>
-            <p class="xl:w-[240px] w-[180px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">規格</p>
-            <p class="xl:w-[160px] w-[100px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">金額</p>
+            <p
+                class="2xl:flex-1 2xl:w-0 w-[400px] font-noto-jp font-bold sm:text-[24px] text-[18px] text-[#F0BD22] 2xl:mr-0 xl:mr-4">
+                商品名稱</p>
+            <p class="xl:w-[240px] w-[180px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
+                規格</p>
+            <p class="xl:w-[160px] w-[100px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
+                金額</p>
             <p
                 class="xl:w-[141px] font-noto-jp font-bold xl:text-[24px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[2px] py-4 px-4 cursor-pointer text-nowrap">
                 全部刪除</p>
@@ -86,7 +137,9 @@ import { ref } from 'vue'
                     <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
                         <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.webp" alt="">
                     </div>
-                    <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white">【IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走
+                    <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white">【IST】日式暴走頭帶 ⛩ 台灣連合
+                        神風
+                        暴走
                         特攻 極惡 客製化 刺繡 現貨 快速出貨</p>
                 </div>
                 <div class="xl:w-[300px] w-[240px] flex justify-center">
@@ -100,7 +153,7 @@ import { ref } from 'vue'
                 </div>
             </div>
 
-            
+
             <!-- min-[956px]以下才出現的選擇規格商品圖 -->
             <div
                 class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden">
