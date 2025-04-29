@@ -48,12 +48,15 @@ onBeforeUnmount(() => {
 })
 
 
-// 把下單購買資料帶入
+// 把下單購買資料傳過來
 const { response } = defineProps({
     response: Array | Object,
 })
-
 console.log(response);
+
+
+// 商品總計
+const productCount = computed(() => response.length);
 
 
 // 初始化縮圖輪播控制器
@@ -160,7 +163,6 @@ onMounted(() => {
 });
 
 
-
 // 點擊規格選擇出現選擇商品規格頁面
 const isFormatOpen = ref(false);
 const currentProductId = ref(null);
@@ -186,6 +188,9 @@ const currentProduct = () => {
     if (!currentProductId.value) return null;
     return props.response.find(product => product.id === currentProductId.value) || null;
 };
+
+
+
 
 
 </script>
@@ -282,8 +287,8 @@ const currentProduct = () => {
                 規格</p>
             <p class="xl:w-[160px] w-[100px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
                 金額</p>
-            <p
-                class="xl:w-[141px] font-noto-jp font-bold xl:text-[24px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[2px] py-4 px-4 cursor-pointer text-nowrap">
+            <p class="xl:w-[141px] font-noto-jp font-bold xl:text-[24px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[2px] py-4 px-4 cursor-pointer text-nowrap"
+                @click="deleteProduct(product.id)">
                 全部刪除</p>
         </div>
 
@@ -292,21 +297,19 @@ const currentProduct = () => {
         <div v-if="response && response.length > 0"
             class="flex-col 2xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center 2xl:font-bold font-noto-jp mb-12">
 
-            <!-- 使用 v-for 遍歷 response 陣列 -->
             <div v-for="(product, index) in response" :key="product.id"
                 class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
                 <div class="flex 2xl:flex-1 items-center ml-4">
-                    <!-- 顯示商品圖片 -->
                     <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
                         <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_url" alt="Product Image">
                     </div>
-                    <!-- 顯示商品名稱 -->
                     <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">{{
                         product.name }}</p>
                 </div>
                 <div class="xl:w-[300px] w-[240px] flex justify-center">
                     <button type="button"
-                        class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer" @click="openModal(product.id); ShoppingCartData(product.id)" >
+                        class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer"
+                        @click="openModal(product.id); ShoppingCartData(product.id)">
                         規格選擇
                     </button>
                 </div>
@@ -319,31 +322,32 @@ const currentProduct = () => {
             </div>
 
             <!-- min-[956px]以下才出現的選擇規格商品圖 -->
-        <div class="flex flex-wrap">
-            <div v-for="(product, index) in response" :key="product.id"
-                class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
-                <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.img_url" alt="Product Image">
+            <div class="flex flex-wrap">
+                <div v-for="(product, index) in response" :key="product.id"
+                    class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
+                    <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.img_url" alt="Product Image">
 
-                <div class="flex flex-col gap-2 px-2 pb-4">
-                    <p class="text-left font-noto-jp text-white leading-[1.2]">
-                        {{ product.name }}
-                    </p>
-                </div>
-                <div
-                    class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-10 pb-16">
-                    <button class="border-[#F0BD22] border-2 text-[#F0BD22] px-6 py-2 rounded-md" @click="openModal(product.id)">
-                        規格
-                    </button>
+                    <div class="flex flex-col gap-2 px-2 pb-4">
+                        <p class="text-left font-noto-jp text-white leading-[1.2]">
+                            {{ product.name }}
+                        </p>
+                    </div>
+                    <div
+                        class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-10 pb-16">
+                        <button class="border-[#F0BD22] border-2 text-[#F0BD22] px-6 py-2 rounded-md"
+                            @click="openModal(product.id)">
+                            規格
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div> 
 
         </div>
 
 
         <!-- 商品項目計數 -->
         <div class="2xl:w-[1399px] w-[70%] flex-col flex items-end mb-60">
-            <p class="2xl:text-[24px] text-white mb-2">總計 1 件商品</p>
+            <p class="2xl:text-[24px] text-white mb-2">總計 {{ productCount }} 件商品</p>
             <p class="2xl:text-[24px] text-white">總金額(NT$)待確認訂單後提供</p>
         </div>
 
@@ -351,8 +355,10 @@ const currentProduct = () => {
         <div v-show="isFormatOpen"
             class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
             @click="hideModal">
-            <div class="relative text-white p-4 md:p-20 w-full lg:w-[80%] h-[80%] bg-black rounded-xl overflow-y-auto xl:overflow-hidden" @click.stop>
-                <button type="button" class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2 mb-7"
+            <div class="relative text-white p-4 md:p-20 w-full lg:w-[80%] h-[80%] bg-black rounded-xl overflow-y-auto xl:overflow-hidden"
+                @click.stop>
+                <button type="button"
+                    class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2 mb-7"
                     @click="hideModal">
                     <i class="fa-solid fa-xmark text-5xl"></i>
                 </button>
@@ -363,15 +369,10 @@ const currentProduct = () => {
                         <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
                             <!-- 主圖輪播 -->
                             <div class="max-h-[250px] md:max-h-[400px] lg:max-h-[500px] order-1 md:order-2">
-                                <Swiper 
-                                    :modules="[FreeMode, Navigation, Thumbs]" 
-                                    :loop="true" 
-                                    :space-between="10"
-                                    :navigation="false" 
-                                    :thumbs="{ swiper: thumbsSwiper }"
+                                <Swiper :modules="[FreeMode, Navigation, Thumbs]" :loop="true" :space-between="10"
+                                    :navigation="false" :thumbs="{ swiper: thumbsSwiper }"
                                     class="flex-1 aspect-square max-h-[250px] md:max-h-[400px] lg:max-h-[500px] border rounded overflow-hidden"
-                                    @swiper="(swiper) => { mainSwiper = swiper; }" 
-                                    @slideChange="handleSlideChange">
+                                    @swiper="(swiper) => { mainSwiper = swiper; }" @slideChange="handleSlideChange">
                                     <SwiperSlide v-for="(img, i) in images" :key="'main-' + i">
                                         <img :src="response.img_url" @error="handleImageError"
                                             class="w-full h-full object-cover rounded" loading="lazy" a lt="商品圖片" />
@@ -380,12 +381,9 @@ const currentProduct = () => {
                             </div>
                             <!-- 縮圖垂直排列在左側 -->
                             <div class="flex flex-col justify-center order-2 md:order-1">
-                                <Swiper 
-                                    :loop="true" :modules="[FreeMode, Thumbs]"
+                                <Swiper :loop="true" :modules="[FreeMode, Thumbs]"
                                     :direction="screenWidth < 768 ? 'horizontal' : 'vertical'"
-                                    :slides-per-view="screenWidth < 768 ? 4 : 5" 
-                                    :space-between="10" 
-                                    :free-mode="true"
+                                    :slides-per-view="screenWidth < 768 ? 4 : 5" :space-between="10" :free-mode="true"
                                     watch-slides-progress
                                     class="w-60 h-15 md:w-20 md:h-full max-h-[250px] md:max-h-[400px] lg:max-h-[500px]"
                                     @swiper="(swiper) => thumbsSwiper = swiper">
