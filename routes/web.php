@@ -35,7 +35,7 @@ Route::get('/home', function () {
 // })->name('inquire');
 
 
-Route::get('/inquire/{id}', [ItsshowtimeController::class, 'inquire'])->name('inquirePage');
+Route::get('/inquire', [ItsshowtimeController::class, 'inquire'])->name('inquirePage');
 
 
 // 後台頁

@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
-import { Link } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
+
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
@@ -11,6 +12,7 @@ import 'swiper/css/thumbs';
 import { FreeMode, Pagination, Navigation, Thumbs, Autoplay } from 'swiper/modules';
 import { gsap } from 'gsap';
 // import { Link } from 'lucide-vue-next';
+
 
 // 商品製作的 thumbsSwiper
 const thumbsSwiper1 = ref(null);
@@ -258,6 +260,29 @@ const currentProduct = () => {
   return props.response.find(product => product.id === currentProductId.value) || null;
 };
 
+
+
+// 儲存商品ID的陣列
+const productIds = ref([]);
+
+// 新增商品ID到productIds列表
+const addProductId = (productId) => {
+  const product = currentProduct(productId);
+  if (product) {
+    productIds.value.push(product.id);
+    console.log(`商品ID ${product.id} 已加入詢價`);
+  } else {
+    console.log('商品ID無效或未找到商品');
+  }
+};
+
+const inquiryCount = computed(() => productIds.value.length)
+const gotoinquire =(ids)=> {
+  const data = {'id': ids,};
+  console.log(data);
+  
+  router.get(route('inquirePage'), data);
+};
 
 </script>
 
@@ -597,7 +622,7 @@ const currentProduct = () => {
                 <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_url" alt="">
                 <div class="flex flex-col gap-2 px-2">
                   <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
-                    {{ product.name }} 
+                    {{ product.name }}
                   </p>
                   <p
                     class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
@@ -641,7 +666,8 @@ const currentProduct = () => {
   <!-- 下單購買 點擊MORE相關資訊 -->
   <div v-show="isMoreOpen" class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12" @click="hideModal"
     :keyup.enter="hideModal">
-    <div class="more-container relative min-[1200px]:w-[1110px] w-[97%] overflow-y-auto h-full bg-[#2F2F2F] text-white mx-auto z-50"
+    <div
+      class="more-container relative min-[1200px]:w-[1110px] w-[97%] overflow-y-auto h-full bg-[#2F2F2F] text-white mx-auto z-50"
       @click.stop>
       <button type="button" class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2"
         @click="hideModal">
@@ -728,11 +754,23 @@ const currentProduct = () => {
               </div>
             </div>
             <div class="flex justify-end">
-              <Link :href="`/inquire/${currentProduct()?.id}`"
+
+              <button type="button" class="border border-white rounded-[18px] flex items-center gap-2 px-10 py-3"
+                @click="addProductId(2)"> <!-- 假設預設商品ID是2 -->
+                <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="" />
+                <p class="text-white text-2xl font-bold">加入詢價</p>
+              </button>
+
+              <!-- <Link :href="`/inquire/${currentProduct()?.id}`"
                 class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
               <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
               <p class="text-white text-2xl font-bold">加入詢價</p>
-              </Link>
+              </Link> -->
+              <h3>商品ID列表:</h3>
+              <ul>
+                <li v-for="(id, index) in productIds" :key="index">{{ id }}</li>
+              </ul>
+
 
             </div>
           </div>
@@ -779,6 +817,46 @@ const currentProduct = () => {
       </div>
     </div>
   </div>
+
+  <!-- 購物車icon -->
+  <!-- <Link :href="`/inquire/${currentProduct()?.id}`" class="md:w-[100px] w-0 fixed top-60 right-2 z-10 cursor-pointer">
+  <div class="relative w-full h-full">
+    <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover">
+    <p class="absolute top-[19px] right-[79px] translate-x-1/2 -translate-y-1/2 
+               md:text-xl text-[0px] font-bold">
+      1
+    </p>
+  </div>
+  </Link> -->
+  <button type="button" class="md:w-[100px] w-0 fixed top-60 right-2 z-10 cursor-pointer"@click="gotoinquire(productIds)">
+  <div class="relative w-full h-full">
+    <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover">
+    <p class="absolute top-[19px] right-[79px] translate-x-1/2 -translate-y-1/2 
+                   md:text-xl text-[0px] font-bold">
+      {{ inquiryCount }}
+    </p>
+  </div>
+  </button>
+
+
+  <!-- <Link :href="`/inquire/${productIds}`"
+    class="md:w-0 min-[476px]:w-[50px] w-[30px] fixed top-80 left-2 z-10 cursor-pointer">
+  <div class="relative w-full h-full">
+    <img src="/image/svg/shipping-cart-small.svg" class="w-full h-full object-cover">
+    <p
+      class="absolute top-[-2px] right-[3px] translate-x-1/2 -translate-y-1/2 
+                 md:text-[0px] min-[476px]:font-bold text-white bg-red-600 rounded-full md:w-0 min-[476px]:w-[24px] w-[18px] md:h-0 min-[476px]:h-[24px] h-[18px] flex justify-center items-center">
+      {{ inquiryCount }}
+    </p>
+  </div>
+  </Link> -->
+
+
+
+
+
+
+
   <!-- footer -->
   <footer id="contact"
     class="max-w-[1903px] bg-[#272727] flex flex-col min-[522px]:justify-center min-[522px]:items-center gap-10 mx-auto min-[769px]:py-10 relative min-[476px]:px-4 px-3 pt-[110px] pb-10">

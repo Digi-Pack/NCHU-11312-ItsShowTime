@@ -13,10 +13,13 @@ class ItsshowtimeController extends Controller
     
 
 
-public function inquire($id)
+public function inquire(Request $request)
     {
-        $product = Product::select()->find($id);
 
+       $id_array = $request->id;
+
+        $product = Product::whereIn('id', $id_array)->get();
+        // dd($product);
         return Inertia::render('frontend/inquirePage', [
             'response' => $product,
         ]);

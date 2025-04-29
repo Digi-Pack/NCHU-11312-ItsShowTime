@@ -1,6 +1,6 @@
 <script setup>
 
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
@@ -46,6 +46,8 @@ onMounted(() => {
 onBeforeUnmount(() => {
     window.removeEventListener('scroll', handleScroll)
 })
+
+
 
 
 const { response } = defineProps({
@@ -167,25 +169,25 @@ const currentProductId = ref(null);
 
 
 const openModal = (productId) => {
-  currentProductId.value = productId;
+    currentProductId.value = productId;
 
-  isMoreOpen.value = true;
-  // 禁用body頁面滾動條
-  if (isMoreOpen.value) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
-  }
+    isMoreOpen.value = true;
+    // 禁用body頁面滾動條
+    if (isMoreOpen.value) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = 'auto';
+    }
 }
 
 const hideModal = () => {
-  isMoreOpen.value = false;
-  document.body.style.overflow = 'auto';
+    isMoreOpen.value = false;
+    document.body.style.overflow = 'auto';
 }
 
 const currentProduct = () => {
-  if (!currentProductId.value) return null;
-  return props.response.find(product => product.id === currentProductId.value) || null;
+    if (!currentProductId.value) return null;
+    return props.response.find(product => product.id === currentProductId.value) || null;
 };
 
 </script>
@@ -272,29 +274,6 @@ const currentProduct = () => {
         <p class="text-white font-noto-jp 2xl:text-[36px] sm:text-[20px] tracking-[-0.08em] py-4 mb-28">詢價清單列表</p>
 
 
-        <!-- 購物車icon -->
-        <div class="md:w-[100px] w-0 fixed top-60 right-2 z-10 cursor-pointer">
-            <div class="relative w-full h-full">
-                <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover">
-                <p class="absolute top-[19px] right-[79px] translate-x-1/2 -translate-y-1/2 
-               md:text-xl text-[0px] font-bold">
-                    1
-                </p>
-            </div>
-        </div>
-
-        <div class="md:w-0 min-[476px]:w-[50px] w-[30px] fixed top-80 left-2 z-10 cursor-pointer">
-            <div class="relative w-full h-full">
-                <img src="/image/svg/shipping-cart-small.svg" class="w-full h-full object-cover">
-                <p
-                    class="absolute top-[-2px] right-[3px] translate-x-1/2 -translate-y-1/2 
-                 md:text-[0px] min-[476px]:font-bold text-white bg-red-600 rounded-full md:w-0 min-[476px]:w-[24px] w-[18px] md:h-0 min-[476px]:h-[24px] h-[18px] flex justify-center items-center">
-                    1
-                </p>
-            </div>
-        </div>
-
-
 
         <!-- 詢價清單列表 -->
         <div class="2xl:w-[1320px] w-[70%] flex items-end mb-6 2xl:px-0 xl:px-1">
@@ -312,38 +291,44 @@ const currentProduct = () => {
 
 
         <!-- min-[956px]以上的選擇規格商品圖 -->
-        <div
+        <div v-if="response && response.length > 0"
             class="flex-col 2xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center 2xl:font-bold font-noto-jp mb-12">
 
-            <div v-if="response" class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
+            <!-- 使用 v-for 遍歷 response 陣列 -->
+            <div v-for="(product, index) in response" :key="product.id"
+                class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
                 <div class="flex 2xl:flex-1 items-center ml-4">
+                    <!-- 顯示商品圖片 -->
                     <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
-                        <img class="rounded-tl-2xl rounded-tr-2xl" :src="response.img_url" alt="Product Image">
+                        <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_url" alt="Product Image">
                     </div>
+                    <!-- 顯示商品名稱 -->
                     <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">{{
-                        response.name }}</p>
+                        product.name }}</p>
                 </div>
                 <div class="xl:w-[300px] w-[240px] flex justify-center">
                     <p
                         class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer">
-                        規格選擇</p>
+                        規格選擇
+                    </p>
                 </div>
-                <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">{{ response.price }}
+                <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">
+                    ${{ product.price }}
                 </p>
                 <div class="xl:w-[200px] w-[120px] flex justify-center xl:mr-2 cursor-pointer">
                     <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
                 </div>
             </div>
 
-
             <!-- min-[956px]以下才出現的選擇規格商品圖 -->
-            <div
-                class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden">
-                <img class="rounded-tl-2xl rounded-tr-2xl w-full" src="/image/4-1.webp" alt="">
+        <div class="flex flex-wrap">
+            <div v-for="(product, index) in response" :key="product.id"
+                class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
+                <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.img_url" alt="Product Image">
 
                 <div class="flex flex-col gap-2 px-2 pb-4">
                     <p class="text-left font-noto-jp text-white leading-[1.2]">
-                        IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨
+                        {{ product.name }}
                     </p>
                 </div>
                 <div
@@ -353,30 +338,10 @@ const currentProduct = () => {
                     </button>
                 </div>
             </div>
-
-
-            <!-- 
-            <div class="w-full flex border-t-2 border-[#F0BD22]">
-                <div class="w-full flex items-center my-10">
-                    <div class="flex flex-1 items-center ml-4">
-                        <div class="w-[125.07px] mr-8">
-                            <img class="rounded-tl-2xl rounded-tr-2xl" src="/image/4-1.webp" alt="">
-                        </div>
-                        <p class="w-[394px] text-[20px] text-white">【IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨</p>
-                    </div>
-                    <div class="w-[300px] flex justify-center">
-                        <p
-                            class="w-[146px] text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer">
-                            規格選擇</p>
-                    </div>
-                    <p class="w-[200px] flex justify-center text-[24px] text-white">$300~400</p>
-                    <div class="w-[200px] flex justify-center mr-2 cursor-pointer">
-                        <img class="w-[33px]" src="/image/svg/trash.svg" alt="">
-                    </div>
-                </div>
-            </div> -->
+        </div> 
 
         </div>
+
 
         <!-- 商品項目計數 -->
         <div class="2xl:w-[1399px] w-[70%] flex-col flex items-end mb-60">
@@ -615,5 +580,4 @@ const currentProduct = () => {
 .swiper-slide {
     height: auto;
 }
-
 </style>
