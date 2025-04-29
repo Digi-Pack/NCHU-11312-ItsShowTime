@@ -97,9 +97,9 @@ const handleImageError = (e) => {
 
 // 商品數據
 const product = ref({
-    title: "【IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨",
+    // title: "【IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨",
     description: "台製高質感刺繡頭帶，頭帶約 100*5公分，可客製刺繡，繡出自己的暴走魂",
-    price: "300~400",
+    // price: "300~400",
     colors: ["黑色", "紅色"],
     styles: ["神風", "特攻", "嫉惡", "暴走", "台灣聯合", "客製化"]
 });
@@ -162,16 +162,15 @@ onMounted(() => {
 
 
 // 點擊規格選擇出現選擇商品規格頁面
-const isMoreOpen = ref(false);
+const isFormatOpen = ref(false);
 const currentProductId = ref(null);
-
 
 const openModal = (productId) => {
     currentProductId.value = productId;
 
-    isMoreOpen.value = true;
+    isFormatOpen.value = true;
     // 禁用body頁面滾動條
-    if (isMoreOpen.value) {
+    if (isFormatOpen.value) {
         document.body.style.overflow = 'hidden';
     } else {
         document.body.style.overflow = 'auto';
@@ -179,7 +178,7 @@ const openModal = (productId) => {
 }
 
 const hideModal = () => {
-    isMoreOpen.value = false;
+    isFormatOpen.value = false;
     document.body.style.overflow = 'auto';
 }
 
@@ -187,6 +186,7 @@ const currentProduct = () => {
     if (!currentProductId.value) return null;
     return props.response.find(product => product.id === currentProductId.value) || null;
 };
+
 
 </script>
 
@@ -305,10 +305,10 @@ const currentProduct = () => {
                         product.name }}</p>
                 </div>
                 <div class="xl:w-[300px] w-[240px] flex justify-center">
-                    <p
-                        class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer">
+                    <button type="button"
+                        class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer" @click="openModal(product.id); ShoppingCartData(product.id)" >
                         規格選擇
-                    </p>
+                    </button>
                 </div>
                 <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">
                     ${{ product.price }}
@@ -331,7 +331,7 @@ const currentProduct = () => {
                 </div>
                 <div
                     class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-10 pb-16">
-                    <button class="border-[#F0BD22] border-2 text-[#F0BD22] px-6 py-2 rounded-md ">
+                    <button class="border-[#F0BD22] border-2 text-[#F0BD22] px-6 py-2 rounded-md" @click="openModal(product.id)">
                         規格
                     </button>
                 </div>
@@ -348,36 +348,50 @@ const currentProduct = () => {
         </div>
 
         <!-- 選擇商品規格 -->
-        <div class="relative w-full min-h-screen flex justify-center items-center bg-black/50 p-4">
-            <div class="text-white p-4 md:p-20 w-full lg:w-[80%] bg-black rounded-xl">
-                <div class="text-xl mb-4">商品介紹</div>
-                <div class="flex flex-col juscenter items-center xl:flex-row gap-20">
+        <div v-show="isFormatOpen"
+            class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
+            @click="hideModal">
+            <div class="relative text-white p-4 md:p-20 w-full lg:w-[80%] h-[80%] bg-black rounded-xl overflow-y-auto xl:overflow-hidden" @click.stop>
+                <button type="button" class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2 mb-7"
+                    @click="hideModal">
+                    <i class="fa-solid fa-xmark text-5xl"></i>
+                </button>
+                <div class="text-xl mb-4 mt-8 md:mt-auto">商品介紹</div>
+                <div class="flex flex-col juscenter items-center xl:flex-row gap-20 xl:gap-28 2xl:gap-20">
                     <!-- 左側圖片展示區 -->
                     <div class="w-full lg:w-1/2">
                         <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
                             <!-- 主圖輪播 -->
                             <div class="max-h-[250px] md:max-h-[400px] lg:max-h-[500px] order-1 md:order-2">
-                                <Swiper :modules="[FreeMode, Navigation, Thumbs]" :loop="true" :space-between="10"
-                                    :navigation="false" :thumbs="{ swiper: thumbsSwiper }"
+                                <Swiper 
+                                    :modules="[FreeMode, Navigation, Thumbs]" 
+                                    :loop="true" 
+                                    :space-between="10"
+                                    :navigation="false" 
+                                    :thumbs="{ swiper: thumbsSwiper }"
                                     class="flex-1 aspect-square max-h-[250px] md:max-h-[400px] lg:max-h-[500px] border rounded overflow-hidden"
-                                    @swiper="(swiper) => { mainSwiper = swiper; }" @slideChange="handleSlideChange">
+                                    @swiper="(swiper) => { mainSwiper = swiper; }" 
+                                    @slideChange="handleSlideChange">
                                     <SwiperSlide v-for="(img, i) in images" :key="'main-' + i">
-                                        <img :src="img" @error="handleImageError"
+                                        <img :src="response.img_url" @error="handleImageError"
                                             class="w-full h-full object-cover rounded" loading="lazy" a lt="商品圖片" />
                                     </SwiperSlide>
                                 </Swiper>
                             </div>
                             <!-- 縮圖垂直排列在左側 -->
                             <div class="flex flex-col justify-center order-2 md:order-1">
-                                <Swiper :loop="true" :modules="[FreeMode, Thumbs]"
+                                <Swiper 
+                                    :loop="true" :modules="[FreeMode, Thumbs]"
                                     :direction="screenWidth < 768 ? 'horizontal' : 'vertical'"
-                                    :slides-per-view="screenWidth < 768 ? 4 : 5" :space-between="10" :free-mode="true"
+                                    :slides-per-view="screenWidth < 768 ? 4 : 5" 
+                                    :space-between="10" 
+                                    :free-mode="true"
                                     watch-slides-progress
                                     class="w-60 h-15 md:w-20 md:h-full max-h-[250px] md:max-h-[400px] lg:max-h-[500px]"
                                     @swiper="(swiper) => thumbsSwiper = swiper">
                                     <SwiperSlide class="h-16" v-for="(img, i) in images" :key="'thumb-' + i"
                                         @click="setActiveThumb(i)">
-                                        <img :src="img" @error="handleImageError"
+                                        <img :src="response.img_url" @error="handleImageError"
                                             class="w-full h-full object-cover cursor-pointer rounded border"
                                             :class="{ 'border-yellow-400 border-2': i === thumbsIndex }" loading="lazy"
                                             alt="商品縮圖" />
@@ -388,10 +402,10 @@ const currentProduct = () => {
                     </div>
                     <!-- 右側商品資訊 -->
                     <div class="w-full lg:w-1/2 flex flex-col gap-6">
-                        <div class="text-xl font-medium">{{ product.title }}</div>
+                        <div class="text-xl font-medium">{{ response.name }}</div>
                         <hr class="border">
                         <div>{{ product.description }}</div>
-                        <div class="text-2xl text-[#C89E51] font-bold">${{ product.price }}</div>
+                        <div class="text-2xl text-[#C89E51] font-bold">${{ response.price }}</div>
 
                         <!-- 顏色選擇 -->
                         <div class="flex items-center gap-6">
@@ -444,7 +458,7 @@ const currentProduct = () => {
                             <button type="button"
                                 class="py-2 px-6 border rounded-xl flex items-center gap-2 hover:bg-gray-700 transition-colors"
                                 @click="addToCart">
-                                <img class="size-[30px]" src="image/svg/ShoppingCartIcon.svg" alt="">
+                                <img class="size-[30px]" src="/image/svg/ShoppingCartIcon.svg" alt="">
                                 <span class="text-lg">加入購物車</span>
                             </button>
                         </div>
