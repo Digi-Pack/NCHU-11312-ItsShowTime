@@ -324,8 +324,8 @@ const currentProduct = () => {
                         response.name }}</p>
                 </div>
                 <div class="xl:w-[300px] w-[240px] flex justify-center">
-                    <p v-show="isMoreOpen"
-                        class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer" @click="hideModal">
+                    <p
+                        class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer">
                         規格選擇</p>
                 </div>
                 <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">{{ response.price }}
