@@ -12,8 +12,13 @@ use App\Http\Controllers\Frontend\ItsshowtimeController;
 
 
 Route::get('/', function () {
-    return redirect('/home');
-});
+    return Inertia::render('Welcome');
+})->name('home');
+
+
+// Route::get('/', function () {
+//     return redirect('/home');
+// });
 
 // 首頁
 Route::get('/home', function () {
@@ -33,16 +38,12 @@ Route::get('/home', function () {
 Route::get('/inquire/{id}', [ItsshowtimeController::class, 'inquire'])->name('inquirePage');
 
 
-
-
 // 後台頁
 Route::get('/backend', function () {
     return Inertia::render('backend/homePage');
 })->name('backend.home');
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome');
-// })->name('home');
+
 
 Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
