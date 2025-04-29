@@ -230,21 +230,27 @@ const isMoreOpen = ref(false);
 const currentProductId = ref(null);
 
 
+let scrollPosition = 0;
 const openModal = (productId) => {
   currentProductId.value = productId;
 
   isMoreOpen.value = true;
   // 禁用body頁面滾動條
-  if (isMoreOpen.value) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
-  }
+  scrollPosition = window.pageYOffset;
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollPosition}px`;
+  // document.body.style.width = '100%';
 }
 
 const hideModal = () => {
   isMoreOpen.value = false;
   document.body.style.overflow = 'auto';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  // document.body.style.width = '';
+
+  window.scrollTo(0, scrollPosition);
 }
 
 const currentProduct = () => {
@@ -297,7 +303,7 @@ const currentProduct = () => {
             <button type="button"
               :class="[isFixed ? 'w-9 h-9 flex min-[1201px]:hidden justify-center items-center cursor-pointer p-6 hover:bg-slate-100' : 'hidden']"
               @click="toggleMenu">
-              <i :class="[isOpen ? 'fa-xmark text-4xl' : 'fa-bars text-3xl']" class="fa-solid fa-bars text-3xl"></i>
+              <i :class="[isOpen ? 'fa-xmark text-4xl' : 'fa-bars text-3xl']" class="fa-solid"></i>
             </button>
             <!-- menu -->
             <div :class="[isFixed ? ' ' : 'flex flex-col gap-4']">
@@ -633,12 +639,16 @@ const currentProduct = () => {
     </div>
   </div>
   <!-- 下單購買 點擊MORE相關資訊 -->
-  <div v-show="isMoreOpen" class=" w-full h-dvh fixed bg-black/50 inset-0 z-50 overflow-y-auto py-8" @click="hideModal"
+  <div v-show="isMoreOpen" class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12" @click="hideModal"
     :keyup.enter="hideModal">
-    <div class="more-container relative min-[1200px]:w-[1110px] w-[97%] bg-[#2F2F2F] text-white mx-auto mt-8 z-50"
+    <div class="more-container relative min-[1200px]:w-[1110px] w-[97%] overflow-y-auto h-full bg-[#2F2F2F] text-white mx-auto z-50"
       @click.stop>
+      <button type="button" class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2"
+        @click="hideModal">
+        <i class="fa-solid fa-xmark text-5xl"></i>
+      </button>
       <!-- 商品介紹 -->
-      <div class="w-full min-[641px]:px-16 px-4 py-12">
+      <div class="w-full min-[641px]:px-16 px-4 py-12 ">
         <p class="text-2xl font-semibold mb-10">商品介紹</p>
         <div class="flex items-center min-[1150px]:flex-nowrap flex-wrap min-[641px]:gap-6 gap-4">
           <div
@@ -661,7 +671,7 @@ const currentProduct = () => {
               </swiper-slide>
             </swiper>
             <!-- 大圖 -->
-            <swiper :loop="true" :pagination="{
+            <swiper :loop="true" :spaceBetween="5" :pagination="{
               type: 'fraction',
             }" :navigation="true" :thumbs="{ swiper: thumbsSwiper2 }" :modules="modules"
               class="mySwiper2 min-[769px]:order-1 order-0">
@@ -717,7 +727,6 @@ const currentProduct = () => {
                 <p>時隨地簡單暴走中</p>
               </div>
             </div>
-
             <div class="flex justify-end">
               <Link :href="`/inquire/${currentProduct()?.id}`"
                 class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
@@ -729,7 +738,6 @@ const currentProduct = () => {
           </div>
         </div>
       </div>
-
       <!-- 推薦商品 -->
       <div class="w-full py-12">
         <p class="text-2xl font-semibold border-b-2 border-white min-[641px]:mx-16 mx-4 pb-6 mb-10">推薦商品</p>
@@ -1157,8 +1165,9 @@ button {
   text-shadow: 5px 5px 10px black;
 }
 
-.product-swiper .swiper-button-prev:hover,
-.product-swiper .swiper-button-next:hover {
+/* 箭頭 hover 效果 */
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
   transform: scale(1.1);
   transition: transform 0.1s linear;
 }
@@ -1190,8 +1199,6 @@ button {
 
 .more-container .mySwiper2 .swiper-slide img {
   border-radius: 5px;
-  object-fit: cover;
-  object-position: center;
 }
 
 .more-container .mySwiper {
@@ -1221,8 +1228,6 @@ button {
 .more-container .mySwiper .swiper-slide img {
   width: 100px;
   aspect-ratio: 1;
-  object-fit: cover;
-  object-position: center;
   border-radius: 3px;
 }
 
@@ -1308,12 +1313,6 @@ button {
   font-size: 40px;
   font-weight: 900;
   color: white;
-}
-
-.more-container .product-swiper .swiper-button-prev:hover,
-.more-container .product-swiper .swiper-button-next:hover {
-  transform: scale(1.1);
-  transition: transform 0.1s linear;
 }
 
 /* 暴走族特工服風格滾動條 - 黑紅配色 */
