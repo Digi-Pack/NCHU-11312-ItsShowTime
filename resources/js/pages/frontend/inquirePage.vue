@@ -48,14 +48,12 @@ onBeforeUnmount(() => {
 })
 
 
-
-
+// 把下單購買資料帶入
 const { response } = defineProps({
     response: Array | Object,
 })
 
 console.log(response);
-
 
 
 // 初始化縮圖輪播控制器

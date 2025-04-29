@@ -261,28 +261,71 @@ const currentProduct = () => {
 };
 
 
-
-// 儲存商品ID的陣列
+// 新增商品ID到購物車
 const productIds = ref([]);
 
-// 新增商品ID到productIds列表
+// const addProductId = (productId) => {
+//   if (productIds.value.includes(productId)) {
+//     alert(`您已將商品ID ${productId} 加入過購物車!`);
+//     return;
+//   }
+
+//   const product = currentProduct(productId);
+//   if (product) {
+//     productIds.value.push(product.id);
+//     inquiryCount.value++;
+//     console.log(`商品ID ${product.id} 已加入詢價`);
+//   } else {
+//     alert('商品ID無效或未找到商品');
+//   }
+// };
+
 const addProductId = (productId) => {
+  if (productIds.value.includes(productId)) {
+    alert(`您已將商品ID ${productId} 加入過購物車!`);
+    return;
+  }
+
   const product = currentProduct(productId);
   if (product) {
-    productIds.value.push(product.id);
+    productIds.value.push(productId);
+    inquiryCount.value++;
     console.log(`商品ID ${product.id} 已加入詢價`);
   } else {
-    console.log('商品ID無效或未找到商品');
+    alert('商品ID無效或未找到商品');
   }
 };
 
+
 const inquiryCount = computed(() => productIds.value.length)
-const gotoinquire =(ids)=> {
-  const data = {'id': ids,};
+const gotoinquire = (ids) => {
+  const data = { 'id': ids, };
   console.log(data);
-  
+  // if (productIds.value.length === 0) {
+  //   alert("您的購物車是空的，請先添加商品！");
+  // } else {
   router.get(route('inquirePage'), data);
+  // }
+
 };
+
+
+// 偵測螢幕寬度變化並更新購物車顯示
+const isLargeScreen = ref(windowWidth.value >= 769);
+
+const shippingCartsize = () => {
+  windowWidth.value = window.innerWidth;
+  isLargeScreen.value = windowWidth.value >= 769;
+};
+
+onMounted(() => {
+  window.addEventListener('resize', shippingCartsize);
+});
+
+// 移除監聽器
+onUnmounted(() => {
+  window.removeEventListener('resize', shippingCartsize);
+});
 
 </script>
 
@@ -756,21 +799,10 @@ const gotoinquire =(ids)=> {
             <div class="flex justify-end">
 
               <button type="button" class="border border-white rounded-[18px] flex items-center gap-2 px-10 py-3"
-                @click="addProductId(2)"> <!-- 假設預設商品ID是2 -->
+                @click="addProductId(2)">
                 <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="" />
                 <p class="text-white text-2xl font-bold">加入詢價</p>
               </button>
-
-              <!-- <Link :href="`/inquire/${currentProduct()?.id}`"
-                class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
-              <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
-              <p class="text-white text-2xl font-bold">加入詢價</p>
-              </Link> -->
-              <h3>商品ID列表:</h3>
-              <ul>
-                <li v-for="(id, index) in productIds" :key="index">{{ id }}</li>
-              </ul>
-
 
             </div>
           </div>
@@ -818,40 +850,29 @@ const gotoinquire =(ids)=> {
     </div>
   </div>
 
-  <!-- 購物車icon -->
-  <!-- <Link :href="`/inquire/${currentProduct()?.id}`" class="md:w-[100px] w-0 fixed top-60 right-2 z-10 cursor-pointer">
-  <div class="relative w-full h-full">
-    <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover">
-    <p class="absolute top-[19px] right-[79px] translate-x-1/2 -translate-y-1/2 
-               md:text-xl text-[0px] font-bold">
-      1
-    </p>
-  </div>
-  </Link> -->
-  <button type="button" class="md:w-[100px] w-0 fixed top-60 right-2 z-10 cursor-pointer"@click="gotoinquire(productIds)">
-  <div class="relative w-full h-full">
-    <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover">
-    <p class="absolute top-[19px] right-[79px] translate-x-1/2 -translate-y-1/2 
-                   md:text-xl text-[0px] font-bold">
-      {{ inquiryCount }}
-    </p>
-  </div>
+  <!-- 購物車icon -769px以上 -->
+  <button v-if="isLargeScreen" type="button" class="md:w-[100px] w-0 fixed top-60 right-2 z-10 cursor-pointer"
+    @click="gotoinquire(productIds)">
+    <div class="relative w-full h-full">
+      <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover" />
+      <p class="absolute top-[19px] right-[79px] translate-x-1/2 -translate-y-1/2 md:text-xl text-[0px] font-bold">
+        {{ inquiryCount }}
+      </p>
+    </div>
   </button>
 
-
-  <!-- <Link :href="`/inquire/${productIds}`"
-    class="md:w-0 min-[476px]:w-[50px] w-[30px] fixed top-80 left-2 z-10 cursor-pointer">
+  <!-- 購物車icon - 769px以下 -->
+  <Link v-if="!isLargeScreen" :href="route('inquirePage')"
+    class="md:w-0 min-[476px]:w-[50px] w-[30px] fixed top-80 left-2 z-10 cursor-pointer"
+    @click.prevent="gotoinquire(productIds)">
   <div class="relative w-full h-full">
-    <img src="/image/svg/shipping-cart-small.svg" class="w-full h-full object-cover">
+    <img src="/image/svg/shipping-cart-small.svg" class="w-full h-full object-cover" />
     <p
-      class="absolute top-[-2px] right-[3px] translate-x-1/2 -translate-y-1/2 
-                 md:text-[0px] min-[476px]:font-bold text-white bg-red-600 rounded-full md:w-0 min-[476px]:w-[24px] w-[18px] md:h-0 min-[476px]:h-[24px] h-[18px] flex justify-center items-center">
+      class="absolute top-[-2px] right-[3px] translate-x-1/2 -translate-y-1/2 md:text-[0px] min-[476px]:font-bold text-white bg-red-600 rounded-full md:w-0 min-[476px]:w-[24px] w-[18px] md:h-0 min-[476px]:h-[24px] h-[18px] flex justify-center items-center">
       {{ inquiryCount }}
     </p>
   </div>
-  </Link> -->
-
-
+  </Link>
 
 
 
