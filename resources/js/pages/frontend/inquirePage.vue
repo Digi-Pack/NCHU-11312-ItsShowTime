@@ -189,9 +189,21 @@ const currentProduct = () => {
     return props.response.find(product => product.id === currentProductId.value) || null;
 };
 
+// 全部刪除
+const clearAllBtn = () => {
+    response.length = 0;
+    //   emit('update:response', response); // 通知父組件清空資料
+};
 
 
-
+// 刪除個別資料(垃圾桶)
+const deleteProduct = (productId) => {
+    const index = response.findIndex(product => product.id === productId);
+    if (index !== -1) {
+        response.splice(index, 1);
+        // emit('update:response', response);  // 通知父組件更新資料
+    }
+};
 
 </script>
 
@@ -287,17 +299,18 @@ const currentProduct = () => {
                 規格</p>
             <p class="xl:w-[160px] w-[100px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
                 金額</p>
-            <p class="xl:w-[141px] font-noto-jp font-bold xl:text-[24px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[2px] py-4 px-4 cursor-pointer text-nowrap"
-                @click="deleteProduct(product.id)">
-                全部刪除</p>
+            <button type="button"
+                class="xl:w-[141px] font-noto-jp font-bold xl:text-[24px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[2px] py-4 px-4 cursor-pointer text-nowrap"
+                @click="clearAllBtn">
+                全部刪除</button>
         </div>
 
 
         <!-- min-[956px]以上的選擇規格商品圖 -->
-        <div v-if="response && response.length > 0"
+        <div
             class="flex-col 2xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center 2xl:font-bold font-noto-jp mb-12">
 
-            <div v-for="(product, index) in response" :key="product.id"
+            <div v-for="(product, index) in response" :key="product.id" v-if="response && response.length > 0"
                 class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
                 <div class="flex 2xl:flex-1 items-center ml-4">
                     <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
@@ -316,9 +329,10 @@ const currentProduct = () => {
                 <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">
                     ${{ product.price }}
                 </p>
-                <div class="xl:w-[200px] w-[120px] flex justify-center xl:mr-2 cursor-pointer">
+                <button type="button" class="xl:w-[200px] w-[120px] flex justify-center xl:mr-2 cursor-pointer"
+                    @click="deleteProduct(product.id)">
                     <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
-                </div>
+                </button>
             </div>
 
             <!-- min-[956px]以下才出現的選擇規格商品圖 -->
