@@ -161,7 +161,7 @@ onMounted(() => {
 
 
 
-// 點擊MORE出現更多資訊頁面
+// 點擊規格選擇出現選擇商品規格頁面
 const isMoreOpen = ref(false);
 const currentProductId = ref(null);
 
