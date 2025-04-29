@@ -1,6 +1,6 @@
 <script setup>
-
 import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
+import { Link, router } from '@inertiajs/vue3'
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
@@ -19,10 +19,10 @@ const toggleMenu = () => {
 }
 
 
-// nav menu links
+// nav
 const menuItems = [
-    { id: 'portfolio', name: '作品集', href: '#portfolio' },
     { id: 'about', name: '品牌理念', href: '#about' },
+    { id: 'portfolio', name: '作品集', href: '#portfolio' },
     { id: 'method', name: '製作方式', href: '#method' },
     { id: 'product', name: '商品列表', href: '#product' },
     { id: 'contact', name: '聯絡方式', href: '#contact' },
@@ -196,7 +196,7 @@ const clearAllBtn = () => {
 };
 
 
-// 刪除個別資料(垃圾桶)
+// 刪除個別資料(垃圾桶icon)
 const deleteProduct = (productId) => {
     const index = response.findIndex(product => product.id === productId);
     if (index !== -1) {
@@ -204,6 +204,14 @@ const deleteProduct = (productId) => {
         // emit('update:response', response);  // 通知父組件更新資料
     }
 };
+
+// nav跳轉(未完成)跳轉
+const goHome = () => {
+  router.push('/home');
+};
+
+
+
 
 </script>
 
@@ -252,28 +260,13 @@ const deleteProduct = (productId) => {
                 <img src="/image/LOGO-底部有字.webp" class="w-full h-full object-cover">
             </div>
             <img src="/image/svg/Menu.svg" class="w-full h-full object-cover mb-4">
-
             <div class="gap-6">
-                <a href="#about" class="flex items-center gap-[9px]">
-                    <p class="font-normal leading-[1.8]">品牌理念</p>
+                <button type="button" v-for="item in menuItems" :key="item.id" :href="item.href" class="flex items-center gap-[9px]" @click="goHome">
+                    <p class="font-normal leading-[1.8]">{{ item.name }}</p>
                     <img src="/image/svg/Arrow.svg" alt="">
-                </a>
-                <a href="#portfolio" class="flex items-center gap-[9px]">
-                    <p class="font-normal leading-[1.8]">作品集</p>
-                    <img src="/image/svg/Arrow.svg" alt="">
-                </a>
-                <a href="#method" class="flex items-center gap-[9px]">
-                    <p class="font-normal leading-[1.8]">製作方式</p>
-                    <img src="/image/svg/Arrow.svg" alt="">
-                </a>
-                <a href="#product" class="flex items-center gap-[9px]">
-                    <p class="font-normal leading-[1.8]">商品列表</p>
-                    <img src="/image/svg/Arrow.svg" alt="">
-                </a>
-                <a href="#contact" class="flex items-center gap-[9px]">
-                    <p class="font-normal leading-[1.8]">聯絡方式</p>
-                    <img src="/image/svg/Arrow.svg" alt="">
-                </a>
+                </button>
+
+
             </div>
         </nav>
 

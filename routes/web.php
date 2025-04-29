@@ -6,11 +6,6 @@ use App\Models\Product;
 use App\Http\Controllers\Frontend\ItsshowtimeController;
 
 
-
-// Route::get('/inquire/{id}', [ItsshowtimeController::class, 'inquire'])->name('inquire');
-
-
-
 Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
