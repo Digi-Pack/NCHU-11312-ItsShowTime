@@ -25,12 +25,12 @@ Route::get('/home', function () {
 
 
 // 詢價頁
-Route::get('/inquire', function () {
-    return Inertia::render('frontend/inquirePage');
-})->name('inquire');
+// Route::get('/inquire', function () {
+//     return Inertia::render('frontend/inquirePage');
+// })->name('inquire');
 
 
-// Route::get('/inquire/{id}', [ItsshowtimeController::class, 'inquire'])->name('inquirePage');
+Route::get('/inquire/{id}', [ItsshowtimeController::class, 'inquire'])->name('inquirePage');
 
 
 

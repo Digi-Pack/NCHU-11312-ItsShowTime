@@ -13,14 +13,14 @@ class ItsshowtimeController extends Controller
     
 
 
-// public function inquire($id)
-//     {
-//         $product = Product::with(['products'])->find($id);
+public function inquire($id)
+    {
+        $product = Product::select()->find($id);
 
-//         return Inertia::render('frontend/inquirePage', [
-//             'response' => $product,
-//         ]);
-//     }
+        return Inertia::render('frontend/inquirePage', [
+            'response' => $product,
+        ]);
+    }
 
 
     

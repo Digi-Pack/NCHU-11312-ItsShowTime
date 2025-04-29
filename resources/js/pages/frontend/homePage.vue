@@ -252,12 +252,6 @@ const currentProduct = () => {
   return props.response.find(product => product.id === currentProductId.value) || null;
 };
 
-// const inquireBtn = ($id) => {
-//   router.get(route('inquirePage', { id: $id }));
-// }
-
-
-
 
 </script>
 
@@ -597,7 +591,7 @@ const currentProduct = () => {
                 <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_url" alt="">
                 <div class="flex flex-col gap-2 px-2">
                   <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
-                    {{ product.name }}
+                    {{ product.name }} 
                   </p>
                   <p
                     class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
@@ -725,23 +719,11 @@ const currentProduct = () => {
             </div>
 
             <div class="flex justify-end">
-
-            
-               
-              <!-- <Link type="button" @click="inquireBtn(id)"
-                class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
-              <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
-              <p class="text-white text-2xl font-bold">加入詢價</p>
-              </Link> -->
-
-
-              
-              <Link :href="route('inquire')"
+              <Link :href="`/inquire/${currentProduct()?.id}`"
                 class=" border border-white rounded-[18px] flex items-center gap-2 px-10 py-3">
               <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="">
               <p class="text-white text-2xl font-bold">加入詢價</p>
               </Link>
-
 
             </div>
           </div>
