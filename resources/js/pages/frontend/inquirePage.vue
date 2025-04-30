@@ -54,13 +54,12 @@ const { response } = defineProps({
 })
 console.log(response);
 
-
 // 商品總計
 const productCount = computed(() => response.length);
 
 
 // 初始化縮圖輪播控制器
-const thumbsSwiper = ref(null);
+// const thumbsSwiper = ref(null);
 const thumbsIndex = ref(0);
 
 // 當前縮圖index
@@ -177,11 +176,13 @@ const openModal = (productId) => {
     } else {
         document.body.style.overflow = 'auto';
     }
+
 }
 
 const hideModal = () => {
     isFormatOpen.value = false;
     document.body.style.overflow = 'auto';
+    currentProductId.value = null;
 }
 
 const currentProduct = () => {
@@ -210,8 +211,24 @@ const goHome = () => {
   router.push('/home');
 };
 
+const currentItem = computed(() => {
+  const id = currentProductId.value;
+  const item = response.find(item => item.id === id);
+  console.log(item);
+  return item || null;
+});
+
+const rawThumbsSwiper = ref(null);
 
 
+// 確保 thumbsSwiper 這個 Swiper 實例目前是有效存在的、而且尚未被銷毀
+// 如果使用v-if或是重新渲染元件的話 swiper可能會自動銷毀，
+// 當使用者把已被銷毀的 swiper 實例傳進主 Swiper 的 thumbs.swiper時候就有可能會報錯
+const thumbsSwiper = computed(() => {
+  return rawThumbsSwiper.value && !rawThumbsSwiper.value.destroyed
+    ? rawThumbsSwiper.value
+    : null;
+});
 
 </script>
 
@@ -315,7 +332,7 @@ const goHome = () => {
                 <div class="xl:w-[300px] w-[240px] flex justify-center">
                     <button type="button"
                         class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer"
-                        @click="openModal(product.id); ShoppingCartData(product.id)">
+                        @click="openModal(product.id)">
                         規格選擇
                     </button>
                 </div>
@@ -359,7 +376,7 @@ const goHome = () => {
         </div>
 
         <!-- 選擇商品規格 -->
-        <div v-show="isFormatOpen"
+        <div v-if="isFormatOpen && currentItem"
             class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
             @click="hideModal">
             <div class="relative text-white p-4 md:p-20 w-full lg:w-[80%] h-[80%] bg-black rounded-xl overflow-y-auto xl:overflow-hidden"
@@ -381,7 +398,7 @@ const goHome = () => {
                                     class="flex-1 aspect-square max-h-[250px] md:max-h-[400px] lg:max-h-[500px] border rounded overflow-hidden"
                                     @swiper="(swiper) => { mainSwiper = swiper; }" @slideChange="handleSlideChange">
                                     <SwiperSlide v-for="(img, i) in images" :key="'main-' + i">
-                                        <img :src="response.img_url" @error="handleImageError"
+                                        <img :src="currentItem.img_url" @error="handleImageError"
                                             class="w-full h-full object-cover rounded" loading="lazy" a lt="商品圖片" />
                                     </SwiperSlide>
                                 </Swiper>
@@ -393,10 +410,10 @@ const goHome = () => {
                                     :slides-per-view="screenWidth < 768 ? 4 : 5" :space-between="10" :free-mode="true"
                                     watch-slides-progress
                                     class="w-60 h-15 md:w-20 md:h-full max-h-[250px] md:max-h-[400px] lg:max-h-[500px]"
-                                    @swiper="(swiper) => thumbsSwiper = swiper">
+                                    @swiper="(swiper) => rawThumbsSwiper = swiper">
                                     <SwiperSlide class="h-16" v-for="(img, i) in images" :key="'thumb-' + i"
                                         @click="setActiveThumb(i)">
-                                        <img :src="response.img_url" @error="handleImageError"
+                                        <img :src="currentItem.img_url" @error="handleImageError"
                                             class="w-full h-full object-cover cursor-pointer rounded border"
                                             :class="{ 'border-yellow-400 border-2': i === thumbsIndex }" loading="lazy"
                                             alt="商品縮圖" />
@@ -407,10 +424,10 @@ const goHome = () => {
                     </div>
                     <!-- 右側商品資訊 -->
                     <div class="w-full lg:w-1/2 flex flex-col gap-6">
-                        <div class="text-xl font-medium">{{ response.name }}</div>
+                        <div class="text-xl font-medium">{{ currentItem.name }}</div>
                         <hr class="border">
                         <div>{{ product.description }}</div>
-                        <div class="text-2xl text-[#C89E51] font-bold">${{ response.price }}</div>
+                        <div class="text-2xl text-[#C89E51] font-bold">${{ currentItem.price }}</div>
 
                         <!-- 顏色選擇 -->
                         <div class="flex items-center gap-6">
