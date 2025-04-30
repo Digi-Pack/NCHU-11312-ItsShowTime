@@ -21,11 +21,11 @@ const toggleMenu = () => {
 
 // nav
 const menuItems = [
-    { id: 'about', name: '品牌理念', href: '#about' },
-    { id: 'portfolio', name: '作品集', href: '#portfolio' },
-    { id: 'method', name: '製作方式', href: '#method' },
-    { id: 'product', name: '商品列表', href: '#product' },
-    { id: 'contact', name: '聯絡方式', href: '#contact' },
+    { id: 'about', name: '品牌理念' },
+    { id: 'portfolio', name: '作品集' },
+    { id: 'method', name: '製作方式' },
+    { id: 'product', name: '商品列表' },
+    { id: 'contact', name: '聯絡方式' },
 ]
 
 
@@ -243,11 +243,11 @@ const goHome = () => {
                         'flex flex-col justify-center gap-6 p-8 overflow-y-auto',
                         isOpen ? 'flex' : 'hidden'
                     ]">
-                        <a v-for="item in menuItems" :key="item.id" :href="item.href" @click="toggleMenu"
+                        <Link :href="route('home')" v-for="item in menuItems" :key="item.id" @click="toggleMenu"
                             class="flex items-center gap-[9px] text-xl ">
                             <img src="/image/svg/Arrow 2.svg" alt="" />
                             <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
-                        </a>
+                        </Link>
                     </div>
                 </nav>
             </div>
@@ -261,10 +261,10 @@ const goHome = () => {
             </div>
             <img src="/image/svg/Menu.svg" class="w-full h-full object-cover mb-4">
             <div class="gap-6">
-                <button type="button" v-for="item in menuItems" :key="item.id" :href="item.href" class="flex items-center gap-[9px]" @click="goHome">
+                <Link :href="route('home')" v-for="item in menuItems" :key="item.id" class="flex items-center gap-[9px]" @click="goHome">
                     <p class="font-normal leading-[1.8]">{{ item.name }}</p>
                     <img src="/image/svg/Arrow.svg" alt="">
-                </button>
+                </Link>
 
 
             </div>

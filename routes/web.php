@@ -6,9 +6,9 @@ use App\Models\Product;
 use App\Http\Controllers\Frontend\ItsshowtimeController;
 
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-})->name('home');
+// Route::get('/', function () {
+//     return Inertia::render('Welcome');
+// })->name('home');
 
 
 // Route::get('/', function () {
@@ -16,12 +16,19 @@ Route::get('/', function () {
 // });
 
 // 首頁
-Route::get('/home', function () {
+// Route::get('/home', function () {
+//     $products = Product::all();
+//     return Inertia::render('frontend/homePage', [
+//         'response' => $products,
+//     ]);
+// });
+
+Route::get('/', function () {
     $products = Product::all();
     return Inertia::render('frontend/homePage', [
         'response' => $products,
     ]);
-});
+})->name('home');
 
 
 // 詢價頁
