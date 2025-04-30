@@ -288,17 +288,16 @@ const addProductId = (productId) => {
 
 // 點選購物車跳轉至詢價頁
 const gotoinquire = (ids) => {
-  if (productIds.value.length === 0) {
+  if (!ids || ids.length === 0) {
+    // !ids-> 防止傳進來的是 undefined 或 null(確保空陣列也會被擋下)
     alert('您尚未添加任何商品，無法進入詢價頁面');
-    return;  // 讓頁面不跳轉
+    return;
   }
 
-  const data = { 'id': ids };
+  const data = { id: ids };
   // console.log(data);
-
   router.get(route('inquirePage'), data);
 };
-
 
 
 // 偵測螢幕寬度變化並更新購物車顯示
@@ -848,8 +847,8 @@ onUnmounted(() => {
   </div>
 
   <!-- 購物車icon -769px以上 -->
-  <button v-if="isLargeScreen" type="button" class="w-[100px] fixed top-60 right-2 z-10 cursor-pointer"
-    @click="gotoinquire(productIds)">
+  <button v-if="isLargeScreen && inquiryCount > 0" type="button"
+    class="w-[100px] fixed top-60 right-2 z-10 cursor-pointer" @click="gotoinquire(productIds)">
     <div class="relative w-full h-full">
       <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover" />
       <p class="absolute top-[19px] right-[79px] translate-x-1/2 -translate-y-1/2 md:text-xl text-[0px] font-bold">
@@ -858,9 +857,10 @@ onUnmounted(() => {
     </div>
   </button>
 
+
   <!-- 購物車icon - 769px以下 -->
-  <Link v-if="!isLargeScreen" :href="route('inquirePage')" class="w-[50px] fixed top-80 left-2 z-10 cursor-pointer"
-    @click="gotoinquire(productIds)">
+  <Link v-if="!isLargeScreen && inquiryCount > 0" :href="route('inquirePage')"
+    class="w-[50px] fixed top-80 left-2 z-10 cursor-pointer" @click="gotoinquire(productIds)">
   <div class="relative w-full h-full">
     <img src="/image/svg/shipping-cart-small.svg" class="w-full h-full object-cover" />
     <p
