@@ -1,9 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Mail\TestMail;
+use App\Models\Banner;
 use App\Models\Product;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\ItsshowtimeController;
+
 
 
 // Route::get('/', function () {
@@ -54,4 +59,17 @@ Route::get('dashboard', function () {
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
 // require __DIR__.'/frontend.php';
-// require __DIR__.'/backend.php';
+require __DIR__.'/backend.php';
+
+
+
+
+
+// 寄信測試
+Route::get('/sendEmail', function () {
+    $testData = [
+        'name'=>'測試成功',
+    ];
+    // dd($testData);
+    Mail::to('babyangelababy0405@gmail.com')->send(new TestMail($testData));
+});
