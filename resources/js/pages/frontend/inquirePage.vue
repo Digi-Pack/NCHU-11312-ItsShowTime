@@ -207,6 +207,7 @@ const deleteProduct = (productId) => {
 };
 
 
+
 // nav跳轉(未完成)跳轉
 const goHome = () => {
     router.push('/home');
@@ -326,8 +327,6 @@ const getQuantity = (productId) => {
                             class="flex items-center gap-[9px] text-xl ">
                         <img src="/image/svg/Arrow 2.svg" alt="" />
                         <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
-                        <img src="/image/svg/Arrow 2.svg" alt="" />
-                        <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
                         </Link>
                     </div>
                 </nav>
@@ -346,15 +345,10 @@ const getQuantity = (productId) => {
                     @click="goHome">
                 <p class="font-normal leading-[1.8]">{{ item.name }}</p>
                 <img src="/image/svg/Arrow.svg" alt="">
-                <Link :href="route('home')" v-for="item in menuItems" :key="item.id" class="flex items-center gap-[9px]"
-                    @click="goHome">
-                <p class="font-normal leading-[1.8]">{{ item.name }}</p>
-                <img src="/image/svg/Arrow.svg" alt="">
                 </Link>
             </div>
         </nav>
-
-
+       
 
         <!-- Banner -->
         <div class="2xl:w-[821.46px] md:w-[45%] w-[80%] mb-12">
