@@ -28,12 +28,15 @@ use App\Http\Controllers\Frontend\ItsshowtimeController;
 //     ]);
 // });
 
-Route::get('/', function () {
-    $products = Product::all();
-    return Inertia::render('frontend/homePage', [
-        'response' => $products,
-    ]);
-})->name('home');
+Route::get('/', [ItsshowtimeController::class, 'index'])->name('home');
+
+// Route::get('/', function () {
+//     $products = Product::all();
+//     return Inertia::render('frontend/homePage', [
+//         'response' => $products,
+//     ]);
+// })->name('home');
+
 
 
 // 詢價頁

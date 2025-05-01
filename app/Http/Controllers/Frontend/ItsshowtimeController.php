@@ -11,11 +11,19 @@ class ItsshowtimeController extends Controller
 
 {
     
+    public function index()
+    {
+        $products = Product::with(['color', 'size', 'type', 'image'])->get();
+    
+        return Inertia::render('frontend/homePage', [
+            'response' => $products,
+        ]);
+    }
+    
 
 
 public function inquire(Request $request)
     {
-
        $id_array = $request->id;
 
         $product = Product::whereIn('id', $id_array)->get();
@@ -25,6 +33,7 @@ public function inquire(Request $request)
         ]);
     }
 
+    
 
     
 }
