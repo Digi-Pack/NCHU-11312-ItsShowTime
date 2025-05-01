@@ -796,17 +796,11 @@ onUnmounted(() => {
             </div>
             <div class="flex justify-end">
 
-              <!-- <button type="button" class="border border-white rounded-[18px] flex items-center gap-2 px-10 py-3"
-                @click="addProductId(productIds)">
-                <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="" />
-                <p class="text-white text-2xl font-bold">加入詢價</p>
-              </button> -->
               <button type="button" class="border border-white rounded-[18px] flex items-center gap-2 px-10 py-3"
                 @click="addProductId(productId)">
                 <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="" />
                 <p class="text-white text-2xl font-bold">加入詢價</p>
               </button>
-
 
             </div>
           </div>

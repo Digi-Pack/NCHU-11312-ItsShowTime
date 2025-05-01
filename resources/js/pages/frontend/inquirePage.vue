@@ -191,10 +191,19 @@ const currentProduct = () => {
 };
 
 // 全部刪除
-const clearAllBtn = () => {
-    response.length = 0;
-    //   emit('update:response', response); // 通知父組件清空資料
-};
+// const clearAllBtn = () => {
+//     response.length = 0;
+//     //   emit('update:response', response); // 通知父組件清空資料
+// };
+// const clearAllBtn = () => {
+//   response.length = 0;
+//   const backHome = window.confirm('您已清除所有資料，是否返回首頁？');
+
+//   if (backHome) {
+//     router.push('/home');
+//   }
+// };
+
 
 
 // 刪除個別資料(垃圾桶icon)
