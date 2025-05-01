@@ -18,7 +18,6 @@ const toggleMenu = () => {
     document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
 }
 
-
 // nav
 const menuItems = [
     { id: 'about', name: '品牌理念' },
@@ -27,7 +26,6 @@ const menuItems = [
     { id: 'product', name: '商品列表' },
     { id: 'contact', name: '聯絡方式' },
 ]
-
 
 const isScrolled = ref(false) // 用來控制是否超過 230px
 
@@ -99,9 +97,7 @@ const handleImageError = (e) => {
 
 // 商品數據
 const product = ref({
-    // title: "【IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨",
     description: "台製高質感刺繡頭帶，頭帶約 100*5公分，可客製刺繡，繡出自己的暴走魂",
-    // price: "300~400",
     colors: ["黑色", "紅色"],
     styles: ["神風", "特攻", "嫉惡", "暴走", "台灣聯合", "客製化"]
 });
@@ -130,17 +126,6 @@ const CalcQuantity = (style) => {
     } else {
         quantity.value++;
     }
-};
-
-// 添加到購物車
-const addToCart = () => {
-    console.log('添加到購物車', {
-        product: product.value.title,
-        color: selectedColor.value,
-        style: selectedStyle.value,
-        quantity: quantity.value
-    });
-    alert('已加入購物車！');
 };
 
 // 記錄螢幕寬度並監控變化
@@ -225,8 +210,10 @@ const deleteProduct = (productId) => {
 // nav跳轉(未完成)跳轉
 const goHome = () => {
     router.push('/home');
+    router.push('/home');
 };
 
+// 列表當中被點選的欄位資料
 const currentItem = computed(() => {
     const id = currentProductId.value;
     const item = response.find(item => item.id === id);
@@ -236,7 +223,6 @@ const currentItem = computed(() => {
 
 const rawThumbsSwiper = ref(null);
 
-
 // 確保 thumbsSwiper 這個 Swiper 實例目前是有效存在的、而且尚未被銷毀
 // 如果使用v-if或是重新渲染元件的話 swiper可能會自動銷毀，
 // 當使用者把已被銷毀的 swiper 實例傳進主 Swiper 的 thumbs.swiper時候就有可能會報錯
@@ -244,7 +230,67 @@ const thumbsSwiper = computed(() => {
     return rawThumbsSwiper.value && !rawThumbsSwiper.value.destroyed
         ? rawThumbsSwiper.value
         : null;
+    return rawThumbsSwiper.value && !rawThumbsSwiper.value.destroyed
+        ? rawThumbsSwiper.value
+        : null;
 });
+
+const updateShoppingCart = ref(null);
+
+// 添加到購物車
+const addToCart = () => {
+    const item = currentItem.value;
+
+    if (!item) {
+        console.log('選擇的商品無效');
+        return;
+    }
+
+    updateShoppingCart.value = ({
+        id: item.id,
+        product: item.name,
+        color: selectedColor.value,
+        style: selectedStyle.value,
+        quantity: quantity.value
+    });
+    
+
+    // 儲存選擇的規格到 selectedSpecs
+    selectedSpecs.value[item.id] = {
+        color: selectedColor.value,
+        style: selectedStyle.value,
+        quantity: quantity.value
+    };
+
+    selectedColor.value = product.value.colors[0];
+    selectedStyle.value = product.value.styles[0];
+    quantity.value = 1;
+
+    alert('已加入購物車！');
+
+    hideModal();
+};
+
+const selectedSpecs = ref({});
+
+
+const test = (productId) => {
+    const spec = selectedSpecs.value[productId];
+    if (spec) {
+        // return `${spec.color} / ${spec.style}`;
+        return {
+            color: spec.color,
+            style: spec.style,
+            quantity: spec.quantity
+        }
+    }
+    return '';
+};
+
+// 取得數量
+const getQuantity = (productId) => {
+  return selectedSpecs.value[productId]?.quantity ?? quantity.value;
+};
 
 </script>
 
@@ -280,6 +326,8 @@ const thumbsSwiper = computed(() => {
                             class="flex items-center gap-[9px] text-xl ">
                         <img src="/image/svg/Arrow 2.svg" alt="" />
                         <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
+                        <img src="/image/svg/Arrow 2.svg" alt="" />
+                        <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
                         </Link>
                     </div>
                 </nav>
@@ -298,9 +346,11 @@ const thumbsSwiper = computed(() => {
                     @click="goHome">
                 <p class="font-normal leading-[1.8]">{{ item.name }}</p>
                 <img src="/image/svg/Arrow.svg" alt="">
+                <Link :href="route('home')" v-for="item in menuItems" :key="item.id" class="flex items-center gap-[9px]"
+                    @click="goHome">
+                <p class="font-normal leading-[1.8]">{{ item.name }}</p>
+                <img src="/image/svg/Arrow.svg" alt="">
                 </Link>
-
-
             </div>
         </nav>
 
@@ -346,15 +396,18 @@ const thumbsSwiper = computed(() => {
                     <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">{{
                         product.name }}</p>
                 </div>
-                <div class="xl:w-[300px] w-[240px] flex justify-center">
+                <div v-if="!selectedSpecs[product.id]" class="xl:w-[300px] w-[240px] flex justify-center">
                     <button type="button"
                         class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer"
                         @click="openModal(product.id)">
                         規格選擇
                     </button>
                 </div>
+                <div v-else class="xl:w-[300px] w-[240px] flex justify-center text-white">
+                    {{ `${ test(product.id).color } / ${ test(product.id).style } / ${ getQuantity(product.id) }件` }}
+                </div>
                 <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">
-                    ${{ product.price }}
+                    ${{ product.price * getQuantity(product.id) }}
                 </p>
                 <button type="button" class="xl:w-[200px] w-[120px] flex justify-center xl:mr-2 cursor-pointer"
                     @click="deleteProduct(product.id)">
@@ -630,5 +683,10 @@ const thumbsSwiper = computed(() => {
 /* 確保垂直輪播正常工作 */
 .swiper-slide {
     height: auto;
+}
+
+.swiper-slide img {
+    height: 100%;
+    object-fit: cover;
 }
 </style>
