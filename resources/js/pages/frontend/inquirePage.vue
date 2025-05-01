@@ -190,20 +190,20 @@ const clearAllBtn = () => {
 
 // 刪除個別資料(垃圾桶icon)
 const deleteProduct = (productId) => {
-  const index = response.findIndex(product => product.id === productId);
+    const index = response.findIndex(product => product.id === productId);
 
-  if (index !== -1) {
-    response.splice(index, 1);
-    
-    if (response.length === 0) {
-      const backHome = window.confirm('您已刪除所有商品，是否返回首頁？');
-      if (backHome) {
-        setTimeout(() => {
-          router.visit(route('home'));
-        }, 500);
-      }
+    if (index !== -1) {
+        response.splice(index, 1);
+
+        if (response.length === 0) {
+            const backHome = window.confirm('您已刪除所有商品，是否返回首頁？');
+            if (backHome) {
+                setTimeout(() => {
+                    router.visit(route('home'));
+                }, 500);
+            }
+        }
     }
-  }
 };
 
 
@@ -254,7 +254,7 @@ const addToCart = () => {
         style: selectedStyle.value,
         quantity: quantity.value
     });
-    
+
 
     // 儲存選擇的規格到 selectedSpecs
     selectedSpecs.value[item.id] = {
@@ -290,7 +290,7 @@ const test = (productId) => {
 
 // 取得數量
 const getQuantity = (productId) => {
-  return selectedSpecs.value[productId]?.quantity ?? quantity.value;
+    return selectedSpecs.value[productId]?.quantity ?? quantity.value;
 };
 
 </script>
@@ -304,13 +304,14 @@ const getQuantity = (productId) => {
             'w-full flex min-[476px]:justify-center py-6 text-nowrap',
             isScrolled ? 'fixed top-0 left-0 bg-stone-50 font-bold z-20' : ''
         ]">
-            <div class="lg:block flex">
+            <div class="2xl:block flex">
                 <p
                     class="font-noto-jp text-[#F0BD22] 2xl:text-[30px] md:text-[20px] min-[476px]:text-[14px] min-[374px]:text-[12px] sm:tracking-[0.06em] mb-2 min-[476px]:pl-0 pl-3">
                     itsshowtime．無敵の特工服オーダーメイドブランド
                 </p>
 
-                <nav class="lg:hidden fixed top-0 left-0 w-full z-20 font-noto-jp">
+                <!-- NavBar 1600px以下 -->
+                <nav class="min-[1680px]:hidden fixed top-0 left-0 w-full z-20 font-noto-jp">
                     <!-- Ham Btn -->
                     <button type="button"
                         class="w-9 h-9 flex justify-center items-center cursor-pointer p-6 fixed min-[476px]:top-4 top-2 right-4 z-20"
@@ -334,8 +335,8 @@ const getQuantity = (productId) => {
         </nav>
 
 
-        <!-- NavBar 1204px以上 -->
-        <nav class="hidden lg:flex flex-col fixed top-64 2xl:left-16 left-10 z-10 font-noto-cjk text-white">
+        <!-- NavBar 1680px以上 -->
+        <nav class="hidden min-[1680px]:flex flex-col fixed top-64 2xl:left-16 z-10 font-noto-cjk text-white">
             <div class="w-[80px] mb-4">
                 <img src="/image/LOGO-底部有字.webp" class="w-full h-full object-cover">
             </div>
@@ -348,7 +349,7 @@ const getQuantity = (productId) => {
                 </Link>
             </div>
         </nav>
-       
+
 
         <!-- Banner -->
         <div class="2xl:w-[821.46px] md:w-[45%] w-[80%] mb-12">
@@ -398,7 +399,7 @@ const getQuantity = (productId) => {
                     </button>
                 </div>
                 <div v-else class="xl:w-[300px] w-[240px] flex justify-center text-white">
-                    {{ `${ test(product.id).color } / ${ test(product.id).style } / ${ getQuantity(product.id) }件` }}
+                    {{ `${test(product.id).color} / ${test(product.id).style} / ${getQuantity(product.id)}件` }}
                 </div>
                 <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">
                     ${{ product.price * getQuantity(product.id) }}

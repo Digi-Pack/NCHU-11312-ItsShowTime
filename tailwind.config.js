@@ -15,6 +15,7 @@ export default {
                 'min-769px': '769px',
                 'min-956px': '956px',
                 'min-976px': '976px',
+                'min-1680px':'1680px',
             },
             fontFamily: {
                 sans: ['Instrument Sans', ...defaultTheme.fontFamily.sans],
