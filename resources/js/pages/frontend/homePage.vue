@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onUnmounted, onBeforeUnmount, watch } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 
 
@@ -266,6 +266,14 @@ const productIds = ref([]);
 
 // 計算目前詢價的商品數量
 const inquiryCount = computed(() => productIds.value.length);
+// 當inquiryCount大於0，商品彈窗自動關閉
+watch(inquiryCount, (newVal) => {
+  if (newVal > 0 && isMoreOpen.value) {
+    setTimeout(() => {
+      hideModal();
+    }, 150);
+  }
+});
 
 
 const addProductId = (productId) => {
@@ -869,10 +877,6 @@ onUnmounted(() => {
     </p>
   </div>
   </Link>
-
-
-
-
 
 
 
