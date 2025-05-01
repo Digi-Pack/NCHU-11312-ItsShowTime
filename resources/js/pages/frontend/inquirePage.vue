@@ -191,40 +191,47 @@ const currentProduct = () => {
 };
 
 // 全部刪除
-// const clearAllBtn = () => {
-//     response.length = 0;
-//     //   emit('update:response', response); // 通知父組件清空資料
-// };
-// const clearAllBtn = () => {
-//   response.length = 0;
-//   const backHome = window.confirm('您已清除所有資料，是否返回首頁？');
+const clearAllBtn = () => {
+    const backHome = window.confirm('您已清除所有資料，是否返回首頁？');
 
-//   if (backHome) {
-//     router.push('/home');
-//   }
-// };
-
+    if (backHome) {
+        response.length = 0;
+        setTimeout(() => {
+            router.visit(route('home'));
+        }, 500);
+    }
+};
 
 
 // 刪除個別資料(垃圾桶icon)
 const deleteProduct = (productId) => {
-    const index = response.findIndex(product => product.id === productId);
-    if (index !== -1) {
-        response.splice(index, 1);
-        // emit('update:response', response);  // 通知父組件更新資料
+  const index = response.findIndex(product => product.id === productId);
+
+  if (index !== -1) {
+    response.splice(index, 1);
+    
+    if (response.length === 0) {
+      const backHome = window.confirm('您已刪除所有商品，是否返回首頁？');
+      if (backHome) {
+        setTimeout(() => {
+          router.visit(route('home'));
+        }, 500);
+      }
     }
+  }
 };
+
 
 // nav跳轉(未完成)跳轉
 const goHome = () => {
-  router.push('/home');
+    router.push('/home');
 };
 
 const currentItem = computed(() => {
-  const id = currentProductId.value;
-  const item = response.find(item => item.id === id);
-  console.log(item);
-  return item || null;
+    const id = currentProductId.value;
+    const item = response.find(item => item.id === id);
+    console.log(item);
+    return item || null;
 });
 
 const rawThumbsSwiper = ref(null);
@@ -234,9 +241,9 @@ const rawThumbsSwiper = ref(null);
 // 如果使用v-if或是重新渲染元件的話 swiper可能會自動銷毀，
 // 當使用者把已被銷毀的 swiper 實例傳進主 Swiper 的 thumbs.swiper時候就有可能會報錯
 const thumbsSwiper = computed(() => {
-  return rawThumbsSwiper.value && !rawThumbsSwiper.value.destroyed
-    ? rawThumbsSwiper.value
-    : null;
+    return rawThumbsSwiper.value && !rawThumbsSwiper.value.destroyed
+        ? rawThumbsSwiper.value
+        : null;
 });
 
 </script>
@@ -271,8 +278,8 @@ const thumbsSwiper = computed(() => {
                     ]">
                         <Link :href="route('home')" v-for="item in menuItems" :key="item.id" @click="toggleMenu"
                             class="flex items-center gap-[9px] text-xl ">
-                            <img src="/image/svg/Arrow 2.svg" alt="" />
-                            <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
+                        <img src="/image/svg/Arrow 2.svg" alt="" />
+                        <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
                         </Link>
                     </div>
                 </nav>
@@ -287,9 +294,10 @@ const thumbsSwiper = computed(() => {
             </div>
             <img src="/image/svg/Menu.svg" class="w-full h-full object-cover mb-4">
             <div class="gap-6">
-                <Link :href="route('home')" v-for="item in menuItems" :key="item.id" class="flex items-center gap-[9px]" @click="goHome">
-                    <p class="font-normal leading-[1.8]">{{ item.name }}</p>
-                    <img src="/image/svg/Arrow.svg" alt="">
+                <Link :href="route('home')" v-for="item in menuItems" :key="item.id" class="flex items-center gap-[9px]"
+                    @click="goHome">
+                <p class="font-normal leading-[1.8]">{{ item.name }}</p>
+                <img src="/image/svg/Arrow.svg" alt="">
                 </Link>
 
 
