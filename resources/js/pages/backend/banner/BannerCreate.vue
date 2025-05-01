@@ -19,12 +19,26 @@ const submit = () => {
     cancelButtonText: "取消",
   }).then((result) => {
     if (result.isConfirmed) {
-      router.post(route('admin.banner.store'), item.value);
-      Swal.fire({
-        icon: "success",
-        title: "儲存成功",
-        showConfirmButton: false,
-        timer: 1500,
+      router.post(route('admin.banner.store'), item.value, {
+        onSuccess: (response) => {
+          const result = response?.props?.flash?.message ?? {};
+          
+          if (result.res === 'success') {
+            Swal.fire({
+              icon: "success",
+              title: "儲存成功",
+              showConfirmButton: false,
+              timer: 1000,
+            }).then(() => {
+              router.get(route('admin.banner.list'));
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: result.msg,
+            });
+          };
+        },
       });
     }
   });

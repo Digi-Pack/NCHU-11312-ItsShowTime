@@ -873,7 +873,6 @@ onUnmounted(() => {
   </Link>
 
 
-
   <!-- footer -->
   <footer id="contact"
     class="max-w-[1903px] bg-[#272727] flex flex-col min-[522px]:justify-center min-[522px]:items-center gap-10 mx-auto min-[769px]:py-10 relative min-[476px]:px-4 px-3 pt-[110px] pb-10">
