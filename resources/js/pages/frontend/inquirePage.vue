@@ -177,15 +177,28 @@ const currentProduct = () => {
 
 // 全部刪除
 const clearAllBtn = () => {
-    const backHome = window.confirm('您已清除所有資料，是否返回首頁？');
+    Swal.fire({
+        title: "是否清除所有資料，返回首頁？",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: "取消",
+        confirmButtonText: "確認刪除"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "確認刪除，回到首頁",
+                icon: "success"
+            });
 
-    if (backHome) {
-        response.length = 0;
-        setTimeout(() => {
-            router.visit(route('home'));
-            // window.location.href = route('home');
-        }, 500);
-    }
+            // 清空資料並跳轉回首頁
+            response.length = 0;
+            setTimeout(() => {
+                router.visit(route('home'));
+            }, 500);
+        }
+    });
 };
 
 
@@ -194,16 +207,43 @@ const deleteProduct = (productId) => {
     const index = response.findIndex(product => product.id === productId);
 
     if (index !== -1) {
-        response.splice(index, 1);
+        Swal.fire({
+            title: "是否清除該商品資料？",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            cancelButtonText: "取消",
+            confirmButtonText: "確認刪除"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                response.splice(index, 1);
 
-        if (response.length === 0) {
-            const backHome = window.confirm('您已刪除所有商品，是否返回首頁？');
-            if (backHome) {
-                setTimeout(() => {
-                    router.visit(route('home'));
-                }, 500);
+                Swal.fire({
+                    title: "確認刪除",
+                    icon: "success"
+                });
+
+                if (response.length === 0) {
+                    Swal.fire({
+                        title: "已刪除所有商品",
+                        text: "是否返回首頁？",
+                        icon: "info",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        confirmButtonText: "返回首頁",
+                        cancelButtonText: "保持當前頁面"
+                    }).then((homeResult) => {
+                        if (homeResult.isConfirmed) {
+                            setTimeout(() => {
+                                router.visit(route('home'));
+                            }, 500);
+                        }
+                    });
+                }
             }
-        }
+        });
     }
 };
 
@@ -293,6 +333,8 @@ const test = (productId) => {
 const getQuantity = (productId) => {
     return selectedSpecs.value[productId]?.quantity ?? quantity.value;
 };
+
+
 
 </script>
 
@@ -430,9 +472,9 @@ const getQuantity = (productId) => {
                         </button>
                     </div>
                     <button type="button" class="flex justify-end cursor-pointer z-10"
-                    @click="deleteProduct(product.id)">
-                    <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
-                </button>
+                        @click="deleteProduct(product.id)">
+                        <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
+                    </button>
                 </div>
             </div>
 
@@ -584,12 +626,15 @@ const getQuantity = (productId) => {
                         出生年月日 | Birthday
                     </label>
 
+
+
+
                     <div class="relative ">
-                        <input id="birthday" type="text" class="w-full bg-transparent border border-white rounded-[8px] px-4 py-3 pr-12
+                        <input id="birthday" type="date" class="w-full bg-transparent border border-white rounded-[8px] px-4 py-3 pr-12
                    placeholder:text-[22px] placeholder:text-white/50 text-white" placeholder="年/月/日">
 
                         <img src="/image/svg/calendar.svg" alt="calendar icon"
-                            class="w-[24px] h-[24px] absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                            class="w-[24px] h-[24px] absolute right-10 top-1/2 -translate-y-1/2 cursor-pointer"
                             onclick="document.getElementById('birthday').focus()" />
                     </div>
                 </div>
