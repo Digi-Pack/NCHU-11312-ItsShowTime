@@ -416,7 +416,7 @@ const getQuantity = (productId) => {
                     class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
                     <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.img_url" alt="Product Image">
 
-                    <div class="flex flex-col gap-2 px-2 pb-4">
+                    <div class="flex flex-col gap-2 px-2 pb-4 md:h-[100px]">
                         <p class="text-left font-noto-jp text-white leading-[1.2]">
                             {{ product.name }}
                         </p>
@@ -428,6 +428,10 @@ const getQuantity = (productId) => {
                             規格
                         </button>
                     </div>
+                    <button type="button" class="flex justify-end cursor-pointer z-10"
+                    @click="deleteProduct(product.id)">
+                    <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
+                </button>
                 </div>
             </div>
 

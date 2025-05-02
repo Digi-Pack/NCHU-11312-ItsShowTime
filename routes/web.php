@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\ItsshowtimeController;
 
-
+Route::get('/animate', function () {
+    return Inertia::render('settings/animate');
+})->name('animate');
 
 // Route::get('/', function () {
 //     return Inertia::render('Welcome');
