@@ -183,6 +183,7 @@ const clearAllBtn = () => {
         response.length = 0;
         setTimeout(() => {
             router.visit(route('home'));
+            // window.location.href = route('home');
         }, 500);
     }
 };

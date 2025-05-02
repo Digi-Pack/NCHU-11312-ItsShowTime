@@ -7,7 +7,6 @@ const props = defineProps({ response: Array | Object });
 
 const addBtn = () => router.get(route('admin.banner.create'));
 const editBtn = (id) => router.get(route('admin.banner.edit', id));
-// const deleteBtn = (id) => router.delete(route('admin.banner.delete', id));
 
 const deleteSumbit = (id) => {
   Swal.fire({
@@ -50,21 +49,21 @@ const deleteSumbit = (id) => {
   <AppLayout>
     <div class="p-4">
       <button class="border border-black rounded-sm px-3 py-2 hover:bg-slate-300" type="button"
-        @click="addBtn">新增資料</button>
+        @click="addBtn">新增</button>
       <div class="overflow-x-auto py-4">
-        <table class="table-auto w-full border border-gray-700 border-collapse">
+        <table class="table-auto border border-gray-700 border-collapse">
           <thead class="bg-gray-100">
             <tr>
-              <th class="border border-gray-700 px-4 py-2 text-left">標題</th>
-              <th class="border border-gray-700 px-4 py-2 text-left">圖片</th>
-              <th class="border border-gray-700 px-4 py-2 text-left">操作</th>
+              <th class="border border-gray-700 px-4 py-2 text-center">標題</th>
+              <th class="border border-gray-700 px-4 py-2 text-center">圖片</th>
+              <th class="border border-gray-700 px-4 py-2 text-center">操作</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="banner in props.response" :key="banner.id">
-              <td class="border border-gray-700 px-4 py-2">{{ banner.title }}</td>
+              <td class="border border-gray-700 px-4 py-2 text-center">{{ banner.title }}</td>
               <td class="border border-gray-700 px-4 py-2">
-                <img :src="banner.img_path" alt="" class="w-[120px] object-cover object-center" />
+                <img :src="banner.img_path" alt="" class="w-[200px] object-cover object-center" />
               </td>
               <td class="border border-gray-700 px-4 py-2">
                 <button class="border border-green-500 px-2 py-1 rounded-sm hover:bg-green-300 mr-3" type="button"

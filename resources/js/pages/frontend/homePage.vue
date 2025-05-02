@@ -46,6 +46,7 @@ const handleScroll = () => {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
   window.addEventListener('resize', handleResize);
+  // resetSwiper();
 })
 
 onBeforeUnmount(() => {
@@ -53,6 +54,7 @@ onBeforeUnmount(() => {
   // 還原滾動條狀態
   document.body.style.overflow = 'auto';
   window.removeEventListener('resize', handleResize);
+  // resetSwiper();
 })
 
 // hamberger menu
@@ -92,21 +94,19 @@ const menuItems = [
   { id: 'contact', name: '聯絡方式', href: '#contact' },
 ]
 
+
+const props = defineProps({
+  banners: Array | Object,
+  response: Array | Object,
+});
+
 // banner swiper
-const slides = [
-  { id: 1, content: '特攻服', img: '/image/1-1.webp' },
-  { id: 2, content: '橫須賀', img: '/image/1-2.webp' },
-  { id: 3, content: '水手服', img: '/image/1-3.webp' },
-  { id: 4, content: 'Ado 狂言劇場 ', img: '/image/1-4wrong.webp' },
-  { id: 5, content: '至尊戰袍', img: '/image/1-5.webp' },
-  { id: 6, content: '舊車會', img: '/image/1-6.webp' },
-  { id: 7, content: '#SGT4', img: '/image/1-7.webp' },
-];
+const slides = props.banners;
 const slidesCount = slides.length;
 let activeIndex = ref(0);
 let swiperInstance = null;
 
-const slidesCharacters = ref(slides.map(item => item.content.split('')));
+const slidesCharacters = ref(slides.map(item => item.title.split('')));
 
 // 保存當前活動的動畫
 let activeAnimation = null;
@@ -222,10 +222,6 @@ const hideImage = () => {
   isShowImage.value = false;
 };
 
-// 抓下單購買資料
-const props = defineProps({ response: Array | Object });
-console.log(props.response);
-
 
 // 點擊MORE出現更多資訊頁面
 const isMoreOpen = ref(false);
@@ -275,7 +271,6 @@ watch(inquiryCount, (newVal) => {
   }
 });
 
-
 const addProductId = (productId) => {
   const product = currentProduct(productId);
   if (!product) {
@@ -324,7 +319,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', shippingCartsize);
 });
-
 </script>
 
 <template>
@@ -412,9 +406,9 @@ onUnmounted(() => {
         @autoplayTimeLeft="onAutoplayTimeLeft" :modules="modules" class="banner-swiper">
         <swiper-slide v-for="(chars, index) in slidesCharacters" :key="index" :class="`slide-${index}`"
           class="banner-swiper-slide">
-          <img :src="slides[index].img" alt="" class="big-img">
+          <img :src="slides[index].img_path" alt="" class="big-img">
           <div class="container">
-            <img :src="slides[index].img" alt="" class="center-img">
+            <img :src="slides[index].img_path" alt="" class="center-img">
             <div class="absolute inset-0 flex items-center justify-center">
               <span v-for="(char, charIndex) in chars" :key="charIndex"
                 class="char text-white sm:text-[80px] text-[40px] font-bold tracking-[6px] opacity-0 block">
@@ -513,7 +507,6 @@ onUnmounted(() => {
             <div class="w-full min-[1120px]:max-w-[731px] relative">
               <swiper @swiper="setThumbsSwiper1" :loop="true" :slidesPerView="'auto'" :freeMode="true"
                 :watchSlidesProgress="true" :modules="modules" class="thumb-swiper">
-                <!-- min-[1314px]:gap-20 min-[1201px]:gap-10 gap-2 -->
                 <swiper-slide class="flex flex-col items-center gap-2">
                   <p class="font-noto text-[#444444] text-lg min-[1500px]:font-normal 
                     font-bold leading-[1.5] tracking-[1.35px]">
@@ -859,7 +852,6 @@ onUnmounted(() => {
     </div>
   </button>
 
-
   <!-- 購物車icon - 769px以下 -->
   <Link v-if="!isLargeScreen && inquiryCount > 0" :href="route('inquirePage')"
     class="w-[50px] fixed top-80 left-2 z-10 cursor-pointer" @click="gotoinquire(productIds)">
@@ -871,7 +863,6 @@ onUnmounted(() => {
     </p>
   </div>
   </Link>
-
 
   <!-- footer -->
   <footer id="contact"
@@ -892,13 +883,11 @@ onUnmounted(() => {
           天下無敵、台湾特工服の第一品牌
         </p>
         <pre
-          class="font-freckle text-white min-[522px]:text-[64.77px] text-[50.31px] font-normal leading-[1.2] tracking-[-0.08em]">
-        ITS SHOW TIME</pre>
+          class="font-freckle text-white min-[522px]:text-[64.77px] text-[50.31px] font-normal leading-[1.2] tracking-[-0.08em]">ITS SHOW  TIME</pre>
       </div>
     </div>
     <!-- 聯絡 -->
     <div class="min-[769px]:flex items-center gap-10">
-      <!-- 字體 Taipei Sans TC Beta -->
       <span class="font-taipei-sans-tc-r text-white leading-[192%] tracking-[1.2px]">
         <span class="font-taipei-sans-tc-bold">聯絡我們</span><br>
         聯絡地址：台中市東區精武路173號<br>
@@ -954,9 +943,14 @@ button {
 }
 
 /* banner Swiper */
+.banner-swiper {
+  height: calc(100vh - 100px);
+
+}
+
 .banner-swiper-slide {
   width: 100%;
-  height: calc(100vh - 100px);
+  /* height: calc(100vh - 100px); */
   text-align: center;
   position: relative;
 }
