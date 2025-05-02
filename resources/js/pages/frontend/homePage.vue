@@ -46,6 +46,7 @@ const handleScroll = () => {
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
   window.addEventListener('resize', handleResize);
+  // resetSwiper();
 })
 
 onBeforeUnmount(() => {
@@ -53,6 +54,7 @@ onBeforeUnmount(() => {
   // 還原滾動條狀態
   document.body.style.overflow = 'auto';
   window.removeEventListener('resize', handleResize);
+  // resetSwiper();
 })
 
 // hamberger menu
@@ -94,8 +96,8 @@ const menuItems = [
 
 
 const props = defineProps({
-  banners: Array | Object ,
-  response: Array | Object ,
+  banners: Array | Object,
+  response: Array | Object,
 });
 
 // banner swiper
@@ -220,10 +222,6 @@ const hideImage = () => {
   isShowImage.value = false;
 };
 
-// 抓下單購買資料
-// const props = defineProps({ response: Array | Object });
-// console.log(props.response);
-
 
 // 點擊MORE出現更多資訊頁面
 const isMoreOpen = ref(false);
@@ -273,7 +271,6 @@ watch(inquiryCount, (newVal) => {
   }
 });
 
-
 const addProductId = (productId) => {
   const product = currentProduct(productId);
   if (!product) {
@@ -322,7 +319,6 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('resize', shippingCartsize);
 });
-
 </script>
 
 <template>
@@ -856,7 +852,6 @@ onUnmounted(() => {
     </div>
   </button>
 
-
   <!-- 購物車icon - 769px以下 -->
   <Link v-if="!isLargeScreen && inquiryCount > 0" :href="route('inquirePage')"
     class="w-[50px] fixed top-80 left-2 z-10 cursor-pointer" @click="gotoinquire(productIds)">
@@ -868,7 +863,6 @@ onUnmounted(() => {
     </p>
   </div>
   </Link>
-
 
   <!-- footer -->
   <footer id="contact"
@@ -889,13 +883,11 @@ onUnmounted(() => {
           天下無敵、台湾特工服の第一品牌
         </p>
         <pre
-          class="font-freckle text-white min-[522px]:text-[64.77px] text-[50.31px] font-normal leading-[1.2] tracking-[-0.08em]">
-        ITS SHOW TIME</pre>
+          class="font-freckle text-white min-[522px]:text-[64.77px] text-[50.31px] font-normal leading-[1.2] tracking-[-0.08em]">ITS SHOW  TIME</pre>
       </div>
     </div>
     <!-- 聯絡 -->
     <div class="min-[769px]:flex items-center gap-10">
-      <!-- 字體 Taipei Sans TC Beta -->
       <span class="font-taipei-sans-tc-r text-white leading-[192%] tracking-[1.2px]">
         <span class="font-taipei-sans-tc-bold">聯絡我們</span><br>
         聯絡地址：台中市東區精武路173號<br>
@@ -951,9 +943,14 @@ button {
 }
 
 /* banner Swiper */
+.banner-swiper {
+  height: calc(100vh - 100px);
+
+}
+
 .banner-swiper-slide {
   width: 100%;
-  height: calc(100vh - 100px);
+  /* height: calc(100vh - 100px); */
   text-align: center;
   position: relative;
 }
