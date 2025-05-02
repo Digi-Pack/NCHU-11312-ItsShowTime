@@ -4,9 +4,24 @@ import { router } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 
 const item = ref({
-    'title': '',
-    'img_path': '',
+  title: '',
+  img_path: '',
 });
+
+// 放圖片檔案
+const previewUrl = ref(null);
+
+const putFile = (e) => {
+  const file = e.target.files[0];
+  item.value.img_path = file;
+
+  // 圖片預覽
+  if (file && file.type.startsWith("image/")) {
+    previewUrl.value = URL.createObjectURL(file);
+  } else {
+    previewUrl.value = null;
+  };
+};
 
 const submit = () => {
   Swal.fire({
@@ -22,7 +37,7 @@ const submit = () => {
       router.post(route('admin.banner.store'), item.value, {
         onSuccess: (response) => {
           const result = response?.props?.flash?.message ?? {};
-          
+
           if (result.res === 'success') {
             Swal.fire({
               icon: "success",
@@ -45,21 +60,24 @@ const submit = () => {
 };
 
 const backBtn = () => router.get(route('admin.banner.list'));
-// const submit = () => router.post(route('admin.banner.store'), item.value);
 </script>
 
 <template>
   <AppLayout>
     <section class="w-[500px] flex flex-col gap-5 p-4">
-      <section class="w-full flex flex-col gap-4 mb-10">
+      <section class="w-full flex flex-col gap-4 mb-4">
         <label for="" class="flex gap-2">
           <p>標題</p>
           <input v-model="item.title" class="border w-[calc(100%-60px)]" type="text">
         </label>
         <label for="" class="flex gap-2">
           <p>圖片</p>
-          <input v-model="item.img_path" class="border w-[calc(100%-60px)]" type="text">
+          <input type="file" class="border w-[calc(100%-60px)] cursor-pointer" @change="putFile">
         </label>
+        <div class="mt-2">
+          <p>圖片預覽：</p>
+          <img v-if="previewUrl" :src="previewUrl" alt="圖片預覽" class="w-[400px] mt-2 ml-4">
+        </div>
       </section>
       <section class="flex justify-between">
         <button class="border border-black px-4 py-1 rounded-sm" type="button" @click="backBtn">返回</button>

@@ -92,21 +92,19 @@ const menuItems = [
   { id: 'contact', name: '聯絡方式', href: '#contact' },
 ]
 
+
+const props = defineProps({
+  banners: Array | Object ,
+  response: Array | Object ,
+});
+
 // banner swiper
-const slides = [
-  { id: 1, content: '特攻服', img: '/image/1-1.webp' },
-  { id: 2, content: '橫須賀', img: '/image/1-2.webp' },
-  { id: 3, content: '水手服', img: '/image/1-3.webp' },
-  { id: 4, content: 'Ado 狂言劇場 ', img: '/image/1-4wrong.webp' },
-  { id: 5, content: '至尊戰袍', img: '/image/1-5.webp' },
-  { id: 6, content: '舊車會', img: '/image/1-6.webp' },
-  { id: 7, content: '#SGT4', img: '/image/1-7.webp' },
-];
+const slides = props.banners;
 const slidesCount = slides.length;
 let activeIndex = ref(0);
 let swiperInstance = null;
 
-const slidesCharacters = ref(slides.map(item => item.content.split('')));
+const slidesCharacters = ref(slides.map(item => item.title.split('')));
 
 // 保存當前活動的動畫
 let activeAnimation = null;
@@ -223,8 +221,8 @@ const hideImage = () => {
 };
 
 // 抓下單購買資料
-const props = defineProps({ response: Array | Object });
-console.log(props.response);
+// const props = defineProps({ response: Array | Object });
+// console.log(props.response);
 
 
 // 點擊MORE出現更多資訊頁面
@@ -412,9 +410,9 @@ onUnmounted(() => {
         @autoplayTimeLeft="onAutoplayTimeLeft" :modules="modules" class="banner-swiper">
         <swiper-slide v-for="(chars, index) in slidesCharacters" :key="index" :class="`slide-${index}`"
           class="banner-swiper-slide">
-          <img :src="slides[index].img" alt="" class="big-img">
+          <img :src="slides[index].img_path" alt="" class="big-img">
           <div class="container">
-            <img :src="slides[index].img" alt="" class="center-img">
+            <img :src="slides[index].img_path" alt="" class="center-img">
             <div class="absolute inset-0 flex items-center justify-center">
               <span v-for="(char, charIndex) in chars" :key="charIndex"
                 class="char text-white sm:text-[80px] text-[40px] font-bold tracking-[6px] opacity-0 block">
@@ -513,7 +511,6 @@ onUnmounted(() => {
             <div class="w-full min-[1120px]:max-w-[731px] relative">
               <swiper @swiper="setThumbsSwiper1" :loop="true" :slidesPerView="'auto'" :freeMode="true"
                 :watchSlidesProgress="true" :modules="modules" class="thumb-swiper">
-                <!-- min-[1314px]:gap-20 min-[1201px]:gap-10 gap-2 -->
                 <swiper-slide class="flex flex-col items-center gap-2">
                   <p class="font-noto text-[#444444] text-lg min-[1500px]:font-normal 
                     font-bold leading-[1.5] tracking-[1.35px]">

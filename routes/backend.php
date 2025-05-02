@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use App\Models\Banner;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 
 
@@ -30,16 +31,33 @@ Route::post('/admin/banner', function (Request $request) {
 
   try {
     $request->validate([
-      // 之後再添加
       'title' => 'required|string|max:255',
+      'img_path' => 'file|mimes:jpg,jpeg,png,webp',
     ]);
+
+    $file = $request->img_path;
+
+    $fileName = $file->getClientOriginalName();
+
+    if (!is_dir('upload/')) {
+      mkdir('upload/');
+    };
+    if (!is_dir('upload/banner')) {
+      mkdir('upload/banner');
+    };
+
+    $hashName = $file->hashName();
+    $path = '/upload/' . 'banner' . '/' . $hashName;
+
+    move_uploaded_file($file, public_path() . $path);
 
     $res = 'success';
     $message = '儲存成功';
 
     Banner::create([
       'title' =>  $request->title,
-      'img_path' => $request->img_path,
+      'img_name' => $fileName,
+      'img_path' => $path,
     ]);
   } catch (\Throwable $th) {
     Log::info($th->getMessage());
@@ -58,7 +76,6 @@ Route::post('/admin/banner', function (Request $request) {
 // 編輯頁
 Route::get('/admin/banner/edit/{id}', function ($id) {
   $item = Banner::find($id);
-  // if($item == null) return redirect('/admin/banner');
 
   return Inertia::render('backend/banner/BannerEdit', [
     'response' => $item,
@@ -71,25 +88,50 @@ Route::put('/admin/banner/update/{id}', function (Request $request, $id) {
 
   try {
     $request->validate([
-      // 之後再添加
       'title' => 'required|string|max:255',
+      'img_path' => 'file|mimes:jpg,jpeg,png,webp',
     ]);
 
     $banner = Banner::find($id);
-
-    $res = 'success';
-    $message = '儲存成功';
-
-    $banner->update([
-      'title' =>  $request->title,
-      'img_path' => $request->img_path,
-    ]);
     if (!$banner) {
       return back()->with(['message' => [
         'res' => 'fail',
         'msg' => '查無此消息',
       ]]);
     };
+
+    $res = 'success';
+    $message = '儲存成功';
+
+    if ($request->hasFile('new_file')) {
+      $file = $request->new_file;
+      $fileName = $file->getClientOriginalName();
+      if (!is_dir('upload/')) {
+        mkdir('upload/');
+      };
+      if (!is_dir('upload/banner')) {
+        mkdir('upload/banner');
+      };
+      $hashName = $file->hashName();
+      $path = '/upload/' . 'banner' . '/' . $hashName;
+      move_uploaded_file($file, public_path() . $path);
+
+      // 刪除舊照片
+      $oldFile = $banner->img_path;
+      if (file_exists(public_path() . $oldFile)) {
+        File::delete(public_path() . $oldFile);
+      };
+
+      $banner->update([
+        'img_path' => $path,
+        'img_name' => $fileName,
+      ]);
+    };
+
+    $banner->update([
+      'title' =>  $request->title,
+    ]);
+    
 
   } catch (\Throwable $th) {
     Log::info($th->getMessage());
@@ -112,6 +154,12 @@ Route::delete('/admin/banner/delete/{id}', function ($id) {
       'res' => 'fail',
       'msg' => '查無此消息',
     ]]);
+  };
+
+  // 刪除該筆照片
+  $oldFile = $banner->img_path;
+  if (file_exists(public_path() . $oldFile)) {
+    File::delete(public_path() . $oldFile);
   };
 
   $banner->delete();

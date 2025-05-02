@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Frontend;
 
 use Inertia\Inertia;
+use App\Models\Banner;
 use App\Models\Product;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class ItsshowtimeController extends Controller
 
@@ -13,9 +14,11 @@ class ItsshowtimeController extends Controller
     
     public function index()
     {
+        $banners = Banner::all();
         $products = Product::with(['color', 'size', 'type', 'image'])->get();
     
         return Inertia::render('frontend/homePage', [
+            'banners' => $banners,
             'response' => $products,
         ]);
     }
