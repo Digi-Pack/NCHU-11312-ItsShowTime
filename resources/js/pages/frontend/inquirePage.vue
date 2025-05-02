@@ -335,6 +335,61 @@ const getQuantity = (productId) => {
 };
 
 
+// 資料表必填欄位
+const username = ref('');
+const phone = ref('');
+const email = ref('');
+const birthday = ref('');
+
+// 正則表達式 regex
+const phoneRegex = /^[0-9]{10}$/; // 10位數的電話號碼
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email 格式
+const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // 日期格式 (YYYY-MM-DD)
+
+const handleSubmit = () => {
+    if (username.value === "") {
+        alert("姓名欄位必填！請填寫您的姓名。");
+        return;
+    }
+
+    if (phone.value === "") {
+        alert("聯絡電話欄位必填！請填寫您的聯絡電話。");
+        return;
+    }
+    if (!phoneRegex.test(phone.value)) {
+        alert("聯絡電話格式不正確！請填寫有效的電話號碼。");
+        return;
+    }
+
+    if (email.value === "") {
+        alert("電子信箱欄位必填！請填寫您的電子信箱。");
+        return;
+    }
+    if (!emailRegex.test(email.value)) {
+        alert("電子信箱格式不正確！請填寫有效的電子郵件地址。");
+        return;
+    }
+
+    if (!birthday.value) {
+        alert("生日欄位必填！請填寫您的生日。");
+        return;
+    }
+    if (!dateRegex.test(birthday.value)) {
+        alert("生日格式不正確！請填寫有效的日期（YYYY-MM-DD）。");
+        return;
+    }
+
+    alert("詢價單已成功送出！");
+};
+
+// 日期選擇器
+const triggerDatePicker = () => {
+    const dateInput = document.getElementById('birthday');
+    if (dateInput.showPicker) {
+        dateInput.showPicker();
+    }
+};
+
 
 </script>
 
@@ -602,8 +657,6 @@ const getQuantity = (productId) => {
         </div>
 
 
-
-
         <!-- 詢價資料表 -->
         <div class="2xl:w-[991px] sm:w-[60%] min-[376px]:w-[80%] w-[90%] flex justify-start 2xl:mb-10 mb-4">
             <p class="text-white font-noto-jp 2xl:text-[36px] text-[20px] tracking-[-0.08em] 2xl:ml-10">詢價資料填寫</p>
@@ -612,13 +665,14 @@ const getQuantity = (productId) => {
         <div
             class="2xl:w-[991px] sm:w-[60%] min-[376px]:w-[80%] w-[90%] flex flex-col 2xl:items-center border-t-2 border-white font-noto-jp mb-20 py-8 text-white">
             <div class="md:flex">
+
                 <div class="2xl:w-[410px] flex flex-1 flex-col 2xl:mr-6 md:mr-4 mb-10">
                     <label for="username" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                         姓名 | Name
                     </label>
-                    <input id="username" type="text"
-                        class=" bg-transparent border-[1px] border-white rounded-[8px] px-4 py-3 placeholder:text-[22px] placeholder:text-white/50"
-                        placeholder="廖小笙">
+                    <input id="username" v-model="username" type="text" required
+                        class="bg-transparent border-[1px] border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
+                        placeholder="廖小笙" />
                 </div>
 
                 <div class="2xl:w-[456px] md:w-[50%] flex flex-col mb-10">
@@ -626,64 +680,62 @@ const getQuantity = (productId) => {
                         出生年月日 | Birthday
                     </label>
 
+                    <div class="relative">
+                        <input id="birthday" type="date" v-model="birthday" required
+                            class="w-full bg-transparent border border-white rounded-[8px] px-2 py-2 pr-12 text-[20px] text-white/50 custom-date" />
 
-
-
-                    <div class="relative ">
-                        <input id="birthday" type="date" class="w-full bg-transparent border border-white rounded-[8px] px-4 py-3 pr-12
-                   placeholder:text-[22px] placeholder:text-white/50 text-white" placeholder="年/月/日">
-
-                        <img src="/image/svg/calendar.svg" alt="calendar icon"
-                            class="w-[24px] h-[24px] absolute right-10 top-1/2 -translate-y-1/2 cursor-pointer"
-                            onclick="document.getElementById('birthday').focus()" />
+                        <div class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                            <img src="/image/svg/calendar.svg" alt="calendar icon" class="w-[24px] h-[24px]"
+                                @click="triggerDatePicker" />
+                        </div>
                     </div>
                 </div>
-
             </div>
+
 
             <div class="flex flex-col mb-10">
                 <label for="phone" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                     聯絡電話 | Phone
                 </label>
-                <input id="phone" type="text"
-                    class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[22px] placeholder:text-white/50"
-                    placeholder="0912345678">
+                <input id="phone" v-model="phone" type="text" required
+                    class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
+                    placeholder="0912345678" />
             </div>
 
             <div class="flex flex-col mb-10">
                 <label for="email" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                     電子信箱｜Email
                 </label>
-                <input id="email" type="text"
-                    class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[22px] placeholder:text-white/50"
-                    placeholder="Las123@gmail.com">
+                <input id="email" v-model="email" type="text" required
+                    class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
+                    placeholder="Las123@gmail.com" />
             </div>
 
             <div class="flex flex-col mb-10">
                 <label for="address" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
-                    聯絡地址 | Address
+                    聯絡地址 | Address ( 選填 )
                 </label>
                 <input id="address" type="text"
-                    class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[22px] placeholder:text-white/50"
+                    class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
                     placeholder="南投市環山路112號">
             </div>
 
             <div class="flex flex-col mb-10">
                 <label for="remark" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
-                    備註 | Remark
+                    備註 | Remark ( 選填 )
                 </label>
                 <textarea id="remark"
-                    class="2xl:w-[895px] w-full h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[22px] ">
-        </textarea>
+                    class="2xl:w-[895px] w-full h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] ">
+                </textarea>
             </div>
 
         </div>
 
+        <button @click="handleSubmit"
+            class="font-noto-jp font-bold md:text-[24px] text-[18px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[5px] px-12 py-4 cursor-pointer mb-36">
+            送出詢價單
+        </button>
 
-        <!-- 送出詢價按鈕 -->
-        <p
-            class="font-noto-jp font-bold  md:text-[24px] text-[18px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[5px] px-12 py-4 cursor-pointer mb-36">
-            送出詢價單</p>
     </section>
 
 </template>
@@ -733,5 +785,16 @@ const getQuantity = (productId) => {
 .swiper-slide img {
     height: 100%;
     object-fit: cover;
+}
+
+
+/* 日曆顯示 */
+.custom-date::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
 }
 </style>
