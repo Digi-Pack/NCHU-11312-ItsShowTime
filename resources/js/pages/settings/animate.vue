@@ -3,67 +3,79 @@
 </script>
 
 <template>
-<div class="relative w-full h-screen flex justify-center items-center bg-black">
+    <div class="relative w-full h-screen flex justify-center items-center bg-black">
 
-<div class="showtime-text absolute text-[#F0BD22] text-[2rem]">It’s Showtime</div>
+        <div class="showtime-text font-noto-cjk absolute text-[#F0BD22] text-[2.5rem]">It’s Showtime</div>
 
-<div class="image-left">
-    <img src="/image/left.png" alt="" class="">
-</div>
-<div class="image-right ">
-    <img src="/image/right.png" alt="" class="">
-</div>
-</div>
+        <div class="image-left">
+            <img src="/image/left-1.png" alt="">
+        </div>
+        <div class="image-right">
+            <img src="/image/right-1.png" alt="">
+        </div>
+    </div>
 </template>
 
 
 
 <style scoped>
-
 .image-left img {
-            animation: left 3s ease-in-out infinite;
-        }
+    animation: left 2s ease-in-out infinite;
+}
 
-        .image-right img {
-            animation: right 3s ease-in-out infinite;
-        }
+.image-right img {
+    animation: right 2s ease-in-out infinite;
+}
 
-        .showtime-text {
-            opacity: 0;
-            animation: showText 3s ease-in-out infinite;
-            z-index: 10;
-        }
+.showtime-text {
+    opacity: 0;
+    animation: showText 2s ease-in-out infinite;
+    z-index: 10;
+}
 
-        @keyframes showText {
-            0% {
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            
-            100% {
-                opacity: 0;
-            }
-        }
+@keyframes showText {
+    0% {
+        opacity: 0;
+    }
 
-        @keyframes left {
-            0% {
-                transform: translateX(20px);
-            }
+    50% {
+        opacity: 1;
+    }
 
-            100% {
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes left {
+    0% {
+        transform: translateX(20px);
+    }
+
+    /* 40% {
                 transform: translateX(-10px);
             }
-        }
+            70% {
+                transform: translateX(-50px);
+            } */
+    100% {
+        transform: translateX(-100px);
+    }
+}
 
-        @keyframes right {
-            0% {
-                transform: translateX(-20px);
-            }
+@keyframes right {
+    0% {
+        transform: translateX(-20px);
+    }
 
-            100% {
+    /* 40% {
                 transform: translateX(10px);
             }
-        }
+            70% {
+                transform: translateX(50px);
+            } */
+    100% {
+        transform: translateX(100px);
+    }
+}
 </style>
