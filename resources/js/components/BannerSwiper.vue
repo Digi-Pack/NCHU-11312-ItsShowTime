@@ -1,16 +1,15 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
+import { ref, onMounted, defineProps } from 'vue'
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import 'swiper/css/thumbs';
-import { FreeMode, Pagination, Navigation, Thumbs, Autoplay } from 'swiper/modules';
+import { FreeMode, Pagination, Navigation, Autoplay } from 'swiper/modules';
 import { gsap } from 'gsap';
 
-const modules = [FreeMode, Pagination, Navigation, Thumbs, Autoplay];
+const modules = [FreeMode, Pagination, Navigation, Autoplay];
 
 const props = defineProps({
   bannerData: {
@@ -23,6 +22,7 @@ const slides = props.bannerData;
 
 const slidesCount = slides.length;
 let activeIndex = ref(0);
+let swiperInstance = null;
 
 const slidesCharacters = ref(slides.map(item => item.title.split('')));
 
@@ -128,11 +128,9 @@ onMounted(() => {
     animateSlideText();
   }, 100);
 });
-
 </script>
 
 <template>
-
   <swiper :loop="true" :pagination="{
     el: '.banner-swiper-pagination',
     clickable: true,
@@ -141,22 +139,17 @@ onMounted(() => {
   }" :navigation="false" @transitionEnd="onTransitionEnd" 
   :autoplay="{ delay: 2500, disableOnInteraction: false }" @autoplayTimeLeft="onAutoplayTimeLeft" :modules="modules"
     class="h-[calc(100vh-100px)]">
-
     <swiper-slide v-for="(chars, index) in slidesCharacters" :key="index" :class="`slide-${index}`">
-
       <div class="absolute inset-0 bg-cover bg-center blur-sm brightness-50"
         :style="{ backgroundImage: `url(${slides[index].img_path})` }"></div>
-
       <div class="relative w-full h-full flex justify-center items-center">
-        <img :src="slides[index].img_path" class="md:h-full h-[50%] object-contain!" alt="">
+        <img :src="slides[index].img_path" class="md:h-full h-[50%] object-contain" alt="">
         <div class="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2">
-
           <span v-for="(char, charIndex) in chars" :key="charIndex" 
             :ref="el => charRefs[index][charIndex] = el"
             class="relative inline-block text-white sm:text-[80px] text-[40px] font-bold tracking-[6px] opacity-0">
             {{ char }}
           </span>
-          
         </div>
       </div>
     </swiper-slide>

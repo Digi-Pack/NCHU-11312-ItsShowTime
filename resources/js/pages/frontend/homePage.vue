@@ -1,4 +1,6 @@
 <script setup>
+import BannerSwiper from '@/components/BannerSwiper.vue';
+
 import { ref, computed, onMounted, onUnmounted, onBeforeUnmount, watch } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 
@@ -100,114 +102,6 @@ const props = defineProps({
   response: Array | Object,
 });
 
-// banner swiper
-const slides = props.banners;
-const slidesCount = slides.length;
-let activeIndex = ref(0);
-let swiperInstance = null;
-
-const slidesCharacters = ref(slides.map(item => item.title.split('')));
-
-// 保存當前活動的動畫
-let activeAnimation = null;
-
-const animateSlideText = () => {
-  // 終止現有動畫
-  if (activeAnimation) {
-    activeAnimation.kill();
-  }
-
-  const charElements = document.querySelectorAll('.swiper-slide-active .char');
-
-  if (charElements.length === 0) return;
-
-  activeAnimation = gsap.fromTo(charElements,
-    {
-      y: 30,
-      opacity: 0
-    },
-    {
-      duration: 0.8,
-      y: 0,
-      opacity: 1,
-      stagger: 0.2,
-      ease: "power1.inOut",
-      overwrite: "auto"
-    }
-  );
-};
-
-const updateProgressBars = (swiper, progress = null) => {
-  activeIndex.value = swiper.realIndex;
-
-  for (let i = 0; i < slidesCount; i++) {
-    const progressContainer = document.querySelector(`.progress-container-${i}`);
-    const progressBar = document.querySelector(`.progress-bar-${i}`);
-
-    if (progressContainer) {
-      progressContainer.style.width = i === activeIndex.value ? '100px' : '50px';
-    }
-
-    if (progressBar) {
-      if (i === activeIndex.value && progress !== null) {
-        progressBar.style.width = `${(1 - progress) * 100}%`;
-      } else {
-        progressBar.style.width = '0%';
-      }
-    }
-  }
-};
-
-// 追蹤自動撥放剩餘時間
-const onAutoplayTimeLeft = (swiper, time, progress) => {
-  swiperInstance = swiper;
-  updateProgressBars(swiper, progress);
-};
-
-// slide過渡動畫完成後觸發
-const onTransitionEnd = (swiper) => {
-  swiperInstance = swiper;
-  updateProgressBars(swiper);
-  animateSlideText();
-};
-
-const renderCustomPagination = (swiper, current, total) => {
-  swiperInstance = swiper;
-  let paginationHTML = '<div class="custom-pagination-container">';
-
-  for (let i = 1; i <= total; i++) {
-    const index = i - 1;
-    const isActive = i === current;
-    const activeClass = isActive ? 'active' : '';
-    const containerWidth = isActive ? '300px' : '100px';
-
-    paginationHTML += `<div class="pagination-item-group swiper-pagination-bullet ${activeClass}" data-slide-index="${index}">`;
-    paginationHTML += `<span class="custom-bullet ${activeClass}"></span>`;
-    paginationHTML += `<div class="hidden min-[900px]:block custom-progress-container progress-container-${index}" style="width: ${containerWidth}">`;
-    paginationHTML += `<div class="custom-progress-bar progress-bar-${index}" style="width: 0%"></div>`;
-    paginationHTML += `</div>`;
-    paginationHTML += `</div>`;
-  }
-  paginationHTML += '</div>';
-  return paginationHTML;
-};
-
-onMounted(() => {
-  setTimeout(() => {
-    // 設置分頁器點擊事件
-    document.querySelectorAll('.pagination-item-group').forEach((bullet) => {
-      bullet.addEventListener('click', () => {
-        const index = parseInt(bullet.getAttribute('data-slide-index'));
-        if (swiperInstance) {
-          swiperInstance.slideTo(index + 1);
-        }
-      });
-    });
-
-    // 初始動畫
-    animateSlideText();
-  }, 500);
-});
 
 // 商品製作點擊按鈕顯示圖片
 const isShowImage = ref(false);
@@ -397,28 +291,7 @@ onUnmounted(() => {
   <main class="max-w-[1903px] mx-auto">
     <!-- banner -->
     <section class="w-full">
-      <swiper :loop="true" :pagination="{
-        el: '.banner-swiper-pagination',
-        clickable: true,
-        type: 'custom',
-        renderCustom: renderCustomPagination
-      }" :navigation="false" :autoplay="{ delay: 2500, disableOnInteraction: false }" @transitionEnd="onTransitionEnd"
-        @autoplayTimeLeft="onAutoplayTimeLeft" :modules="modules" class="banner-swiper">
-        <swiper-slide v-for="(chars, index) in slidesCharacters" :key="index" :class="`slide-${index}`"
-          class="banner-swiper-slide">
-          <img :src="slides[index].img_path" alt="" class="big-img">
-          <div class="container">
-            <img :src="slides[index].img_path" alt="" class="center-img">
-            <div class="absolute inset-0 flex items-center justify-center">
-              <span v-for="(char, charIndex) in chars" :key="charIndex"
-                class="char text-white sm:text-[80px] text-[40px] font-bold tracking-[6px] opacity-0 block">
-                {{ char }}
-              </span>
-            </div>
-          </div>
-        </swiper-slide>
-        <div class="banner-swiper-pagination"></div>
-      </swiper>
+      <BannerSwiper :bannerData="props.banners"></BannerSwiper>
     </section>
     <!-- 網站功能簡介 -->
     <section id="about"
@@ -940,134 +813,6 @@ body {
 
 button {
   cursor: pointer;
-}
-
-/* banner Swiper */
-.banner-swiper {
-  height: calc(100vh - 100px);
-
-}
-
-.banner-swiper-slide {
-  width: 100%;
-  /* height: calc(100vh - 100px); */
-  text-align: center;
-  position: relative;
-}
-
-.banner-swiper-slide .big-img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-  object-position: center;
-  object-fit: cover;
-  background-color: #000;
-  opacity: 0.3;
-}
-
-.banner-swiper-slide .container {
-  position: relative;
-  height: 100%;
-  margin: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.banner-swiper-slide .center-img {
-  width: auto;
-  margin: 0 auto;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-@media (max-width: 1000px) {
-  .banner-swiper-slide .center-img {
-    width: 100%;
-    margin: 0 auto;
-    height: auto;
-  }
-}
-
-.banner-swiper-slide .slide-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.banner-swiper-slide .char {
-  display: inline-block;
-  position: relative;
-}
-
-.banner-swiper-pagination {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  z-index: 10;
-}
-
-.custom-pagination-container {
-  width: 80%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-}
-
-@media (max-width: 1024px) {
-  .custom-pagination-container {
-    width: 60%;
-    gap: 8px;
-  }
-}
-
-.pagination-item-group {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  width: auto !important;
-  height: auto !important;
-  border-radius: 0 !important;
-  margin: 0 !important;
-  background: transparent !important;
-  opacity: 1 !important;
-}
-
-.custom-bullet {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #9e9e9e;
-  display: block;
-  flex-shrink: 0;
-  transition: background-color 0.3s;
-}
-
-.custom-bullet.active {
-  background-color: white;
-}
-
-.custom-progress-container {
-  height: 3px;
-  background-color: #9e9e9e;
-  overflow: hidden;
-  border-radius: 1.5px;
-}
-
-.custom-progress-bar {
-  height: 100%;
-  background-color: white;
-  width: 0%;
-  transition: width 0.1s linear;
 }
 
 /* 商品製作 Swiper */

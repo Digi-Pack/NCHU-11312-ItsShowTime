@@ -77,3 +77,11 @@ Route::get('/sendEmail', function () {
     Mail::to('babyangelababy0405@gmail.com')->send(new TestMail($testData));
 });
 
+
+// 測試頁testSwiper
+Route::get('/test', function () {
+    $banners = Banner::all();
+    return Inertia::render('frontend/testSwiper', [
+        'response' => $banners,
+    ]);
+})->name('test');
