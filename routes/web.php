@@ -68,8 +68,6 @@ require __DIR__.'/backend.php';
 
 
 
-
-
 // 寄信測試
 Route::get('/sendEmail', function () {
     $testData = [
@@ -78,3 +76,4 @@ Route::get('/sendEmail', function () {
     // dd($testData);
     Mail::to('babyangelababy0405@gmail.com')->send(new TestMail($testData));
 });
+

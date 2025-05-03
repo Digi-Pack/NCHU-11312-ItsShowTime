@@ -19,6 +19,7 @@ declare module 'vue' {
     Avatar: typeof import('./resources/js/Components/ui/avatar/Avatar.vue')['default']
     AvatarFallback: typeof import('./resources/js/Components/ui/avatar/AvatarFallback.vue')['default']
     AvatarImage: typeof import('./resources/js/Components/ui/avatar/AvatarImage.vue')['default']
+    BannerSwiper: typeof import('./resources/js/Components/BannerSwiper.vue')['default']
     Breadcrumb: typeof import('./resources/js/Components/ui/breadcrumb/Breadcrumb.vue')['default']
     BreadcrumbEllipsis: typeof import('./resources/js/Components/ui/breadcrumb/BreadcrumbEllipsis.vue')['default']
     BreadcrumbItem: typeof import('./resources/js/Components/ui/breadcrumb/BreadcrumbItem.vue')['default']
