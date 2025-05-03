@@ -335,7 +335,7 @@ const getQuantity = (productId) => {
 };
 
 
-// 資料表必填欄位
+// 送出詢價單篩選(這裡要記得加上規格要選完才能送出)
 const username = ref('');
 const phone = ref('');
 const email = ref('');
@@ -348,39 +348,45 @@ const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // 日期格式 (YYYY-MM-DD)
 
 const handleSubmit = () => {
     if (username.value === "") {
-        alert("姓名欄位必填！請填寫您的姓名。");
+        Swal.fire("姓名欄位必填！請填寫您的姓名");
         return;
     }
 
     if (phone.value === "") {
-        alert("聯絡電話欄位必填！請填寫您的聯絡電話。");
+        Swal.fire("您尚未填寫您的聯絡電話");
         return;
     }
     if (!phoneRegex.test(phone.value)) {
-        alert("聯絡電話格式不正確！請填寫有效的電話號碼。");
+        Swal.fire("聯絡電話格式不正確！請填寫有效的電話號碼");
         return;
     }
 
     if (email.value === "") {
-        alert("電子信箱欄位必填！請填寫您的電子信箱。");
+        Swal.fire("您尚未填寫您的電子信箱");
         return;
     }
     if (!emailRegex.test(email.value)) {
-        alert("電子信箱格式不正確！請填寫有效的電子郵件地址。");
+        Swal.fire("電子信箱格式不正確！請填寫有效的電子郵件地址");
         return;
     }
 
     if (!birthday.value) {
-        alert("生日欄位必填！請填寫您的生日。");
+        Swal.fire("生日欄位必填！請填寫您的生日");
         return;
     }
     if (!dateRegex.test(birthday.value)) {
-        alert("生日格式不正確！請填寫有效的日期（YYYY-MM-DD）。");
+        Swal.fire("生日格式不正確！請填寫有效的日期（YYYY-MM-DD）");
         return;
     }
 
-    alert("詢價單已成功送出！");
+    // 這段目前怎麼樣都會顯示成功，需再補充和後台確認才顯示成功的功能
+    Swal.fire({
+        title: "詢價單已成功送出！",
+        icon: "success",
+        draggable: true
+    });
 };
+
 
 // 日期選擇器
 const triggerDatePicker = () => {
