@@ -10,6 +10,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
+import ShoppingCart from '@/components/ShoppingCart.vue'
 
 const isOpen = ref(false)
 
@@ -47,10 +48,18 @@ onBeforeUnmount(() => {
 
 
 // 把下單購買資料傳過來
-const { response } = defineProps({
+const { response, color, type } = defineProps({
     response: Array | Object,
-})
+    color: Array | Object,
+    type: Array | Object,
+});
 console.log(response);
+console.log(color);
+console.log(type);
+
+const getColor = () => {
+
+}
 
 // 商品總計
 const productCount = computed(() => response.length);
@@ -269,9 +278,6 @@ const rawThumbsSwiper = ref(null);
 // 如果使用v-if或是重新渲染元件的話 swiper可能會自動銷毀，
 // 當使用者把已被銷毀的 swiper 實例傳進主 Swiper 的 thumbs.swiper時候就有可能會報錯
 const thumbsSwiper = computed(() => {
-    return rawThumbsSwiper.value && !rawThumbsSwiper.value.destroyed
-        ? rawThumbsSwiper.value
-        : null;
     return rawThumbsSwiper.value && !rawThumbsSwiper.value.destroyed
         ? rawThumbsSwiper.value
         : null;
@@ -552,114 +558,7 @@ const triggerDatePicker = () => {
         <div v-if="isFormatOpen && currentItem"
             class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
             @click="hideModal">
-            <div class="relative text-white p-4 md:p-20 w-full lg:w-[80%] h-[80%] bg-black rounded-xl overflow-y-auto xl:overflow-hidden"
-                @click.stop>
-                <button type="button"
-                    class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2 mb-7"
-                    @click="hideModal">
-                    <i class="fa-solid fa-xmark text-5xl"></i>
-                </button>
-                <div class="text-xl mb-4 mt-8 md:mt-auto">商品介紹</div>
-                <div class="flex flex-col juscenter items-center xl:flex-row gap-20 xl:gap-28 2xl:gap-20">
-                    <!-- 左側圖片展示區 -->
-                    <div class="w-full lg:w-1/2">
-                        <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
-                            <!-- 主圖輪播 -->
-                            <div class="max-h-[250px] md:max-h-[400px] lg:max-h-[500px] order-1 md:order-2">
-                                <Swiper :modules="[FreeMode, Navigation, Thumbs]" :loop="true" :space-between="10"
-                                    :navigation="false" :thumbs="{ swiper: thumbsSwiper }"
-                                    class="flex-1 aspect-square max-h-[250px] md:max-h-[400px] lg:max-h-[500px] border rounded overflow-hidden"
-                                    @swiper="(swiper) => { mainSwiper = swiper; }" @slideChange="handleSlideChange">
-                                    <SwiperSlide v-for="(img, i) in images" :key="'main-' + i">
-                                        <img :src="currentItem.img_url" @error="handleImageError"
-                                            class="w-full h-full object-cover rounded" loading="lazy" a lt="商品圖片" />
-                                    </SwiperSlide>
-                                </Swiper>
-                            </div>
-                            <!-- 縮圖垂直排列在左側 -->
-                            <div class="flex flex-col justify-center order-2 md:order-1">
-                                <Swiper :loop="true" :modules="[FreeMode, Thumbs]"
-                                    :direction="screenWidth < 768 ? 'horizontal' : 'vertical'"
-                                    :slides-per-view="screenWidth < 768 ? 4 : 5" :space-between="10" :free-mode="true"
-                                    watch-slides-progress
-                                    class="w-60 h-15 md:w-20 md:h-full max-h-[250px] md:max-h-[400px] lg:max-h-[500px]"
-                                    @swiper="(swiper) => rawThumbsSwiper = swiper">
-                                    <SwiperSlide class="h-16" v-for="(img, i) in images" :key="'thumb-' + i"
-                                        @click="setActiveThumb(i)">
-                                        <img :src="currentItem.img_url" @error="handleImageError"
-                                            class="w-full h-full object-cover cursor-pointer rounded border"
-                                            :class="{ 'border-yellow-400 border-2': i === thumbsIndex }" loading="lazy"
-                                            alt="商品縮圖" />
-                                    </SwiperSlide>
-                                </Swiper>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 右側商品資訊 -->
-                    <div class="w-full lg:w-1/2 flex flex-col gap-6">
-                        <div class="text-xl font-medium">{{ currentItem.name }}</div>
-                        <hr class="border">
-                        <div>{{ product.description }}</div>
-                        <div class="text-2xl text-[#C89E51] font-bold">${{ currentItem.price }}</div>
-
-                        <!-- 顏色選擇 -->
-                        <div class="flex items-center gap-6">
-                            <span class="w-[10%] text-nowrap">顏色</span>
-                            <div class="w-[90%] flex gap-3 flex-wrap">
-                                <button v-for="color in product.colors" :key="color" type="button"
-                                    class="border py-1 px-4 rounded transition-colors"
-                                    :class="{ 'border-yellow-400': selectedColor === color }"
-                                    @click="selectColor(color)">
-                                    {{ color }}
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- 款式選擇 -->
-                        <div class="flex items-start gap-6">
-                            <span class="w-[10%] text-nowrap">款式</span>
-                            <div class="w-[90%] flex gap-3 flex-wrap">
-                                <button v-for="style in product.styles" :key="style" type="button"
-                                    class="border py-1 px-4 rounded transition-colors"
-                                    :class="{ 'border-yellow-400': selectedStyle === style }"
-                                    @click="selectStyle(style)">
-                                    {{ style }}
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- 數量選擇 -->
-                        <div class="flex items-center gap-6">
-                            <span class="w-[10%] text-nowrap">數量</span>
-                            <div class="w-[90%] flex">
-                                <button type="button"
-                                    class="border py-1 px-4 hover:bg-gray-700 transition-colors rounded-l"
-                                    @click="CalcQuantity('-')">
-                                    -
-                                </button>
-                                <input class="text-center bg-black border w-20" type="text" name="" id=""
-                                    :value="quantity">
-                                <!-- <p class="border-t border-b py-1 w-20 text-center">{{ quantity }}</p> -->
-                                <button type="button"
-                                    class="border py-1 px-4 hover:bg-gray-700 transition-colors rounded-r"
-                                    @click="CalcQuantity('+')">
-                                    +
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- 加入購物車按鈕 -->
-                        <div class="mt-6 flex justify-center">
-                            <button type="button"
-                                class="py-2 px-6 border rounded-xl flex items-center gap-2 hover:bg-gray-700 transition-colors"
-                                @click="addToCart">
-                                <img class="size-[30px]" src="/image/svg/ShoppingCartIcon.svg" alt="">
-                                <span class="text-lg">加入購物車</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <ShoppingCart :hideModal='hideModal'></ShoppingCart>
         </div>
 
 
