@@ -2,12 +2,14 @@
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { useAlert } from '@/lib/useAlert';
+import { flashMessage } from '@/lib/flashMessage';
 
 const props = defineProps({ response: Array | Object });
 
 const item = ref({
   title: props.response.title,
-  img_path: props.response.img_path,
+  // img_path: props.response.img_path,
   img_name: props.response.img_name,
   new_file: null,
   _method: 'put',
@@ -27,38 +29,11 @@ const putFile = (e) => {
 };
 
 const submit = () => {
-  Swal.fire({
-    title: "確定要修改嗎?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "確定",
-    cancelButtonText: "取消",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      router.post(route('admin.banner.update', props.response.id), item.value, {
-        onSuccess: (response) => {
-          const result = response?.props?.flash?.message ?? {};
-
-          if (result.res === 'success') {
-            Swal.fire({
-              icon: "success",
-              title: result.msg || "儲存成功",
-              showConfirmButton: false,
-              timer: 1000,
-            }).then(() => {
-              router.get(route('admin.banner.list'));
-            });
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: result.msg || "儲存失敗",
-            });
-          };
-        },
-      });
-    }
+  router.post(route('admin.banner.update', props.response.id), item.value, {
+    onSuccess: (response) => {
+      const result = response?.props?.flash?.message ?? {};
+      flashMessage(result, '儲存', route('admin.banner.list'));
+    },
   });
 };
 
@@ -75,7 +50,7 @@ const backBtn = () => router.get(route('admin.banner.list'));
         </label>
         <label for="" class="flex gap-2">
           <span>圖片</span>
-          <input class="border w-[calc(100%-60px)] cursor-pointer" type="file" @change="putFile">
+          <input type="file" class="border w-[calc(100%-60px)] cursor-pointer" @change="putFile">
         </label>
         <div class="mt-2 pb-3">
           <p>圖片預覽：</p>
@@ -88,7 +63,9 @@ const backBtn = () => router.get(route('admin.banner.list'));
       </section>
       <section class="flex justify-between mt-3">
         <button class="border border-black px-4 py-2 rounded-sm" type="button" @click="backBtn">返回</button>
-        <button class="border border-black px-4 py-2 rounded-sm" type="button" @click="submit">更新資料</button>
+        <button class="border border-black px-4 py-2 rounded-sm" type="button" @click="useAlert('確定要儲存嗎?', submit)">
+          更新資料
+        </button>
       </section>
     </section>
   </AppLayout>

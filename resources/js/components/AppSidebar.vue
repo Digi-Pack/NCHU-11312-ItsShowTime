@@ -19,6 +19,11 @@ const mainNavItems: NavItem[] = [
     href: route('admin.banner.list'),
     icon: LayoutGrid,
   },
+  {
+    title: 'ProductList',
+    href: route('admin.product.list'),
+    icon: LayoutGrid,
+  },
 ];
 
 const footerNavItems: NavItem[] = [

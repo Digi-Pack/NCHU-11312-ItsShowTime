@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue';
+import { useAlert } from '@/lib/useAlert';
+import { flashMessage } from '@/lib/flashMessage';
 
 const props = defineProps({ response: Array | Object });
 
@@ -9,38 +11,11 @@ const addBtn = () => router.get(route('admin.banner.create'));
 const editBtn = (id) => router.get(route('admin.banner.edit', id));
 
 const deleteSumbit = (id) => {
-  Swal.fire({
-    title: "確定要刪除嗎?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "確定",
-    cancelButtonText: "取消",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      router.delete(route('admin.banner.delete', id), {
-        onSuccess: (response) => {
-          const result = response?.props?.flash?.message ?? {};
-          
-          if (result.res === 'success') {
-            Swal.fire({
-              icon: "success",
-              title: result.msg || "刪除成功",
-              showConfirmButton: false,
-              timer: 1000,
-            }).then(() => {
-              router.get(route('admin.banner.list'));
-            });
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: result.msg || "刪除失敗",
-            });
-          };
-        },
-      });
-    }
+  router.delete(route('admin.banner.delete', id), {
+    onSuccess: (response) => {
+      const result = response?.props?.flash?.message ?? {};
+      flashMessage(result, '刪除', route('admin.banner.list'));
+    },
   });
 };
 </script>
@@ -69,7 +44,7 @@ const deleteSumbit = (id) => {
                 <button class="border border-green-500 px-2 py-1 rounded-sm hover:bg-green-300 mr-3" type="button"
                   @click="editBtn(banner.id)">編輯</button>
                 <button class="border border-red-500 px-2 py-1 rounded-sm hover:bg-red-300" type="button"
-                  @click="deleteSumbit(banner.id)">刪除</button>
+                  @click="useAlert('確定要刪除嗎?', () => deleteSumbit(banner.id))">刪除</button>
               </td>
             </tr>
           </tbody>
@@ -79,7 +54,7 @@ const deleteSumbit = (id) => {
   </AppLayout>
 </template>
 
-<style>
+<style scoped>
 html,
 body {
   margin: 0;

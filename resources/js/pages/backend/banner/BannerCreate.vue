@@ -2,6 +2,8 @@
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { useAlert } from '@/lib/useAlert';
+import { flashMessage } from '@/lib/flashMessage';
 
 const item = ref({
   title: '',
@@ -24,38 +26,11 @@ const putFile = (e) => {
 };
 
 const submit = () => {
-  Swal.fire({
-    title: "確定要儲存嗎?",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "確定",
-    cancelButtonText: "取消",
-  }).then((result) => {
-    if (result.isConfirmed) {
-      router.post(route('admin.banner.store'), item.value, {
-        onSuccess: (response) => {
-          const result = response?.props?.flash?.message ?? {};
-
-          if (result.res === 'success') {
-            Swal.fire({
-              icon: "success",
-              title: "儲存成功",
-              showConfirmButton: false,
-              timer: 1000,
-            }).then(() => {
-              router.get(route('admin.banner.list'));
-            });
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: result.msg,
-            });
-          };
-        },
-      });
-    }
+  router.post(route('admin.banner.store'), item.value, {
+    onSuccess: (response) => {
+      const result = response?.props?.flash?.message ?? {};
+      flashMessage(result, '儲存', route('admin.banner.list'));
+    },
   });
 };
 
@@ -81,7 +56,9 @@ const backBtn = () => router.get(route('admin.banner.list'));
       </section>
       <section class="flex justify-between">
         <button class="border border-black px-4 py-1 rounded-sm" type="button" @click="backBtn">返回</button>
-        <button class="border border-black px-4 py-1 rounded-sm" type="button" @click="submit">送出</button>
+        <button class="border border-black px-4 py-1 rounded-sm" type="button" @click="useAlert('確定要儲存嗎?', submit)">
+          送出
+        </button>
       </section>
     </section>
   </AppLayout>

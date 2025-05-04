@@ -14,8 +14,9 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property int $id
  * @property string $name
- * @property string $img_url
- * @property int $price
+ * @property string $img_path
+ * @property string $price
+ * @property string $introduction
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
@@ -25,17 +26,13 @@ class Product extends Model
 {
 	protected $table = 'products';
 
-	protected $casts = [
-		'price' => 'int'
+	protected $fillable = [
+		'name',
+		'img_path',
+		'price',
+		'introduction'
 	];
 
-	protected $fillable = [
-		'product_id',
-		'name',
-		'img_url',
-		'price'
-	];
-	
 	public function color()
 	{
 		return $this->hasMany(Color::class,'id');
@@ -60,6 +57,4 @@ class Product extends Model
 	{
 		return $this->hasMany(Type::class,'id');
 	}
-	
-	
 }

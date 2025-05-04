@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name')->comment('商品名稱');
-            $table->text('img_url')->comment('商品圖片URL');
-            $table->unsignedSmallInteger('price')->comment('商品價格');
+            $table->text('img_path')->comment('商品圖片');
+            $table->text('price')->comment('商品價格');
+            $table->text('introduction')->comment('商品簡介');
             $table->timestamps();
         });
     }

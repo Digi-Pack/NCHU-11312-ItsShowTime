@@ -526,14 +526,14 @@ onUnmounted(() => {
             <swiper-slide v-for="product in props.response" :key="product.id">
               <div
                 class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
-                <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_url" alt="">
+                <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_path" alt="">
                 <div class="flex flex-col gap-2 px-2">
                   <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
                     {{ product.name }}
                   </p>
                   <p
                     class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-bold leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                    ${{ product.price }}
+                    {{ product.price }}
                   </p>
                 </div>
                 <!-- 遮罩 -->
@@ -609,7 +609,7 @@ onUnmounted(() => {
             }" :navigation="true" :thumbs="{ swiper: thumbsSwiper2 }" :modules="modules"
               class="mySwiper2 min-[769px]:order-1 order-0">
               <swiper-slide>
-                <img :src="currentProduct()?.img_url" class="aspect-square object-cover object-center" alt="">
+                <img :src="currentProduct()?.img_path" class="aspect-square object-cover object-center" alt="">
               </swiper-slide>
               <swiper-slide>
                 <img src="https://swiperjs.com/demos/images/nature-2.jpg"
@@ -632,7 +632,7 @@ onUnmounted(() => {
             </p>
             <p class="px-3 pb-4">繡出你的態度，隨時隨地簡單暴走中</p>
             <p class="text-[#FFD83C] text-2xl font-medium px-3 pb-4">
-              $300 ~ $400
+              {{ currentProduct()?.price }}
             </p>
             <div class="space-y-2 px-3 min-[1150px]:pb-10 pb-4">
               <div class="flex items-center gap-2">
