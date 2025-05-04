@@ -80,8 +80,8 @@ Route::get('/sendEmail', function () {
 
 // 測試頁testSwiper
 Route::get('/test', function () {
-    $banners = Banner::all();
+    $products = Product::all();
     return Inertia::render('frontend/testSwiper', [
-        'response' => $banners,
+        'response' => $products,
     ]);
 })->name('test');

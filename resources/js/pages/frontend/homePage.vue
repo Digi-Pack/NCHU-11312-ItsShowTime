@@ -532,7 +532,7 @@ onUnmounted(() => {
                     {{ product.name }}
                   </p>
                   <p
-                    class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
+                    class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-bold leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
                     ${{ product.price }}
                   </p>
                 </div>
@@ -870,7 +870,7 @@ button {
   }
 }
 
-.swiper-slide img {
+.thumb-swiper .swiper-slide img {
   display: block;
   width: 626.9px;
   height: auto;
@@ -1146,6 +1146,18 @@ button {
   font-size: 40px;
   font-weight: 900;
   color: white;
+}
+
+.custom-shadow {
+  text-shadow:
+    1px 0 0 #B41900,
+    -1px 0 0 #B41900,
+    0 1px 0 #B41900,
+    0 -1px 0 #B41900,
+    1px 1px 0 #B41900,
+    -1px 1px 0 #B41900,
+    1px -1px 0 #B41900,
+    -1px -1px 0 #B41900;
 }
 
 /* 暴走族特工服風格滾動條 - 黑紅配色 */
