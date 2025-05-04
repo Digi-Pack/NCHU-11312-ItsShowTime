@@ -57,104 +57,44 @@ console.log(response);
 console.log(color);
 console.log(type);
 
+// 給子層的相關資料
 const getColor = () => {
+    return color.map(color => `${color.color_name}色`);
+}
 
+const getType = () => {
+    return type.map(color => color.type_name);
 }
 
 // 商品總計
 const productCount = computed(() => response.length);
 
 
-// 初始化縮圖輪播控制器
-// const thumbsSwiper = ref(null);
-const thumbsIndex = ref(0);
-
-// 當前縮圖index
-const setActiveThumb = (index) => {
-    thumbsIndex.value = index;
-    if (mainSwiper.value) {
-        mainSwiper.value.slideToLoop(index); // 這才是跳轉主圖
-    }
-}
-
-// 添加主 Swiper 的引用
-const mainSwiper = ref(null);
-
-// 處理主 Swiper 幻燈片變化
-const handleSlideChange = () => {
-    if (mainSwiper.value) {
-        // 獲取實際索引 (考慮到 loop 模式)
-        const realIndex = mainSwiper.value.realIndex;
-        thumbsIndex.value = realIndex;
-    }
-};
-
-// 商品圖片列表
-const images = ref([
-    "/image/1-1.webp",
-    "/image/1-2.webp",
-    "/image/1-3.webp",
-    "/image/1-5.webp",
-    "/image/1-6.webp",
-    "/image/1-7.webp",
-]);
-
-// 圖片加載錯誤處理
-const handleImageError = (e) => {
-    e.target.src = '/image/svg/no_img.svg';
-};
-
-// 商品數據
-const product = ref({
-    description: "台製高質感刺繡頭帶，頭帶約 100*5公分，可客製刺繡，繡出自己的暴走魂",
-    colors: ["黑色", "紅色"],
-    styles: ["神風", "特攻", "嫉惡", "暴走", "台灣聯合", "客製化"]
-});
-
 // 選中的選項
-const selectedColor = ref(null);
-const selectedStyle = ref(null);
-const quantity = ref(1);
+const handleColor = ref(null);
+const handleStyle = ref(null);
+const handleQuantity = ref(1);
 
 // 選擇顏色
-const selectColor = (color) => {
-    selectedColor.value = color;
+const handleColorUpdate = (color) => {
+    handleColor.value = color;
 };
 
 // 選擇款式
-const selectStyle = (style) => {
-    selectedStyle.value = style;
+const handleStyleUpdate = (style) => {
+    handleStyle.value = style;
 };
 
 // 增減數量
-const CalcQuantity = (style) => {
+const handleQuantityUpdate = (style) => {
     if (style === '-') {
-        if (quantity.value > 1) {
-            quantity.value--;
+        if (handleQuantity.value > 1) {
+            handleQuantity.value--;
         }
     } else {
-        quantity.value++;
+        handleQuantity.value++;
     }
 };
-
-// 記錄螢幕寬度並監控變化
-const screenWidth = ref(window.innerWidth);
-
-// 組件掛載時初始化顏色和款式選擇
-onMounted(() => {
-
-    screenWidth.value = window.innerWidth;
-
-    // 監控螢幕大小變化
-    window.addEventListener('resize', () => {
-        screenWidth.value = window.innerWidth;
-    });
-
-    selectedColor.value = product.value.colors[0];
-    selectedStyle.value = product.value.styles[0];
-    thumbsIndex.value = 0;
-});
-
 
 // 點擊規格選擇出現選擇商品規格頁面
 const isFormatOpen = ref(false);
@@ -210,7 +150,6 @@ const clearAllBtn = () => {
     });
 };
 
-
 // 刪除個別資料(垃圾桶icon)
 const deleteProduct = (productId) => {
     const index = response.findIndex(product => product.id === productId);
@@ -256,8 +195,6 @@ const deleteProduct = (productId) => {
     }
 };
 
-
-
 // nav跳轉(未完成)跳轉
 const goHome = () => {
     router.push('/home');
@@ -272,17 +209,6 @@ const currentItem = computed(() => {
     return item || null;
 });
 
-const rawThumbsSwiper = ref(null);
-
-// 確保 thumbsSwiper 這個 Swiper 實例目前是有效存在的、而且尚未被銷毀
-// 如果使用v-if或是重新渲染元件的話 swiper可能會自動銷毀，
-// 當使用者把已被銷毀的 swiper 實例傳進主 Swiper 的 thumbs.swiper時候就有可能會報錯
-const thumbsSwiper = computed(() => {
-    return rawThumbsSwiper.value && !rawThumbsSwiper.value.destroyed
-        ? rawThumbsSwiper.value
-        : null;
-});
-
 const updateShoppingCart = ref(null);
 
 // 添加到購物車
@@ -294,27 +220,37 @@ const addToCart = () => {
         return;
     }
 
+    // 如果尚未選擇，套用預設值
+    const selectedColor = handleColor.value ?? getColor()[0];
+    const selectedStyle = handleStyle.value ?? getType()[0];
+    const selectedQuantity = handleQuantity.value || 1;
+
+
     updateShoppingCart.value = ({
         id: item.id,
         product: item.name,
-        color: selectedColor.value,
-        style: selectedStyle.value,
-        quantity: quantity.value
+        color: selectedColor,
+        style: selectedStyle,
+        quantity: selectedQuantity
     });
-
 
     // 儲存選擇的規格到 selectedSpecs
     selectedSpecs.value[item.id] = {
-        color: selectedColor.value,
-        style: selectedStyle.value,
-        quantity: quantity.value
+        color: selectedColor,
+        style: selectedStyle,
+        quantity: selectedQuantity
     };
 
-    selectedColor.value = product.value.colors[0];
-    selectedStyle.value = product.value.styles[0];
-    quantity.value = 1;
+    handleColor.value = getColor()[0];
+    handleStyle.value = getType()[0];
+    handleQuantity.value = 1;
 
-    alert('已加入購物車！');
+    Swal.fire({
+        icon: "success",
+        title: "已加入購物車！",
+        showConfirmButton: false,
+        timer: 1500
+    });
 
     hideModal();
 };
@@ -337,9 +273,8 @@ const test = (productId) => {
 
 // 取得數量
 const getQuantity = (productId) => {
-    return selectedSpecs.value[productId]?.quantity ?? quantity.value;
+    return selectedSpecs.value[productId]?.quantity ?? handleQuantity.value;
 };
-
 
 // 送出詢價單篩選(這裡要記得加上規格要選完才能送出)
 const username = ref('');
@@ -514,6 +449,10 @@ const triggerDatePicker = () => {
                 <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">
                     ${{ product.price * getQuantity(product.id) }}
                 </p>
+                <button v-show="selectedSpecs[product.id]" type="button" class="flex justify-end cursor-pointer z-10"
+                    @click="openModal(product.id)">
+                    <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="">
+                </button>
                 <button type="button" class="xl:w-[200px] w-[120px] flex justify-center xl:mr-2 cursor-pointer"
                     @click="deleteProduct(product.id)">
                     <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
@@ -526,9 +465,12 @@ const triggerDatePicker = () => {
                     class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
                     <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.img_url" alt="Product Image">
 
-                    <div class="flex flex-col gap-2 px-2 pb-4 md:h-[100px]">
-                        <p class="text-left font-noto-jp text-white leading-[1.2]">
+                    <div class="flex flex-col gap-2 px-2 pb-4 md:h-[100px] text-white ">
+                        <p class="text-left font-noto-jp leading-[1.2]">
                             {{ product.name }}
+                        </p>
+                        <p v-show="selectedSpecs[product.id]">
+                            {{ `${test(product.id).color} / ${test(product.id).style} / ${getQuantity(product.id)}件` }}
                         </p>
                     </div>
                     <div
@@ -538,10 +480,16 @@ const triggerDatePicker = () => {
                             規格
                         </button>
                     </div>
-                    <button type="button" class="flex justify-end cursor-pointer z-10"
-                        @click="deleteProduct(product.id)">
-                        <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
-                    </button>
+                    <div class="flex justify-end">
+                        <button v-show="selectedSpecs[product.id]" type="button"
+                            class="flex justify-end cursor-pointer z-10" @click="openModal(product.id)">
+                            <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="">
+                        </button>
+                        <button type="button" class="flex justify-end cursor-pointer z-10"
+                            @click="deleteProduct(product.id)">
+                            <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -558,7 +506,9 @@ const triggerDatePicker = () => {
         <div v-if="isFormatOpen && currentItem"
             class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
             @click="hideModal">
-            <ShoppingCart :hideModal='hideModal'></ShoppingCart>
+            <ShoppingCart :hideModal='hideModal' :getColor="getColor" :getType="getType" :item="currentItem"
+                @updateColor="handleColorUpdate" @updateStyle="handleStyleUpdate" @updateQuantity="handleQuantityUpdate"
+                @addToCart="addToCart" />
         </div>
 
 

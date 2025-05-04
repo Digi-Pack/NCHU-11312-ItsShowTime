@@ -8,12 +8,16 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
-const { hideModal } = defineProps({
+
+// 從父層取得的資料
+const { hideModal, getColor, getType, item } = defineProps({
     hideModal: { type: Function },
+    getColor: {type: Function },
+    getType: {type: Function},
+    item: {type: Object},
 });
 
 // 初始化縮圖輪播控制器
-const thumbsSwiper = ref(null);
 const thumbsIndex = ref(0);
 
 // 當前縮圖index
@@ -23,6 +27,21 @@ const setActiveThumb = (index) => {
         mainSwiper.value.slideToLoop(index); // 這才是跳轉主圖
     }
 }
+
+const rawThumbsSwiper = ref(null);
+
+// 確保 thumbsSwiper 這個 Swiper 實例目前是有效存在的、而且尚未被銷毀
+// 如果使用v-if或是重新渲染元件的話 swiper可能會自動銷毀，
+// 當使用者把已被銷毀的 swiper 實例傳進主 Swiper 的 thumbs.swiper時候就有可能會報錯
+const thumbsSwiper = computed(() => {
+    return rawThumbsSwiper.value && !rawThumbsSwiper.value.destroyed
+        ? rawThumbsSwiper.value
+        : null;
+});
+
+const updateThumbsSwiper = (newSwiper) => {
+    rawThumbsSwiper.value = newSwiper;  // 直接修改 rawThumbsSwiper
+};
 
 // 添加主 Swiper 的引用
 const mainSwiper = ref(null);
@@ -38,12 +57,11 @@ const handleSlideChange = () => {
 
 // 商品圖片列表
 const images = ref([
-    "/image/1-1.webp",
-    "/image/1-2.webp",
-    "/image/1-3.webp",
-    "/image/1-5.webp",
-    "/image/1-6.webp",
-    "/image/1-7.webp",
+    "/image/product/p1-1.webp",
+    "/image/product/p1-2.webp",
+    "/image/product/p1-3.webp",
+    "/image/product/p1-4.webp",
+    "/image/product/p1-5.webp",
 ]);
 
 // 圖片加載錯誤處理
@@ -53,12 +71,11 @@ const handleImageError = (e) => {
 
 // 商品數據
 const product = ref({
-    title: "【IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨",
     description: "台製高質感刺繡頭帶，頭帶約 100*5公分，可客製刺繡，繡出自己的暴走魂",
-    price: "300~400",
-    colors: ["黑色", "紅色"],
-    styles: ["神風", "特攻", "嫉惡", "暴走", "台灣聯合", "客製化"]
 });
+
+// 要將選擇的相關資訊丟回父層應用
+const emit = defineEmits(['updateColor', 'updateStyle', 'updateQuantity', 'addToCart']);
 
 // 選中的選項
 const selectedColor = ref(null);
@@ -68,11 +85,13 @@ const quantity = ref(1);
 // 選擇顏色
 const selectColor = (color) => {
     selectedColor.value = color;
+    emit('updateColor', color);
 };
 
 // 選擇款式
 const selectStyle = (style) => {
     selectedStyle.value = style;
+    emit('updateStyle', style);
 };
 
 // 增減數量
@@ -84,26 +103,7 @@ const CalcQuantity = (style) => {
     } else {
         quantity.value++;
     }
-};
-
-// 添加到購物車
-const addToCart = () => {
-    console.log('添加到購物車', {
-        product: product.value.title,
-        color: selectedColor.value,
-        style: selectedStyle.value,
-        quantity: quantity.value
-    });
-    // alert('已加入購物車！');
-
-    Swal.fire({
-        icon: "success",
-        title: "已加入購物車！",
-        showConfirmButton: false,
-        timer: 1500
-    });
-    
-    hideModal();
+    emit('updateQuantity', quantity.value);
 };
 
 // 記錄螢幕寬度並監控變化
@@ -119,10 +119,15 @@ onMounted(() => {
         screenWidth.value = window.innerWidth;
     });
 
-    selectedColor.value = product.value.colors[0];
-    selectedStyle.value = product.value.styles[0];
+    selectedColor.value = getColor()[0];
+    selectedStyle.value = getType()[0];
     thumbsIndex.value = 0;
 });
+
+// 觸發父層addToCart事件
+const handleAddToCart = function() {
+  emit('addToCart');
+};
 
 </script>
 
@@ -157,7 +162,7 @@ onMounted(() => {
                                 :direction="screenWidth < 768 ? 'horizontal' : 'vertical'"
                                 :slides-per-view="screenWidth < 768 ? 4 : 5" :space-between="10" :free-mode="true"
                                 watch-slides-progress class="w-60 h-15 md:w-20 md:h-full max-h-[250px] md:max-h-[400px]"
-                                @swiper="(swiper) => thumbsSwiper = swiper">
+                                @swiper="(swiper) => updateThumbsSwiper = swiper">
                                 <SwiperSlide class="h-16" v-for="(img, i) in images" :key="'thumb-' + i"
                                     @click="setActiveThumb(i)">
                                     <img :src="img" @error="handleImageError"
@@ -171,16 +176,16 @@ onMounted(() => {
                 </div>
                 <!-- 右側商品資訊 -->
                 <div class="w-full lg:w-1/2 flex flex-col gap-3 mr-10">
-                    <div class="text-xl font-medium">{{ product.title }}</div>
+                    <div class="text-xl font-medium">{{ item?.name }}</div>
                     <hr class="border">
                     <div>{{ product.description }}</div>
-                    <div class="text-2xl text-[#C89E51] font-bold">${{ product.price }}</div>
+                    <div class="text-2xl text-[#C89E51] font-bold">${{ item?.price }}</div>
 
                     <!-- 顏色選擇 -->
                     <div class="flex items-center gap-6">
                         <span class="w-[10%] text-nowrap">顏色</span>
                         <div class="w-[90%] flex gap-3 flex-wrap">
-                            <button v-for="color in product.colors" :key="color" type="button"
+                            <button v-for="color in getColor()" :key="color" type="button"
                                 class="border py-1 px-4 rounded transition-colors"
                                 :class="{ 'border-yellow-400': selectedColor === color }" @click="selectColor(color)">
                                 {{ color }}
@@ -192,7 +197,7 @@ onMounted(() => {
                     <div class="flex items-start gap-6">
                         <span class="w-[10%] text-nowrap">款式</span>
                         <div class="w-[90%] flex gap-3 flex-wrap">
-                            <button v-for="style in product.styles" :key="style" type="button"
+                            <button v-for="style in getType()" :key="style" type="button"
                                 class="border py-1 px-4 rounded transition-colors"
                                 :class="{ 'border-yellow-400': selectedStyle === style }" @click="selectStyle(style)">
                                 {{ style }}
@@ -221,7 +226,7 @@ onMounted(() => {
                     <div class="mt-6 flex justify-center">
                         <button type="button"
                             class="py-2 px-6 border rounded-xl flex items-center gap-2 hover:bg-gray-700 transition-colors"
-                            @click="addToCart">
+                            @click="handleAddToCart">
                             <img class="size-[30px]" src="image/svg/ShoppingCartIcon.svg" alt="">
                             <span class="text-lg">加入購物車</span>
                         </button>
