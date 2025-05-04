@@ -101,7 +101,7 @@ const props = defineProps({
   banners: Array | Object,
   response: Array | Object,
 });
-
+// console.log(props.response);
 
 // 商品製作點擊按鈕顯示圖片
 const isShowImage = ref(false);
@@ -116,15 +116,16 @@ const hideImage = () => {
   isShowImage.value = false;
 };
 
-
 // 點擊MORE出現更多資訊頁面
 const isMoreOpen = ref(false);
-const currentProductId = ref(null);
 
+const selectedProduct = ref([]);
+// const mainImage = ref('');
 
 let scrollPosition = 0;
 const openModal = (productId) => {
-  currentProductId.value = productId;
+  selectedProduct.value = props.response.find(product => product.id === productId) || null;
+  // mainImage.value = selectedProduct.value?.product_image.find(image => image.isMain)?.img_path;
 
   isMoreOpen.value = true;
   // 禁用body頁面滾動條
@@ -145,11 +146,6 @@ const hideModal = () => {
   window.scrollTo(0, scrollPosition);
 }
 
-const currentProduct = () => {
-  if (!currentProductId.value) return null;
-  return props.response.find(product => product.id === currentProductId.value) || null;
-};
-
 
 // 新增商品ID到購物車
 const productIds = ref([]);
@@ -166,7 +162,8 @@ watch(inquiryCount, (newVal) => {
 });
 
 const addProductId = (productId) => {
-  const product = currentProduct(productId);
+  const product = selectedProduct.value;
+  
   if (!product) {
     alert('商品ID無效或未找到商品');
     return;
@@ -590,17 +587,8 @@ onUnmounted(() => {
             <swiper @swiper="setThumbsSwiper2" :loop="true" :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'"
               :spaceBetween="windowWidth <= 500 ? 16 : 24" :slidesPerView="'auto'" :freeMode="true" :modules="modules"
               class="mySwiper min-[769px]:order-0 order-1">
-              <swiper-slide>
-                <img :src="currentProduct()?.img_url" alt="">
-              </swiper-slide>
-              <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-2.jpg" alt="">
-              </swiper-slide>
-              <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-3.jpg" alt="">
-              </swiper-slide>
-              <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-4.jpg" alt="">
+              <swiper-slide v-for="(item, index) in selectedProduct.product_image" :key="index">
+                <img :src="item?.img_path" alt="">
               </swiper-slide>
             </swiper>
             <!-- 大圖 -->
@@ -608,66 +596,27 @@ onUnmounted(() => {
               type: 'fraction',
             }" :navigation="true" :thumbs="{ swiper: thumbsSwiper2 }" :modules="modules"
               class="mySwiper2 min-[769px]:order-1 order-0">
-              <swiper-slide>
-                <img :src="currentProduct()?.img_path" class="aspect-square object-cover object-center" alt="">
-              </swiper-slide>
-              <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-2.jpg"
-                  class="aspect-square object-cover object-center" alt="">
-              </swiper-slide>
-              <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-3.jpg"
-                  class="aspect-square object-cover object-center" alt="">
-              </swiper-slide>
-              <swiper-slide>
-                <img src="https://swiperjs.com/demos/images/nature-4.jpg"
-                  class="aspect-square object-cover object-center" alt="">
+              <swiper-slide v-for="(item, index) in selectedProduct.product_image" :key="index">
+                <img :src="item?.img_path" alt="">
               </swiper-slide>
             </swiper>
           </div>
           <!-- 右側商品資訊 -->
           <div class="w-full min-[1150px]:w-2/5 flex flex-col gap-4">
             <p class="text-xl font-bold px-3 py-4 border-b border-white">
-              {{ currentProduct()?.name }}
+              {{ selectedProduct?.name }}
             </p>
             <p class="px-3 pb-4">繡出你的態度，隨時隨地簡單暴走中</p>
             <p class="text-[#FFD83C] text-2xl font-medium px-3 pb-4">
-              {{ currentProduct()?.price }}
+              {{ selectedProduct?.price }}
             </p>
-            <div class="space-y-2 px-3 min-[1150px]:pb-10 pb-4">
-              <div class="flex items-center gap-2">
-                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
-                <p>台製高質感刺繡頭帶</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
-                <p>頭帶約 100*5公分</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
-                <p>可客制刺繡，繡出自己的暴走魂</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
-                <p>灣出產精品品質</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
-                <p>精美原立包裝 送禮自用兩相宜</p>
-              </div>
-              <div class="flex items-center gap-2">
-                <img src="/image/svg/check.svg" class="w-5 h-6" alt="">
-                <p>時隨地簡單暴走中</p>
-              </div>
-            </div>
+            <div v-html="selectedProduct.introduction" class="space-y-2 px-3 min-[1150px]:pb-10 pb-4"></div>
             <div class="flex justify-end">
-
               <button type="button" class="border border-white rounded-[18px] flex items-center gap-2 px-10 py-3"
                 @click="addProductId(productId)">
                 <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="" />
                 <p class="text-white text-2xl font-bold">加入詢價</p>
               </button>
-
             </div>
           </div>
         </div>
@@ -683,7 +632,7 @@ onUnmounted(() => {
             <swiper-slide v-for="product in props.response" :key="product.id">
               <div
                 class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
-                <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_url" alt="">
+                <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_path" alt="">
                 <div class="flex flex-col gap-2 px-2">
                   <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
                     {{ product.name }}
@@ -1031,7 +980,10 @@ button {
 }
 
 .more-container .mySwiper2 .swiper-slide img {
+  margin: 0 auto;
   border-radius: 5px;
+  object-fit: contain;
+  object-position: center;
 }
 
 .more-container .mySwiper {
@@ -1061,6 +1013,8 @@ button {
 .more-container .mySwiper .swiper-slide img {
   width: 100px;
   aspect-ratio: 1;
+  object-fit: contain;
+  object-position: center;
   border-radius: 3px;
 }
 

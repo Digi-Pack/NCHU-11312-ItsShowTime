@@ -24,6 +24,12 @@ const mainNavItems: NavItem[] = [
     href: route('admin.product.list'),
     icon: LayoutGrid,
   },
+  {
+    title: 'InquiryList',
+    href: route('admin.inquiry.list'),
+    icon: LayoutGrid,
+  },
+  
 ];
 
 const footerNavItems: NavItem[] = [

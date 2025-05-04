@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('images', function (Blueprint $table) {
+        Schema::create('product_images', function (Blueprint $table) {
             $table->id();
-            $table->text('img_path')->comment('彈窗商品圖片URL');
+            $table->unsignedBigInteger('product_id')->comment('商品id');
+            $table->string('img_path')->comment('商品圖片');
+            $table->boolean('isMain')->default(false)->comment('圖片是否為主圖');
             $table->timestamps();
         });
     }
@@ -23,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('images');
+        Schema::dropIfExists('product_images');
     }
 };

@@ -9,7 +9,7 @@ const props = defineProps({ response: Array | Object });
 
 const item = ref({
   title: props.response.title,
-  // img_path: props.response.img_path,
+  img_path: props.response.img_path ?? null,
   img_name: props.response.img_name,
   new_file: null,
   _method: 'put',
@@ -46,11 +46,11 @@ const backBtn = () => router.get(route('admin.banner.list'));
       <section class="flex flex-col gap-3 w-full">
         <label for="" class="flex gap-2">
           <span>標題</span>
-          <input class="border w-[calc(100%-60px)]" type="text" v-model="item.title">
+          <input v-model="item.title" type="text" class="w-[calc(100%-60px)] border border-gray-400 rounded-sm">
         </label>
         <label for="" class="flex gap-2">
           <span>圖片</span>
-          <input type="file" class="border w-[calc(100%-60px)] cursor-pointer" @change="putFile">
+          <input type="file" class="w-[calc(100%-60px)] border border-gray-400 rounded-sm cursor-pointer" @change="putFile">
         </label>
         <div class="mt-2 pb-3">
           <p>圖片預覽：</p>

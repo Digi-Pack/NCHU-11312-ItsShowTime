@@ -2,6 +2,7 @@
 
 use Inertia\Inertia;
 use App\Models\Banner;
+use App\Models\Inquiry;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -91,7 +92,7 @@ Route::put('/admin/banner/update/{id}', function (Request $request, $id) {
     $request->validate([
       'title' => 'required|string|max:255',
       // 'img_path' => 'file|mimes:jpg,jpeg,png,webp',
-      'new_file' => 'file|mimes:jpg,jpeg,png,webp',
+      'new_file' => $request->hasFile('new_file') ? 'file|mimes:jpg,jpeg,png,webp' : '',
     ]);
 
     $banner = Banner::find($id);
@@ -173,9 +174,14 @@ Route::delete('/admin/banner/delete/{id}', function ($id) {
 
 
 
+
+
+
 // Product 相關操作
 Route::get('/admin/product', function () {
-  $products = Product::all();
+  // $products = Product::all();
+  $products = Product::with('productImage')->get();
+
   return Inertia::render('backend/product/ProductList', [
     'response' => $products,
   ]);
@@ -193,20 +199,13 @@ Route::get('/admin/product/create', function () {
 // 新增資料
 Route::post('/admin/product', function (Request $request) {
 
-  Product::create([
-    // 'name' =>  $request->name,
-    // 'price' =>  $request->price,
-    'introduction' =>  $request->content,
-    // 'img_name' => $fileName,
-    // 'img_path' => $path,
-  ]);
-
-  return redirect(route('admin.product.list'));
-  // try {
-    // $request->validate([
-    //   'title' => 'required|string|max:255',
-    //   'img_path' => 'file|mimes:jpg,jpeg,png,webp',
-    // ]);
+  try {
+    $request->validate([
+      'name' => 'required|string|max:255',
+      'price' =>  'string|max:255',
+      'content' =>  'nullable|string',
+      // 'img_path' => 'file|mimes:jpg,jpeg,png,webp',
+    ]);
 
     // $file = $request->img_path;
 
@@ -224,38 +223,198 @@ Route::post('/admin/product', function (Request $request) {
 
     // move_uploaded_file($file, public_path() . $path);
 
-    // $res = 'success';
-    // $message = '儲存成功';
+    $res = 'success';
+    $message = '儲存成功';
 
-  //   Product::create([
-  //     // 'name' =>  $request->name,
-  //     // 'price' =>  $request->price,
-  //     'introduction' =>  $request->content,
-  //     // 'img_name' => $fileName,
-  //     // 'img_path' => $path,
-  //   ]);
-  // } catch (\Throwable $th) {
-  //   Log::info($th->getMessage());
-  //   $res = 'fail';
-  //   $message = $th->getMessage();
-  // };
+    Product::create([
+      'name' =>  $request->name,
+      'price' =>  $request->price,
+      'introduction' =>  $request->content,
+      // 'img_name' => $fileName,
+      // 'img_path' => $path,
+    ]);
+  } catch (\Throwable $th) {
+    Log::info($th->getMessage());
+    $res = 'fail';
+    $message = $th->getMessage();
+  };
 
-  // return back()->with(['message' => [
-  //   'res' => $res,
-  //   'msg' => $message,
-  // ]]);
-
+  return back()->with(['message' => [
+    'res' => $res,
+    'msg' => $message,
+  ]]);
 })->name('admin.product.store');
 
 
 
 // 編輯頁
-Route::get('/admin/product/edit/{id}', function ($id) {})->name('admin.product.edit');
+Route::get('/admin/product/edit/{id}', function ($id) {
+  $item = Product::find($id);
+
+  return Inertia::render('backend/product/ProductEdit', [
+    'response' => $item,
+  ]);
+})->name('admin.product.edit');
 
 
 // 更新資料
-Route::put('/admin/product/update/{id}', function (Request $request, $id) {})->name('admin.product.update');
+Route::put('/admin/product/update/{id}', function (Request $request, $id) {
+  try {
+    $request->validate([
+      'name' => 'required|string|max:255',
+      // 'price' =>  $request->price,
+      // 'introduction' =>  $request->content,
+      // 'img_path' => 'file|mimes:jpg,jpeg,png,webp',
+      // 'new_file' => $request->hasFile('new_file') ? 'file|mimes:jpg,jpeg,png,webp' : '',
+    ]);
+
+    $product = Product::find($id);
+    if (!$product) {
+      return back()->with(['message' => [
+        'res' => 'fail',
+        'msg' => '查無此消息',
+      ]]);
+    };
+
+    $res = 'success';
+    $message = '儲存成功';
+
+    // if ($request->hasFile('new_file')) {
+    //   $file = $request->new_file;
+    //   $fileName = $file->getClientOriginalName();
+    //   if (!is_dir('upload/')) {
+    //     mkdir('upload/');
+    //   };
+    //   if (!is_dir('upload/product')) {
+    //     mkdir('upload/product');
+    //   };
+    //   $hashName = $file->hashName();
+    //   $path = '/upload/' . 'product' . '/' . $hashName;
+    //   move_uploaded_file($file, public_path() . $path);
+    //   // $file->move(public_path('upload/banner'), $hashName);
+
+    //   // 刪除舊照片
+    //   $oldFile = $product->img_path;
+    //   if (file_exists(public_path() . $oldFile)) {
+    //     File::delete(public_path() . $oldFile);
+    //   };
+
+    //   $product->update([
+    //     'img_path' => $path,
+    //     'img_name' => $fileName,
+    //   ]);
+    // };
+
+    $product->update([
+      'name' =>  $request->name,
+      'price' =>  $request->price,
+      'introduction' =>  $request->content,
+    ]);
+  } catch (\Throwable $th) {
+    Log::info($th->getMessage());
+    $res = 'fail';
+    $message = $th->getMessage();
+  };
+
+  return back()->with(['message' => [
+    'res' => $res,
+    'msg' => $message,
+  ]]);
+})->name('admin.product.update');
 
 
 // 刪除資料
-Route::delete('/admin/product/delete/{id}', function ($id) {})->name('admin.product.delete');
+Route::delete('/admin/product/delete/{id}', function ($id) {
+
+  $product = Product::find($id);
+  if (!$product) {
+    return back()->with(['message' => [
+      'res' => 'fail',
+      'msg' => '查無此消息',
+    ]]);
+  };
+
+  // 刪除該筆照片
+  // $oldFile = $banner->img_path;
+  // if (file_exists(public_path() . $oldFile)) {
+  //   File::delete(public_path() . $oldFile);
+  // };
+
+  $product->delete();
+
+  return back()->with(['message' => [
+    'res' => 'success',
+    'msg' => '刪除成功',
+  ]]);
+})->name('admin.product.delete');
+
+
+
+
+
+
+// Inquire 相關操作
+Route::get('/admin/inquiry', function () {
+  // $products = Product::all();
+  $inquiries = Inquiry::with('product')->get();
+
+  return Inertia::render('backend/inquiry/InquiryList', [
+    'response' => $inquiries,
+  ]);
+})->name('admin.inquiry.list');
+
+
+// 儲存前端送來的資料
+Route::post('/admin/inquiry', function (Request $request) {
+  try {
+    $request->validate([
+      'username' => 'required|string',
+      // 'birthday' => 'required|date',
+      'phone' => 'required|string',
+      'email' => 'required|email',
+      // 'address' => 'nullable|string',
+      'remark' => 'nullable|string',
+    ]);
+
+    $res = 'success';
+    $message = '詢價單已成功送出！';
+
+    Inquiry::create([
+      'name' =>  $request->username,
+      'phone' =>  $request->phone,
+      'email' =>  $request->email,
+      'product_id' => $request->product_id,
+      'remark' =>  $request->remark,
+    ]);
+  } catch (\Throwable $th) {
+    Log::info($th->getMessage());
+    $res = 'fail';
+    $message = $th->getMessage() ?? '送出失敗，請稍後再試！';
+  };
+
+  return back()->with(['message' => [
+    'res' => $res,
+    'msg' => $message,
+  ]]);
+})->name('admin.inquiry.store');
+
+
+
+// 刪除資料
+Route::delete('/admin/inquiry/delete/{id}', function ($id) {
+
+  $inquiry = Inquiry::find($id);
+  if (!$inquiry) {
+    return back()->with(['message' => [
+      'res' => 'fail',
+      'msg' => '查無此消息',
+    ]]);
+  };
+
+  $inquiry->delete();
+
+  return back()->with(['message' => [
+    'res' => 'success',
+    'msg' => '刪除成功',
+  ]]);
+})->name('admin.inquiry.delete');

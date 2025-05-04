@@ -17,7 +17,7 @@ class ItsshowtimeController extends Controller
     public function index()
     {
         $banners = Banner::all();
-        $products = Product::with(['color', 'size', 'type', 'image'])->get();
+        $products = Product::with(['color', 'size', 'type', 'image', 'productImage'])->get();
     
         return Inertia::render('frontend/homePage', [
             'banners' => $banners,

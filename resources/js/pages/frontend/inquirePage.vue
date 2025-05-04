@@ -277,6 +277,7 @@ const getQuantity = (productId) => {
 };
 
 // 送出詢價單篩選(這裡要記得加上規格要選完才能送出)
+
 const username = ref('');
 const phone = ref('');
 const email = ref('');
@@ -320,12 +321,42 @@ const handleSubmit = () => {
         return;
     }
 
-    // 這段目前怎麼樣都會顯示成功，需再補充和後台確認才顯示成功的功能
-    Swal.fire({
-        title: "詢價單已成功送出！",
-        icon: "success",
-        draggable: true
+    const item = ref({
+        username: username.value,
+        // birthday: birthday.value,
+        phone: phone.value,
+        email: email.value,
+        product_id: 3,
     });
+
+    router.post(route('admin.inquiry.store'), item.value, {
+        onSuccess: (response) => {
+            const result = response?.props?.flash?.message ?? {};
+            if (result.res === 'success') {
+                Swal.fire({
+                icon: "success",
+                title: result.msg,
+                showConfirmButton: false,
+                timer: 1000,
+                }).then(() => {
+                router.get(route('home'));
+                });
+            } else {
+                Swal.fire({
+                icon: "error",
+                title: result.msg,
+                });
+            };
+        },
+    });
+
+
+    // 這段目前怎麼樣都會顯示成功，需再補充和後台確認才顯示成功的功能
+    // Swal.fire({
+    //     title: "詢價單已成功送出！",
+    //     icon: "success",
+    //     draggable: true
+    // });
 };
 
 
@@ -431,7 +462,7 @@ const triggerDatePicker = () => {
                 class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
                 <div class="flex 2xl:flex-1 items-center ml-4">
                     <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
-                        <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_url" alt="Product Image">
+                        <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_path" alt="Product Image">
                     </div>
                     <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">{{
                         product.name }}</p>
@@ -580,8 +611,7 @@ const triggerDatePicker = () => {
                     備註 | Remark ( 選填 )
                 </label>
                 <textarea id="remark"
-                    class="2xl:w-[895px] w-full h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] ">
-                </textarea>
+                    class="2xl:w-[895px] w-full h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] "></textarea>
             </div>
 
         </div>

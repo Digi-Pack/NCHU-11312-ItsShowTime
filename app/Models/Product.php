@@ -35,26 +35,39 @@ class Product extends Model
 
 	public function color()
 	{
-		return $this->hasMany(Color::class,'id');
+		return $this->hasMany(Color::class, 'id');
 	}
 
+	// 舊檔
 	public function image()
 	{
-		return $this->hasMany(Image::class,'id');
+		return $this->hasMany(Image::class, 'id');
 	}
+
+	// 新的圖片檔
+	public function productImage()
+	{
+		return $this->hasMany(ProductImage::class);
+	}
+
 
 	public function productsinfo()
 	{
-		return $this->hasMany(ProductsInfo::class, 'product_id','id');
+		return $this->hasMany(ProductsInfo::class, 'product_id', 'id');
 	}
 
 	public function size()
 	{
-		return $this->hasMany(Size::class,'id');
+		return $this->hasMany(Size::class, 'id');
 	}
 
 	public function type()
 	{
-		return $this->hasMany(Type::class,'id');
+		return $this->hasMany(Type::class, 'id');
+	}
+
+	public function inquiries()
+	{
+		return $this->hasMany(Inquiry::class);
 	}
 }
