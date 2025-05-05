@@ -10,10 +10,11 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 
 // 從父層取得的資料
-const { hideModal, getColor, getType, item } = defineProps({
+const { hideModal, getColor, getType, getSize, item } = defineProps({
     hideModal: { type: Function },
     getColor: {type: Function },
     getType: {type: Function},
+    getSize: {type: Function},
     item: {type: Object},
 });
 
@@ -75,11 +76,12 @@ const product = ref({
 });
 
 // 要將選擇的相關資訊丟回父層應用
-const emit = defineEmits(['updateColor', 'updateStyle', 'updateQuantity', 'addToCart']);
+const emit = defineEmits(['updateColor', 'updateStyle', 'updateSize' , 'updateQuantity', 'addToCart']);
 
 // 選中的選項
 const selectedColor = ref(null);
 const selectedStyle = ref(null);
+const selectedSize = ref(null);
 const quantity = ref(1);
 
 // 選擇顏色
@@ -92,6 +94,12 @@ const selectColor = (color) => {
 const selectStyle = (style) => {
     selectedStyle.value = style;
     emit('updateStyle', style);
+};
+
+// 選擇尺寸
+const selectSize = (size) => {
+    selectedStyle.value = size;
+    emit('updateSize', size);
 };
 
 // 增減數量
@@ -121,6 +129,7 @@ onMounted(() => {
 
     selectedColor.value = getColor()[0];
     selectedStyle.value = getType()[0];
+    selectedSize.value = getType()[0];
     thumbsIndex.value = 0;
 });
 
@@ -179,7 +188,7 @@ const handleAddToCart = function() {
                     <div class="text-xl font-medium">{{ item?.name }}</div>
                     <hr class="border">
                     <div>{{ product.description }}</div>
-                    <div class="text-2xl text-[#C89E51] font-bold">${{ item?.price }}</div>
+                    <div class="text-2xl text-[#C89E51] font-bold">{{ item?.price }}</div>
 
                     <!-- 顏色選擇 -->
                     <div class="flex items-center gap-6">
@@ -201,6 +210,18 @@ const handleAddToCart = function() {
                                 class="border py-1 px-4 rounded transition-colors"
                                 :class="{ 'border-yellow-400': selectedStyle === style }" @click="selectStyle(style)">
                                 {{ style }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 尺寸選擇 -->
+                    <div class="flex items-start gap-6">
+                        <span class="w-[10%] text-nowrap">尺寸</span>
+                        <div class="w-[90%] flex gap-3 flex-wrap">
+                            <button v-for="style in getType()" :key="size" type="button"
+                                class="border py-1 px-4 rounded transition-colors"
+                                :class="{ 'border-yellow-400': selectedSize === size }" @click="selectStyle(size)">
+                                {{ size }}
                             </button>
                         </div>
                     </div>

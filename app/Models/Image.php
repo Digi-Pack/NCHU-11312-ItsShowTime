@@ -24,10 +24,17 @@ class Image extends Model
 	protected $table = 'images';
 
 	protected $fillable = [
-		'img_path'
+		'img_path',
+		'isMain',
 	];
+	
 	public function product()
 	{
 		return $this->belongsTo(Product::class,'id');
+	}
+
+	public function productsinfo()
+	{
+		return $this->belongsTo(Productsinfo::class, 'id');
 	}
 }

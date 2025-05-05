@@ -526,7 +526,7 @@ onUnmounted(() => {
               <swiper-slide v-for="product in props.response" :key="product.id">
                 <div
                   class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
-                  <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_path" alt="">
+                  <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img" alt="">
                   <div class="flex flex-col gap-2 px-2">
                     <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
                       {{ product.name }}
@@ -590,7 +590,7 @@ onUnmounted(() => {
               <swiper @swiper="setThumbsSwiper2" :loop="true" :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'"
                 :spaceBetween="windowWidth <= 500 ? 16 : 24" :slidesPerView="'auto'" :freeMode="true" :modules="modules"
                 class="mySwiper min-[769px]:order-0 order-1">
-                <swiper-slide v-for="(item, index) in selectedProduct.product_image" :key="index">
+                <swiper-slide v-for="(item, index) in selectedProduct.images" :key="index">
                   <img :src="item?.img_path" alt="">
                 </swiper-slide>
               </swiper>
@@ -599,7 +599,7 @@ onUnmounted(() => {
                 type: 'fraction',
               }" :navigation="true" :thumbs="{ swiper: thumbsSwiper2 }" :modules="modules"
                 class="mySwiper2 min-[769px]:order-1 order-0">
-                <swiper-slide v-for="(item, index) in selectedProduct.product_image" :key="index">
+                <swiper-slide v-for="(item, index) in selectedProduct.images" :key="index">
                   <img :src="item?.img_path" alt="">
                 </swiper-slide>
               </swiper>
@@ -635,7 +635,7 @@ onUnmounted(() => {
               <swiper-slide v-for="product in props.response" :key="product.id">
                 <div
                   class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
-                  <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_path" alt="">
+                  <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img" alt="">
                   <div class="flex flex-col gap-2 px-2">
                     <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
                       {{ product.name }}
