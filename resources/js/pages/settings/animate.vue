@@ -27,16 +27,16 @@
 
 
 .image-left img {
-    animation: left 2s ease-in-out infinite;
+    animation: left 2s ease-in-out;
 }
 
 .image-right img {
-    animation: right 2s ease-in-out infinite;
+    animation: right 2s ease-in-out;
 }
 
 .showtime-text {
     opacity: 0;
-    animation: showText 2s ease-in-out infinite;
+    animation: showText 2s ease-in-out;
     z-index: 10;
 }
 

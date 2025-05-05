@@ -1,4 +1,7 @@
 <script setup>
+import FrontendFooter from '@/components/FrontendFooter.vue';
+import LoadingAnimate from '@/pages/settings/animate.vue';
+
 import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 
@@ -334,22 +337,21 @@ const handleSubmit = () => {
             const result = response?.props?.flash?.message ?? {};
             if (result.res === 'success') {
                 Swal.fire({
-                icon: "success",
-                title: result.msg,
-                showConfirmButton: false,
-                timer: 1000,
+                    icon: "success",
+                    title: result.msg,
+                    showConfirmButton: false,
+                    timer: 1000,
                 }).then(() => {
-                router.get(route('home'));
+                    router.get(route('home'));
                 });
             } else {
                 Swal.fire({
-                icon: "error",
-                title: result.msg,
+                    icon: "error",
+                    title: result.msg,
                 });
             };
         },
     });
-
 
     // 這段目前怎麼樣都會顯示成功，需再補充和後台確認才顯示成功的功能
     // Swal.fire({
@@ -368,261 +370,271 @@ const triggerDatePicker = () => {
     }
 };
 
+const isLoading = ref(true);
 
+onMounted(() => {
+    setTimeout(() => {
+        isLoading.value = false;
+    }, 1900);
+});
 </script>
 
 <template>
-
-    <section class="flex flex-col items-center w-full bg-[#1F1B1B]">
-
-        <!-- NavBar -->
-        <nav :class="[
-            'w-full flex min-[476px]:justify-center py-6 text-nowrap',
-            isScrolled ? 'fixed top-0 left-0 bg-stone-50 font-bold z-20' : ''
-        ]">
-            <div class="2xl:block flex">
-                <p
-                    class="font-noto-jp text-[#F0BD22] 2xl:text-[30px] md:text-[20px] min-[476px]:text-[14px] min-[374px]:text-[12px] sm:tracking-[0.06em] mb-2 min-[476px]:pl-0 pl-3">
-                    itsshowtime．無敵の特工服オーダーメイドブランド
-                </p>
-
-                <!-- NavBar 1600px以下 -->
-                <nav class="min-[1680px]:hidden fixed top-0 left-0 w-full z-20 font-noto-jp">
-                    <!-- Ham Btn -->
-                    <button type="button"
-                        class="w-9 h-9 flex justify-center items-center cursor-pointer p-6 fixed min-[476px]:top-4 top-2 right-4 z-20"
-                        @click="toggleMenu">
-                        <i class="fa-solid fa-bars text-3xl" style="color:#F0BD22"></i>
-                    </button>
-
-                    <div :class="[
-                        'fixed left-0 top-0 w-full h-[380px] bg-slate-100 z-10',
-                        'flex flex-col justify-center gap-6 p-8 overflow-y-auto',
-                        isOpen ? 'flex' : 'hidden'
-                    ]">
-                        <Link :href="route('home')" v-for="item in menuItems" :key="item.id" @click="toggleMenu"
-                            class="flex items-center gap-[9px] text-xl ">
-                        <img src="/image/svg/Arrow 2.svg" alt="" />
-                        <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
-                        </Link>
-                    </div>
-                </nav>
+    <LoadingAnimate v-if="isLoading"/>
+    <section v-else>
+        <div class="flex flex-col items-center w-full bg-[#1F1B1B]">
+    
+            <!-- NavBar -->
+            <nav :class="[
+                'w-full flex min-[476px]:justify-center py-6 text-nowrap',
+                isScrolled ? 'fixed top-0 left-0 bg-stone-50 font-bold z-20' : ''
+            ]">
+                <div class="2xl:block flex">
+                    <p
+                        class="font-noto-jp text-[#F0BD22] 2xl:text-[30px] md:text-[20px] min-[476px]:text-[14px] min-[374px]:text-[12px] sm:tracking-[0.06em] mb-2 min-[476px]:pl-0 pl-3">
+                        itsshowtime．無敵の特工服オーダーメイドブランド
+                    </p>
+    
+                    <!-- NavBar 1600px以下 -->
+                    <nav class="min-[1680px]:hidden fixed top-0 left-0 w-full z-20 font-noto-jp">
+                        <!-- Ham Btn -->
+                        <button type="button"
+                            class="w-9 h-9 flex justify-center items-center cursor-pointer p-6 fixed min-[476px]:top-4 top-2 right-4 z-20"
+                            @click="toggleMenu">
+                            <i class="fa-solid fa-bars text-3xl" style="color:#F0BD22"></i>
+                        </button>
+    
+                        <div :class="[
+                            'fixed left-0 top-0 w-full h-[380px] bg-slate-100 z-10',
+                            'flex flex-col justify-center gap-6 p-8 overflow-y-auto',
+                            isOpen ? 'flex' : 'hidden'
+                        ]">
+                            <Link :href="route('home')" v-for="item in menuItems" :key="item.id" @click="toggleMenu"
+                                class="flex items-center gap-[9px] text-xl ">
+                            <img src="/image/svg/Arrow 2.svg" alt="" />
+                            <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
+                            </Link>
+                        </div>
+                    </nav>
+                </div>
+            </nav>
+    
+    
+            <!-- NavBar 1680px以上 -->
+            <nav class="hidden min-[1680px]:flex flex-col fixed top-64 2xl:left-16 z-10 font-noto-cjk text-white">
+                <div class="w-[80px] mb-4">
+                    <img src="/image/LOGO-底部有字.webp" class="w-full h-full object-cover">
+                </div>
+                <img src="/image/svg/Menu.svg" class="w-full h-full object-cover mb-4">
+                <div class="gap-6">
+                    <Link :href="route('home')" v-for="item in menuItems" :key="item.id" class="flex items-center gap-[9px]"
+                        @click="goHome">
+                    <p class="font-normal leading-[1.8]">{{ item.name }}</p>
+                    <img src="/image/svg/Arrow.svg" alt="">
+                    </Link>
+                </div>
+            </nav>
+    
+    
+            <!-- Banner -->
+            <div class="2xl:w-[821.46px] md:w-[45%] w-[80%] mb-12">
+                <img src="/image/ITS SHOW TIME.webp" class="w-full h-full object-cover">
             </div>
-        </nav>
-
-
-        <!-- NavBar 1680px以上 -->
-        <nav class="hidden min-[1680px]:flex flex-col fixed top-64 2xl:left-16 z-10 font-noto-cjk text-white">
-            <div class="w-[80px] mb-4">
-                <img src="/image/LOGO-底部有字.webp" class="w-full h-full object-cover">
-            </div>
-            <img src="/image/svg/Menu.svg" class="w-full h-full object-cover mb-4">
-            <div class="gap-6">
-                <Link :href="route('home')" v-for="item in menuItems" :key="item.id" class="flex items-center gap-[9px]"
-                    @click="goHome">
-                <p class="font-normal leading-[1.8]">{{ item.name }}</p>
-                <img src="/image/svg/Arrow.svg" alt="">
-                </Link>
-            </div>
-        </nav>
-
-
-        <!-- Banner -->
-        <div class="2xl:w-[821.46px] md:w-[45%] w-[80%] mb-12">
-            <img src="/image/ITS SHOW TIME.webp" class="w-full h-full object-cover">
-        </div>
-        <p
-            class="2xl:w-[493px] font-noto-jp font-bold 2xl:text-[32px] sm:text-[20px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[4px] py-3 px-5 tracking-[-0.08em] text-nowrap">
-            天下無敵、台湾特工服の第一品牌</p>
-        <p class="text-white font-noto-jp 2xl:text-[36px] sm:text-[20px] tracking-[-0.08em] py-4 mb-28">詢價清單列表</p>
-
-
-
-        <!-- 詢價清單列表 -->
-        <div class="2xl:w-[1320px] w-[70%] flex items-end mb-6 2xl:px-0 xl:px-1">
             <p
-                class="2xl:flex-1 2xl:w-0 w-[400px] font-noto-jp font-bold sm:text-[24px] text-[18px] text-[#F0BD22] 2xl:mr-0 xl:mr-4">
-                商品名稱</p>
-            <p class="xl:w-[240px] w-[180px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
-                規格</p>
-            <p class="xl:w-[160px] w-[100px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
-                金額</p>
-            <button type="button"
-                class="xl:w-[141px] font-noto-jp font-bold xl:text-[24px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[2px] py-4 px-4 cursor-pointer text-nowrap"
-                @click="clearAllBtn">
-                全部刪除</button>
-        </div>
-
-
-        <!-- min-[956px]以上的選擇規格商品圖 -->
-        <div
-            class="flex-col 2xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center 2xl:font-bold font-noto-jp mb-12">
-
-            <div v-for="(product, index) in response" :key="product.id" v-if="response && response.length > 0"
-                class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
-                <div class="flex 2xl:flex-1 items-center ml-4">
-                    <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
-                        <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_path" alt="Product Image">
-                    </div>
-                    <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">{{
-                        product.name }}</p>
-                </div>
-                <div v-if="!selectedSpecs[product.id]" class="xl:w-[300px] w-[240px] flex justify-center">
-                    <button type="button"
-                        class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer"
-                        @click="openModal(product.id)">
-                        規格選擇
-                    </button>
-                </div>
-                <div v-else class="xl:w-[300px] w-[240px] flex justify-center text-white">
-                    {{ `${test(product.id).color} / ${test(product.id).style} / ${getQuantity(product.id)}件` }}
-                </div>
-                <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">
-                    ${{ product.price * getQuantity(product.id) }}
-                </p>
-                <button v-show="selectedSpecs[product.id]" type="button" class="flex justify-end cursor-pointer z-10"
-                    @click="openModal(product.id)">
-                    <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="">
-                </button>
-                <button type="button" class="xl:w-[200px] w-[120px] flex justify-center xl:mr-2 cursor-pointer"
-                    @click="deleteProduct(product.id)">
-                    <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
-                </button>
+                class="2xl:w-[493px] font-noto-jp font-bold 2xl:text-[32px] sm:text-[20px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[4px] py-3 px-5 tracking-[-0.08em] text-nowrap">
+                天下無敵、台湾特工服の第一品牌</p>
+            <p class="text-white font-noto-jp 2xl:text-[36px] sm:text-[20px] tracking-[-0.08em] py-4 mb-28">詢價清單列表</p>
+    
+    
+    
+            <!-- 詢價清單列表 -->
+            <div class="2xl:w-[1320px] w-[70%] flex items-end mb-6 2xl:px-0 xl:px-1">
+                <p
+                    class="2xl:flex-1 2xl:w-0 w-[400px] font-noto-jp font-bold sm:text-[24px] text-[18px] text-[#F0BD22] 2xl:mr-0 xl:mr-4">
+                    商品名稱</p>
+                <p class="xl:w-[240px] w-[180px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
+                    規格</p>
+                <p class="xl:w-[160px] w-[100px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
+                    金額</p>
+                <button type="button"
+                    class="xl:w-[141px] font-noto-jp font-bold xl:text-[24px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[2px] py-4 px-4 cursor-pointer text-nowrap"
+                    @click="clearAllBtn">
+                    全部刪除</button>
             </div>
-
-            <!-- min-[956px]以下才出現的選擇規格商品圖 -->
-            <div class="flex flex-wrap">
-                <div v-for="(product, index) in response" :key="product.id"
-                    class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
-                    <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.img_url" alt="Product Image">
-
-                    <div class="flex flex-col gap-2 px-2 pb-4 md:h-[100px] text-white ">
-                        <p class="text-left font-noto-jp leading-[1.2]">
-                            {{ product.name }}
-                        </p>
-                        <p v-show="selectedSpecs[product.id]">
-                            {{ `${test(product.id).color} / ${test(product.id).style} / ${getQuantity(product.id)}件` }}
-                        </p>
+    
+    
+            <!-- min-[956px]以上的選擇規格商品圖 -->
+            <div
+                class="flex-col 2xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center 2xl:font-bold font-noto-jp mb-12">
+    
+                <div v-for="(product, index) in response" :key="product.id" v-if="response && response.length > 0"
+                    class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
+                    <div class="flex 2xl:flex-1 items-center ml-4">
+                        <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
+                            <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_path" alt="Product Image">
+                        </div>
+                        <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">{{
+                            product.name }}</p>
                     </div>
-                    <div
-                        class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-10 pb-16">
-                        <button class="border-[#F0BD22] border-2 text-[#F0BD22] px-6 py-2 rounded-md"
+                    <div v-if="!selectedSpecs[product.id]" class="xl:w-[300px] w-[240px] flex justify-center">
+                        <button type="button"
+                            class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer"
                             @click="openModal(product.id)">
-                            規格
+                            規格選擇
                         </button>
                     </div>
-                    <div class="flex justify-end">
+                    <div v-else class="xl:w-[300px] w-[240px] flex justify-center text-white">
+                        {{ `${test(product.id).color} / ${test(product.id).style} / ${getQuantity(product.id)}件` }}
+                    </div>
+                    <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">
+                        ${{ product.price * getQuantity(product.id) }}
+                    </p>
+                    <div class="flex justify-around xl:w-[200px] w-[120px]">
                         <button v-show="selectedSpecs[product.id]" type="button"
                             class="flex justify-end cursor-pointer z-10" @click="openModal(product.id)">
                             <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="">
                         </button>
-                        <button type="button" class="flex justify-end cursor-pointer z-10"
+                        <button type="button" class="flex justify-center xl:mr-2 cursor-pointer"
                             @click="deleteProduct(product.id)">
                             <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
                         </button>
                     </div>
                 </div>
-            </div>
-
-        </div>
-
-
-        <!-- 商品項目計數 -->
-        <div class="2xl:w-[1399px] w-[70%] flex-col flex items-end mb-60">
-            <p class="2xl:text-[24px] text-white mb-2">總計 {{ productCount }} 件商品</p>
-            <p class="2xl:text-[24px] text-white">總金額(NT$)待確認訂單後提供</p>
-        </div>
-
-        <!-- 選擇商品規格 -->
-        <div v-if="isFormatOpen && currentItem"
-            class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
-            @click="hideModal">
-            <ShoppingCart :hideModal='hideModal' :getColor="getColor" :getType="getType" :item="currentItem"
-                @updateColor="handleColorUpdate" @updateStyle="handleStyleUpdate" @updateQuantity="handleQuantityUpdate"
-                @addToCart="addToCart" />
-        </div>
-
-
-        <!-- 詢價資料表 -->
-        <div class="2xl:w-[991px] sm:w-[60%] min-[376px]:w-[80%] w-[90%] flex justify-start 2xl:mb-10 mb-4">
-            <p class="text-white font-noto-jp 2xl:text-[36px] text-[20px] tracking-[-0.08em] 2xl:ml-10">詢價資料填寫</p>
-        </div>
-
-        <div
-            class="2xl:w-[991px] sm:w-[60%] min-[376px]:w-[80%] w-[90%] flex flex-col 2xl:items-center border-t-2 border-white font-noto-jp mb-20 py-8 text-white">
-            <div class="md:flex">
-
-                <div class="2xl:w-[410px] flex flex-1 flex-col 2xl:mr-6 md:mr-4 mb-10">
-                    <label for="username" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
-                        姓名 | Name
-                    </label>
-                    <input id="username" v-model="username" type="text" required
-                        class="bg-transparent border-[1px] border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
-                        placeholder="廖小笙" />
-                </div>
-
-                <div class="2xl:w-[456px] md:w-[50%] flex flex-col mb-10">
-                    <label for="birthday" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
-                        出生年月日 | Birthday
-                    </label>
-
-                    <div class="relative">
-                        <input id="birthday" type="date" v-model="birthday" required
-                            class="w-full bg-transparent border border-white rounded-[8px] px-2 py-2 pr-12 text-[20px] text-white/50 custom-date" />
-
-                        <div class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
-                            <img src="/image/svg/calendar.svg" alt="calendar icon" class="w-[24px] h-[24px]"
-                                @click="triggerDatePicker" />
+    
+                <!-- min-[956px]以下才出現的選擇規格商品圖 -->
+                <div class="flex flex-wrap">
+                    <div v-for="(product, index) in response" :key="product.id"
+                        class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
+                        <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.img_url" alt="Product Image">
+    
+                        <div class="flex flex-col gap-2 px-2 pb-4 md:h-[100px] text-white ">
+                            <p class="text-left font-noto-jp leading-[1.2]">
+                                {{ product.name }}
+                            </p>
+                            <p v-show="selectedSpecs[product.id]">
+                                {{ `${test(product.id).color} / ${test(product.id).style} / ${getQuantity(product.id)}件` }}
+                            </p>
+                        </div>
+                        <div
+                            class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-10 pb-16">
+                            <button v-show="!selectedSpecs[product.id]"
+                                class="border-[#F0BD22] border-2 text-[#F0BD22] px-6 py-2 rounded-md"
+                                @click="openModal(product.id)">
+                                規格
+                            </button>
+                        </div>
+                        <div class="flex justify-around">
+                            <button v-show="selectedSpecs[product.id]" type="button"
+                                class="flex justify-end cursor-pointer z-10" @click="openModal(product.id)">
+                                <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="">
+                            </button>
+                            <button type="button" class="flex justify-end cursor-pointer z-10"
+                                @click="deleteProduct(product.id)">
+                                <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
+                            </button>
                         </div>
                     </div>
                 </div>
+    
             </div>
-
-
-            <div class="flex flex-col mb-10">
-                <label for="phone" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
-                    聯絡電話 | Phone
-                </label>
-                <input id="phone" v-model="phone" type="text" required
-                    class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
-                    placeholder="0912345678" />
+    
+    
+            <!-- 商品項目計數 -->
+            <div class="2xl:w-[1399px] w-[70%] flex-col flex items-end mb-60">
+                <p class="2xl:text-[24px] text-white mb-2">總計 {{ productCount }} 件商品</p>
+                <p class="2xl:text-[24px] text-white">總金額(NT$)待確認訂單後提供</p>
             </div>
-
-            <div class="flex flex-col mb-10">
-                <label for="email" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
-                    電子信箱｜Email
-                </label>
-                <input id="email" v-model="email" type="text" required
-                    class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
-                    placeholder="Las123@gmail.com" />
+    
+            <!-- 選擇商品規格 -->
+            <div v-if="isFormatOpen && currentItem"
+                class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
+                @click="hideModal">
+                <ShoppingCart :hideModal='hideModal' :getColor="getColor" :getType="getType" :item="currentItem"
+                    @updateColor="handleColorUpdate" @updateStyle="handleStyleUpdate" @updateQuantity="handleQuantityUpdate"
+                    @addToCart="addToCart" />
             </div>
-
-            <div class="flex flex-col mb-10">
-                <label for="address" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
-                    聯絡地址 | Address ( 選填 )
-                </label>
-                <input id="address" type="text"
-                    class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
-                    placeholder="南投市環山路112號">
+    
+    
+            <!-- 詢價資料表 -->
+            <div class="2xl:w-[991px] sm:w-[60%] min-[376px]:w-[80%] w-[90%] flex justify-start 2xl:mb-10 mb-4">
+                <p class="text-white font-noto-jp 2xl:text-[36px] text-[20px] tracking-[-0.08em] 2xl:ml-10">詢價資料填寫</p>
             </div>
-
-            <div class="flex flex-col mb-10">
-                <label for="remark" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
-                    備註 | Remark ( 選填 )
-                </label>
-                <textarea id="remark"
-                    class="2xl:w-[895px] w-full h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] "></textarea>
+    
+            <div
+                class="2xl:w-[991px] sm:w-[60%] min-[376px]:w-[80%] w-[90%] flex flex-col 2xl:items-center border-t-2 border-white font-noto-jp mb-20 py-8 text-white">
+                <div class="md:flex">
+    
+                    <div class="2xl:w-[410px] flex flex-1 flex-col 2xl:mr-6 md:mr-4 mb-10">
+                        <label for="username" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
+                            姓名 | Name
+                        </label>
+                        <input id="username" v-model="username" type="text" required
+                            class="bg-transparent border-[1px] border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
+                            placeholder="廖小笙" />
+                    </div>
+    
+                    <div class="2xl:w-[456px] md:w-[50%] flex flex-col mb-10">
+                        <label for="birthday" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
+                            出生年月日 | Birthday
+                        </label>
+    
+                        <div class="relative">
+                            <input id="birthday" type="date" v-model="birthday" required
+                                class="w-full bg-transparent border border-white rounded-[8px] px-2 py-2 pr-12 text-[20px] text-white/50 custom-date" />
+    
+                            <div class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
+                                <img src="/image/svg/calendar.svg" alt="calendar icon" class="w-[24px] h-[24px]"
+                                    @click="triggerDatePicker" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+    
+                <div class="flex flex-col mb-10">
+                    <label for="phone" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
+                        聯絡電話 | Phone
+                    </label>
+                    <input id="phone" v-model="phone" type="text" required
+                        class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
+                        placeholder="0912345678" />
+                </div>
+    
+                <div class="flex flex-col mb-10">
+                    <label for="email" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
+                        電子信箱｜Email
+                    </label>
+                    <input id="email" v-model="email" type="text" required
+                        class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
+                        placeholder="Las123@gmail.com" />
+                </div>
+    
+                <div class="flex flex-col mb-10">
+                    <label for="address" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
+                        聯絡地址 | Address ( 選填 )
+                    </label>
+                    <input id="address" type="text"
+                        class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
+                        placeholder="南投市環山路112號">
+                </div>
+    
+                <div class="flex flex-col mb-10">
+                    <label for="remark" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
+                        備註 | Remark ( 選填 )
+                    </label>
+                    <textarea id="remark"
+                        class="2xl:w-[895px] w-full h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] "></textarea>
+                </div>
+    
             </div>
-
+    
+            <button @click="handleSubmit"
+                class="font-noto-jp font-bold md:text-[24px] text-[18px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[5px] px-12 py-4 cursor-pointer mb-36">
+                送出詢價單
+            </button>
         </div>
-
-        <button @click="handleSubmit"
-            class="font-noto-jp font-bold md:text-[24px] text-[18px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[5px] px-12 py-4 cursor-pointer mb-36">
-            送出詢價單
-        </button>
-
+        <FrontendFooter />
     </section>
-
 </template>
 
 <style>
