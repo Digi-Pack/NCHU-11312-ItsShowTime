@@ -62,8 +62,8 @@ import { Link, router } from '@inertiajs/vue3'
                     <div class="border-t-[1px] border-white text-white py-8 font-noto-jp mb-10">
                         <div class="text-[24px] font-bold text-[#F0BD22] mb-4">我的帳戶</div>
                         <div class="px-4">
-                            <div class="text-[20px] text-[#F0BD22] mb-4">個人檔案</div>
-                            <div class="text-[20px] mb-8">修改密碼</div>
+                            <div class="text-[20px] mb-4">個人檔案</div>
+                            <div class="text-[20px] mb-8 text-[#F0BD22]">修改密碼</div>
                         </div>
                         <div class="text-[24px] font-bold mb-4">線上客服</div>
                         <div class="px-4">
