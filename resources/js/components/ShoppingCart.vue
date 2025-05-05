@@ -18,6 +18,21 @@ const { hideModal, getColor, getType, getSize, item } = defineProps({
     item: {type: Object},
 });
 
+const hasValidColors = computed(() => {
+    const colors = getColor();
+    return Array.isArray(colors) && colors.some(c => c !== null);
+});
+
+const hasValidTypes = computed(() => {
+    const types = getType();
+    return Array.isArray(types) && types.some(t => t !== null);
+});
+
+const hasValidSize = computed(() => {
+    const sizes = getSize();
+    return Array.isArray(sizes) && sizes.some(s => s !== null);
+});
+
 // 初始化縮圖輪播控制器
 const thumbsIndex = ref(0);
 
@@ -57,13 +72,7 @@ const handleSlideChange = () => {
 };
 
 // 商品圖片列表
-const images = ref([
-    "/image/product/p1-1.webp",
-    "/image/product/p1-2.webp",
-    "/image/product/p1-3.webp",
-    "/image/product/p1-4.webp",
-    "/image/product/p1-5.webp",
-]);
+const images = item.images.map(path => path.img_path);
 
 // 圖片加載錯誤處理
 const handleImageError = (e) => {
@@ -98,7 +107,7 @@ const selectStyle = (style) => {
 
 // 選擇尺寸
 const selectSize = (size) => {
-    selectedStyle.value = size;
+    selectedSize.value = size;
     emit('updateSize', size);
 };
 
@@ -127,9 +136,9 @@ onMounted(() => {
         screenWidth.value = window.innerWidth;
     });
 
-    selectedColor.value = getColor()[0];
-    selectedStyle.value = getType()[0];
-    selectedSize.value = getType()[0];
+    selectedColor.value = getColor()?.[0]?.[0] ?? null;
+    selectedStyle.value = getType()?.[0]?.[0] ?? null;
+    selectedSize.value = getSize()?.[0]?.[0] ?? null;
     thumbsIndex.value = 0;
 });
 
@@ -142,7 +151,7 @@ const handleAddToCart = function() {
 
 <template>
     <div class="w-full min-h-screen flex justify-center items-center bg-black/50 p-4">
-        <div class="relative text-white p-4 md:p-8 w-full lg:w-[80%] bg-black rounded-xl" @click.stop>
+        <div class="relative text-white p-4 md:p-8 w-full lg:w-[80%] 2xl:w-[60%] bg-black rounded-xl" @click.stop>
             <button type="button"
                 class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2 mb-7"
                 @click="hideModal">
@@ -151,7 +160,7 @@ const handleAddToCart = function() {
             <div class="text-xl mb-4">商品介紹</div>
             <div class="flex flex-col juscenter items-center xl:flex-row gap-10">
                 <!-- 左側圖片展示區 -->
-                <div class="w-full lg:w-1/2">
+                <div class="w-full lg:w-1/2 mt-10">
                     <div class="flex flex-col md:flex-row gap-4 items-center justify-center">
                         <!-- 主圖輪播 -->
                         <div class="max-h-[250px] md:max-h-[400px] lg:max-h-[500px] order-1 md:order-2">
@@ -187,14 +196,14 @@ const handleAddToCart = function() {
                 <div class="w-full lg:w-1/2 flex flex-col gap-3 mr-10">
                     <div class="text-xl font-medium">{{ item?.name }}</div>
                     <hr class="border">
-                    <div>{{ product.description }}</div>
+                    <!-- <div>{{ product.description }}</div> -->
                     <div class="text-2xl text-[#C89E51] font-bold">{{ item?.price }}</div>
 
                     <!-- 顏色選擇 -->
-                    <div class="flex items-center gap-6">
+                    <div v-if="hasValidColors" class="flex items-center gap-6">
                         <span class="w-[10%] text-nowrap">顏色</span>
                         <div class="w-[90%] flex gap-3 flex-wrap">
-                            <button v-for="color in getColor()" :key="color" type="button"
+                            <button v-for="color in getColor()[0]" :key="color" type="button"
                                 class="border py-1 px-4 rounded transition-colors"
                                 :class="{ 'border-yellow-400': selectedColor === color }" @click="selectColor(color)">
                                 {{ color }}
@@ -203,10 +212,10 @@ const handleAddToCart = function() {
                     </div>
 
                     <!-- 款式選擇 -->
-                    <div class="flex items-start gap-6">
+                    <div v-if="hasValidTypes" class="flex items-start gap-6">
                         <span class="w-[10%] text-nowrap">款式</span>
                         <div class="w-[90%] flex gap-3 flex-wrap">
-                            <button v-for="style in getType()" :key="style" type="button"
+                            <button v-for="style in getType()[0]" :key="style" type="button"
                                 class="border py-1 px-4 rounded transition-colors"
                                 :class="{ 'border-yellow-400': selectedStyle === style }" @click="selectStyle(style)">
                                 {{ style }}
@@ -215,12 +224,12 @@ const handleAddToCart = function() {
                     </div>
 
                     <!-- 尺寸選擇 -->
-                    <div class="flex items-start gap-6">
+                    <div v-if="hasValidSize" class="flex items-start gap-6">
                         <span class="w-[10%] text-nowrap">尺寸</span>
                         <div class="w-[90%] flex gap-3 flex-wrap">
-                            <button v-for="style in getType()" :key="size" type="button"
+                            <button v-for="size in getSize()[0]" :key="size" type="button"
                                 class="border py-1 px-4 rounded transition-colors"
-                                :class="{ 'border-yellow-400': selectedSize === size }" @click="selectStyle(size)">
+                                :class="{ 'border-yellow-400': selectedSize === size }" @click="selectSize(size)">
                                 {{ size }}
                             </button>
                         </div>

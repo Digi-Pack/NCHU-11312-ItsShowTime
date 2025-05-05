@@ -57,6 +57,7 @@ const { response } = defineProps({
     // type: Array | Object,
 });
 console.log(response);
+// console.log(response[0].types);
 // console.log(color);
 // console.log(type);
 
@@ -65,7 +66,7 @@ const getColor = () => {
     return response.map(item => {
         if (!item.colors || item.colors.length === 0) return null;
 
-        return item.colors.map(color => `${color.color_name}色`);
+        return item.colors.map(color => `${color.name}色`);
     });
 }
 
@@ -73,7 +74,7 @@ const getType = () => {
   return response.map(item => {
     if (!item.types || item.types.length === 0) return null;
 
-    return item.types.map(type => type.type_name);
+    return item.types.map(type => type.name);
   });
 };
 
@@ -81,7 +82,7 @@ const getSize = () => {
   return response.map(item => {
     if (!item.sizes || item.sizes.length === 0) return null;
 
-    return item.sizes.map(size => size.size_name);
+    return item.sizes.map(size => size.name);
   });
 };
 
@@ -291,9 +292,9 @@ const test = (productId) => {
     if (spec) {
         // return `${spec.color} / ${spec.style}`;
         return {
-            color: spec.color,
-            style: spec.style,
-            size: spec.size,
+            color: spec.color ?? '',
+            style: spec.style ?? '',
+            size: spec.size ?? '',
             quantity: spec.quantity
         }
     }
@@ -497,7 +498,7 @@ onMounted(() => {
                     class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
                     <div class="flex 2xl:flex-1 items-center ml-4">
                         <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
-                            <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.img_path" alt="Product Image">
+                            <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img" alt="Product Image">
                         </div>
                         <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">{{
                             product.name }}</p>
@@ -510,10 +511,11 @@ onMounted(() => {
                         </button>
                     </div>
                     <div v-else class="xl:w-[300px] w-[240px] flex justify-center text-white">
-                        {{ `${test(product.id).color} / ${test(product.id).style} / ${getQuantity(product.id)}件` }}
+                        {{ `${test(product.id).color} / ${test(product.id).style} / ${test(product.id).size} / ${getQuantity(product.id)}件` }}
                     </div>
                     <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">
-                        ${{ product.price * getQuantity(product.id) }}
+                        <!-- ${{ product.price * getQuantity(product.id) }} -->
+                        金額待確認
                     </p>
                     <div class="flex justify-around xl:w-[200px] w-[120px]">
                         <button v-show="selectedSpecs[product.id]" type="button"
@@ -531,14 +533,14 @@ onMounted(() => {
                 <div class="flex flex-wrap">
                     <div v-for="(product, index) in response" :key="product.id"
                         class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
-                        <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.img_url" alt="Product Image">
+                        <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="response[0].first_img" alt="Product Image">
     
                         <div class="flex flex-col gap-2 px-2 pb-4 md:h-[100px] text-white ">
                             <p class="text-left font-noto-jp leading-[1.2]">
                                 {{ product.name }}
                             </p>
                             <p v-show="selectedSpecs[product.id]">
-                                {{ `${test(product.id).color} / ${test(product.id).style} / ${getQuantity(product.id)}件` }}
+                                {{ `${test(product.id).color} / ${test(product.id).style} / ${test(product.id).size} / ${getQuantity(product.id)}件` }}
                             </p>
                         </div>
                         <div
@@ -575,8 +577,8 @@ onMounted(() => {
             <div v-if="isFormatOpen && currentItem"
                 class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
                 @click="hideModal">
-                <ShoppingCart :hideModal='hideModal' :getColor="getColor" :getType="getType" :item="currentItem"
-                    @updateColor="handleColorUpdate" @updateStyle="handleStyleUpdate" @updateQuantity="handleQuantityUpdate"
+                <ShoppingCart :hideModal='hideModal' :getColor="getColor" :getType="getType" :getSize="getSize" :item="currentItem"
+                    @updateColor="handleColorUpdate" @updateStyle="handleStyleUpdate" @updateSize="handleSizeUpdate" @updateQuantity="handleQuantityUpdate"
                     @addToCart="addToCart" />
             </div>
     
