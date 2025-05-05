@@ -32,4 +32,9 @@ class Type extends Model
 	{
 		return $this->belongsTo(Product::class,'id');
 	}
+
+	public function productsinfo()
+	{
+		return $this->belongsTo(Productsinfo::class, 'id');
+	}
 }

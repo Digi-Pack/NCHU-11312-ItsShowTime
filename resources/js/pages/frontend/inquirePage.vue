@@ -50,24 +50,40 @@ onBeforeUnmount(() => {
 })
 
 
-// 把下單購買資料傳過來
-const { response, color, type } = defineProps({
+// 把下單購買資料傳過來 , color, type
+const { response } = defineProps({
     response: Array | Object,
-    color: Array | Object,
-    type: Array | Object,
+    // color: Array | Object,
+    // type: Array | Object,
 });
 console.log(response);
-console.log(color);
-console.log(type);
+// console.log(color);
+// console.log(type);
 
 // 給子層的相關資料
 const getColor = () => {
-    return color.map(color => `${color.color_name}色`);
+    return response.map(item => {
+        if (!item.colors || item.colors.length === 0) return null;
+
+        return item.colors.map(color => `${color.color_name}色`);
+    });
 }
 
 const getType = () => {
-    return type.map(color => color.type_name);
-}
+  return response.map(item => {
+    if (!item.types || item.types.length === 0) return null;
+
+    return item.types.map(type => type.type_name);
+  });
+};
+
+const getSize = () => {
+  return response.map(item => {
+    if (!item.sizes || item.sizes.length === 0) return null;
+
+    return item.sizes.map(size => size.size_name);
+  });
+};
 
 // 商品總計
 const productCount = computed(() => response.length);
@@ -76,6 +92,7 @@ const productCount = computed(() => response.length);
 // 選中的選項
 const handleColor = ref(null);
 const handleStyle = ref(null);
+const handleSize = ref(null);
 const handleQuantity = ref(1);
 
 // 選擇顏色
@@ -86,6 +103,11 @@ const handleColorUpdate = (color) => {
 // 選擇款式
 const handleStyleUpdate = (style) => {
     handleStyle.value = style;
+};
+
+// 選擇尺寸
+const handleSizeUpdate = (size) => {
+    handleSize.value = size;
 };
 
 // 增減數量
@@ -225,6 +247,7 @@ const addToCart = () => {
     // 如果尚未選擇，套用預設值
     const selectedColor = handleColor.value ?? getColor()[0];
     const selectedStyle = handleStyle.value ?? getType()[0];
+    const selectedSize = handleSize.value ?? getSize()[0];
     const selectedQuantity = handleQuantity.value || 1;
 
 
@@ -233,6 +256,7 @@ const addToCart = () => {
         product: item.name,
         color: selectedColor,
         style: selectedStyle,
+        size: selectedSize,
         quantity: selectedQuantity
     });
 
@@ -240,11 +264,13 @@ const addToCart = () => {
     selectedSpecs.value[item.id] = {
         color: selectedColor,
         style: selectedStyle,
+        size: selectedSize,
         quantity: selectedQuantity
     };
 
     handleColor.value = getColor()[0];
     handleStyle.value = getType()[0];
+    handleSize.value = getSize()[0];
     handleQuantity.value = 1;
 
     Swal.fire({
@@ -267,6 +293,7 @@ const test = (productId) => {
         return {
             color: spec.color,
             style: spec.style,
+            size: spec.size,
             quantity: spec.quantity
         }
     }

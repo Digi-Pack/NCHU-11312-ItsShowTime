@@ -38,18 +38,10 @@ class Product extends Model
 		return $this->hasMany(Color::class, 'id');
 	}
 
-	// 舊檔
 	public function image()
 	{
 		return $this->hasMany(Image::class, 'id');
 	}
-
-	// 新的圖片檔
-	public function productImage()
-	{
-		return $this->hasMany(ProductImage::class);
-	}
-
 
 	public function productsinfo()
 	{
