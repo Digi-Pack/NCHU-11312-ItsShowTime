@@ -201,7 +201,6 @@ const deleteProduct = (productId) => {
 // nav跳轉(未完成)跳轉
 const goHome = () => {
     router.push('/home');
-    router.push('/home');
 };
 
 // 列表當中被點選的欄位資料

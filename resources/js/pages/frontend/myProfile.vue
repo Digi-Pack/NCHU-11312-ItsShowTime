@@ -2,18 +2,23 @@
 import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 
+const isOpen = ref(false)
 
+const toggleMenu = () => {
+    isOpen.value = !isOpen.value
+    document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
+}
 
 </script>
 
 
 <template>
 
-    <nav class="w-full fixed z-10 bg-white">
+    <nav class="w-full fixed z-40 bg-white">
         <div class="h-[40px] bg-[#801302]">
         </div>
 
-        <div class="flex justify-center items-center py-2 relative">
+        <div class="flex sm:justify-center items-center py-2 sm:px-0 px-4 relative">
             <div class="w-[48px] mt-3 mr-2">
                 <img src="/image/LOGO-方.webp" alt="logo" class="w-full h-full object-cover">
             </div>
@@ -26,14 +31,15 @@ import { Link, router } from '@inertiajs/vue3'
                     ITS SHOW TIME</p>
             </div>
 
-            <div class="flex items-center absolute top-3 right-8">
-                <div class="w-[70px]">
-                    <img src="/image/svg/avatar.svg" alt="" class="w-full h-full" />
+            <div class="flex items-center absolute md:top-3 right-8">
+                <div class="md:flex items-center hidden">
+                    <div class="w-[70px]">
+                        <img src="/image/svg/avatar.svg" alt="" class="w-full h-full" />
+                    </div>
+                    <div class="text-[24px] leading-[0.7] tracking-[0.02em] mr-4 font-noto-jp">Las123</div>
                 </div>
-                <div class="text-[24px] leading-[0.7] tracking-[0.02em] mr-4 font-noto-jp">Las123</div>
-
                 <!-- Ham Btn -->
-                <button type="button" class="w-12 h-12 cursor-pointer ">
+                <button type="button" class="w-12 h-12 cursor-pointer 2xl:hidden" @click="toggleMenu">
                     <i class="fa-solid fa-bars text-3xl" style="color:#801302"></i>
                 </button>
             </div>
@@ -42,7 +48,13 @@ import { Link, router } from '@inertiajs/vue3'
 
     <section>
         <div class="flex h-[100vh]">
-            <div class="w-[18%] flex justify-center items-center bg-[#801302] relative">
+            <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 z-9 2xl:hidden" @click="toggleMenu"></div>
+            <div :class="[
+                'bg-[#801302] justify-center items-center transition-all duration-300 z-10',
+                'fixed top-0 left-0 h-full lg:w-[40%] sm:w-[60%] w-full',
+                isOpen ? 'flex' : 'hidden',
+                '2xl:flex 2xl:w-[20%] 2xl:relative'
+            ]">
                 <div class="flex-col">
                     <div class="flex mb-10">
                         <div class="w-[75px] mr-4">
@@ -75,13 +87,19 @@ import { Link, router } from '@inertiajs/vue3'
                     <button type="button"
                         class="border-[1px] border-white text-white text-[24px] px-6 py-2 cursor-pointer absolute left-1/2 transform -translate-x-1/2 bottom-4">登出
                     </button>
-            
+
                 </div>
 
             </div>
 
-            <div class="w-[82%] bg-[#D0D0D0] flex justify-center items-end font-noto-jp">
-                <div class="w-[95%] bg-white shadow-lg">
+            <div class="2xl:w-[82%] w-full bg-[#D0D0D0] flex justify-center items-end font-noto-jp">
+                <div class="w-[95%] bg-white shadow-lg relative">
+
+                    <Link :href="route('home')"
+                            class="flex items-center font-normal leading-[1.2] text-black text-[20px] cursor-pointer px-4 py-2 absolute sm:top-4 sm:right-4 right-0 gap-2">
+                        回到首頁
+                        <img src="/image/svg/Arrow-red.svg" alt=""  class="w-4 h-4"/>
+                        </Link>
 
                     <div class="text-[32px] tracking-[-0.05em] px-20 py-16">我的檔案</div>
                     <div class="flex">
