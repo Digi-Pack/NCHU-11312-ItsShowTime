@@ -13,6 +13,10 @@ Route::get('/animate', function () {
     return Inertia::render('settings/animate');
 })->name('animate');
 
+Route::get('/sign', function () {
+    return Inertia::render('frontend/myProfile');
+})->name('sign');
+
 // Route::get('/', function () {
 //     return Inertia::render('Welcome');
 // })->name('home');

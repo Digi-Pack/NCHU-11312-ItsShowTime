@@ -7,18 +7,25 @@
 
         <div class="showtime-text font-noto-cjk absolute text-[#F0BD22] text-[2.5rem]">It’s Showtime</div>
 
-        <div class="image-left">
-            <img src="/image/left-1.png" alt="">
-        </div>
-        <div class="image-right">
-            <img src="/image/right-1.png" alt="">
-        </div>
+        <!-- <div class="container"> -->
+            <div class="image-left">
+                <img src="/image/left-1.png" alt="">
+            </div>
+            <div class="image-right">
+                <img src="/image/right-1.png" alt="">
+            </div>
+        <!-- </div> -->
     </div>
 </template>
 
 
 
 <style scoped>
+/* .container {
+    animation: spin 2s ease-in-out infinite;
+} */
+
+
 .image-left img {
     animation: left 2s ease-in-out infinite;
 }
@@ -32,6 +39,18 @@
     animation: showText 2s ease-in-out infinite;
     z-index: 10;
 }
+
+
+/* @keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+} */
+
 
 @keyframes showText {
     0% {
