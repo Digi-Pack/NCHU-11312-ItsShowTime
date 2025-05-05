@@ -17,6 +17,14 @@ Route::get('/sign', function () {
     return Inertia::render('frontend/myProfile');
 })->name('sign');
 
+Route::get('/password', function () {
+    return Inertia::render('frontend/passwordChange');
+})->name('password');
+
+Route::get('/history', function () {
+    return Inertia::render('frontend/inquireHistory');
+})->name('history');
+
 // Route::get('/', function () {
 //     return Inertia::render('Welcome');
 // })->name('home');

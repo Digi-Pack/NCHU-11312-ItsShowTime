@@ -75,77 +75,57 @@ import { Link, router } from '@inertiajs/vue3'
                     <button type="button"
                         class="border-[1px] border-white text-white text-[24px] px-6 py-2 cursor-pointer absolute left-1/2 transform -translate-x-1/2 bottom-4">登出
                     </button>
-            
+
                 </div>
 
             </div>
 
             <div class="w-[82%] bg-[#D0D0D0] flex justify-center items-end font-noto-jp">
-                <div class="w-[95%] bg-white shadow-lg">
+                <div class="w-[95%] h-[82%] bg-white shadow-lg">
 
-                    <div class="text-[32px] tracking-[-0.05em] px-20 py-16">我的檔案</div>
-                    <div class="flex">
-                        <div class="w-[60%] flex flex-col">
-                            <div class="px-8 border-r-[1px] border-[#801302]">
+                    <div class="px-20 py-16 mb-10">
+                        <div class="text-[32px] tracking-[-0.05em]">修改密碼</div>
+                        <div class="text-[20px]">為了保護您帳號的安全，請不要分享密碼給其他人</div>
+                    </div>
+                   
+                        <div class="w-[50%] flex flex-col">
+                            <div class="px-8 mb-10">
                                 <div class="flex my-6">
-                                    <div class="flex-1 flex justify-end  text-[24px] tracking-[-0.05em] mr-6 mb-6">使用者帳號
+                                    <div class="flex-1 flex justify-end  text-[24px] tracking-[-0.05em] mr-6 mb-6">新的密碼
                                     </div>
-                                    <div class="w-[70%] text-[24px] tracking-[-0.05em]">Las123</div>
+                                    <div class="w-[62%] text-[24px] tracking-[-0.05em] relative">
+                                        <input type="text" class="bg-[#E2E2E2] rounded-[5px] p-2 w-full">
+                                        <img src="/image/svg/eye.svg"
+                                            class="absolute top-1/2 right-3 transform -translate-y-1/2 w-8 cursor-pointer">
+                                    </div>
                                 </div>
                                 <div class="flex mb-6">
-                                    <div class="flex-1 flex justify-end text-[24px] tracking-[-0.05em] mr-6 mb-6">姓名
+                                    <div class="flex-1 flex justify-end text-[24px] tracking-[-0.05em] mr-6 mb-6">
+                                        確認密碼
                                     </div>
-                                    <div class="w-[70%] text-[24px] tracking-[-0.05em]">廖小笙</div>
-                                </div>
-                                <div class="flex mb-6">
-                                    <div class="flex-1 flex justify-end text-[24px] tracking-[-0.05em] mr-6 mb-6">生日
+                                    <div class="w-[62%] text-[24px] tracking-[-0.05em] relative">
+                                        <input type="text" class="bg-[#E2E2E2] rounded-[5px] p-2 w-full">
+                                        <img src="/image/svg/eye.svg"
+                                            class="absolute top-1/2 right-3 transform -translate-y-1/2 w-8 cursor-pointer">
                                     </div>
-                                    <div class="w-[70%] text-[24px] tracking-[-0.05em]">2000/04/05</div>
-                                </div>
-                                <div class="flex mb-6">
-                                    <div class="flex-1 flex justify-end text-[24px] tracking-[-0.05em] mr-6 mb-6">手機號碼
-                                    </div>
-                                    <div class="w-[70%] text-[24px] tracking-[-0.05em]">0912345678</div>
-                                </div>
-                                <div class="flex mb-20">
-                                    <div class="flex-1 flex justify-end text-[24px] tracking-[-0.05em] mr-6 mb-6">Email
-                                    </div>
-                                    <div class="w-[70%] text-[24px] tracking-[-0.05em]">Las123@gmail.com</div>
                                 </div>
                             </div>
 
-                            <!-- 編輯按鈕 -->
-                            <div class="px-8 flex mb-6">
-                                <div class="flex-1 flex mr-6 my-6"></div>
-                                <div class="w-[70%]">
+                            <!-- 儲存按鈕 -->
+                            <div class="flex px-8">
+                                <div class="flex-1 flex justify-end mr-6 mb-6">
+
+                                </div>
+                                <div class="w-[62%] text-[24px] tracking-[-0.05em] relative">
                                     <button type="button"
-                                        class="border-[1px] border-[#801302] text-[#801302] text-[24px] px-6 py-2 cursor-pointer">編輯
+                                        class="border-[1px] border-[#801302] text-[#801302] text-[24px] px-6 py-2 cursor-pointer">儲存
                                     </button>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 換頭像 -->
-                        <div class="w-[35%] flex flex-col justify-start items-center">
-                            <div class="w-[200px]">
-                                <img src="/image/svg/avatar.svg" alt="" class="w-full h-full" />
-                            </div>
-                            <button type="button"
-                                class="border-[1px] border-black text-[24px] px-4 py-1 cursor-pointer mb-6">選擇圖片
-                            </button>
-                            <div class="text-[16px] text-gray-600">
-                                檔案大小: 最大1MB
-                            </div>
-                            <div class="text-[16px] text-gray-600">
-                                檔案限制: .JPEG, .PNG
-                            </div>
 
-
-
-
-
-                        </div>
-                    </div>
+                 
 
 
                 </div>
