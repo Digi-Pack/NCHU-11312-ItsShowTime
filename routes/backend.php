@@ -1,14 +1,18 @@
 <?php
 
+use App\Models\Size;
+use App\Models\Type;
 use Inertia\Inertia;
+use App\Models\Color;
+use App\Models\Image;
 use App\Models\Banner;
 use App\Models\Inquiry;
 use App\Models\Product;
+use App\Models\ProductsInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
-
 
 // Banner 相關操作
 Route::get('/admin/banner', function () {
@@ -18,14 +22,23 @@ Route::get('/admin/banner', function () {
   ]);
 })->name('admin.banner.list');
 
+// 新增 & 編輯 合併
+Route::get('/admin/banner/form/{id?}', function ($id = null) {
+  $banner = $id ? Banner::find($id) : null;
+
+  return Inertia::render('backend/banner/BannerForm', [
+    'response' => $banner
+  ]);
+})->name('admin.banner.form');
+
 
 // 新增頁
-Route::get('/admin/banner/create', function () {
-  $banners = Banner::all();
-  return Inertia::render('backend/banner/BannerCreate', [
-    'response' => $banners,
-  ]);
-})->name('admin.banner.create');
+// Route::get('/admin/banner/create', function () {
+//   $banners = Banner::all();
+//   return Inertia::render('backend/banner/BannerCreate', [
+//     'response' => $banners,
+//   ]);
+// })->name('admin.banner.create');
 
 
 // 新增資料
@@ -34,7 +47,7 @@ Route::post('/admin/banner', function (Request $request) {
   try {
     $request->validate([
       'title' => 'required|string|max:255',
-      'img_path' => 'file|mimes:jpg,jpeg,png,webp',
+      'img_path' => 'required|file|mimes:jpg,jpeg,png,webp',
     ]);
 
     $file = $request->img_path;
@@ -74,15 +87,14 @@ Route::post('/admin/banner', function (Request $request) {
 })->name('admin.banner.store');
 
 
-
 // 編輯頁
-Route::get('/admin/banner/edit/{id}', function ($id) {
-  $item = Banner::find($id);
+// Route::get('/admin/banner/edit/{id}', function ($id) {
+//   $item = Banner::find($id);
 
-  return Inertia::render('backend/banner/BannerEdit', [
-    'response' => $item,
-  ]);
-})->name('admin.banner.edit');
+//   return Inertia::render('backend/banner/BannerEdit', [
+//     'response' => $item,
+//   ]);
+// })->name('admin.banner.edit');
 
 
 // 更新資料
@@ -179,8 +191,78 @@ Route::delete('/admin/banner/delete/{id}', function ($id) {
 
 // Product 相關操作
 Route::get('/admin/product', function () {
-  // $products = Product::all();
-  $products = Product::with('productImage')->get();
+  $products = Product::with('productsInfo.color', 'productsInfo.size', 'productsInfo.type', 'productsInfo.image')->get();
+
+  $products = $products->map(function ($product) {
+
+    $colors = $product->productsInfo
+      ->filter(function ($info) {
+        return $info->color_id !== null && $info->color !== null;
+      })
+      ->map(function ($info) {
+        return [
+          'id' => $info->color_id,
+          'name' => $info->color->color_name,
+        ];
+      })
+      ->unique('id')
+      ->values();
+
+    $sizes = $product->productsInfo
+      ->filter(function ($info) {
+        return $info->size_id !== null && $info->size !== null;
+      })
+      ->map(function ($info) {
+        return [
+          'id' => $info->size_id,
+          'name' => $info->size->size_name,
+        ];
+      })
+      ->unique('id')
+      ->values();
+
+    $types = $product->productsInfo
+      ->filter(function ($info) {
+        return $info->type_id !== null && $info->type !== null;
+      })
+      ->map(function ($info) {
+        return [
+          'id' => $info->type_id,
+          'name' => $info->type->type_name,
+        ];
+      })
+      ->unique('id')
+      ->values();
+
+    $images = $product->productsInfo
+      ->filter(function ($info) {
+        return $info->image_id !== null && $info->image !== null;
+      })
+      ->map(function ($info) {
+        return [
+          'id' => $info->image_id,
+          'img_path' => $info->image->img_path,
+          'isMain' => $info->image->isMain,
+        ];
+      })
+      ->unique('id')
+      ->values();
+
+    $first_img = $images->first(function ($image) {
+      return $image['isMain'] === 1;
+    });
+    return [
+      'id' => $product->id,
+      'name' => $product->name,
+      'price' => $product->price,
+      'introduction' => $product->introduction,
+      'first_img' => $first_img,
+      'images' => $images,
+      'colors' => $colors,
+      'sizes' => $sizes,
+      'types' => $types,
+    ];
+  });
 
   return Inertia::render('backend/product/ProductList', [
     'response' => $products,
@@ -189,8 +271,16 @@ Route::get('/admin/product', function () {
 
 // 新增頁
 Route::get('/admin/product/create', function () {
+  $colors = Color::all();
+  $types = Type::all();
+  $sizes = Size::all();
+
   $products = Product::all();
+
   return Inertia::render('backend/product/ProductCreate', [
+    'colors' => $colors,
+    'types' => $types,
+    'sizes' => $sizes,
     'response' => $products,
   ]);
 })->name('admin.product.create');
@@ -198,41 +288,126 @@ Route::get('/admin/product/create', function () {
 
 // 新增資料
 Route::post('/admin/product', function (Request $request) {
+  // dd($request->all());
 
   try {
     $request->validate([
       'name' => 'required|string|max:255',
       'price' =>  'string|max:255',
-      'content' =>  'nullable|string',
-      // 'img_path' => 'file|mimes:jpg,jpeg,png,webp',
+      'colors' =>  'array',
+      'types' =>  'array',
+      'sizes' =>  'array',
+      'mainImg_file' => 'file|mimes:jpg,jpeg,png,webp',
+      'subImg_files' =>  'array|max:4',
+      'subImg_files.*' => 'file|mimes:jpg,jpeg,png,webp',
+      'introduction' =>  'string',
     ]);
 
-    // $file = $request->img_path;
+    $imageIds = [];
+    // 首圖處理
+    $mainfile = $request->mainImg_file;
+    $mainFileName = $mainfile->getClientOriginalName();
+    if (!is_dir('upload/')) {
+      mkdir('upload/');
+    };
+    if (!is_dir('upload/product')) {
+      mkdir('upload/product');
+    };
+    $mainHashName = $mainfile->hashName();
+    $main_path = '/upload/' . 'product' . '/' . $mainHashName;
+    move_uploaded_file($mainfile, public_path() . $main_path);
 
-    // $fileName = $file->getClientOriginalName();
+    $mainImage = Image::create([
+      'img_name' => $mainFileName,
+      'img_path' => $main_path,
+      'isMain' => 1,
+    ]);
 
-    // if (!is_dir('upload/')) {
-    //   mkdir('upload/');
-    // };
-    // if (!is_dir('upload/product')) {
-    //   mkdir('upload/product');
-    // };
+    $imageIds[] = $mainImage->id;
 
-    // $hashName = $file->hashName();
-    // $path = '/upload/' . 'product' . '/' . $hashName;
 
-    // move_uploaded_file($file, public_path() . $path);
+    // 輔助圖處理
+    $subfiles = $request->subImg_files;
+    foreach ($subfiles as $subfile) {
+      $subFileName = $subfile->getClientOriginalName();
+      if (!is_dir('upload/')) {
+        mkdir('upload/');
+      };
+      if (!is_dir('upload/product')) {
+        mkdir('upload/product');
+      };
+      $subHashName = $subfile->hashName();
+      $sub_path = '/upload/' . 'product' . '/' . $subHashName;
+      move_uploaded_file($subfile, public_path() . $sub_path);
+
+      // images 資料表新增
+      $subImage = Image::create([
+        'img_name' => $subFileName,
+        'img_path' => $sub_path,
+        'isMain' => 0,
+      ]);
+
+      $imageIds[] = $subImage->id;
+    };
 
     $res = 'success';
     $message = '儲存成功';
 
-    Product::create([
+    // products 資料表新增
+    $product = Product::create([
       'name' =>  $request->name,
       'price' =>  $request->price,
-      'introduction' =>  $request->content,
-      // 'img_name' => $fileName,
-      // 'img_path' => $path,
+      'introduction' =>  $request->introduction,
     ]);
+
+    // productsinfo 資料表新增
+
+    $imageIndex = 0;
+    // color
+    foreach ($request->colors as $colorId) {
+      ProductsInfo::create([
+        'product_id' => $product->id,
+        'color_id' => $colorId,
+        'size_id' => null,
+        'type_id' => null,
+        'image_id' => $imageIds[$imageIndex++] ?? null,
+      ]);
+    }
+
+    // size
+    foreach ($request->sizes as $sizeId) {
+      ProductsInfo::create([
+        'product_id' => $product->id,
+        'color_id' => null,
+        'size_id' => $sizeId,
+        'type_id' => null,
+        'image_id' => $imageIds[$imageIndex++] ?? null,
+      ]);
+    }
+
+    // type
+    foreach ($request->types as $typeId) {
+      ProductsInfo::create([
+        'product_id' => $product->id,
+        'color_id' => null,
+        'size_id' => null,
+        'type_id' => $typeId,
+        'image_id' => $imageIds[$imageIndex++] ?? null,
+      ]);
+    }
+
+    // 圖片數量 > 顏色.款式.尺寸相加
+    for (; $imageIndex < count($imageIds); $imageIndex++) {
+      ProductsInfo::create([
+          'product_id' => $product->id,
+          'color_id' => null,
+          'size_id' => null,
+          'type_id' => null,
+          'image_id' => $imageIds[$imageIndex],
+      ]);
+  }
+
+
   } catch (\Throwable $th) {
     Log::info($th->getMessage());
     $res = 'fail';
