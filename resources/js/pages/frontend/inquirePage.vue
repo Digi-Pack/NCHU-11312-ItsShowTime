@@ -525,8 +525,7 @@ onMounted(() => {
                     class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
                     <div class="flex 2xl:flex-1 items-center ml-4">
                         <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
-                            <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img.img_path"
-                                alt="Product Image">
+                            <img class="rounded-tl-md rounded-tr-md" :src="product.first_img.img_path" alt="Product Image">
                         </div>
                         <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">{{
                             product.name }}</p>
