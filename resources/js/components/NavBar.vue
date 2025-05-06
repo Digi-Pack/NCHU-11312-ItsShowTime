@@ -1,24 +1,13 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
+import { ref } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
-// import NavBar from '@/components/NavBar.vue';
+
 
 const isOpen = ref(false)
 
 const toggleMenu = () => {
     isOpen.value = !isOpen.value
     document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
-}
-
-
-const PasswordVisibleOne = ref(false)
-const PasswordVisibleTwo = ref(false)
-
-const toggleConfirmPasswordOne = () => {
-    PasswordVisibleOne.value = !PasswordVisibleOne.value
-}
-const toggleConfirmPasswordTwo = () => {
-    PasswordVisibleTwo.value = !PasswordVisibleTwo.value
 }
 
 
@@ -38,7 +27,7 @@ const toggleConfirmPasswordTwo = () => {
 
             <div>
                 <p class="font-noto-jp text-[#444444] text-[12px] font-black leading-[2] tracking-[-0.08em]">
-                    天下無敵、台湾特攻服の第一品牌</p>
+                    天下無敵、台湾特工服の第一品牌</p>
                 <p
                     class="font-freckle text-[#444444] sm:text-[43px] text-[32px] font-normal leading-[0.7] tracking-[-0.08em]">
                     ITS SHOW TIME</p>
@@ -64,8 +53,7 @@ const toggleConfirmPasswordTwo = () => {
         </div>
     </nav>
 
-
-    <section>
+  
         <div class="flex h-[100vh]">
             <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 z-9 2xl:hidden" @click="toggleMenu"></div>
             <div :class="[
@@ -74,7 +62,7 @@ const toggleConfirmPasswordTwo = () => {
                 isOpen ? 'flex' : 'hidden',
                 '2xl:flex 2xl:w-[20%] 2xl:relative'
             ]">
-                <div class="flex-col relative">
+                <div class="flex-col">
                     <div class="flex mb-10">
                         <div class="w-[75px] mr-4">
                             <img src="/image/svg/avatar-1.svg" alt="" class="w-full h-full" />
@@ -100,7 +88,9 @@ const toggleConfirmPasswordTwo = () => {
                         <div class="px-4">
                             <div class="text-[20px] mb-4">我的詢價</div>
                             <div class="text-[20px] mb-4">歷史詢價查詢</div>
+
                         </div>
+
                     </div>
                     <!-- <Link :href="route('home')" class="flex items-center text-white text-[20px] font-bold cursor-pointer gap-2">
                     回到首頁
@@ -112,80 +102,6 @@ const toggleConfirmPasswordTwo = () => {
                     </button>
                 </div>
             </div>
-
-
-            <div class="2xl:w-[82%] w-full bg-[#D0D0D0] flex justify-center items-end font-noto-jp absolute top-0 left-0">
-                <div class="w-[95%] h-[82%] bg-white shadow-lg relative">
-
-                    <Link :href="route('home')"
-                        class="sm:flex hidden items-center cursor-pointer px-4 py-2 absolute sm:top-4 sm:right-4 right-0 gap-2">
-                    <img src="/image/svg/home.svg" alt="" class="w-10 h-10" />
-                    </Link>
-
-
-                    <div class="sm:px-20 px-10 sm:py-16 py-8 mb-10">
-                        <div class="text-[32px] tracking-[-0.05em]">修改密碼</div>
-                        <div class="sm:text-[20px] ">為了保護您帳號的安全，請不要分享密碼給其他人</div>
-                    </div>
-
-                    <div class="lg:w-[50%] sm:w-[80%] w-full flex flex-col">
-                        <div class="px-8 mb-10">
-                            <div class="flex my-6">
-                                <div
-                                    class="flex-1 flex sm:justify-end justify-start lg:text-[24px] sm:text-[20px] tracking-[-0.05em] sm:mr-6 mb-6">
-                                    新的密碼
-                                </div>
-                                <div
-                                    class="sm:w-[62%] min-[430px]:w-[80%] w-[70%] lg:text-[24px] text-[20px] tracking-[-0.05em] relative">
-                                    <input :type="PasswordVisibleOne ? 'text' : 'password'"
-                                        class="bg-[#E2E2E2] rounded-[5px] p-2 w-full">
-                                    <img :src="PasswordVisibleOne ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
-                                        class="absolute top-1/2 right-3 transform -translate-y-1/2 w-8 cursor-pointer"
-                                        @click="toggleConfirmPasswordOne">
-
-                                </div>
-                            </div>
-                            <div class="flex mb-6">
-                                <div
-                                    class="flex-1 flex sm:justify-end justify-start lg:text-[24px] sm:text-[20px] tracking-[-0.05em] sm:mr-6 mb-6">
-                                    確認密碼
-                                </div>
-                                <div
-                                    class="sm:w-[62%] min-[430px]:w-[80%] w-[70%] lg:text-[24px] text-[20px] tracking-[-0.05em] relative">
-                                    <input :type="PasswordVisibleTwo ? 'text' : 'password'"
-                                        class="bg-[#E2E2E2] rounded-[5px] p-2 w-full">
-                                    <img :src="PasswordVisibleTwo ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
-                                        class="absolute top-1/2 right-3 transform -translate-y-1/2 w-8 cursor-pointer"
-                                        @click="toggleConfirmPasswordTwo">
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- 儲存按鈕 -->
-                        <div class="flex px-8">
-                            <div class="flex-1 flex justify-end mr-6 mb-6">
-
-                            </div>
-                            <div class="w-[62%] text-[24px] tracking-[-0.05em] relative">
-                                <button type="button"
-                                    class="border-[1px] border-[#801302] text-[#801302] text-[24px] px-6 py-2 cursor-pointer">儲存
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                </div>
-
-            </div>
-
         </div>
-
-
-
-    </section>
 
 </template>

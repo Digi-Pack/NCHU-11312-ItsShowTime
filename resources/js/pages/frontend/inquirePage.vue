@@ -419,7 +419,7 @@ onMounted(() => {
                 <div class="2xl:block flex">
                     <p
                         class="font-noto-jp text-[#F0BD22] 2xl:text-[30px] md:text-[20px] min-[476px]:text-[14px] min-[374px]:text-[12px] sm:tracking-[0.06em] mb-2 min-[476px]:pl-0 pl-3">
-                        itsshowtime．無敵の特工服オーダーメイドブランド
+                        itsshowtime．無敵の特攻服オーダーメイドブランド
                     </p>
     
                     <!-- NavBar 1600px以下 -->
