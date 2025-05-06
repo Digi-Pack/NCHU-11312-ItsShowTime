@@ -6,7 +6,7 @@ import { useAlert } from '@/lib/useAlert';
 import { flashMessage } from '@/lib/flashMessage';
 
 const props = defineProps({ response: Array | Object });
-console.log(props.response);
+// console.log(props.response);
 
 const addBtn = () => router.get(route('admin.product.create'));
 const editBtn = (id) => router.get(route('admin.product.edit', id));

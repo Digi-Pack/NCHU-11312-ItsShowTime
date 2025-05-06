@@ -47,6 +47,8 @@ const item = ref({
   introduction: '',
 });
 
+
+
 // 首圖
 const mainPreviewUrl = ref(null);
 const putFile = (e) => {
@@ -70,7 +72,7 @@ const checkFiles = (e) => {
   if (files.length > 4) {
     Swal.fire({
       icon: "error",
-      title: "最多只能選擇 4 張輔助圖！",
+      title: "最多只能選擇 4 張圖片！",
     });
     e.target.value = '';
     subPreviewUrls.value = [];

@@ -29,30 +29,64 @@ const editorInit = {
     respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
 };
 
-const props = defineProps({ response: Array | Object });
+const props = defineProps({
+  response: { type: Object },
+  colors: { type: Object },
+  types: { type: Object },
+  sizes: { type: Object },
+});
+console.log(props.response);
+
 
 const item = ref({
   name: props.response.name,
   price: props.response.price,
-  content: props.response.introduction,
-  // img_path: props.response.img_path ?? null,
-  // img_name: props.response.img_name,
-  // new_file: null,
+  introduction: props.response.introduction,
+  colors: props.response.colors.map(c => String(c.id)),
+  sizes: props.response.sizes.map(s => String(s.id)),
+  types: props.response.types.map(t => String(t.id)),
+  mainImg_file: props.response.first_img.img_path ?? null,
+  subImg_files: props.response.subImgs.map(img => img.img_path) ?? null,
+
+  new_mainFile: null,
+  new_subFiles: [],
+
   _method: 'put',
 });
 
-// const previewUrl = ref(null);
-// const putFile = (e) => {
-//   const file = e.target.files[0];
-//   item.value.new_file = file;
 
-//   // 圖片預覽
-//   if (file && file.type.startsWith("image/")) {
-//     previewUrl.value = URL.createObjectURL(file);
-//   } else {
-//     previewUrl.value = null;
-//   };
-// };
+// 首圖
+const mainPreviewUrl = ref(props.response.first_img?.img_path ?? null);
+const putFile = (e) => {
+  const file = e.target.files[0];
+  item.value.new_mainFile = file;
+
+  if (file && file.type.startsWith("image/")) {
+    mainPreviewUrl.value = URL.createObjectURL(file);
+  } else {
+    mainPreviewUrl.value = null;
+  };
+};
+
+// 輔助圖最多4張
+const subPreviewUrls = ref(props.response.subImgs.map(img => img.img_path));
+
+const checkFiles = (e) => {
+  const files = Array.from(e.target.files);
+  item.value.new_subFiles = files;
+
+  if (files.length > 4) {
+    Swal.fire({
+      icon: "error",
+      title: "最多只能選擇 4 張圖片！",
+    });
+    e.target.value = '';
+    subPreviewUrls.value = [];
+    return;
+  }
+
+  subPreviewUrls.value = files.map(file => URL.createObjectURL(file));
+};
 
 const submit = () => {
   router.post(route('admin.product.update', props.response.id), item.value, {
@@ -69,26 +103,71 @@ const backBtn = () => router.get(route('admin.product.list'));
 <template>
   <AppLayout>
     <section class="flex flex-col gap-1 mb-4 p-4">
+
       <label for="" class="flex gap-2 mb-4">
-        <p>商品名稱</p>
+        <p>名稱：</p>
         <input v-model="item.name" class="w-[calc(60%-100px)] border border-gray-400 rounded-sm" type="text">
       </label>
-      <!-- 圖片功能還沒做 -->
-      <!-- <label for="" class="flex gap-2 mb-4">
-        <p>商品圖片</p>
-        <input type="file" class="w-[calc(60%-100px)] border border-gray-400 rounded-sm" @change="putFile">
-      </label> -->
+
       <label for="" class="flex gap-2 mb-4">
-        <p>商品價格</p>
+        <p>價格：</p>
         <input v-model="item.price" class="w-[calc(60%-100px)] border border-gray-400 rounded-sm" type="text">
       </label>
-      <div class="flex flex-col gap-1">
-        <p>商品簡介：</p>
+
+      <div class="flex items-center gap-2 mb-4">
+        <p>顏色：</p>
+        <label v-for="(color, index) in colors" :key="index" :for="`${color?.color_name}`" class="flex gap-2 mr-3 cursor-pointer">
+          <input v-model="item.colors" :id="`${color?.color_name}`" class="border border-gray-400 rounded-sm cursor-pointer" :value="`${color?.id}`"
+            type="checkbox">{{ color?.color_name }}
+        </label>
+      </div>
+
+      <div class="flex items-center gap-2 mb-4">
+        <p>款式：</p>
+        <label v-for="(type, index) in types" :key="index" :for="`${type?.type_name}`" class="flex gap-2 mr-3 cursor-pointer">
+          <input v-model="item.types" :id="`${type?.type_name}`" class="border border-gray-400 rounded-sm cursor-pointer" :value="`${type?.id}`" type="checkbox">{{
+            type?.type_name }}
+        </label>
+      </div>
+
+      <div class="flex items-center gap-2 mb-4">
+        <p>尺寸：</p>
+        <label v-for="(size, index) in sizes" :key="index" :for="`${size?.size_name}`" class="flex gap-2 mr-3 cursor-pointer">
+          <input v-model="item.sizes" :id="`${size?.size_name}`" class="border border-gray-400 rounded-sm cursor-pointer" :value="`${size?.id}`" type="checkbox">{{
+            size?.size_name }}
+        </label>
+      </div>
+
+      <label for="main-pic" class="flex items-center gap-2">
+        <p>首圖：</p>
+        <input id="main-pic" type="file" accept="image/*"
+          class="w-[calc(60%-100px)] border border-gray-400 rounded-sm cursor-pointer" @change="putFile">
+      </label>
+      <div class="mt-2 mb-6">
+        <p>圖片預覽：</p>
+        <img v-if="mainPreviewUrl" :src="mainPreviewUrl" class="w-[200px] mt-2 ml-4" alt="首圖預覽">
+      </div>
+
+      <label for="sub-pics" class="flex items-center gap-2">
+        <p>輔助圖：</p>
+        <input id="sub-pics" type="file" accept="image/*" multiple
+          class="w-[calc(60%-100px)] border border-gray-400 rounded-sm cursor-pointer" @change="checkFiles">
+      </label>
+      <div class="mt-2 mb-6">
+        <p>圖片預覽：</p>
+        <div class="flex items-center gap-4 ml-4 my-2">
+          <img v-if="subPreviewUrls" v-for="(url, index) in subPreviewUrls" :key="index" :src="url" class="w-[200px]" alt="輔助圖預覽">
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-1 mb-4">
+        <p>簡介：</p>
         <main id="sample" class="relative max-w-[1000px]">
-          <Editor v-model="item.content" api-key="u7fewj6ygvrabi62o1x3yo4q1icxanoadqqrmlk80apmj8vz"
+          <Editor v-model="item.introduction" api-key="u7fewj6ygvrabi62o1x3yo4q1icxanoadqqrmlk80apmj8vz"
             :init="editorInit" />
         </main>
       </div>
+
       <div class="max-w-[1000px] flex justify-between mt-4">
         <button class="border border-black px-4 py-1 rounded-sm" type="button" @click="backBtn">
           返回
@@ -97,6 +176,7 @@ const backBtn = () => router.get(route('admin.product.list'));
           更新資料
         </button>
       </div>
+
     </section>
   </AppLayout>
 </template>
