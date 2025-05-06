@@ -70,6 +70,7 @@ declare module 'vue' {
     Input: typeof import('./resources/js/Components/ui/input/Input.vue')['default']
     InputError: typeof import('./resources/js/Components/InputError.vue')['default']
     Label: typeof import('./resources/js/Components/ui/label/Label.vue')['default']
+    NavBar: typeof import('./resources/js/Components/NavBar.vue')['default']
     NavFooter: typeof import('./resources/js/Components/NavFooter.vue')['default']
     NavigationMenu: typeof import('./resources/js/Components/ui/navigation-menu/NavigationMenu.vue')['default']
     NavigationMenuContent: typeof import('./resources/js/Components/ui/navigation-menu/NavigationMenuContent.vue')['default']

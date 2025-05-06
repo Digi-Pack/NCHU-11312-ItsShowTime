@@ -38,7 +38,7 @@ const toggleConfirmPasswordTwo = () => {
 
             <div>
                 <p class="font-noto-jp text-[#444444] text-[12px] font-black leading-[2] tracking-[-0.08em]">
-                    天下無敵、台湾特工服の第一品牌</p>
+                    天下無敵、台湾特攻服の第一品牌</p>
                 <p
                     class="font-freckle text-[#444444] sm:text-[43px] text-[32px] font-normal leading-[0.7] tracking-[-0.08em]">
                     ITS SHOW TIME</p>

@@ -220,7 +220,7 @@ onUnmounted(() => {
       <div class="fixed top-0 left-0 w-full z-10">
         <div class="max-w-[1903px] h-[40px] bg-[#B41900] mx-auto flex justify-center items-center text-white">
           <p class="font-noto-cjk text-sm font-normal leading-[1.2]">
-            台湾無敵の特工服オーダーメイドブランド
+            台湾無敵の特攻服オーダーメイドブランド
           </p>
         </div>
       </div>
@@ -242,7 +242,7 @@ onUnmounted(() => {
                 <div :class="[isFixed ? 'flex flex-col' : ' ']">
                   <p
                     :class="[isFixed ? 'font-noto-jp text-[#444444] text-[12px] font-black leading-[2] tracking-[-0.08em]' : 'h-[8px] text-[11px] md:text-[20px] lg:h-[16px] lg:text-[22.26px] 2xl:h-[23px] 2xl:text-[32px] font-noto-jp text-[#444444] font-black leading-[1.2] tracking-[-0.08em] absolute top-[30px] left-[80px] md:top-[35px] md:left-[150px] lg:left-[180px] xl:top-[40px] 2xl:left-[240px] 2xl:top-[10px]']">
-                    天下無敵、台湾特工服の第一品牌
+                    天下無敵、台湾特攻服の第一品牌
                   </p>
                   <pre
                     :class="[isFixed ? 'font-freckle text-[#444444] sm:text-[40px] text-[32px] font-normal leading-[0.7] tracking-[-0.08em]' : 'h-[36px] text-[47.61px] md:text-[54px] lg:text-[97.37px] 2xl:h-[107px] 2xl:text-[140px] font-freckle text-[#444444] font-normal leading-[1.1] tracking-[-0.08em] absolute bottom-[10px] left-[80px] md:bottom-0 md:left-[150px] lg:left-[180px] xl:bottom-[30px] 2xl:left-[240px] 2xl:bottom-[50px]']">ITS SHOW  TIME</pre>
@@ -374,7 +374,7 @@ onUnmounted(() => {
                     設計自己的暴走魂</p>
                 </div>
                 <p class="font-Noto-serif-jp text-[#444444] min-[567px]:text-lg text-[16px] font-normal leading-[1.5]">
-                  完全客製化，透過連結下載模板自行設計，有長版/短版/特工褲各4色可做挑選。</p>
+                  完全客製化，透過連結下載模板自行設計，有長版/短版/特攻褲各4色可做挑選。</p>
               </div>
               <!-- 進度條 -->
               <div class="w-full min-[1120px]:max-w-[731px] relative">
@@ -1055,7 +1055,7 @@ button {
     -1px -1px 0 #B41900;
 }
 
-/* 暴走族特工服風格滾動條 - 黑紅配色 */
+/* 暴走族特攻服風格滾動條 - 黑紅配色 */
 /* 滾動條整體樣式 */
 ::-webkit-scrollbar {
   width: 17px;
