@@ -32,8 +32,8 @@ const toggleMenu = () => {
                 </p>
             </div>
 
-            <div class="flex items-center absolute md:top-3 md:right-8 right-2">
-                <div class="hidden md:flex items-center">
+            <div class="flex items-center absolute lg:top-3 lg:right-8 right-2">
+                <div class="hidden lg:flex items-center">
                     <div class="w-[70px]">
                         <img src="/image/svg/avatar.svg" alt="avatar" class="w-full h-full" />
                     </div>
@@ -72,25 +72,25 @@ const toggleMenu = () => {
                         </div>
                         <div class="flex-col font-noto-jp">
                             <div class="text-white xl:text-[24px] mb-2">Las123</div>
-                            <div class="flex">
+                            <Link :href="route('sign')" class="flex cursor-pointer">
                                 <div class="w-[25px] mr-1">
                                     <img src="/image/svg/edit-sign.svg" alt="" class="w-full h-full" />
                                 </div>
                                 <div class="text-white xl:text-[20px]">編輯個人簡介</div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
 
                     <div class="border-t-[1px] border-white text-white py-8 font-noto-jp mb-12">
-                        <div class="2xl:text-[24px] text-[20px] font-bold text-[#F0BD22] mb-4">我的帳戶</div>
-                        <div class="px-4">
-                            <div class="2xl:text-[20px] mb-4 cursor-pointer">個人檔案</div>
-                            <div class="2xl:text-[20px] mb-8 text-[#F0BD22] cursor-pointer">修改密碼</div>
+                        <div class="2xl:text-[24px] text-[20px] font-bold text-white mb-4">我的帳戶</div>
+                        <div class="px-4 flex flex-col">
+                            <Link :href="route('sign')" class="2xl:text-[20px] mb-4 cursor-pointer">個人檔案</Link>
+                            <Link :href="route('password')" class="2xl:text-[20px] mb-8 text-white cursor-pointer">修改密碼</Link>
                         </div>
-                        <div class="2xl:text-[24px] text-[20px] font-bold mb-4">線上客服</div>
+                        <div class="2xl:text-[24px] text-[20px] text-[#F0BD22] font-bold mb-4">線上客服</div>
                         <div class="px-4">
                             <!-- <div class="2xl:text-[20px] mb-4 cursor-pointer">我的詢價</div> -->
-                            <div class="2xl:text-[20px] cursor-pointer">歷史詢價查詢</div>
+                            <Link :href="route('history')" class="2xl:text-[20px] text-[#F0BD22] cursor-pointer">歷史詢價查詢</Link>
 
                         </div>
                     </div>
