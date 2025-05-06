@@ -71,20 +71,20 @@ const getColor = () => {
 }
 
 const getType = () => {
-  return response.map(item => {
-    if (!item.types || item.types.length === 0) return null;
+    return response.map(item => {
+        if (!item.types || item.types.length === 0) return null;
 
-    return item.types.map(type => type.name);
-  });
+        return item.types.map(type => type.name);
+    });
 };
 
 
 const getSize = () => {
-  return response.map(item => {
-    if (!item.sizes || item.sizes.length === 0) return null;
+    return response.map(item => {
+        if (!item.sizes || item.sizes.length === 0) return null;
 
-    return item.sizes.map(size => size.name);
-  });
+        return item.sizes.map(size => size.name);
+    });
 };
 
 // 商品總計
@@ -261,6 +261,7 @@ const addToCart = () => {
     const selectedColor = handleColor.value ?? (getColor()[id] ? getDefaultValue(getColor()[id]) : null);
     const selectedStyle = handleStyle.value ?? (getType()[id] ? getDefaultValue(getType()[id]) : null);
     const selectedSize = handleSize.value ?? (getSize()[id] ? getDefaultValue(getSize()[id]) : null);
+
     const selectedQuantity = handleQuantity.value || 1;
 
 
@@ -294,10 +295,14 @@ const addToCart = () => {
     });
 
     hideModal();
+
+    console.log("handleSize.value before: ", handleSize.value);  // 看 handleSize.value 當前的值
+    console.log("getSize()[id]: ", getSize()[id]);  // 確認 getSize()[id] 的返回值
+    console.log("getDefaultValue(getSize()[id]): ", getDefaultValue(getSize()[id]));  // 確認 getDefaultValue 返回的值
+
 };
 
 const selectedSpecs = ref({});
-
 
 const test = (productId) => {
     const spec = selectedSpecs.value[productId];
@@ -311,6 +316,20 @@ const test = (productId) => {
         }
     }
     return '';
+};
+
+// 在模板中使用的動態格式化函數
+const formatSpecs = (productId) => {
+    const specs = test(productId);
+    const parts = [];
+
+    if (specs.color) parts.push(specs.color);
+    if (specs.style) parts.push(specs.style);
+    if (specs.size) parts.push(specs.size);
+
+    const specText = parts.join(' / ');
+    return specs.size;
+    // return specText ? `${specText} / ${specs.quantity}件` : `${specs.quantity}件`;
 };
 
 // 取得數量
@@ -365,7 +384,7 @@ const handleSubmit = () => {
 
     const item = ref({
         username: username.value,
-        // birthday: birthday.value,
+        // birthday: birthday.value
         phone: phone.value,
         email: email.value,
         product_id: 3,
@@ -419,10 +438,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <LoadingAnimate v-if="isLoading"/>
+    <LoadingAnimate v-if="isLoading" />
     <section v-else>
         <div class="flex flex-col items-center w-full bg-[#1F1B1B]">
-    
+
             <!-- NavBar -->
             <nav :class="[
                 'w-full flex min-[476px]:justify-center py-6 text-nowrap',
@@ -433,7 +452,7 @@ onMounted(() => {
                         class="font-noto-jp text-[#F0BD22] 2xl:text-[30px] md:text-[20px] min-[476px]:text-[14px] min-[374px]:text-[12px] sm:tracking-[0.06em] mb-2 min-[476px]:pl-0 pl-3">
                         itsshowtime．無敵の特攻服オーダーメイドブランド
                     </p>
-    
+
                     <!-- NavBar 1600px以下 -->
                     <nav class="min-[1680px]:hidden fixed top-0 left-0 w-full z-20 font-noto-jp">
                         <!-- Ham Btn -->
@@ -442,7 +461,7 @@ onMounted(() => {
                             @click="toggleMenu">
                             <i class="fa-solid fa-bars text-3xl" style="color:#F0BD22"></i>
                         </button>
-    
+
                         <div :class="[
                             'fixed left-0 top-0 w-full h-[380px] bg-slate-100 z-10',
                             'flex flex-col justify-center gap-6 p-8 overflow-y-auto',
@@ -457,8 +476,8 @@ onMounted(() => {
                     </nav>
                 </div>
             </nav>
-    
-    
+
+
             <!-- NavBar 1680px以上 -->
             <nav class="hidden min-[1680px]:flex flex-col fixed top-64 2xl:left-16 z-10 font-noto-cjk text-white">
                 <div class="w-[80px] mb-4">
@@ -466,15 +485,15 @@ onMounted(() => {
                 </div>
                 <img src="/image/svg/Menu.svg" class="w-full h-full object-cover mb-4">
                 <div class="gap-6">
-                    <Link :href="route('home')" v-for="item in menuItems" :key="item.id" class="flex items-center gap-[9px]"
-                        @click="goHome">
+                    <Link :href="route('home')" v-for="item in menuItems" :key="item.id"
+                        class="flex items-center gap-[9px]" @click="goHome">
                     <p class="font-normal leading-[1.8]">{{ item.name }}</p>
                     <img src="/image/svg/Arrow.svg" alt="">
                     </Link>
                 </div>
             </nav>
-    
-    
+
+
             <!-- Banner -->
             <div class="2xl:w-[821.46px] md:w-[45%] w-[80%] mb-12">
                 <img src="/image/ITS SHOW TIME.webp" class="w-full h-full object-cover">
@@ -483,34 +502,36 @@ onMounted(() => {
                 class="2xl:w-[493px] font-noto-jp font-bold 2xl:text-[32px] sm:text-[20px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[4px] py-3 px-5 tracking-[-0.08em] text-nowrap">
                 天下無敵、台湾特工服の第一品牌</p>
             <p class="text-white font-noto-jp 2xl:text-[36px] sm:text-[20px] tracking-[-0.08em] py-4 mb-28">詢價清單列表</p>
-    
-    
-    
+
+
             <!-- 詢價清單列表 -->
             <div class="2xl:w-[1320px] w-[70%] flex items-end mb-6 2xl:px-0 xl:px-1">
                 <p
                     class="2xl:flex-1 2xl:w-0 w-[400px] font-noto-jp font-bold sm:text-[24px] text-[18px] text-[#F0BD22] 2xl:mr-0 xl:mr-4">
                     商品名稱</p>
-                <p class="xl:w-[240px] w-[180px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
+                <p
+                    class="xl:w-[240px] w-[180px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
                     規格</p>
-                <p class="xl:w-[160px] w-[100px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
+                <p
+                    class="xl:w-[160px] w-[100px] font-noto-jp font-bold min-[956px]:text-[24px] text-[0px] text-[#F0BD22]">
                     金額</p>
                 <button type="button"
                     class="xl:w-[141px] font-noto-jp font-bold xl:text-[24px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[2px] py-4 px-4 cursor-pointer text-nowrap"
                     @click="clearAllBtn">
                     全部刪除</button>
             </div>
-    
-    
+
+
             <!-- min-[956px]以上的選擇規格商品圖 -->
             <div
                 class="flex-col 2xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center 2xl:font-bold font-noto-jp mb-12">
-    
+
                 <div v-for="(product, index) in response" :key="product.id" v-if="response && response.length > 0"
                     class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
                     <div class="flex 2xl:flex-1 items-center ml-4">
                         <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
-                            <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img" alt="Product Image">
+                            <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img.img_path"
+                                alt="Product Image">
                         </div>
                         <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">{{
                             product.name }}</p>
@@ -523,7 +544,7 @@ onMounted(() => {
                         </button>
                     </div>
                     <div v-else class="xl:w-[300px] w-[240px] flex justify-center text-white">
-                        {{ `${test(product.id).color} / ${test(product.id).style} / ${test(product.id).size} / ${getQuantity(product.id)}件` }}
+                        {{ formatSpecs(product.id) }}
                     </div>
                     <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white ">
                         <!-- ${{ product.price * getQuantity(product.id) }} -->
@@ -540,19 +561,20 @@ onMounted(() => {
                         </button>
                     </div>
                 </div>
-    
+
                 <!-- min-[956px]以下才出現的選擇規格商品圖 -->
                 <div class="flex flex-wrap">
                     <div v-for="(product, index) in response" :key="product.id"
                         class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
-                        <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="response[0].first_img" alt="Product Image">
-    
+                        <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="response[0].first_img"
+                            alt="Product Image">
+
                         <div class="flex flex-col gap-2 px-2 pb-4 md:h-[100px] text-white ">
                             <p class="text-left font-noto-jp leading-[1.2]">
                                 {{ product.name }}
                             </p>
                             <p v-show="selectedSpecs[product.id]">
-                                {{ `${test(product.id).color} / ${test(product.id).style} / ${test(product.id).size} / ${getQuantity(product.id)}件` }}
+                                {{ formatSpecs(product.id) }}
                             </p>
                         </div>
                         <div
@@ -575,35 +597,35 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-    
+
             </div>
-    
-    
+
+
             <!-- 商品項目計數 -->
             <div class="2xl:w-[1399px] w-[70%] flex-col flex items-end mb-60">
                 <p class="2xl:text-[24px] text-white mb-2">總計 {{ productCount }} 件商品</p>
                 <p class="2xl:text-[24px] text-white">總金額(NT$)待確認訂單後提供</p>
             </div>
-    
+
             <!-- 選擇商品規格 -->
             <div v-if="isFormatOpen && currentItem"
                 class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
                 @click="hideModal">
-                <ShoppingCart :hideModal='hideModal' :getColor="getColor" :getType="getType" :getSize="getSize" :item="currentItem"
-                    @updateColor="handleColorUpdate" @updateStyle="handleStyleUpdate" @updateSize="handleSizeUpdate" @updateQuantity="handleQuantityUpdate"
-                    @addToCart="addToCart" />
+                <ShoppingCart :hideModal='hideModal' :getColor="getColor" :getType="getType" :getSize="getSize"
+                    :item="currentItem" @updateColor="handleColorUpdate" @updateStyle="handleStyleUpdate"
+                    @updateSize="handleSizeUpdate" @updateQuantity="handleQuantityUpdate" @addToCart="addToCart" />
             </div>
-    
-    
+
+
             <!-- 詢價資料表 -->
             <div class="2xl:w-[991px] sm:w-[60%] min-[376px]:w-[80%] w-[90%] flex justify-start 2xl:mb-10 mb-4">
                 <p class="text-white font-noto-jp 2xl:text-[36px] text-[20px] tracking-[-0.08em] 2xl:ml-10">詢價資料填寫</p>
             </div>
-    
+
             <div
                 class="2xl:w-[991px] sm:w-[60%] min-[376px]:w-[80%] w-[90%] flex flex-col 2xl:items-center border-t-2 border-white font-noto-jp mb-20 py-8 text-white">
                 <div class="md:flex">
-    
+
                     <div class="2xl:w-[410px] flex flex-1 flex-col 2xl:mr-6 md:mr-4 mb-10">
                         <label for="username" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                             姓名 | Name
@@ -612,16 +634,16 @@ onMounted(() => {
                             class="bg-transparent border-[1px] border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
                             placeholder="廖小笙" />
                     </div>
-    
+
                     <div class="2xl:w-[456px] md:w-[50%] flex flex-col mb-10">
                         <label for="birthday" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                             出生年月日 | Birthday
                         </label>
-    
+
                         <div class="relative">
                             <input id="birthday" type="date" v-model="birthday" required
                                 class="w-full bg-transparent border border-white rounded-[8px] px-2 py-2 pr-12 text-[20px] text-white/50 custom-date" />
-    
+
                             <div class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
                                 <img src="/image/svg/calendar.svg" alt="calendar icon" class="w-[24px] h-[24px]"
                                     @click="triggerDatePicker" />
@@ -629,8 +651,8 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-    
-    
+
+
                 <div class="flex flex-col mb-10">
                     <label for="phone" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                         聯絡電話 | Phone
@@ -639,7 +661,7 @@ onMounted(() => {
                         class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
                         placeholder="0912345678" />
                 </div>
-    
+
                 <div class="flex flex-col mb-10">
                     <label for="email" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                         電子信箱｜Email
@@ -648,7 +670,7 @@ onMounted(() => {
                         class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
                         placeholder="Las123@gmail.com" />
                 </div>
-    
+
                 <div class="flex flex-col mb-10">
                     <label for="address" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                         聯絡地址 | Address ( 選填 )
@@ -657,7 +679,7 @@ onMounted(() => {
                         class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
                         placeholder="南投市環山路112號">
                 </div>
-    
+
                 <div class="flex flex-col mb-10">
                     <label for="remark" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                         備註 | Remark ( 選填 )
@@ -665,9 +687,9 @@ onMounted(() => {
                     <textarea id="remark"
                         class="2xl:w-[895px] w-full h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] "></textarea>
                 </div>
-    
+
             </div>
-    
+
             <button @click="handleSubmit"
                 class="font-noto-jp font-bold md:text-[24px] text-[18px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[5px] px-12 py-4 cursor-pointer mb-36">
                 送出詢價單
