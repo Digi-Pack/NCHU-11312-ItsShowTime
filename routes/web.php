@@ -25,9 +25,15 @@ Route::get('/history', function () {
     return Inertia::render('frontend/inquireHistory');
 })->name('history');
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome');
-// })->name('home');
+
+// 會員登入測試
+Route::get('/home', function () {
+    return Inertia::render('Welcome');
+})->name('home');
+
+Route::get('/login', function () {
+    return Inertia::render('auth/Login.vue');
+})->name('signin');
 
 
 // Route::get('/', function () {
