@@ -232,7 +232,6 @@ const goHome = () => {
 const currentItem = computed(() => {
     const id = currentProductId.value;
     const item = response.find(item => item.id === id);
-    console.log(item);
     return item || null;
 });
 
@@ -297,10 +296,6 @@ const addToCart = () => {
 
     hideModal();
 
-    console.log("handleSize.value before: ", handleSize.value);  // 看 handleSize.value 當前的值
-    console.log("getSize()[id]: ", getSize()[id]);  // 確認 getSize()[id] 的返回值
-    console.log("getDefaultValue(getSize()[id]): ", getDefaultValue(getSize()[id]));  // 確認 getDefaultValue 返回的值
-
 };
 
 const selectedSpecs = ref({});
@@ -329,8 +324,7 @@ const formatSpecs = (productId) => {
     if (specs.size) parts.push(specs.size);
 
     const specText = parts.join(' / ');
-    return specs.size;
-    // return specText ? `${specText} / ${specs.quantity}件` : `${specs.quantity}件`;
+    return specText ? `${specText} / ${specs.quantity}件` : `${specs.quantity}件`;
 };
 
 // 取得數量
@@ -567,7 +561,7 @@ onMounted(() => {
                 <div class="flex flex-wrap">
                     <div v-for="(product, index) in response" :key="product.id"
                         class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
-                        <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="response[0].first_img"
+                        <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.first_img.img_path"
                             alt="Product Image">
 
                         <div class="flex flex-col gap-2 px-2 pb-4 md:h-[100px] text-white ">

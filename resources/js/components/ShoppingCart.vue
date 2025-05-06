@@ -144,17 +144,27 @@ onMounted(() => {
     if (colors && colors.length > 0) {
         selectedColor.value = colors[0];
         emit('updateColor', selectedColor.value);
+    } else {
+        selectedColor.value = null;
+        emit('updateColor', null);
     }
 
     if (types && types.length > 0) {
         selectedStyle.value = types[0];
         emit('updateStyle', selectedStyle.value);
+    } else {
+        selectedStyle.value = null;
+        emit('updateStyle', null);
     }
 
     if (sizes && sizes.length > 0) {
         selectedSize.value = sizes[0];
         emit('updateSize', selectedSize.value);
+    } else {
+        selectedSize.value = null;
+        emit('updateSize', null);
     }
+
     thumbsIndex.value = 0;
 });
 
