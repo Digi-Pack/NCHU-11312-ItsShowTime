@@ -12,26 +12,30 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 // 從父層取得的資料
 const { hideModal, getColor, getType, getSize, item } = defineProps({
     hideModal: { type: Function },
-    getColor: {type: Function },
-    getType: {type: Function},
-    getSize: {type: Function},
-    item: {type: Object},
+    getColor: { type: Function },
+    getType: { type: Function },
+    getSize: { type: Function },
+    item: { type: Object },
 });
 
+const colors = item.colors.map(item => item.name);
+
+const types = item.types.map(item => item.name);
+
+const sizes = item.sizes.map(item => item.name);
+
 const hasValidColors = computed(() => {
-    const colors = getColor();
     return Array.isArray(colors) && colors.some(c => c !== null);
 });
 
 const hasValidTypes = computed(() => {
-    const types = getType();
     return Array.isArray(types) && types.some(t => t !== null);
 });
 
 const hasValidSize = computed(() => {
-    const sizes = getSize();
     return Array.isArray(sizes) && sizes.some(s => s !== null);
 });
+
 
 // 初始化縮圖輪播控制器
 const thumbsIndex = ref(0);
@@ -85,7 +89,7 @@ const product = ref({
 });
 
 // 要將選擇的相關資訊丟回父層應用
-const emit = defineEmits(['updateColor', 'updateStyle', 'updateSize' , 'updateQuantity', 'addToCart']);
+const emit = defineEmits(['updateColor', 'updateStyle', 'updateSize', 'updateQuantity', 'addToCart']);
 
 // 選中的選項
 const selectedColor = ref(null);
@@ -136,15 +140,27 @@ onMounted(() => {
         screenWidth.value = window.innerWidth;
     });
 
-    selectedColor.value = getColor()?.[0]?.[0] ?? null;
-    selectedStyle.value = getType()?.[0]?.[0] ?? null;
-    selectedSize.value = getSize()?.[0]?.[0] ?? null;
+    // 直接使用處理好的 colors、types 和 sizes 資料來設定初始值
+    if (colors && colors.length > 0) {
+        selectedColor.value = colors[0];
+        emit('updateColor', selectedColor.value);
+    }
+
+    if (types && types.length > 0) {
+        selectedStyle.value = types[0];
+        emit('updateStyle', selectedStyle.value);
+    }
+
+    if (sizes && sizes.length > 0) {
+        selectedSize.value = sizes[0];
+        emit('updateSize', selectedSize.value);
+    }
     thumbsIndex.value = 0;
 });
 
 // 觸發父層addToCart事件
-const handleAddToCart = function() {
-  emit('addToCart');
+const handleAddToCart = function () {
+    emit('addToCart');
 };
 
 </script>
@@ -203,7 +219,7 @@ const handleAddToCart = function() {
                     <div v-if="hasValidColors" class="flex items-center gap-6">
                         <span class="w-[10%] text-nowrap">顏色</span>
                         <div class="w-[90%] flex gap-3 flex-wrap">
-                            <button v-for="color in getColor()[0]" :key="color" type="button"
+                            <button v-for="color in colors" :key="color" type="button"
                                 class="border py-1 px-4 rounded transition-colors"
                                 :class="{ 'border-yellow-400': selectedColor === color }" @click="selectColor(color)">
                                 {{ color }}
@@ -215,7 +231,7 @@ const handleAddToCart = function() {
                     <div v-if="hasValidTypes" class="flex items-start gap-6">
                         <span class="w-[10%] text-nowrap">款式</span>
                         <div class="w-[90%] flex gap-3 flex-wrap">
-                            <button v-for="style in getType()[0]" :key="style" type="button"
+                            <button v-for="style in types" :key="style" type="button"
                                 class="border py-1 px-4 rounded transition-colors"
                                 :class="{ 'border-yellow-400': selectedStyle === style }" @click="selectStyle(style)">
                                 {{ style }}
@@ -227,7 +243,7 @@ const handleAddToCart = function() {
                     <div v-if="hasValidSize" class="flex items-start gap-6">
                         <span class="w-[10%] text-nowrap">尺寸</span>
                         <div class="w-[90%] flex gap-3 flex-wrap">
-                            <button v-for="size in getSize()[0]" :key="size" type="button"
+                            <button v-for="size in sizes" :key="size" type="button"
                                 class="border py-1 px-4 rounded transition-colors"
                                 :class="{ 'border-yellow-400': selectedSize === size }" @click="selectSize(size)">
                                 {{ size }}
