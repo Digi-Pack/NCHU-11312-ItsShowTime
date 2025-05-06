@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
+import LoadingAnimate from '@/pages/settings/animate.vue';
 
 const isOpen = ref(false)
 
@@ -9,12 +10,20 @@ const toggleMenu = () => {
     document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
 }
 
+const isLoading = ref(true);
+
+onMounted(() => {
+    setTimeout(() => {
+        isLoading.value = false;
+    }, 1900);
+});
+
 </script>
 
 
 <template>
-
-<nav class="w-full relative z-40 bg-white">
+    <LoadingAnimate v-if="isLoading" />
+    <nav class="w-full relative z-40 bg-white">
         <div class="h-10 bg-[#801302] px-2"></div>
 
         <div class="flex sm:justify-center items-center py-2 px-4 sm:px-0 relative">
@@ -72,11 +81,11 @@ const toggleMenu = () => {
                         </div>
                         <div class="flex-col font-noto-jp">
                             <div class="text-white xl:text-[24px] mb-2">Las123</div>
-                            <Link :href="route('sign')" class="flex cursor-pointer">
-                                <div class="w-[25px] mr-1">
-                                    <img src="/image/svg/edit-sign.svg" alt="" class="w-full h-full" />
-                                </div>
-                                <div class="text-white xl:text-[20px]">編輯個人簡介</div>
+                            <Link :href="route('myprofile')" class="flex cursor-pointer">
+                            <div class="w-[25px] mr-1">
+                                <img src="/image/svg/edit-sign.svg" alt="" class="w-full h-full" />
+                            </div>
+                            <div class="text-white xl:text-[20px]">編輯個人簡介</div>
                             </Link>
                         </div>
                     </div>
@@ -84,13 +93,15 @@ const toggleMenu = () => {
                     <div class="border-t-[1px] border-white text-white py-8 font-noto-jp mb-12">
                         <div class="2xl:text-[24px] text-[20px] font-bold text-white mb-4">我的帳戶</div>
                         <div class="px-4 flex flex-col">
-                            <Link :href="route('sign')" class="2xl:text-[20px] mb-4 cursor-pointer">個人檔案</Link>
-                            <Link :href="route('password')" class="2xl:text-[20px] mb-8 text-white cursor-pointer">修改密碼</Link>
+                            <Link :href="route('myprofile')" class="2xl:text-[20px] mb-4 cursor-pointer">個人檔案</Link>
+                            <Link :href="route('password')" class="2xl:text-[20px] mb-8 text-white cursor-pointer">修改密碼
+                            </Link>
                         </div>
                         <div class="2xl:text-[24px] text-[20px] text-[#F0BD22] font-bold mb-4">線上客服</div>
                         <div class="px-4">
                             <!-- <div class="2xl:text-[20px] mb-4 cursor-pointer">我的詢價</div> -->
-                            <Link :href="route('history')" class="2xl:text-[20px] text-[#F0BD22] cursor-pointer">歷史詢價查詢</Link>
+                            <div class="2xl:text-[20px] text-[#F0BD22] cursor-pointer">歷史詢價查詢
+                            </div>
 
                         </div>
                     </div>
@@ -154,3 +165,43 @@ const toggleMenu = () => {
         </div>
     </section>
 </template>
+
+
+<style>
+::-webkit-scrollbar {
+    width: 17px;
+    height: 14px;
+    background-color: #e9e7e2;
+}
+
+/* 滾動條軌道 */
+::-webkit-scrollbar-track {
+    background: #e9e7e2;
+    border: 2px solid #e9e7e2;
+    box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.2);
+}
+
+/* 自訂 scrollbar 方塊樣式 */
+::-webkit-scrollbar-thumb {
+    background: #e9e7e2;
+    position: relative;
+    border-radius: 0;
+    background-image: url("/public/image/svg/scroll_bar_text_red.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border-radius: 100px;
+}
+
+/* 滑鼠hover在方塊上的樣式 */
+::-webkit-scrollbar-thumb:hover {
+    background-image: url("/public/image/svg/scroll_bar_text_black.svg");
+}
+
+/* 滑動條角落 */
+::-webkit-scrollbar-corner {
+    background-color: #e9e7e2;
+}
+
+
+</style>

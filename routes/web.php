@@ -13,9 +13,9 @@ Route::get('/animate', function () {
     return Inertia::render('settings/animate');
 })->name('animate');
 
-Route::get('/sign', function () {
+Route::get('/myprofile', function () {
     return Inertia::render('frontend/myProfile');
-})->name('sign');
+})->name('myprofile');
 
 Route::get('/password', function () {
     return Inertia::render('frontend/passwordChange');

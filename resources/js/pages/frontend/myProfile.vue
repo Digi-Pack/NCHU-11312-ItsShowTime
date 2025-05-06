@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
+import LoadingAnimate from '@/pages/settings/animate.vue';
 
 const isOpen = ref(false)
 
@@ -47,12 +48,48 @@ function handleFileChange(event) {
 }
 
 
+// 編輯/儲存功能
+const isEditing = ref(false);
+
+// 目前是預設的，之後要依照信箱從資料庫抓資料
+const username = ref('Las123');
+const name = ref('廖小笙');
+const birthday = ref('2000-04-05');
+const phone = ref('0912345678');
+const email = ref('Las123@gmail.com');
+
+
+const toggleEdit = () => {
+    if (isEditing.value) {
+        // 此處，你可以執行保存邏輯，比如發送請求到服務器
+        console.log('保存:', {
+            username: username.value,
+            name: name.value,
+            birthday: birthday.value,
+            phone: phone.value,
+        });
+    }
+
+    isEditing.value = !isEditing.value;
+};
+
+
+
+// loading動畫
+const isLoading = ref(true);
+
+onMounted(() => {
+    setTimeout(() => {
+        isLoading.value = false;
+    }, 1900);
+});
+
 
 </script>
 
 
 <template>
-
+    <LoadingAnimate v-if="isLoading" />
     <nav class="w-full relative z-40 bg-white">
         <div class="h-10 bg-[#801302] px-2"></div>
 
@@ -111,25 +148,29 @@ function handleFileChange(event) {
                         </div>
                         <div class="flex-col font-noto-jp">
                             <div class="text-white xl:text-[24px] mb-2">Las123</div>
-                            <Link :href="route('sign')" class="flex cursor-pointer">
+                            <div class="flex cursor-pointer">
                                 <div class="w-[25px] mr-1">
                                     <img src="/image/svg/edit-sign.svg" alt="" class="w-full h-full" />
                                 </div>
                                 <div class="text-white xl:text-[20px]">編輯個人簡介</div>
-                            </Link>
+                            </div>
                         </div>
                     </div>
 
                     <div class="border-t-[1px] border-white text-white py-8 font-noto-jp mb-12">
                         <div class="2xl:text-[24px] text-[20px] font-bold text-[#F0BD22] mb-4">我的帳戶</div>
                         <div class="px-4 flex flex-col">
-                            <Link :href="route('sign')" class="2xl:text-[20px] text-[#F0BD22] mb-4 cursor-pointer">個人檔案</Link>
-                            <Link :href="route('password')" class="2xl:text-[20px] mb-8 text-white cursor-pointer">修改密碼</Link>
+                            <div class="2xl:text-[20px] text-[#F0BD22] mb-4 cursor-pointer">
+                                個人檔案
+                            </div>
+                            <Link :href="route('password')" class="2xl:text-[20px] mb-8 text-white cursor-pointer">修改密碼
+                            </Link>
                         </div>
                         <div class="2xl:text-[24px] text-[20px] font-bold mb-4">線上客服</div>
                         <div class="px-4">
                             <!-- <div class="2xl:text-[20px] mb-4 cursor-pointer">我的詢價</div> -->
-                            <Link :href="route('history')" class="2xl:text-[20px] text-white cursor-pointer">歷史詢價查詢</Link>
+                            <Link :href="route('history')" class="2xl:text-[20px] text-white cursor-pointer">歷史詢價查詢
+                            </Link>
 
                         </div>
                     </div>
@@ -178,47 +219,64 @@ function handleFileChange(event) {
                             <div v-if="uploadError" class="text-red-600 text-sm mt-2">{{ uploadError }}</div>
                         </div>
 
-            
+
+
                         <div class="lg:w-[65%] lg:border-r border-[#801302] pr-0 lg:pr-8">
-                            <div class="space-y-6">
-                                <div class="grid grid-cols-5 gap-4 items-center  lg:text-[24px]">
+                            <div class="space-y-10">
+                                <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                     <div class="col-span-2 text-right">使用者帳號</div>
-                                    <div class="col-span-3">Las123</div>
+                                    <div class="col-span-3">
+                                        <span v-if="!isEditing">{{ username }}</span>
+                                        <input v-else v-model="username" type="text"
+                                            class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
+                                    </div>
                                 </div>
 
-                                <div class="grid grid-cols-5 gap-4 items-center  lg:text-[24px]">
+                                <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                     <div class="col-span-2 text-right">姓名</div>
-                                    <div class="col-span-3 text-nowrap">廖小笙</div>
+                                    <div class="col-span-3">
+                                        <span v-if="!isEditing">{{ name }}</span>
+                                        <input v-else v-model="name" type="text"
+                                            class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
+                                    </div>
                                 </div>
 
-                                <div class="grid grid-cols-5 gap-4 items-center  lg:text-[24px]">
+                                <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                     <div class="col-span-2 text-right">生日</div>
-                                    <div class="col-span-3">2000/04/05</div>
+                                    <div class="col-span-3">
+                                        <span v-if="!isEditing">{{ birthday }}</span>
+                                        <input v-else v-model="birthday" type="date"
+                                            class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
+                                    </div>
                                 </div>
 
-                                <div class="grid grid-cols-5 gap-4 items-center  lg:text-[24px]">
+                                <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                     <div class="col-span-2 text-right">手機號碼</div>
-                                    <div class="col-span-3">0912345678</div>
+                                    <div class="col-span-3">
+                                        <span v-if="!isEditing">{{ phone }}</span>
+                                        <input v-else v-model="phone" type="text"
+                                            class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
+                                    </div>
                                 </div>
 
-                                <div class="grid grid-cols-5 gap-4 items-center  lg:text-[24px]">
+                                <!-- Email 不可以給客戶改，只可讀取 -->
+                                <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                     <div class="col-span-2 text-right">Email</div>
-                                    <div class="col-span-3">Las123@gmail.com</div>
+                                    <div class="col-span-3">{{ email }}</div>
                                 </div>
 
-                                <!-- 編輯按鈕 -->
-                                <div class="grid grid-cols-5 gap-4 items-center text-[18px] lg:text-[24px] mt-10">
+                                <!-- 編輯/儲存 Btn -->
+                                <div class="grid grid-cols-5 gap-8 items-center text-[18px] lg:text-[24px] mt-10">
                                     <div class="col-span-2"></div>
                                     <div class="col-span-3">
-                                            <button type="button"
-                                                class="border border-[#801302] text-[#801302] text-[20px] sm:text-[24px] px-6 py-2 text-nowrap cursor-pointer">
-                                                編輯
-                                            </button>
+                                        <button @click="toggleEdit" type="button"
+                                            class="border border-[#801302] text-[#801302] text-[20px] sm:text-[24px] px-6 py-2 text-nowrap cursor-pointer">
+                                            {{ isEditing ? '儲存' : '編輯' }}
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
 
                         <!-- 1024px以上 頭像區 -->
                         <div class="lg:w-[35%] hidden lg:flex flex-col items-center gap-4">
@@ -253,3 +311,43 @@ function handleFileChange(event) {
     </section>
 
 </template>
+
+
+<style>
+::-webkit-scrollbar {
+    width: 17px;
+    height: 14px;
+    background-color: #e9e7e2;
+}
+
+/* 滾動條軌道 */
+::-webkit-scrollbar-track {
+    background: #e9e7e2;
+    border: 2px solid #e9e7e2;
+    box-shadow: inset 0 0 5px rgba(255, 0, 0, 0.2);
+}
+
+/* 自訂 scrollbar 方塊樣式 */
+::-webkit-scrollbar-thumb {
+    background: #e9e7e2;
+    position: relative;
+    border-radius: 0;
+    background-image: url("/public/image/svg/scroll_bar_text_red.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border-radius: 100px;
+}
+
+/* 滑鼠hover在方塊上的樣式 */
+::-webkit-scrollbar-thumb:hover {
+    background-image: url("/public/image/svg/scroll_bar_text_black.svg");
+}
+
+/* 滑動條角落 */
+::-webkit-scrollbar-corner {
+    background-color: #e9e7e2;
+}
+
+
+</style>
