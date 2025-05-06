@@ -71,8 +71,8 @@ function handleFileChange(event) {
                 </p>
             </div>
 
-            <div class="flex items-center absolute md:top-3 md:right-8 right-2">
-                <div class="hidden md:flex items-center">
+            <div class="flex items-center absolute lg:top-3 lg:right-8 right-2">
+                <div class="hidden lg:flex items-center">
                     <div class="w-[70px]">
                         <img src="/image/svg/avatar.svg" alt="avatar" class="w-full h-full" />
                     </div>
@@ -94,7 +94,7 @@ function handleFileChange(event) {
 
 
     <section>
-        <div class="flex h-screen">
+        <div class="flex">
             <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 z-10 2xl:hidden" @click="toggleMenu"></div>
 
             <div :class="[
@@ -111,25 +111,25 @@ function handleFileChange(event) {
                         </div>
                         <div class="flex-col font-noto-jp">
                             <div class="text-white xl:text-[24px] mb-2">Las123</div>
-                            <div class="flex">
+                            <Link :href="route('sign')" class="flex cursor-pointer">
                                 <div class="w-[25px] mr-1">
                                     <img src="/image/svg/edit-sign.svg" alt="" class="w-full h-full" />
                                 </div>
                                 <div class="text-white xl:text-[20px]">編輯個人簡介</div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
 
                     <div class="border-t-[1px] border-white text-white py-8 font-noto-jp mb-12">
                         <div class="2xl:text-[24px] text-[20px] font-bold text-[#F0BD22] mb-4">我的帳戶</div>
-                        <div class="px-4">
-                            <div class="2xl:text-[20px] mb-4 cursor-pointer">個人檔案</div>
-                            <div class="2xl:text-[20px] mb-8 text-[#F0BD22] cursor-pointer">修改密碼</div>
+                        <div class="px-4 flex flex-col">
+                            <Link :href="route('sign')" class="2xl:text-[20px] text-[#F0BD22] mb-4 cursor-pointer">個人檔案</Link>
+                            <Link :href="route('password')" class="2xl:text-[20px] mb-8 text-white cursor-pointer">修改密碼</Link>
                         </div>
                         <div class="2xl:text-[24px] text-[20px] font-bold mb-4">線上客服</div>
                         <div class="px-4">
                             <!-- <div class="2xl:text-[20px] mb-4 cursor-pointer">我的詢價</div> -->
-                            <div class="2xl:text-[20px] cursor-pointer">歷史詢價查詢</div>
+                            <Link :href="route('history')" class="2xl:text-[20px] text-white cursor-pointer">歷史詢價查詢</Link>
 
                         </div>
                     </div>
@@ -154,8 +154,7 @@ function handleFileChange(event) {
                         我的檔案
                     </div>
 
-                    <div class="flex flex-col lg:flex-row px-6 sm:px-20 gap-12">
-
+                    <div class="flex flex-col lg:flex-row px-6 sm:px-20 gap-12 lg:mt-8 mt-0">
                         <!--  1024px以下 頭像區 -->
                         <div class="lg:hidden w-full border-b border-[#801302] flex flex-col items-center gap-4 pb-8">
                             <div class="w-[160px] sm:w-[200px] aspect-square rounded-full overflow-hidden bg-gray-100">
@@ -189,7 +188,7 @@ function handleFileChange(event) {
 
                                 <div class="grid grid-cols-5 gap-4 items-center  lg:text-[24px]">
                                     <div class="col-span-2 text-right">姓名</div>
-                                    <div class="col-span-3">廖小笙</div>
+                                    <div class="col-span-3 text-nowrap">廖小笙</div>
                                 </div>
 
                                 <div class="grid grid-cols-5 gap-4 items-center  lg:text-[24px]">
@@ -212,7 +211,7 @@ function handleFileChange(event) {
                                     <div class="col-span-2"></div>
                                     <div class="col-span-3">
                                             <button type="button"
-                                                class="border border-[#801302] text-[#801302] text-[20px] sm:text-[24px] px-6 py-2 cursor-pointer">
+                                                class="border border-[#801302] text-[#801302] text-[20px] sm:text-[24px] px-6 py-2 text-nowrap cursor-pointer">
                                                 編輯
                                             </button>
                                     </div>
