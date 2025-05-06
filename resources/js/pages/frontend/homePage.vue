@@ -102,7 +102,7 @@ const props = defineProps({
   banners: Array | Object,
   response: Array | Object,
 });
-// console.log(props.response);
+console.log(props.response);
 
 // 商品製作點擊按鈕顯示圖片
 const isShowImage = ref(false);
@@ -526,7 +526,7 @@ onUnmounted(() => {
               <swiper-slide v-for="product in props.response" :key="product.id">
                 <div
                   class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
-                  <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img" alt="">
+                  <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" alt="">
                   <div class="flex flex-col gap-2 px-2">
                     <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
                       {{ product.name }}
@@ -635,7 +635,7 @@ onUnmounted(() => {
               <swiper-slide v-for="product in props.response" :key="product.id">
                 <div
                   class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
-                  <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img" alt="">
+                  <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" alt="">
                   <div class="flex flex-col gap-2 px-2">
                     <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
                       {{ product.name }}

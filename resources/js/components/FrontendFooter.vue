@@ -14,7 +14,7 @@
             <div class="flex-col gap-[5.76px]">
                 <p
                     class="font-noto-jp text-white min-[522px]:text-[14.8px] text-[11.5px] font-black leading-[1.2] tracking-[-0.08em]">
-                    天下無敵、台湾特工服の第一品牌
+                    天下無敵、台湾特攻服の第一品牌
                 </p>
                 <pre
                     class="font-freckle text-white min-[522px]:text-[64.77px] text-[50.31px] font-normal leading-[1.2] tracking-[-0.08em]">ITS SHOW  TIME</pre>

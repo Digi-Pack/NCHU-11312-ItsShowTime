@@ -7,8 +7,8 @@ import { flashMessage } from '@/lib/flashMessage';
 
 const props = defineProps({ response: Array | Object });
 
-const addBtn = () => router.get(route('admin.banner.create'));
-const editBtn = (id) => router.get(route('admin.banner.edit', id));
+const addBtn = () => router.get(route('admin.banner.form'));
+const editBtn = (id) => router.get(route('admin.banner.form', id));
 
 const deleteSumbit = (id) => {
   router.delete(route('admin.banner.delete', id), {

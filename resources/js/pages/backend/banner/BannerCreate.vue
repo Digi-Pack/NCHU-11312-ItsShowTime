@@ -45,7 +45,7 @@ const backBtn = () => router.get(route('admin.banner.list'));
           <p>標題</p>
           <input v-model="item.title" type="text" class="w-[calc(100%-60px)] border border-gray-400 rounded-sm">
         </label>
-        <label for="" class="flex gap-2">
+        <label for="" accept="image/*" class="flex items-center gap-2">
           <p>圖片</p>
           <input type="file" class="w-[calc(100%-60px)] border border-gray-400 rounded-sm cursor-pointer" @change="putFile">
         </label>

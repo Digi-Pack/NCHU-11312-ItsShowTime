@@ -78,6 +78,7 @@ const getType = () => {
   });
 };
 
+
 const getSize = () => {
   return response.map(item => {
     if (!item.sizes || item.sizes.length === 0) return null;
@@ -234,10 +235,21 @@ const currentItem = computed(() => {
     return item || null;
 });
 
+const getDefaultValue = (arr) => {
+    // 如果陣列不為 null 且長度大於 0，返回陣列的第一個值
+    if (arr && Array.isArray(arr) && arr.length > 0) {
+        return arr[0];  // 回傳第一個選項
+    }
+    return null;  // 如果為 null 或陣列長度為 0，則不設置預設值
+}
+
 const updateShoppingCart = ref(null);
+
 
 // 添加到購物車
 const addToCart = () => {
+    // 列表頁的項目id是從1開始算所以要扣掉;
+    const id = currentProductId.value - 1;
     const item = currentItem.value;
 
     if (!item) {
@@ -246,9 +258,9 @@ const addToCart = () => {
     }
 
     // 如果尚未選擇，套用預設值
-    const selectedColor = handleColor.value ?? getColor()[0];
-    const selectedStyle = handleStyle.value ?? getType()[0];
-    const selectedSize = handleSize.value ?? getSize()[0];
+    const selectedColor = handleColor.value ?? (getColor()[id] ? getDefaultValue(getColor()[id]) : null);
+    const selectedStyle = handleStyle.value ?? (getType()[id] ? getDefaultValue(getType()[id]) : null);
+    const selectedSize = handleSize.value ?? (getSize()[id] ? getDefaultValue(getSize()[id]) : null);
     const selectedQuantity = handleQuantity.value || 1;
 
 
@@ -269,9 +281,9 @@ const addToCart = () => {
         quantity: selectedQuantity
     };
 
-    handleColor.value = getColor()[0];
-    handleStyle.value = getType()[0];
-    handleSize.value = getSize()[0];
+    handleColor.value = getDefaultValue(getColor()[0]);
+    handleStyle.value = getDefaultValue(getType()[0]);
+    handleSize.value = getDefaultValue(getSize()[0]);
     handleQuantity.value = 1;
 
     Swal.fire({
@@ -397,7 +409,7 @@ const triggerDatePicker = () => {
     }
 };
 
-const isLoading = ref(true);
+const isLoading = ref(false);
 
 onMounted(() => {
     setTimeout(() => {

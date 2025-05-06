@@ -24,6 +24,7 @@ class Image extends Model
 	protected $table = 'images';
 
 	protected $fillable = [
+		'img_name',
 		'img_path',
 		'isMain',
 	];
