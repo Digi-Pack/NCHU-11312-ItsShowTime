@@ -165,9 +165,13 @@ const clearAllBtn = () => {
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire({
+                position: "center",
+                icon: "success",
                 title: "確認刪除，回到首頁",
-                icon: "success"
+                showConfirmButton: false,
+                timer: 1500
             });
+
 
             // 清空資料並跳轉回首頁
             response.length = 0;
@@ -548,14 +552,15 @@ onMounted(() => {
                     </div>
 
                     <!-- 顯示選好的規格 -->
-                    <div v-else class="xl:w-[300px] w-[240px] flex justify-center items-center text-white xl:text-[20px] gap-6">
+                    <div v-else
+                        class="xl:w-[300px] w-[240px] flex justify-center items-center text-white xl:text-[20px] gap-6">
                         {{ formatSpecs(product.id) }}
                         <button v-show="selectedSpecs[product.id]" type="button"
-                        class="flex justify-end cursor-pointer z-10" @click="openModal(product.id)">
-                        <img class="xl:w-[28px] w-[20px]" src="/image/svg/edit.svg" alt="">
-                    </button>
+                            class="flex justify-end cursor-pointer z-10" @click="openModal(product.id)">
+                            <img class="xl:w-[28px] w-[20px]" src="/image/svg/edit.svg" alt="">
+                        </button>
                     </div>
-                   
+
 
                     <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white">
                         <!-- ${{ product.price * getQuantity(product.id) }} -->
@@ -714,7 +719,8 @@ onMounted(() => {
 </template>
 
 <style>
-html, body {
+html,
+body {
     font-size: 16px;
 }
 
