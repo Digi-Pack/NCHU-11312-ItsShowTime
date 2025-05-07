@@ -12,16 +12,52 @@ const toggleMenu = () => {
 }
 
 
-const PasswordVisibleOne = ref(false)
-const PasswordVisibleTwo = ref(false)
+
+const newPassword = ref('');
+const confirmPassword = ref('');
+
+
+const PasswordVisibleOne = ref(false);
+const PasswordVisibleTwo = ref(false);
 
 const toggleConfirmPasswordOne = () => {
-    PasswordVisibleOne.value = !PasswordVisibleOne.value
-}
+    PasswordVisibleOne.value = !PasswordVisibleOne.value;
+};
 const toggleConfirmPasswordTwo = () => {
-    PasswordVisibleTwo.value = !PasswordVisibleTwo.value
-}
+    PasswordVisibleTwo.value = !PasswordVisibleTwo.value;
+};
 
+
+// 儲存
+const handleSave = () => {
+    if (newPassword.value !== confirmPassword.value) {
+        Swal.fire({
+            title: "儲存失敗",
+            text: "請確認輸入密碼是否相同",
+            icon: "warning"
+        });
+        return;
+    }
+
+    // 在此處執行儲存邏輯（例如發送請求到後端）
+    console.log('儲存密碼:', newPassword.value);
+
+
+    Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "儲存成功",
+        showConfirmButton: false,
+        timer: 1500
+    });
+
+    // 清空密碼欄位
+    newPassword.value = '';
+    confirmPassword.value = '';
+};
+
+
+// loading動畫
 const isLoading = ref(true);
 
 onMounted(() => {
@@ -34,7 +70,7 @@ onMounted(() => {
 
 <template>
     <LoadingAnimate v-if="isLoading" />
-    
+    <section v-else>
         <nav class="w-full relative z-40 bg-white">
             <div class="h-10 bg-[#801302] px-2"></div>
 
@@ -107,8 +143,7 @@ onMounted(() => {
                             <div class="2xl:text-[24px] text-[20px] font-bold text-[#F0BD22] mb-4">我的帳戶</div>
                             <div class="px-4 flex flex-col">
                                 <Link :href="route('myprofile')" class="2xl:text-[20px] mb-4 cursor-pointer">個人檔案</Link>
-                                <div
-                                    class="2xl:text-[20px] mb-8 text-[#F0BD22] cursor-pointer">修改密碼
+                                <div class="2xl:text-[20px] mb-8 text-[#F0BD22] cursor-pointer">修改密碼
                                 </div>
                             </div>
                             <div class="2xl:text-[24px] text-[20px] font-bold mb-4">線上客服</div>
@@ -147,7 +182,7 @@ onMounted(() => {
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-lg sm:text-xl tracking-tight text-right pr-4">新的密碼</label>
                                     <div class="w-2/3 relative">
-                                        <input :type="PasswordVisibleOne ? 'text' : 'password'"
+                                        <input v-model="newPassword" :type="PasswordVisibleOne ? 'text' : 'password'"
                                             class="w-full bg-[#E2E2E2] rounded px-3 py-2 focus:outline-none" />
                                         <img :src="PasswordVisibleOne ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
                                             class="absolute top-1/2 right-3 transform -translate-y-1/2 w-6 cursor-pointer"
@@ -158,7 +193,8 @@ onMounted(() => {
                                 <div class="flex items-center">
                                     <label class="w-1/3 text-lg sm:text-xl tracking-tight text-right pr-4">確認密碼</label>
                                     <div class="w-2/3 relative">
-                                        <input :type="PasswordVisibleTwo ? 'text' : 'password'"
+                                        <input v-model="confirmPassword"
+                                            :type="PasswordVisibleTwo ? 'text' : 'password'"
                                             class="w-full bg-[#E2E2E2] rounded px-3 py-2 focus:outline-none" />
                                         <img :src="PasswordVisibleTwo ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
                                             class="absolute top-1/2 right-3 transform -translate-y-1/2 w-6 cursor-pointer"
@@ -167,16 +203,19 @@ onMounted(() => {
                                 </div>
                             </div>
 
+                            <!-- 儲存按鈕 -->
                             <div class="flex justify-end mt-10">
-                                <button type="button"
-                                    class="border border-[#801302] text-[#801302] text-lg px-6 py-2">儲存</button>
+                                <button @click="handleSave" type="button"
+                                    class="border border-[#801302] text-[#801302] text-lg px-6 py-2">
+                                    儲存
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-   
+    </section>
 </template>
 
 
@@ -215,7 +254,4 @@ onMounted(() => {
 ::-webkit-scrollbar-corner {
     background-color: #e9e7e2;
 }
-
-
 </style>
-

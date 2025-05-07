@@ -23,6 +23,7 @@ onMounted(() => {
 
 <template>
     <LoadingAnimate v-if="isLoading" />
+    <section v-else>
     <nav class="w-full relative z-40 bg-white">
         <div class="h-10 bg-[#801302] px-2"></div>
 
@@ -164,6 +165,7 @@ onMounted(() => {
             </main>
         </div>
     </section>
+</section>
 </template>
 
 

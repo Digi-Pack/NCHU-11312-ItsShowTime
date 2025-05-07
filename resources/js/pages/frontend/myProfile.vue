@@ -68,10 +68,20 @@ const toggleEdit = () => {
             birthday: birthday.value,
             phone: phone.value,
         });
+
+        Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "儲存成功",
+            showConfirmButton: false,
+            timer: 1500
+        });
     }
 
     isEditing.value = !isEditing.value;
 };
+
+
 
 
 
@@ -90,6 +100,7 @@ onMounted(() => {
 
 <template>
     <LoadingAnimate v-if="isLoading" />
+    <section v-else>
     <nav class="w-full relative z-40 bg-white">
         <div class="h-10 bg-[#801302] px-2"></div>
 
@@ -275,6 +286,7 @@ onMounted(() => {
                                         </button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -309,7 +321,7 @@ onMounted(() => {
 
 
     </section>
-
+</section>
 </template>
 
 
@@ -348,6 +360,4 @@ onMounted(() => {
 ::-webkit-scrollbar-corner {
     background-color: #e9e7e2;
 }
-
-
 </style>
