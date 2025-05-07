@@ -337,7 +337,8 @@ const getQuantity = (productId) => {
 const username = ref('');
 const phone = ref('');
 const email = ref('');
-const birthday = ref('');
+const address = ref('');
+const products = ref([]);
 
 // 正則表達式 regex
 const phoneRegex = /^[0-9]{10}$/; // 10位數的電話號碼
@@ -379,10 +380,10 @@ const handleSubmit = () => {
 
     const item = ref({
         username: username.value,
-        // birthday: birthday.value
         phone: phone.value,
         email: email.value,
-        product_id: 3,
+        address: address.value,
+        products: products.value,
     });
 
     router.post(route('admin.inquiry.store'), item.value, {
