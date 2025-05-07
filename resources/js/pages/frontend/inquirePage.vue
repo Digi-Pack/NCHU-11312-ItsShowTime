@@ -713,6 +713,10 @@ onMounted(() => {
 </template>
 
 <style>
+html, body {
+    font-size: 16px;
+}
+
 ::-webkit-scrollbar {
     width: 17px;
     height: 14px;

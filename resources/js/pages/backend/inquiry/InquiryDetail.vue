@@ -90,7 +90,7 @@ const formatDate = (datetime) => {
   </AppLayout>
 </template>
 
-<style scoped>
+<style>
 html,
 body {
   font-size: 16px;

@@ -44,7 +44,7 @@ const detailBtn = (id) => router.get(route('admin.inquiry.detail', id));
             <th class="border border-gray-700 px-4 py-2 text-center">操作</th>
           </tr>
         </thead>
-        <tbody class="text-sm">
+        <tbody>
           <tr v-for="inquiry in props.response" :key="inquiry.id">
             <td class="border border-gray-700 px-4 py-2">
               {{ inquiry?.name }}
