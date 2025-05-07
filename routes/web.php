@@ -28,12 +28,16 @@ Route::get('/history', function () {
 
 // 會員登入測試
 Route::get('/home', function () {
-    return Inertia::render('Welcome');
+    return Inertia::render('settings/Welcome');
 })->name('home');
 
 Route::get('/login', function () {
     return Inertia::render('auth/Login.vue');
 })->name('signin');
+
+Route::get('/register', function () {
+    return Inertia::render('auth/Register.vue');
+})->name('register');
 
 
 // Route::get('/', function () {
