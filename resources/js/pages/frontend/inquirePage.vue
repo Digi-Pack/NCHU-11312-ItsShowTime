@@ -655,7 +655,7 @@ onMounted(() => {
 
                         <div class="relative">
                             <input id="birthday" type="date" v-model="birthday" required
-                                class="w-full h-[62px] bg-transparent border border-white rounded-[8px] px-2 py-2 pr-12 text-[20px] text-white/50 custom-date" />
+                                class="w-full h-[50px] bg-transparent border border-white rounded-[8px] px-3 py-3 pr-12 text-[20px] text-white/50 custom-date" />
 
                             <div class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
                                 <img src="/image/svg/calendar.svg" alt="calendar icon" class="w-[24px] h-[24px]"
