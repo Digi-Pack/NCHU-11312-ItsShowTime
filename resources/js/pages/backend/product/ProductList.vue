@@ -24,8 +24,12 @@ const deleteSumbit = (id) => {
 <template>
   <AppLayout>
     <div class="p-4">
-      <button class="border border-black rounded-sm px-3 py-2 hover:bg-slate-300" type="button"
-        @click="addBtn">新增</button>
+      <button class="border border-black rounded-sm px-3 py-2 hover:bg-slate-300" type="button" @click="addBtn">
+        新增商品
+      </button>
+      <button class="border border-black rounded-sm ml-3 px-3 py-2 hover:bg-blue-200" type="button" @click="addBtn">
+        相關設定
+      </button>
       <div class="py-4">
         <table class="w-full table-fixed border border-gray-700 border-collapse">
           <thead class="bg-gray-100">
@@ -74,14 +78,16 @@ const deleteSumbit = (id) => {
                 </div>
               </td>
               <td class="border border-gray-700 px-4 py-2">
-                <button class="border border-green-500 px-2 py-1 rounded-sm hover:bg-green-300 mr-3" type="button"
-                  @click="editBtn(product.id)">
-                  編輯
-                </button>
-                <button class="border border-red-500 px-2 py-1 rounded-sm hover:bg-red-300" type="button"
-                  @click="useAlert('確定要刪除嗎?', () => deleteSumbit(product.id))">
-                  刪除
-                </button>
+                <div class="flex justify-center items-center">
+                  <button class="border border-green-500 px-2 py-1 rounded-sm hover:bg-green-300 mr-4" type="button"
+                    @click="editBtn(product.id)">
+                    編輯
+                  </button>
+                  <button class="border border-red-500 px-2 py-1 rounded-sm hover:bg-red-300" type="button"
+                    @click="useAlert('確定要刪除嗎?', () => deleteSumbit(product.id))">
+                    刪除
+                  </button>
+                </div>
               </td>
             </tr>
           </tbody>

@@ -859,21 +859,35 @@ Route::post('/admin/inquiry', function (Request $request) {
 
 
 
+// 後台詢價詳細頁面
+Route::get('/admin/inquiry/{id}', function ($id) {
+
+  $inquiries = Inquiry::with('product')->find($id);
+
+  return Inertia::render('backend/inquiry/InquiryDetail', [
+    'response' => $inquiries,
+  ]);
+  
+})->name('admin.inquiry.detail');
+
+
+
+
 // 刪除資料
-Route::delete('/admin/inquiry/delete/{id}', function ($id) {
+// Route::delete('/admin/inquiry/delete/{id}', function ($id) {
 
-  $inquiry = Inquiry::find($id);
-  if (!$inquiry) {
-    return back()->with(['message' => [
-      'res' => 'fail',
-      'msg' => '查無此消息',
-    ]]);
-  };
+//   $inquiry = Inquiry::find($id);
+//   if (!$inquiry) {
+//     return back()->with(['message' => [
+//       'res' => 'fail',
+//       'msg' => '查無此消息',
+//     ]]);
+//   };
 
-  $inquiry->delete();
+//   $inquiry->delete();
 
-  return back()->with(['message' => [
-    'res' => 'success',
-    'msg' => '刪除成功',
-  ]]);
-})->name('admin.inquiry.delete');
+//   return back()->with(['message' => [
+//     'res' => 'success',
+//     'msg' => '刪除成功',
+//   ]]);
+// })->name('admin.inquiry.delete');

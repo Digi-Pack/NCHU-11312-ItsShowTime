@@ -495,7 +495,7 @@ onMounted(() => {
             </div>
             <p
                 class="2xl:w-[493px] font-noto-jp font-bold 2xl:text-[32px] sm:text-[20px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[4px] py-3 px-5 tracking-[-0.08em] text-nowrap">
-                天下無敵、台湾特工服の第一品牌</p>
+                天下無敵、台湾特攻服の第一品牌</p>
             <p class="text-white font-noto-jp 2xl:text-[36px] sm:text-[20px] tracking-[-0.08em] py-4 mb-28">詢價清單列表</p>
 
 
@@ -617,7 +617,7 @@ onMounted(() => {
             <!-- 商品項目計數 -->
             <div class="2xl:w-[1399px] w-[70%] flex-col flex items-end mb-60">
                 <p class="2xl:text-[24px] text-white mb-2">總計 {{ productCount }} 款商品</p>
-                <p class="2xl:text-[24px] text-white">總金額(NT$)待確認訂單後提供</p>
+                <p class="2xl:text-[24px] text-white">總金額待訂單確認後提供</p>
             </div>
 
             <!-- 選擇商品規格 -->
@@ -655,7 +655,7 @@ onMounted(() => {
 
                         <div class="relative">
                             <input id="birthday" type="date" v-model="birthday" required
-                                class="w-full bg-transparent border border-white rounded-[8px] px-2 py-2 pr-12 text-[20px] text-white/50 custom-date" />
+                                class="w-full h-[62px] bg-transparent border border-white rounded-[8px] px-2 py-2 pr-12 text-[20px] text-white/50 custom-date" />
 
                             <div class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
                                 <img src="/image/svg/calendar.svg" alt="calendar icon" class="w-[24px] h-[24px]"
@@ -698,7 +698,7 @@ onMounted(() => {
                         備註 | Remark ( 選填 )
                     </label>
                     <textarea id="remark"
-                        class="2xl:w-[895px] w-full h-[211px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] "></textarea>
+                        class="resize-none 2xl:w-[895px] w-full h-[220px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] "></textarea>
                 </div>
 
             </div>
