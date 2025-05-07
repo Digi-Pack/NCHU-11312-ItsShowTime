@@ -172,14 +172,14 @@ const addProductId = (productId) => {
     return;
   }
 
-  // 確保商品不重複加入購物車
+  // 確保商品不重複加入詢價
   if (!productIds.value.includes(product.id)) {
     productIds.value.push(product.id);
     // console.log(`商品ID ${product.id} 已加入詢價`);
   } else {
     // console.log(`商品ID ${product.id} 已存在於詢價清單中`);
     Swal.fire({
-      title: "您已將該商品加入購物車!",
+      title: "您已將該商品加入詢價!",
       icon: "success",
       draggable: true
     });

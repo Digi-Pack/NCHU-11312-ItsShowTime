@@ -50,10 +50,8 @@ const submit = () => {
   </div>
 
 
-
-
-  <AuthBase title="會員登入" class="bg-cover h-screen text-white"
-    :style="{ backgroundImage: 'url(/image/login-background.jpg)' }">
+  <AuthBase title="會員登入" class="bg-cover h-screen text-white font-bold"
+    :style="{ backgroundImage: 'url(/image/login-background.webp)' }">
 
     <Head title="Log in" />
 
@@ -89,7 +87,7 @@ const submit = () => {
           </Label>
         </div>
 
-        <Button type="submit" class="mt-4 w-full bg-blue-400" :tabindex="4" :disabled="form.processing">
+        <Button type="submit" class="mt-4 w-full bg-blue-500" :tabindex="4" :disabled="form.processing">
           <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin " />
           登入
         </Button>

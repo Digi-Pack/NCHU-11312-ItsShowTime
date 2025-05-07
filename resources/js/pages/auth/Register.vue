@@ -23,46 +23,49 @@ const submit = () => {
 </script>
 
 <template>
-  <div class="flex fixed z-10 top-6 right-10">
-    <Link :href="route('login')"
+   <div class="flex fixed z-10 top-6 right-10">
+  <Link :href="route('login')"
       class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]">
     登入
     </Link>
   </div>
 
-
-
-  <AuthBase title="Create an account">
-
+  <AuthBase title="建立會員" class="bg-cover h-screen text-white font-bold"
+    :style="{ backgroundImage: 'url(/image/login-background.webp)' }">
+  
     <Head title="Register" />
 
     <form @submit.prevent="submit" class="flex flex-col gap-6">
       <div class="grid gap-6">
         <div class="grid gap-2">
           <Label for="name">姓名</Label>
-          <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="name" v-model="form.name"
-            placeholder="Full name" />
+          <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="name" v-model="form.name" placeholder="Full name" />
           <InputError :message="form.errors.name" />
         </div>
 
         <div class="grid gap-2">
           <Label for="email">信箱</Label>
-          <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email"
-            placeholder="email@example.com" />
+          <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email" placeholder="email@example.com" />
           <InputError :message="form.errors.email" />
         </div>
 
         <div class="grid gap-2">
           <Label for="password">密碼</Label>
-          <Input id="password" type="password" required :tabindex="3" autocomplete="new-password"
-            v-model="form.password" placeholder="Password" />
+          <Input id="password" type="password" required :tabindex="3" autocomplete="new-password" v-model="form.password" placeholder="Password" />
           <InputError :message="form.errors.password" />
         </div>
 
         <div class="grid gap-2">
           <Label for="password_confirmation">確認密碼</Label>
-          <Input id="password_confirmation" type="password" required :tabindex="4" autocomplete="new-password"
-            v-model="form.password_confirmation" placeholder="Confirm password" />
+          <Input
+            id="password_confirmation"
+            type="password"
+            required
+            :tabindex="4"
+            autocomplete="new-password"
+            v-model="form.password_confirmation"
+            placeholder="Confirm password"
+          />
           <InputError :message="form.errors.password_confirmation" />
         </div>
 
