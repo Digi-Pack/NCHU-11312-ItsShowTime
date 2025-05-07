@@ -166,7 +166,7 @@ watch(inquiryCount, (newVal) => {
 
 const addProductId = (productId) => {
   const product = selectedProduct.value;
-  
+
   if (!product) {
     alert('商品ID無效或未找到商品');
     return;
@@ -178,7 +178,11 @@ const addProductId = (productId) => {
     // console.log(`商品ID ${product.id} 已加入詢價`);
   } else {
     // console.log(`商品ID ${product.id} 已存在於詢價清單中`);
-    alert(`您已將該商品加入購物車!`);
+    Swal.fire({
+      title: "您已將該商品加入購物車!",
+      icon: "success",
+      draggable: true
+    });
     return;
   }
 };
@@ -588,8 +592,9 @@ onUnmounted(() => {
             <div
               class="w-full min-[1150px]:w-3/5 flex min-[769px]:flex-row flex-col justify-center min-[641px]:items-center min-[1150px]:gap-6 min-[500px]:gap-[40px] gap-4">
               <!-- 縮圖 -->
-              <swiper @swiper="setThumbsSwiper2" :loop="true" :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'"
-                :spaceBetween="windowWidth <= 500 ? 16 : 24" :slidesPerView="'auto'" :freeMode="true" :modules="modules"
+              <swiper @swiper="setThumbsSwiper2" :loop="true"
+                :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'" :spaceBetween="windowWidth <= 500 ? 16 : 24"
+                :slidesPerView="'auto'" :freeMode="true" :modules="modules"
                 class="mySwiper min-[769px]:order-0 order-1">
                 <swiper-slide v-for="(item, index) in selectedProduct.images" :key="index">
                   <img :src="item?.img_path" alt="">
@@ -666,7 +671,7 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-  
+
     <!-- 購物車icon -769px以上 -->
     <button v-if="isLargeScreen && inquiryCount > 0" type="button"
       class="w-[100px] fixed top-60 right-2 z-10 cursor-pointer" @click="gotoinquire(productIds)">
@@ -677,7 +682,7 @@ onUnmounted(() => {
         </p>
       </div>
     </button>
-  
+
     <!-- 購物車icon - 769px以下 -->
     <Link v-if="!isLargeScreen && inquiryCount > 0" :href="route('inquirePage')"
       class="w-[50px] fixed top-80 left-2 z-10 cursor-pointer" @click="gotoinquire(productIds)">
