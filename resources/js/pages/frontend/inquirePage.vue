@@ -25,11 +25,11 @@ const toggleMenu = () => {
 
 // nav
 const menuItems = [
-    { id: 'about', name: '品牌理念', href:'home' },
-    { id: 'portfolio', name: '作品集', href:'home' },
-    { id: 'method', name: '製作方式', href:'home' },
-    { id: 'product', name: '商品列表', href:'home' },
-    { id: 'contact', name: '聯絡方式' , href:'home' },
+    { id: 'about', name: '品牌理念', href: 'home' },
+    { id: 'portfolio', name: '作品集', href: 'home' },
+    { id: 'method', name: '製作方式', href: 'home' },
+    { id: 'product', name: '商品列表', href: 'home' },
+    { id: 'contact', name: '聯絡方式', href: 'home' },
     // { id: 'userlogin', name: '會員登入', href:'userlogin'},
 ]
 
@@ -372,7 +372,7 @@ const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // 日期格式 (YYYY-MM-DD)
 
 const handleSubmit = () => {
     console.log(selectProducts.value);
-    
+
     if (username.value === "") {
         Swal.fire("姓名欄位必填！請填寫您的姓名");
         return;
@@ -462,23 +462,38 @@ onMounted(() => {
 
 // 新增同商品但不同尺寸可以做選擇
 const addProductItem = (id) => {
-    selectProducts.value.push(selectProducts.value[id - 1]);
-    console.log(`ID:${ id } 已經被按到了`);
+    const product = selectProducts.value.find(p => p.id === id);
+
+    if (!product) {
+        console.warn(`找不到 id=${id} 的產品`);
+        return;
+    }
+
+    // 可以根據需求複製一份（避免直接引用原物件）
+    const newProduct = { ...product };
+
+    insertProductByNameGroup(selectProducts.value, newProduct);
+
+    console.log(`ID:${id} 已經被按到了`);
     console.log(selectProducts.value);
-    console.log(selectProducts.value[id -1].id);
-}
+    console.log(product.id);
+};
 
-// let insertIndex = data.findLastIndex(item => item.name === '11');
-// if (insertIndex !== -1) {
-//   insertIndex++; // 插入在最後一筆 '11' 之後
-// } else {
-//   insertIndex = data.findIndex(item => item.name === '22');
-//   if (insertIndex === -1) insertIndex = data.length; // 沒有 '22' 則放最後
-// }
 
-// data.splice(insertIndex, 0, newItem);
+// 將相同名稱的產品群組化，而不是添加在陣列的最後一筆位置
+const insertProductByNameGroup = (arr, newItem) => {
+    // 找出陣列中最後一個相同 name 的索引
+    const index = [...arr].reverse().findIndex(item => item.name === newItem.name);
 
-// console.log(data);
+    // 如果沒有相同 name，就直接 push
+    if (index === -1) {
+        arr.push(newItem);
+    } else {
+        const insertIndex = arr.length - index;
+        arr.splice(insertIndex, 0, newItem); // 插入到對應位置
+    }
+};
+
 
 </script>
 
@@ -575,9 +590,12 @@ const addProductItem = (id) => {
             <!-- min-[956px]以上的選擇規格商品圖 -->
             <div
                 class="flex-col 2xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center 2xl:font-bold font-noto-jp mb-12">
-                <div v-for="(product, index) in selectProducts" :key="product.id" v-if="selectProducts && selectProducts.length > 0"
+                <div v-for="(product, index) in selectProducts" :key="product.id"
+                    v-if="selectProducts && selectProducts.length > 0"
                     class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
-                    <button type="button" class="border text-white p-2 rounded-lg hover:bg-slate-300 hover:text-blue-600" @click="addProductItem(product.id)">新增</button>
+                    <button type="button" class="border text-white rounded-full" @click="addProductItem(product.id)">
+                        <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="">
+                    </button>
                     <div class="flex 2xl:flex-1 items-center ml-4">
                         <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
                             <img class="rounded-tl-md rounded-tr-md" :src="product.first_img.img_path"
@@ -650,6 +668,10 @@ const addProductItem = (id) => {
                             </button>
                         </div>
                         <div class="flex justify-center gap-4">
+                            <button type="button" class="text-white rounded-full z-10"
+                                @click="addProductItem(product.id)">
+                                <img class="size-8 rounded-full hover:bg-[#F0BD22]" src="/image/svg/plus.svg" alt="">
+                            </button>
                             <button v-show="selectedSpecs[product.id]" type="button"
                                 class="flex justify-end cursor-pointer z-10" @click="openModal(product.id)">
                                 <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="">

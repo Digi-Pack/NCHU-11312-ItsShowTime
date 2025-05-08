@@ -83,11 +83,6 @@ const handleImageError = (e) => {
     e.target.src = '/image/svg/no_img.svg';
 };
 
-// 商品數據
-const product = ref({
-    description: "台製高質感刺繡頭帶，頭帶約 100*5公分，可客製刺繡，繡出自己的暴走魂",
-});
-
 // 要將選擇的相關資訊丟回父層應用
 const emit = defineEmits(['updateColor', 'updateStyle', 'updateSize', 'updateQuantity', 'addToCart']);
 
@@ -222,7 +217,6 @@ const handleAddToCart = function () {
                 <div class="w-full lg:w-1/2 flex flex-col gap-3 mr-10">
                     <div class="text-xl font-medium">{{ item?.name }}</div>
                     <hr class="border">
-                    <!-- <div>{{ product.description }}</div> -->
                     <div class="text-2xl text-[#C89E51] font-bold">{{ item?.price }}</div>
 
                     <!-- 顏色選擇 -->
