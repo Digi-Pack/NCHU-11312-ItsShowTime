@@ -95,7 +95,7 @@ const menuItems = [
   { id: 'method', name: '製作方式', href: '#method' },
   { id: 'product', name: '商品列表', href: '#product' },
   { id: 'contact', name: '聯絡方式', href: '#contact' },
-  { id: 'contact', name: '會員登入', href: 'login' },
+  { id: 'contact', name: '會員登入', href: 'myprofile' },
 ]
 
 

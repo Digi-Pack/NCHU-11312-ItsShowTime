@@ -107,9 +107,14 @@ const toggleMenu = () => {
                         </div>
                     </div>
                     <div class="flex justify-center">
-                        <button type="button"
+                        <!-- <button type="button"
                             class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer">登出
-                        </button>
+                        </button> -->
+                        <Link class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer"
+                            method="post" :href="route('logout')" as="button">
+                        <LogOut class="mr-2 h-4 w-4" />
+                        登出
+                        </Link>
                     </div>
                 </div>
 
@@ -165,7 +170,7 @@ const toggleMenu = () => {
             </main>
         </div>
     </section>
-<!-- </section> -->
+    <!-- </section> -->
 </template>
 
 
@@ -204,6 +209,4 @@ const toggleMenu = () => {
 ::-webkit-scrollbar-corner {
     background-color: #e9e7e2;
 }
-
-
 </style>

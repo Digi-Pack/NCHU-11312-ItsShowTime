@@ -9,14 +9,44 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\ItsshowtimeController;
 
-Route::get('/animate', [ItsshowtimeController::class, 'animate'])->name('animate');
+Route::prefix('/')->group(function () {
+
+    Route::get('/', [ItsshowtimeController::class, 'index'])->name('home');
+
+    Route::get('/animate', [ItsshowtimeController::class, 'animate'])->name('animate');
+
+    Route::get('/inquire', [ItsshowtimeController::class, 'inquire'])->name('inquirePage');
+
+});
+
+
+Route::middleware(['auth', 'user.name'])->prefix('/')->group(function () {
+
+    Route::get('/myprofile', [ItsshowtimeController::class, 'myprofile'])->name('myprofile');
+
+    Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
+
+    Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
+});
+
+
+
+
+// Route::get('/', [ItsshowtimeController::class, 'index'])->name('home');
+
+// Route::get('/animate', [ItsshowtimeController::class, 'animate'])->name('animate');
+
+// Route::get('/inquire', [ItsshowtimeController::class, 'inquire'])->name('inquirePage');
+
+// Route::get('/myprofile',[ItsshowtimeController::class, 'myprofile'])->name('myprofile');
+
+// Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
+
+// Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
 
 // Route::get('/animate', function () {
 //     return Inertia::render('settings/animate');
 // })->name('animate');
-
-
-Route::get('/myprofile',[ItsshowtimeController::class, 'myprofile'])->name('myprofile');
 
 // Route::get('/myprofile', function () {
 //     return Inertia::render('frontend/myProfile');
@@ -28,9 +58,7 @@ Route::get('/myprofile',[ItsshowtimeController::class, 'myprofile'])->name('mypr
 //     return Inertia::render('frontend/passwordChange');
 // })->name('password');
 
-Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
 
-Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
 
 // Route::get('/history', function () {
 //     return Inertia::render('frontend/inquireHistory');
@@ -64,7 +92,7 @@ Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history
 //     ]);
 // });
 
-Route::get('/', [ItsshowtimeController::class, 'index'])->name('home');
+
 
 // Route::get('/', function () {
 //     $products = Product::all();
@@ -81,7 +109,7 @@ Route::get('/', [ItsshowtimeController::class, 'index'])->name('home');
 // })->name('inquire');
 
 
-Route::get('/inquire', [ItsshowtimeController::class, 'inquire'])->name('inquirePage');
+
 
 
 // 後台頁
@@ -98,14 +126,14 @@ Route::get('dashboard', function () {
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
 // require __DIR__.'/frontend.php';
-require __DIR__.'/backend.php';
+require __DIR__ . '/backend.php';
 
 
 
 // 寄信測試
 Route::get('/sendEmail', function () {
     $testData = [
-        'name'=>'測試成功',
+        'name' => '測試成功',
     ];
     // dd($testData);
     Mail::to('babyangelababy0405@gmail.com')->send(new TestMail($testData));

@@ -22,7 +22,7 @@ use App\Http\Controllers\Backend\ProductController;
 
 // Banner 相關操作
 
-Route::prefix('admin/banner')->group(function () {
+Route::middleware(['auth', 'user.name'])->prefix('admin/banner')->group(function () {
   Route::get('/', [BannerController::class, 'index'])->name('admin.banner.list');
 
   // 新增頁
@@ -55,7 +55,7 @@ Route::prefix('admin/banner')->group(function () {
 
 
 // Product 相關操作
-Route::prefix('admin/product')->group(function () {
+Route::middleware(['auth', 'user.name'])->prefix('admin/product')->group(function () {
   Route::get('/', [ProductController::class, 'index'])->name('admin.product.list');
 
   // 新增頁
@@ -77,7 +77,7 @@ Route::prefix('admin/product')->group(function () {
 
 
 // Inquire 相關操作
-Route::prefix('admin/inquiry')->group(function () {
+Route::middleware(['auth', 'user.name'])->prefix('admin/inquiry')->group(function () {
   Route::get('/', [InquiryController::class, 'index'])->name('admin.inquiry.list');
 
   // 儲存前端送來的資料
