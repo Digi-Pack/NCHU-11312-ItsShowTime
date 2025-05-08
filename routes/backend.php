@@ -23,6 +23,10 @@ use App\Http\Controllers\Backend\ProductController;
 // Banner 相關操作
 
 Route::middleware(['auth', 'user.name'])->prefix('admin/banner')->group(function () {
+
+  Route::get('/', [BannerController::class, 'index'])->name('admin.banner.list');
+
+
   Route::get('/', [BannerController::class, 'index'])->name('admin.banner.list');
 
   // 新增頁

@@ -17,28 +17,42 @@ class UserNameValid
     public function handle(Request $request, Closure $next): Response
 
     {
-        
+
+        // return $next($request);
         $item = Auth::user();
 
-        if ($item && $item->name === 'YZ') {
-            // dd($next($request));
-            return redirect()->route('dashboard');
-        } else {
-            return $next($request);
-            // dd('dd');
+        if (!$item || $item->name !== 'YZ') {
+            // dd($item);
             return redirect()->route('myprofile');
+        } else {
+            // dd('cc');
+            return redirect()->route('dashboard');
+            // return $next($request);
         }
 
 
-        // // 取得當前登入的使用者
-        // $user = Auth::user();
+        // $item = Auth::user();
 
-        // // 如果使用者是 YZ，繼續讓請求通過
-        // if ($user && $user->name === 'YZ') {
-        //     return $next($request);
+        // if (!$item || $item->name !== 'YZ') {
+        //     // dd($item);
+        //     return redirect()->route('myprofile');
+        // } else {
+        //     // 
+        //     return redirect()->route('dashboard');
         // }
 
-        // // 如果不是 YZ，重導向到首頁
-        // return redirect('myprofile');
+
+        // $item = Auth::user();
+
+        // if ($item && $item->name === 'YZ') {
+        //     // dd($next($request));
+        //     return redirect()->route('dashboard');
+        //     // return $next($request);
+        // } else {
+        //     // dd('dd');
+        //     return redirect()->route('myprofile');
+        // }
+
+
     }
 }

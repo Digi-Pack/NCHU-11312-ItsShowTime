@@ -15,6 +15,7 @@ declare module 'vue' {
     AppLogoIcon: typeof import('./resources/js/Components/AppLogoIcon.vue')['default']
     AppShell: typeof import('./resources/js/Components/AppShell.vue')['default']
     AppSidebar: typeof import('./resources/js/Components/AppSidebar.vue')['default']
+    'AppSidebar原版': typeof import('./resources/js/Components/AppSidebar原版.vue')['default']
     AppSidebarHeader: typeof import('./resources/js/Components/AppSidebarHeader.vue')['default']
     Avatar: typeof import('./resources/js/Components/ui/avatar/Avatar.vue')['default']
     AvatarFallback: typeof import('./resources/js/Components/ui/avatar/AvatarFallback.vue')['default']

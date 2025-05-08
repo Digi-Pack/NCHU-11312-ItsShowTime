@@ -5,6 +5,7 @@ use App\Mail\TestMail;
 use App\Models\Banner;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\ItsshowtimeController;
@@ -28,6 +29,22 @@ Route::middleware(['auth', 'user.name'])->prefix('/')->group(function () {
 
     Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
 });
+
+
+Route::middleware(['auth','verified'])->get('dashboard', function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');
+
+// Route::middleware(['auth', 'user.name'])->get('dashboard', function () {
+//     $item = Auth::user();
+
+//     if ($item->name !== 'YZ') {
+//         return redirect()->route('myprofile');
+//     }
+//     return Inertia::render('Dashboard');
+
+// })->name('dashboard');
+
 
 
 
@@ -119,9 +136,8 @@ Route::get('/backend', function () {
 
 
 
-Route::get('dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+
 
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
