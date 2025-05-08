@@ -42,11 +42,7 @@ const submit = () => {
     Dashboard
     </Link> -->
     <Link :href="route('login')"
-<<<<<<< Updated upstream
       class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:text-[#EDEDEC] dark:hover:border-white mr-2">
-=======
-      class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-white hover:border-white dark:text-[#EDEDEC] dark:hover:border-white mr-8">
->>>>>>> Stashed changes
     登入
     </Link>
     <Link :href="route('register')"

@@ -24,13 +24,14 @@ const submit = () => {
 
 <template>
   <div class="flex fixed z-10 top-12 right-16">
-    <Link :href="route('register')"
-      class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:text-[#EDEDEC] dark:hover:border-white mr-2">
-    註冊
-    </Link>
+   
     <Link :href="route('login')"
-      class="inline-block rounded-sm border border-white px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:border-white dark:text-[#EDEDEC] dark:hover:border-white">
+      class="inline-block rounded-sm border border-white px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:border-white dark:text-[#EDEDEC] dark:hover:border-white mr-2">
     登入
+    </Link>
+    <Link :href="route('register')"
+      class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:text-[#EDEDEC] dark:hover:border-white">
+    註冊
     </Link>
 
   </div>
