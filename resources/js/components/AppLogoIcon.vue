@@ -13,5 +13,5 @@ defineProps<Props>();
 </script>
 
 <template>
-  <img src="/image/logo-small.webp" alt="">
+  <img src="/image/svg/login-logo.svg" alt="" class="w-[120px] h-[120px]">
 </template>

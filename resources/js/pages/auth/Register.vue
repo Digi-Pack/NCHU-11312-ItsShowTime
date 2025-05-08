@@ -26,11 +26,11 @@ const submit = () => {
   <div class="flex fixed z-10 top-12 right-16">
    
     <Link :href="route('login')"
-      class="inline-block rounded-sm border border-white px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:border-white dark:text-[#EDEDEC] dark:hover:border-white mr-2">
+      class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:border-white dark:text-[#EDEDEC] dark:hover:border-white mr-2">
     登入
     </Link>
     <Link :href="route('register')"
-      class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:text-[#EDEDEC] dark:hover:border-white">
+      class="inline-block rounded-sm border border-white px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:text-[#EDEDEC] dark:hover:border-white">
     註冊
     </Link>
 
@@ -71,7 +71,7 @@ const submit = () => {
           <InputError :message="form.errors.password_confirmation" />
         </div>
 
-        <Button type="submit" class="mt-2 w-full bg-blue-500" tabindex="5" :disabled="form.processing">
+        <Button type="submit" class="mt-2 w-full bg-blue-400" tabindex="5" :disabled="form.processing">
           <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
           創建帳號
         </Button>
