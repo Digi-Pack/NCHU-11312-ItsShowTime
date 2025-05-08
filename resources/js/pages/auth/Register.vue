@@ -46,28 +46,28 @@ const submit = () => {
         <div class="grid gap-2">
           <Label for="name">姓名</Label>
           <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="name" v-model="form.name"
-            placeholder="Full name" />
+            placeholder="Full name" class="text-black" />
           <InputError :message="form.errors.name" />
         </div>
 
         <div class="grid gap-2">
           <Label for="email">信箱</Label>
           <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email"
-            placeholder="email@example.com" />
+            placeholder="email@example.com" class="text-black" />
           <InputError :message="form.errors.email" />
         </div>
 
         <div class="grid gap-2">
           <Label for="password">密碼</Label>
           <Input id="password" type="password" required :tabindex="3" autocomplete="new-password"
-            v-model="form.password" placeholder="Password" />
+            v-model="form.password" placeholder="Password" class="text-black" />
           <InputError :message="form.errors.password" />
         </div>
 
         <div class="grid gap-2">
           <Label for="password_confirmation">確認密碼</Label>
           <Input id="password_confirmation" type="password" required :tabindex="4" autocomplete="new-password"
-            v-model="form.password_confirmation" placeholder="Confirm password" />
+            v-model="form.password_confirmation" placeholder="Confirm password" class="text-black" />
           <InputError :message="form.errors.password_confirmation" />
         </div>
 

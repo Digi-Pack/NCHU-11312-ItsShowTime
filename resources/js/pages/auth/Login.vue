@@ -66,7 +66,7 @@ const submit = () => {
         <div class="grid gap-2">
           <Label for="email">帳號</Label>
           <Input id="email" type="email" required autofocus :tabindex="1" autocomplete="email" v-model="form.email"
-            placeholder="email@example.com" />
+            placeholder="email@example.com" class="text-black" />
           <InputError :message="form.errors.email" />
         </div>
 
