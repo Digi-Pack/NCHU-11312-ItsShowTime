@@ -37,13 +37,19 @@ class Inquiry extends Model
 		'name',
 		'email',
 		'phone',
-		'product_id',
-		'quantity',
-		'remark'
+		'address',
+		'remark',
+		'status',
+		'mail_message',
 	];
 
 	public function product()
 	{
 		return $this->belongsTo(Product::class);
+	}
+
+	public function orderLists()
+	{
+		return $this->hasMany(OrderList::class);
 	}
 }

@@ -5,40 +5,39 @@ use App\Models\Type;
 use Inertia\Inertia;
 use App\Models\Color;
 use App\Models\Image;
+use App\Mail\TestMail;
 use App\Models\Banner;
 use App\Models\Inquiry;
 use App\Models\Product;
+use App\Models\OrderList;
 use App\Models\ProductsInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\BannerController;
 
 // Banner 相關操作
-Route::get('/admin/banner', function () {
-  $banners = Banner::all();
-  return Inertia::render('backend/banner/BannerList', [
-    'response' => $banners,
-  ]);
-})->name('admin.banner.list');
+Route::get('/admin/banner', [BannerController::class, 'index'])->name('admin.banner.list');
 
 // 新增 & 編輯 合併
-Route::get('/admin/banner/form/{id?}', function ($id = null) {
-  $banner = $id ? Banner::find($id) : null;
+// Route::get('/admin/banner/form/{id?}', function ($id = null) {
+//   $banner = $id ? Banner::find($id) : null;
 
-  return Inertia::render('backend/banner/BannerForm', [
-    'response' => $banner
-  ]);
-})->name('admin.banner.form');
+//   return Inertia::render('backend/banner/BannerForm', [
+//     'response' => $banner
+//   ]);
+// })->name('admin.banner.form');
 
 
 // 新增頁
-// Route::get('/admin/banner/create', function () {
-//   $banners = Banner::all();
-//   return Inertia::render('backend/banner/BannerCreate', [
-//     'response' => $banners,
-//   ]);
-// })->name('admin.banner.create');
+Route::get('/admin/banner/create', function () {
+  $banners = Banner::all();
+  return Inertia::render('backend/banner/BannerCreate', [
+    'response' => $banners,
+  ]);
+})->name('admin.banner.create');
 
 
 // 新增資料
@@ -88,13 +87,13 @@ Route::post('/admin/banner', function (Request $request) {
 
 
 // 編輯頁
-// Route::get('/admin/banner/edit/{id}', function ($id) {
-//   $item = Banner::find($id);
+Route::get('/admin/banner/edit/{id}', function ($id) {
+  $item = Banner::find($id);
 
-//   return Inertia::render('backend/banner/BannerEdit', [
-//     'response' => $item,
-//   ]);
-// })->name('admin.banner.edit');
+  return Inertia::render('backend/banner/BannerEdit', [
+    'response' => $item,
+  ]);
+})->name('admin.banner.edit');
 
 
 // 更新資料
@@ -753,11 +752,10 @@ Route::put('/admin/product/update/{id}', function (Request $request, $id) {
     ]);
 
     ProductsInfo::whereNull('color_id')
-    ->whereNull('type_id')
-    ->whereNull('size_id')
-    ->whereNull('image_id')
-    ->delete();
-
+      ->whereNull('type_id')
+      ->whereNull('size_id')
+      ->whereNull('image_id')
+      ->delete();
   } catch (\Throwable $th) {
     Log::info($th->getMessage());
     $res = 'fail';
@@ -828,23 +826,44 @@ Route::post('/admin/inquiry', function (Request $request) {
   try {
     $request->validate([
       'username' => 'required|string',
-      // 'birthday' => 'required|date',
       'phone' => 'required|string',
       'email' => 'required|email',
-      // 'address' => 'nullable|string',
+      'address' => 'nullable|string',
       'remark' => 'nullable|string',
+      'products' => 'required|array',
     ]);
+
+    // dd($request->all());
 
     $res = 'success';
     $message = '詢價單已成功送出！';
 
-    Inquiry::create([
+    $inquiry = Inquiry::create([
       'name' =>  $request->username,
       'phone' =>  $request->phone,
       'email' =>  $request->email,
-      'product_id' => $request->product_id,
+      'address' => $request->address,
       'remark' =>  $request->remark,
     ]);
+
+    foreach ($request->products as $product) {
+      // dd($product);
+      OrderList::create([
+        'inquiry_id' => $inquiry->id,
+        'product' => $product['product'],  // product_name
+        'color' => $product['color'],
+        'type' => $product['style'],
+        'size' => $product['size'],
+        'quantity' => $product['quantity'],
+      ]);
+    };
+
+    // 寄信功能
+    $testData = [
+      'name' => '詢價單送出測試成功',
+    ];
+    Mail::to($inquiry['email'])->send(new TestMail($testData));
+
   } catch (\Throwable $th) {
     Log::info($th->getMessage());
     $res = 'fail';
@@ -862,12 +881,11 @@ Route::post('/admin/inquiry', function (Request $request) {
 // 後台詢價詳細頁面
 Route::get('/admin/inquiry/{id}', function ($id) {
 
-  $inquiries = Inquiry::with('product')->find($id);
+  $inquiries = Inquiry::with('orderLists')->find($id);
 
   return Inertia::render('backend/inquiry/InquiryDetail', [
     'response' => $inquiries,
   ]);
-  
 })->name('admin.inquiry.detail');
 
 

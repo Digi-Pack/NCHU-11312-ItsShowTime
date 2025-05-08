@@ -284,7 +284,7 @@ const handleAddToCart = function () {
                             class="py-2 px-6 border rounded-xl flex items-center gap-2 hover:bg-gray-700 transition-colors"
                             @click="handleAddToCart">
                             <img class="size-[30px]" src="image/svg/ShoppingCartIcon.svg" alt="">
-                            <span class="text-lg">加入購物車</span>
+                            <span class="text-lg">確認規格</span>
                         </button>
                     </div>
                 </div>

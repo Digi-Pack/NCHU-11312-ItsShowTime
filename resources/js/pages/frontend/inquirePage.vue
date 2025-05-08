@@ -248,12 +248,12 @@ const getDefaultValue = (arr) => {
     return null;  // 如果為 null 或陣列長度為 0，則不設置預設值
 }
 
-const updateShoppingCart = ref(null);
+// const updateShoppingCart = ref(null);
+const updateShoppingCart = ref([]);
 
 
 // 添加到購物車
 const addToCart = () => {
-    // 列表頁的項目id是從1開始算所以要扣掉;
     const id = currentProductId.value - 1;
     const item = currentItem.value;
 
@@ -266,18 +266,31 @@ const addToCart = () => {
     const selectedColor = handleColor.value ?? (getColor()[id] ? getDefaultValue(getColor()[id]) : null);
     const selectedStyle = handleStyle.value ?? (getType()[id] ? getDefaultValue(getType()[id]) : null);
     const selectedSize = handleSize.value ?? (getSize()[id] ? getDefaultValue(getSize()[id]) : null);
-
     const selectedQuantity = handleQuantity.value || 1;
 
-
-    updateShoppingCart.value = ({
+    const newData = {
         id: item.id,
         product: item.name,
         color: selectedColor,
         style: selectedStyle,
         size: selectedSize,
         quantity: selectedQuantity
-    });
+    };
+
+    // 檢查是否已經存在相同 id 的商品
+    const existingIndex = updateShoppingCart.value.findIndex(
+        (product) => product.id === item.id
+    );
+
+    if (existingIndex !== -1) {
+        // 覆蓋
+        updateShoppingCart.value[existingIndex] = newData;
+    } else {
+        // 新增
+        updateShoppingCart.value.push(newData);
+    }
+
+    // console.log(updateShoppingCart.value);
 
     // 儲存選擇的規格到 selectedSpecs
     selectedSpecs.value[item.id] = {
@@ -287,6 +300,7 @@ const addToCart = () => {
         quantity: selectedQuantity
     };
 
+    // 重設選項
     handleColor.value = getDefaultValue(getColor()[0]);
     handleStyle.value = getDefaultValue(getType()[0]);
     handleSize.value = getDefaultValue(getSize()[0]);
@@ -294,14 +308,14 @@ const addToCart = () => {
 
     Swal.fire({
         icon: "success",
-        title: "已加入購物車！",
+        title: "已加入規格！",
         showConfirmButton: false,
         timer: 1500
     });
 
     hideModal();
-
 };
+
 
 const selectedSpecs = ref({});
 
@@ -343,6 +357,7 @@ const username = ref('');
 const phone = ref('');
 const email = ref('');
 const address = ref('');
+const remark = ref('');
 const products = ref([]);
 
 // 正則表達式 regex
@@ -351,6 +366,8 @@ const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // 日期格式 (YYYY-MM-DD)
 
 const handleSubmit = () => {
+    console.log(response);
+    
     if (username.value === "") {
         Swal.fire("姓名欄位必填！請填寫您的姓名");
         return;
@@ -388,7 +405,8 @@ const handleSubmit = () => {
         phone: phone.value,
         email: email.value,
         address: address.value,
-        products: products.value,
+        remark: remark.value,
+        products: updateShoppingCart.value,
     });
 
     router.post(route('admin.inquiry.store'), item.value, {
@@ -661,7 +679,7 @@ onMounted(() => {
                         </label>
 
                         <div class="relative">
-                            <input id="birthday" type="date" v-model="birthday" required
+                            <input id="birthday" type="date" required
                                 class="w-full h-[50px] bg-transparent border border-white rounded-[8px] px-3 py-3 pr-12 text-[20px] text-white/50 custom-date" />
 
                             <div class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
@@ -695,7 +713,7 @@ onMounted(() => {
                     <label for="address" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                         聯絡地址 | Address ( 選填 )
                     </label>
-                    <input id="address" type="text"
+                    <input v-model="address" id="address" type="text"
                         class="2xl:w-[895px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] placeholder:text-white/50"
                         placeholder="南投市環山路112號">
                 </div>
@@ -704,7 +722,7 @@ onMounted(() => {
                     <label for="remark" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
                         備註 | Remark ( 選填 )
                     </label>
-                    <textarea id="remark"
+                    <textarea v-model="remark" id="remark"
                         class="resize-none 2xl:w-[895px] w-full h-[220px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] "></textarea>
                 </div>
 

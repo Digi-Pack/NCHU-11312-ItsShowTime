@@ -79,11 +79,11 @@ const deleteSumbit = (id) => {
               </td>
               <td class="border border-gray-700 px-4 py-2">
                 <div class="flex justify-center items-center">
-                  <button class="border border-green-500 px-2 py-1 rounded-sm hover:bg-green-300 mr-4" type="button"
+                  <button class="border border-green-500 px-4 py-2 rounded-sm hover:bg-green-300 mr-4" type="button"
                     @click="editBtn(product.id)">
                     編輯
                   </button>
-                  <button class="border border-red-500 px-2 py-1 rounded-sm hover:bg-red-300" type="button"
+                  <button class="border border-red-500 px-4 py-2 rounded-sm hover:bg-red-300" type="button"
                     @click="useAlert('確定要刪除嗎?', () => deleteSumbit(product.id))">
                     刪除
                   </button>

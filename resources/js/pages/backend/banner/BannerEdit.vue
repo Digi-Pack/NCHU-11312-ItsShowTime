@@ -15,7 +15,7 @@ const item = ref({
   _method: 'put',
 });
 
-const previewUrl = ref(null);
+const previewUrl = ref(props.response.img_path ?? null);
 const putFile = (e) => {
   const file = e.target.files[0];
   item.value.new_file = file;

@@ -21,6 +21,13 @@ class TestMail extends Mailable
         //
     }
 
+    // public function build()
+    // {
+    //     return $this->subject('Test Mail 笙')
+    //         ->view('mail.test-html')
+    //         ->with(['order' => $this->order]);
+    // }
+
     /**
      * Get the message envelope.
      */

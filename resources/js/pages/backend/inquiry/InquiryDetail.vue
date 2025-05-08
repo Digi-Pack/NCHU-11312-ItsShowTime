@@ -19,6 +19,13 @@ const formatDate = (datetime) => {
             ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 };
 
+const formatSpec = (item) => {
+  return [item.color, item.type, item.size].filter(Boolean).join(' / ');
+};
+
+
+
+const backBtn = () => router.get(route('admin.inquiry.list'));
 </script>
 
 <template>
@@ -31,27 +38,29 @@ const formatDate = (datetime) => {
           <p>姓名：{{ props.response?.name }}</p>
           <p>電話：{{ props.response?.phone }}</p>
           <p>信箱：{{ props.response?.email }}</p>
-          <p>地址：{{ props.response?.adress }}</p>
+          <p>地址：{{ props.response?.address }}</p>
         </div>
       </div>
       <hr class="border-2 border-gray-300 my-8 rounded-sm">
       <!-- 詢價商品 -->
       <div class="pr-2 py-2">
         <p class="text-2xl font-bold mb-4">詢價商品</p>
-        <div class="flex gap-20">
-          <div class="w-1/2 flex flex-col gap-5 pl-1">
-            <div class="flex">
-              <p class=" whitespace-nowrap">商品名稱：</p>
-              <p>{{ props.response?.product.name }}</p>
+        <div class="flex items-start gap-20">
+          <div class="w-1/2 flex flex-col gap-10 pl-1">
+            <div v-for="(item, index) in props.response?.order_lists" class="flex flex-col gap-5 border border-gray-300 px-4 py-4 rounded-xl">
+              <div class="flex">
+                <p class=" whitespace-nowrap">商品名稱：</p>
+                <p>{{ item?.product }}</p>
+              </div>
+              <p>商品規格：{{ formatSpec(item) }}</p>
+              <p>商品數量：{{ item?.quantity }} 件</p>
+              <p>詢價時間：{{ formatDate(props.response?.created_at) }}</p>
             </div>
-            <p>商品規格：{{ props.response?.birthday }}</p>
-            <p>商品件數：{{ props.response?.phone }}</p>
-            <p>詢價時間：{{ formatDate(props.response?.created_at) }}</p>
           </div>
-          <div class="w-1/2 flex flex-col">
-            <p class="whitespace-nowrap">備註：</p>
-            <div class="flex-1 border border-gray-600 p-3 rounded-sm">
-              {{ props.response?.product.name }}
+          <div class="w-1/2 h-[300px] flex flex-col">
+            <p class="whitespace-nowrap mb-2">備註：</p>
+            <div class="flex-1  border border-gray-600 p-3 rounded-sm">
+              {{ props.response?.remark }}
             </div>
           </div>
         </div>
@@ -81,7 +90,8 @@ const formatDate = (datetime) => {
         <button class="border border-black px-6 py-1 rounded-sm hover:bg-gray-300" type="button" @click="backBtn">
           取消
         </button>
-        <button class="border border-black px-6 py-1 rounded-sm hover:bg-blue-300" type="button" @click="useAlert('確定要儲存嗎?', submit)">
+        <button class="border border-black px-6 py-1 rounded-sm hover:bg-blue-300" type="button"
+          @click="useAlert('確定要儲存嗎?', submit)">
           儲存
         </button>
       </div>
