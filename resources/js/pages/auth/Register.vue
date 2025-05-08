@@ -23,61 +23,62 @@ const submit = () => {
 </script>
 
 <template>
-   <div class="flex fixed z-10 top-6 right-10">
-  <Link :href="route('login')"
-      class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]">
+  <div class="flex fixed z-10 top-12 right-16">
+    <Link :href="route('register')"
+      class="inline-block rounded-sm border border-transparent px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:text-[#EDEDEC] dark:hover:border-white mr-2">
+    註冊
+    </Link>
+    <Link :href="route('login')"
+      class="inline-block rounded-sm border border-white px-5 py-1.5 text-xl leading-normal text-white hover:border-white dark:border-white dark:text-[#EDEDEC] dark:hover:border-white">
     登入
     </Link>
+
   </div>
 
   <AuthBase title="建立會員" class="bg-cover h-screen text-white font-bold"
     :style="{ backgroundImage: 'url(/image/login-background.webp)' }">
-  
+
     <Head title="Register" />
 
     <form @submit.prevent="submit" class="flex flex-col gap-6">
       <div class="grid gap-6">
         <div class="grid gap-2">
           <Label for="name">姓名</Label>
-          <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="name" v-model="form.name" placeholder="Full name" />
+          <Input id="name" type="text" required autofocus :tabindex="1" autocomplete="name" v-model="form.name"
+            placeholder="Full name" />
           <InputError :message="form.errors.name" />
         </div>
 
         <div class="grid gap-2">
           <Label for="email">信箱</Label>
-          <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email" placeholder="email@example.com" />
+          <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email"
+            placeholder="email@example.com" />
           <InputError :message="form.errors.email" />
         </div>
 
         <div class="grid gap-2">
           <Label for="password">密碼</Label>
-          <Input id="password" type="password" required :tabindex="3" autocomplete="new-password" v-model="form.password" placeholder="Password" />
+          <Input id="password" type="password" required :tabindex="3" autocomplete="new-password"
+            v-model="form.password" placeholder="Password" />
           <InputError :message="form.errors.password" />
         </div>
 
         <div class="grid gap-2">
           <Label for="password_confirmation">確認密碼</Label>
-          <Input
-            id="password_confirmation"
-            type="password"
-            required
-            :tabindex="4"
-            autocomplete="new-password"
-            v-model="form.password_confirmation"
-            placeholder="Confirm password"
-          />
+          <Input id="password_confirmation" type="password" required :tabindex="4" autocomplete="new-password"
+            v-model="form.password_confirmation" placeholder="Confirm password" />
           <InputError :message="form.errors.password_confirmation" />
         </div>
 
-        <Button type="submit" class="mt-2 w-full" tabindex="5" :disabled="form.processing">
+        <Button type="submit" class="mt-2 w-full bg-blue-500" tabindex="5" :disabled="form.processing">
           <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-          Create account
+          創建帳號
         </Button>
       </div>
 
-      <div class="text-center text-sm text-muted-foreground">
-        Already have an account?
-        <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">Log in</TextLink>
+      <div class="text-white text-center text-sm text-muted-foreground">
+        已經有帳號了?
+        <TextLink :href="route('login')" class="underline underline-offset-4 text-white" :tabindex="6">登入</TextLink>
       </div>
     </form>
   </AuthBase>

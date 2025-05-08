@@ -10,20 +10,20 @@ const toggleMenu = () => {
     document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
 }
 
-const isLoading = ref(true);
+// const isLoading = ref(true);
 
-onMounted(() => {
-    setTimeout(() => {
-        isLoading.value = false;
-    }, 1900);
-});
+// onMounted(() => {
+//     setTimeout(() => {
+//         isLoading.value = false;
+//     }, 1900);
+// });
 
 </script>
 
 
 <template>
-    <LoadingAnimate v-if="isLoading" />
-    <section v-else>
+    <!-- <LoadingAnimate v-if="isLoading" />
+    <section v-else> -->
     <nav class="w-full relative z-40 bg-white">
         <div class="h-10 bg-[#801302] px-2"></div>
 
@@ -165,7 +165,7 @@ onMounted(() => {
             </main>
         </div>
     </section>
-</section>
+<!-- </section> -->
 </template>
 
 

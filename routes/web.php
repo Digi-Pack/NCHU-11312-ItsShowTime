@@ -27,9 +27,9 @@ Route::get('/history', function () {
 
 
 // 會員登入測試
-Route::get('/home', function () {
-    return Inertia::render('settings/Welcome');
-})->name('home');
+// Route::get('/home', function () {
+//     return Inertia::render('settings/Welcome');
+// })->name('home');
 
 Route::get('/login', function () {
     return Inertia::render('auth/Login.vue');
