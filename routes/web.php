@@ -30,8 +30,6 @@ Route::get('/myprofile',[ItsshowtimeController::class, 'myprofile'])->name('mypr
 
 Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
 
-
-
 Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
 
 // Route::get('/history', function () {
@@ -45,15 +43,13 @@ Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history
 //     return Inertia::render('settings/Welcome');
 // })->name('home');
 
-Route::get('/login',[ItsshowtimeController::class, 'signin'])->name('signin');
+// Route::get('/userlogin',[ItsshowtimeController::class, 'login'])->name('signin');
 
 // Route::get('/login', function () {
 //     return Inertia::render('auth/Login.vue');
 // })->name('signin');
 
-Route::get('/register', function () {
-    return Inertia::render('auth/Register.vue');
-})->name('register');
+// Route::get('/userregister',[ItsshowtimeController::class, 'register'])->name('register');
 
 
 // Route::get('/', function () {

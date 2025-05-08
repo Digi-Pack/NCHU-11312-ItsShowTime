@@ -15,11 +15,11 @@ class UserNameValid
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $item = Auth::user();
-        if($item['name'] == 'test'){
+        // $item = Auth::user();
+        // if($item['name'] == 'test'){
            return $next($request);
-        }else{
-           return redirect(route('login'));
-        }
+        // }else{
+        //    return redirect(route('home'));
+        // }
     }
 }

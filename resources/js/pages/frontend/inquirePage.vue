@@ -2,6 +2,7 @@
 import FrontendFooter from '@/components/FrontendFooter.vue';
 import LoadingAnimate from '@/pages/settings/animate.vue';
 
+
 import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 
@@ -24,12 +25,12 @@ const toggleMenu = () => {
 
 // nav
 const menuItems = [
-    { id: 'about', name: '品牌理念' },
-    { id: 'portfolio', name: '作品集' },
-    { id: 'method', name: '製作方式' },
-    { id: 'product', name: '商品列表' },
-    { id: 'contact', name: '聯絡方式' },
-    // { id: '', name: '會員登入', href: 'myprofile' },
+    { id: 'about', name: '品牌理念', href:'home' },
+    { id: 'portfolio', name: '作品集', href:'home' },
+    { id: 'method', name: '製作方式', href:'home' },
+    { id: 'product', name: '商品列表', href:'home' },
+    { id: 'contact', name: '聯絡方式' , href:'home' },
+    // { id: 'userlogin', name: '會員登入', href:'userlogin'},
 ]
 
 const isScrolled = ref(false) // 用來控制是否超過 230px
@@ -467,7 +468,7 @@ onMounted(() => {
                             'flex flex-col justify-center gap-6 p-8 overflow-y-auto',
                             isOpen ? 'flex' : 'hidden'
                         ]">
-                            <Link :href="route('home')" v-for="item in menuItems" :key="item.id" @click="toggleMenu"
+                            <Link :href="route(item.href)" v-for="item in menuItems" :key="item.id" @click="toggleMenu"
                                 class="flex items-center gap-[9px] text-xl ">
                             <img src="/image/svg/Arrow 2.svg" alt="" />
                             <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>

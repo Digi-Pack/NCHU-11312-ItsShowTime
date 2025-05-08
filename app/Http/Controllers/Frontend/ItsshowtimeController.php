@@ -216,11 +216,16 @@ class ItsshowtimeController extends Controller
     }
 
 
-    public function login()
-    {
-        return Inertia::render('auth/Login.vue', [
-    
-        ]);
-    }
+    // public function login()
+    // {
+    //     return Inertia::render('auth/Login', [
+    //     ]);
+    // }
+
+    // public function register()
+    // {
+    //     return Inertia::render('auth/Register', [
+    //     ]);
+    // }
 
 }
