@@ -9,21 +9,35 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\ItsshowtimeController;
 
-Route::get('/animate', function () {
-    return Inertia::render('settings/animate');
-})->name('animate');
+Route::get('/animate', [ItsshowtimeController::class, 'animate'])->name('animate');
 
-Route::get('/myprofile', function () {
-    return Inertia::render('frontend/myProfile');
-})->name('myprofile');
+// Route::get('/animate', function () {
+//     return Inertia::render('settings/animate');
+// })->name('animate');
 
-Route::get('/password', function () {
-    return Inertia::render('frontend/passwordChange');
-})->name('password');
 
-Route::get('/history', function () {
-    return Inertia::render('frontend/inquireHistory');
-})->name('history');
+Route::get('/myprofile',[ItsshowtimeController::class, 'myprofile'])->name('myprofile');
+
+// Route::get('/myprofile', function () {
+//     return Inertia::render('frontend/myProfile');
+// })->name('myprofile');
+
+
+
+// Route::get('/password', function () {
+//     return Inertia::render('frontend/passwordChange');
+// })->name('password');
+
+Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
+
+
+
+Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
+
+// Route::get('/history', function () {
+//     return Inertia::render('frontend/inquireHistory');
+// })->name('history');
+
 
 
 // 會員登入測試
@@ -31,9 +45,11 @@ Route::get('/history', function () {
 //     return Inertia::render('settings/Welcome');
 // })->name('home');
 
-Route::get('/login', function () {
-    return Inertia::render('auth/Login.vue');
-})->name('signin');
+Route::get('/login',[ItsshowtimeController::class, 'signin'])->name('signin');
+
+// Route::get('/login', function () {
+//     return Inertia::render('auth/Login.vue');
+// })->name('signin');
 
 Route::get('/register', function () {
     return Inertia::render('auth/Register.vue');

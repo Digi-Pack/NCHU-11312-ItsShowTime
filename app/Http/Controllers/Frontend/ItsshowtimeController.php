@@ -178,5 +178,49 @@ class ItsshowtimeController extends Controller
         return Inertia::render('frontend/inquirePage', [
             'response' => $product,
         ]);
+
+
+        // return Inertia::render('settings/animate', [
+        //     'response' => $product,
+        // ]);
     }
+
+
+    public function animate()
+    {
+        return Inertia::render('settings/animate', [
+            
+        ]);
+    }
+
+
+    public function myProfile()
+    {
+        return Inertia::render('frontend/myProfile', [
+    
+        ]);
+    }
+
+    public function password()
+    {
+        return Inertia::render('frontend/passwordChange', [
+    
+        ]);
+    }
+
+    public function history()
+    {
+        return Inertia::render('frontend/inquireHistory', [
+    
+        ]);
+    }
+
+
+    public function login()
+    {
+        return Inertia::render('auth/Login.vue', [
+    
+        ]);
+    }
+
 }
