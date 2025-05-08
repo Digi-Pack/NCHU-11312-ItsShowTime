@@ -5,6 +5,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { useAlert } from '@/lib/useAlert';
 import { flashMessage } from '@/lib/flashMessage';
 
+
 const props = defineProps({ response: Array | Object });
 // console.log(props.response);
 
@@ -18,7 +19,7 @@ const formatDate = (datetime) => {
             ${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
 };
 
-const detailBtn = (id) => router.get(route('admin.inquiry.detail', id));
+const detailBtn = (id) => router.get(route('admin.inquiry.edit', id));
 
 // const deleteSumbit = (id) => {
 //   router.delete(route('admin.inquiry.delete', id), {
@@ -31,6 +32,8 @@ const detailBtn = (id) => router.get(route('admin.inquiry.detail', id));
 </script>
 
 <template>
+  <Head title="詢價單管理" />
+
   <AppLayout>
     <div class="p-4">
       <table class="w-full table-auto border border-gray-700 border-collapse text-center">
