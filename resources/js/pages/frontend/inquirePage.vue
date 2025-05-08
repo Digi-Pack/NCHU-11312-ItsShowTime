@@ -63,9 +63,14 @@ console.log(response);
 // console.log(color);
 // console.log(type);
 
+const selectProducts = ref();
+// selectProducts.value = response;
+selectProducts.value = JSON.parse(JSON.stringify(response));
+console.log(selectProducts.value);
+
 // 給子層的相關資料
 const getColor = () => {
-    return response.map(item => {
+    return selectProducts.value.map(item => {
         if (!item.colors || item.colors.length === 0) return null;
 
         return item.colors.map(color => `${color.name}色`);
@@ -73,7 +78,7 @@ const getColor = () => {
 }
 
 const getType = () => {
-    return response.map(item => {
+    return selectProducts.value.map(item => {
         if (!item.types || item.types.length === 0) return null;
 
         return item.types.map(type => type.name);
@@ -82,7 +87,7 @@ const getType = () => {
 
 
 const getSize = () => {
-    return response.map(item => {
+    return selectProducts.value.map(item => {
         if (!item.sizes || item.sizes.length === 0) return null;
 
         return item.sizes.map(size => size.name);
@@ -90,7 +95,7 @@ const getSize = () => {
 };
 
 // 商品總計
-const productCount = computed(() => response.length);
+const productCount = computed(() => selectProducts.value.length);
 
 
 // 選中的選項
@@ -150,7 +155,7 @@ const hideModal = () => {
 
 const currentProduct = () => {
     if (!currentProductId.value) return null;
-    return props.response.find(product => product.id === currentProductId.value) || null;
+    return selectProducts.value.find(product => product.id === currentProductId.value) || null;
 };
 
 // 全部刪除
@@ -175,7 +180,7 @@ const clearAllBtn = () => {
 
 
             // 清空資料並跳轉回首頁
-            response.length = 0;
+            selectProducts.value.length = 0;
             setTimeout(() => {
                 router.visit(route('home'));
             }, 500);
@@ -185,7 +190,7 @@ const clearAllBtn = () => {
 
 // 刪除個別資料(垃圾桶icon)
 const deleteProduct = (productId) => {
-    const index = response.findIndex(product => product.id === productId);
+    const index = selectProducts.value.findIndex(product => product.id === productId);
 
     if (index !== -1) {
         Swal.fire({
@@ -198,14 +203,14 @@ const deleteProduct = (productId) => {
             confirmButtonText: "確認刪除"
         }).then((result) => {
             if (result.isConfirmed) {
-                response.splice(index, 1);
+                selectProducts.value.splice(index, 1);
 
                 Swal.fire({
                     title: "確認刪除",
                     icon: "success"
                 });
 
-                if (response.length === 0) {
+                if (selectProducts.value.length === 0) {
                     Swal.fire({
                         title: "已刪除所有商品",
                         text: "是否返回首頁？",
@@ -236,7 +241,7 @@ const goHome = () => {
 // 列表當中被點選的欄位資料
 const currentItem = computed(() => {
     const id = currentProductId.value;
-    const item = response.find(item => item.id === id);
+    const item = selectProducts.value.find(item => item.id === id);
     return item || null;
 });
 
@@ -366,7 +371,7 @@ const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email
 const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // 日期格式 (YYYY-MM-DD)
 
 const handleSubmit = () => {
-    console.log(response);
+    console.log(selectProducts.value);
     
     if (username.value === "") {
         Swal.fire("姓名欄位必填！請填寫您的姓名");
@@ -454,6 +459,27 @@ onMounted(() => {
         isLoading.value = false;
     }, 1900);
 });
+
+// 新增同商品但不同尺寸可以做選擇
+const addProductItem = (id) => {
+    selectProducts.value.push(selectProducts.value[id - 1]);
+    console.log(`ID:${ id } 已經被按到了`);
+    console.log(selectProducts.value);
+    console.log(selectProducts.value[id -1].id);
+}
+
+// let insertIndex = data.findLastIndex(item => item.name === '11');
+// if (insertIndex !== -1) {
+//   insertIndex++; // 插入在最後一筆 '11' 之後
+// } else {
+//   insertIndex = data.findIndex(item => item.name === '22');
+//   if (insertIndex === -1) insertIndex = data.length; // 沒有 '22' 則放最後
+// }
+
+// data.splice(insertIndex, 0, newItem);
+
+// console.log(data);
+
 </script>
 
 <template>
@@ -549,9 +575,9 @@ onMounted(() => {
             <!-- min-[956px]以上的選擇規格商品圖 -->
             <div
                 class="flex-col 2xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center 2xl:font-bold font-noto-jp mb-12">
-                <div v-for="(product, index) in response" :key="product.id" v-if="response && response.length > 0"
+                <div v-for="(product, index) in selectProducts" :key="product.id" v-if="selectProducts && selectProducts.length > 0"
                     class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
-
+                    <button type="button" class="border text-white p-2 rounded-lg hover:bg-slate-300 hover:text-blue-600" @click="addProductItem(product.id)">新增</button>
                     <div class="flex 2xl:flex-1 items-center ml-4">
                         <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
                             <img class="rounded-tl-md rounded-tr-md" :src="product.first_img.img_path"
@@ -602,7 +628,7 @@ onMounted(() => {
 
                 <!-- min-[956px]以下才出現的選擇規格商品圖 -->
                 <div class="flex flex-wrap">
-                    <div v-for="(product, index) in response" :key="product.id"
+                    <div v-for="(product, index) in selectProducts" :key="product.id"
                         class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
                         <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.first_img.img_path"
                             alt="Product Image">
