@@ -1,9 +1,53 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
-import { Link, router } from '@inertiajs/vue3'
+import { Link } from '@inertiajs/vue3'
+
 import LoadingAnimate from '@/pages/settings/animate.vue';
 // import NavBar from '@/components/NavBar.vue';
 
+import InputError from '@/components/InputError.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import SettingsLayout from '@/layouts/settings/Layout.vue';
+import { Head, useForm } from '@inertiajs/vue3';
+// import { ref } from 'vue';
+
+import HeadingSmall from '@/components/HeadingSmall.vue';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
+
+const passwordInput = ref < HTMLInputElement | null > (null);
+
+const currentPasswordInput = ref < HTMLInputElement | null > (null);
+
+const form = useForm({
+    current_password: '',
+    password: '',
+    password_confirmation: '',
+});
+
+const updatePassword = () => {
+    form.put(route('password.update'), {
+        preserveScroll: true,
+        onSuccess: () => form.reset(),
+        onError: (errors) => {
+            if (errors.password) {
+                form.reset('password', 'password_confirmation');
+                if (passwordInput.value instanceof HTMLInputElement) {
+                    passwordInput.value.focus();
+                }
+            }
+
+            if (errors.current_password) {
+                form.reset('current_password');
+                if (currentPasswordInput.value instanceof HTMLInputElement) {
+                    currentPasswordInput.value.focus();
+                }
+            }
+        },
+    });
+};
 
 
 
@@ -17,13 +61,17 @@ const toggleMenu = () => {
 }
 
 
-
+const currentPassword = ref('');
 const newPassword = ref('');
 const confirmPassword = ref('');
 
-
+const PasswordVisibleCurrent = ref(false);
 const PasswordVisibleOne = ref(false);
 const PasswordVisibleTwo = ref(false);
+
+const toggleConfirmPasswordCurrent = () => {
+    PasswordVisibleCurrent.value = !PasswordVisibleCurrent.value;
+};
 
 const toggleConfirmPasswordOne = () => {
     PasswordVisibleOne.value = !PasswordVisibleOne.value;
@@ -34,32 +82,38 @@ const toggleConfirmPasswordTwo = () => {
 
 
 // 儲存
-const handleSave = () => {
-    if (newPassword.value !== confirmPassword.value) {
-        Swal.fire({
-            title: "儲存失敗",
-            text: "請確認輸入密碼是否相同",
-            icon: "warning"
-        });
-        return;
-    }
+// // const handleSave = () => {
+// //     if (newPassword.value !== confirmPassword.value) {
+// //         Swal.fire({
+// //             title: "儲存失敗",
+// //             text: "請確認輸入密碼是否相同",
+// //             icon: "warning"
+// //         });
+// //         return;
+// //     }
 
-    // 在此處執行儲存邏輯（例如發送請求到後端）
-    console.log('儲存密碼:', newPassword.value);
+//     // 在此處執行儲存邏輯（例如發送請求到後端）
+//     // console.log('儲存密碼:', newPassword.value);
 
 
-    Swal.fire({
-        position: "center",
-        icon: "success",
-        title: "儲存成功",
-        showConfirmButton: false,
-        timer: 1500
-    });
+//     // Swal.fire({
+//     //     position: "center",
+//     //     icon: "success",
+//     //     title: "儲存成功",
+//     //     showConfirmButton: false,
+//     //     timer: 1500
+//     // });
 
-    // 清空密碼欄位
-    newPassword.value = '';
-    confirmPassword.value = '';
-};
+//     // 清空密碼欄位
+//     newPassword.value = '';
+//     confirmPassword.value = '';
+// };
+
+
+
+
+
+
 
 
 
@@ -170,7 +224,7 @@ const handleSave = () => {
 
 
             <div class="2xl:w-[82%] w-full h-screen bg-[#D0D0D0] flex justify-center font-noto-jp p-4 lg:p-8">
-                <div class="w-full bg-white shadow-lg relative">
+                <div class="w-full bg-white shadow-lg relative justify-center ">
 
                     <Link :href="route('home')"
                         class="hidden sm:flex items-center gap-2 px-4 py-2 absolute top-4 right-4">
@@ -182,43 +236,75 @@ const handleSave = () => {
                         <p class="text-lg mt-2">為了保護您帳號的安全，請不要分享密碼給其他人</p>
                     </div>
 
-                    <div class="lg:w-1/2 sm:w-4/5 w-full flex flex-col px-8">
-                            <div class="space-y-10 mb-8">
 
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-lg sm:text-xl tracking-tight text-right pr-4">新的密碼</label>
-                                    <div class="w-2/3 relative">
-                                        <input v-model="newPassword" :type="PasswordVisibleOne ? 'text' : 'password'"
-                                            class="w-full bg-[#E2E2E2] rounded px-3 py-2 focus:outline-none" />
-                                        <img :src="PasswordVisibleOne ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
+                    <div class="w-1/3 space-y-6 pl-20">
+                        <form @submit.prevent="updatePassword" class="space-y-6">
+                            <!-- <div class="grid gap-2">
+                                <Label for="current_password">現在密碼</Label>
+                                <Input id="current_password" ref="currentPasswordInput" v-model="form.current_password"
+                                    type="password" class="mt-1 block w-full" autocomplete="current-password"
+                                    placeholder="Current password" />
+                                <InputError :message="form.errors.current_password" />
+                                <img :src="PasswordVisibleOne ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
                                             class="absolute top-1/2 right-3 transform -translate-y-1/2 w-6 cursor-pointer"
                                             @click="toggleConfirmPasswordOne" />
-                                    </div>
-                                </div>
+                            </div> -->
 
-                                <div class="flex items-center">
-                                    <label class="w-1/3 text-lg sm:text-xl tracking-tight text-right pr-4">確認密碼</label>
-                                    <div class="w-2/3 relative">
-                                        <input v-model="confirmPassword"
-                                            :type="PasswordVisibleTwo ? 'text' : 'password'"
-                                            class="w-full bg-[#E2E2E2] rounded px-3 py-2 focus:outline-none" />
-                                        <img :src="PasswordVisibleTwo ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
-                                            class="absolute top-1/2 right-3 transform -translate-y-1/2 w-6 cursor-pointer"
-                                            @click="toggleConfirmPasswordTwo" />
-                                    </div>
+
+                            <div class="grid gap-2 relative">
+                                <Label for="current_password">現在密碼</Label>
+                                <div class="relative">
+                                    <Input id="current_password" ref="currentPasswordInput"
+                                        v-model="form.current_password"
+                                        :type="PasswordVisibleCurrent ? 'text' : 'password'"
+                                        class="mt-1 block w-full pr-10" autocomplete="current-password"
+                                        placeholder="Current password" />
+
+                                    <img :src="PasswordVisibleCurrent ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
+                                        alt="Toggle password visibility"
+                                        class="absolute top-1/2 right-3 transform -translate-y-1/2 w-6 cursor-pointer"
+                                        @click="toggleConfirmPasswordCurrent" />
                                 </div>
                             </div>
 
-                            <div class="flex justify-end mt-10">
-                                <button @click="handleSave" type="button"
-                                    class="border border-[#801302] text-[#801302] text-lg px-6 py-2">
-                                    儲存
-                                </button>
+                            <div class="grid gap-2 relative">
+                                <Label for="password">新的密碼</Label>
+                                <div class="relative">
+                                    <Input id="password" ref="passwordInput" v-model="form.password"
+                                        :type="PasswordVisibleOne ? 'text' : 'password'" class="mt-1 block w-full pr-10"
+                                        autocomplete="new-password" placeholder="New password" />
+                                    <InputError :message="form.errors.password" />
+                                    <img :src="PasswordVisibleOne ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
+                                        alt="Toggle password visibility"
+                                        class="absolute top-1/2 right-3 transform -translate-y-1/2 w-6 cursor-pointer"
+                                        @click="toggleConfirmPasswordOne" />
+                                </div>
                             </div>
-                        </div>
 
-                   
+                            <div class="grid gap-2 relative">
+                                <Label for="password_confirmation">確認密碼</Label>
+                                <div class="relative">
+                                    <Input id="password_confirmation" v-model="form.password_confirmation"
+                                        :type="PasswordVisibleTwo ? 'text' : 'password'" class="mt-1 block w-full pr-10"
+                                        autocomplete="new-password" placeholder="Confirm password" />
+                                    <InputError :message="form.errors.password_confirmation" />
+                                    <img :src="PasswordVisibleTwo ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
+                                        alt="Toggle password visibility"
+                                        class="absolute top-1/2 right-3 transform -translate-y-1/2 w-6 cursor-pointer"
+                                        @click="toggleConfirmPasswordTwo" />
+                                </div>
+                            </div>
 
+                            <div class="flex items-center gap-4">
+                                <Button :disabled="form.processing">儲存</Button>
+
+                                <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
+                                    leave-active-class="transition ease-in-out" leave-to-class="opacity-0">
+                                    <p v-show="form.recentlySuccessful" class="text-sm text-red-700">已儲存.</p>
+                                </Transition>
+                            </div>
+                        </form>
+                    </div>
 
 
                 </div>

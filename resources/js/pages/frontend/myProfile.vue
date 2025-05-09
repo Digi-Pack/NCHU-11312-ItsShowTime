@@ -7,12 +7,12 @@ import LoadingAnimate from '@/pages/settings/animate.vue';
 //   response: Array | Object,
 // });
 // console.log(props.response);
-const props = defineProps({
-    response: {
-        type: Object,
-        required: true,
-    },
-});
+// const props = defineProps({
+//     response: {
+//         type: Object,
+//         required: true,
+//     },
+// });
 
 
 const isOpen = ref(false)

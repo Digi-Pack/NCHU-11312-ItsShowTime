@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Frontend\ItsshowtimeController;
 
+
 Route::middleware(['auth', 'allUser'])->get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
@@ -31,6 +32,8 @@ Route::prefix('/')->group(function () {
 Route::middleware(['auth'])->prefix('/')->group(function () {
 
     Route::get('/myprofile', [ItsshowtimeController::class, 'myprofile'])->name('myprofile');
+   
+    // Route::get('/myprofile/{users_id}', [ItsshowtimeController::class, 'myProfile'])->name('myprofile');
 
     Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
 
