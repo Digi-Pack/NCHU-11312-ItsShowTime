@@ -30,7 +30,6 @@ Route::prefix('/')->group(function () {
 Route::middleware(['auth'])->prefix('/')->group(function () {
 
     Route::get('/myprofile', [ItsshowtimeController::class, 'myprofile'])->name('myprofile');
-   
     // Route::get('/myprofile/{users_id}', [ItsshowtimeController::class, 'myProfile'])->name('myprofile');
 
     Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
