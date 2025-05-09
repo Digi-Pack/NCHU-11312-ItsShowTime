@@ -194,22 +194,12 @@ class ItsshowtimeController extends Controller
     }
 
 
-
-
-    public function myProfile($email)
-{
-    $user = User::where('email', $email)->firstOrFail();
-    return Inertia::render('frontend/myProfile', [
-        'response' => $user,
-    ]);
-}
-
-    // public function myProfile()
-    // {
-    //     return Inertia::render('frontend/myProfile', [
-
-    //     ]);
-    // }
+    public function myProfile()
+    {
+        return Inertia::render('frontend/myProfile', [
+    
+        ]);
+    }
 
     public function password()
     {

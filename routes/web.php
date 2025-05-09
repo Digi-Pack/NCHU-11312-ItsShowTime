@@ -15,8 +15,6 @@ Route::middleware(['auth', 'allUser'])->get('dashboard', function () {
 })->name('dashboard');
 
 
-
-
 Route::prefix('/')->group(function () {
 
     Route::get('/', [ItsshowtimeController::class, 'index'])->name('home');
