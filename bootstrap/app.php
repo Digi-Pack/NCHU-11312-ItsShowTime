@@ -1,6 +1,6 @@
 <?php
+
 use App\Http\Middleware\AllUser;
-use App\Http\Middleware\UserNameValid;
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
