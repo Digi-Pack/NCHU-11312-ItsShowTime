@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Frontend;
 
+
+use App\Models\User;
 use App\Models\Type;
 use Inertia\Inertia;
 use App\Models\Color;
@@ -188,44 +190,34 @@ class ItsshowtimeController extends Controller
 
     public function animate()
     {
-        return Inertia::render('settings/animate', [
-            
-        ]);
+        return Inertia::render('settings/animate', []);
     }
 
 
-    public function myProfile()
-    {
-        return Inertia::render('frontend/myProfile', [
-    
-        ]);
-    }
+
+
+    public function myProfile($email)
+{
+    $user = User::where('email', $email)->firstOrFail();
+    return Inertia::render('frontend/myProfile', [
+        'response' => $user,
+    ]);
+}
+
+    // public function myProfile()
+    // {
+    //     return Inertia::render('frontend/myProfile', [
+
+    //     ]);
+    // }
 
     public function password()
     {
-        return Inertia::render('frontend/passwordChange', [
-    
-        ]);
+        return Inertia::render('frontend/passwordChange', []);
     }
 
     public function history()
     {
-        return Inertia::render('frontend/inquireHistory', [
-    
-        ]);
+        return Inertia::render('frontend/inquireHistory', []);
     }
-
-
-    // public function login()
-    // {
-    //     return Inertia::render('auth/Login', [
-    //     ]);
-    // }
-
-    // public function register()
-    // {
-    //     return Inertia::render('auth/Register', [
-    //     ]);
-    // }
-
 }

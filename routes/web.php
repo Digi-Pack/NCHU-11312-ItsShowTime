@@ -20,10 +20,11 @@ Route::prefix('/')->group(function () {
 
 });
 
-// , 'user.name'
-Route::middleware(['auth', 'user.name'])->prefix('/')->group(function () {
+// middleware(['auth', 'user.name'])->
+Route::middleware(['auth'])->prefix('/')->group(function () {
 
-    Route::get('/myprofile', [ItsshowtimeController::class, 'myprofile'])->name('myprofile');
+    // Route::get('/myprofile', [ItsshowtimeController::class, 'myprofile'])->name('myprofile');
+    Route::get('/myprofile/{users_id}', [ItsshowtimeController::class, 'myProfile'])->name('myprofile');;
 
     Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
 
@@ -32,55 +33,9 @@ Route::middleware(['auth', 'user.name'])->prefix('/')->group(function () {
 
 // ,'verified'
 // middleware(['auth', 'user.name'])->
-Route::middleware(['auth'])->get('dashboard', function () {
+Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
-
-// Route::middleware(['auth', 'user.name'])->get('dashboard', function () {
-//     $item = Auth::user();
-
-//     if ($item->name !== 'YZ') {
-//         return redirect()->route('myprofile');
-//     }
-//     return Inertia::render('Dashboard');
-
-// })->name('dashboard');
-
-
-
-
-
-// Route::get('/', [ItsshowtimeController::class, 'index'])->name('home');
-
-// Route::get('/animate', [ItsshowtimeController::class, 'animate'])->name('animate');
-
-// Route::get('/inquire', [ItsshowtimeController::class, 'inquire'])->name('inquirePage');
-
-// Route::get('/myprofile',[ItsshowtimeController::class, 'myprofile'])->name('myprofile');
-
-// Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
-
-// Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
-
-// Route::get('/animate', function () {
-//     return Inertia::render('settings/animate');
-// })->name('animate');
-
-// Route::get('/myprofile', function () {
-//     return Inertia::render('frontend/myProfile');
-// })->name('myprofile');
-
-
-
-// Route::get('/password', function () {
-//     return Inertia::render('frontend/passwordChange');
-// })->name('password');
-
-
-
-// Route::get('/history', function () {
-//     return Inertia::render('frontend/inquireHistory');
-// })->name('history');
 
 
 
@@ -88,45 +43,6 @@ Route::middleware(['auth'])->get('dashboard', function () {
 // Route::get('/home', function () {
 //     return Inertia::render('settings/Welcome');
 // })->name('home');
-
-// Route::get('/userlogin',[ItsshowtimeController::class, 'login'])->name('signin');
-
-// Route::get('/login', function () {
-//     return Inertia::render('auth/Login.vue');
-// })->name('signin');
-
-// Route::get('/userregister',[ItsshowtimeController::class, 'register'])->name('register');
-
-
-// Route::get('/', function () {
-//     return redirect('/home');
-// });
-
-// 首頁
-// Route::get('/home', function () {
-//     $products = Product::all();
-//     return Inertia::render('frontend/homePage', [
-//         'response' => $products,
-//     ]);
-// });
-
-
-
-// Route::get('/', function () {
-//     $products = Product::all();
-//     return Inertia::render('frontend/homePage', [
-//         'response' => $products,
-//     ]);
-// })->name('home');
-
-
-
-// 詢價頁
-// Route::get('/inquire', function () {
-//     return Inertia::render('frontend/inquirePage');
-// })->name('inquire');
-
-
 
 
 

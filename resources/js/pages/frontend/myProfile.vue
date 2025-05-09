@@ -3,6 +3,18 @@ import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import LoadingAnimate from '@/pages/settings/animate.vue';
 
+// const props = defineProps({
+//   response: Array | Object,
+// });
+// console.log(props.response);
+const props = defineProps({
+    response: {
+        type: Object,
+        required: true,
+    },
+});
+
+
 const isOpen = ref(false)
 
 const toggleMenu = () => {
@@ -80,8 +92,6 @@ const toggleEdit = () => {
 
     isEditing.value = !isEditing.value;
 };
-
-
 
 
 
@@ -191,7 +201,8 @@ onMounted(() => {
                             <!-- <button type="button"
                             class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer">登出
                         </button> -->
-                            <Link class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer" method="post" :href="route('logout')" as="button">
+                            <Link class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer"
+                                method="post" :href="route('logout')" as="button">
                             <LogOut class="mr-2 h-4 w-4" />
                             登出
                             </Link>
@@ -260,14 +271,14 @@ onMounted(() => {
                                         </div>
                                     </div>
 
-                                    <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
+                                    <!-- <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">生日</div>
                                         <div class="col-span-3">
                                             <span v-if="!isEditing">{{ birthday }}</span>
                                             <input v-else v-model="birthday" type="date"
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">手機號碼</div>

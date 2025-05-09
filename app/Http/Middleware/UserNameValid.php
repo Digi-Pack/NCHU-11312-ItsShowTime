@@ -20,14 +20,12 @@ class UserNameValid
 
         $item = Auth::user();
 
-        if (!$item || $item->role !== '1') {
+        if ($item->role !== 1) {
             // dd($item);
-            return redirect()->route('myprofile');
-        } else {
-            // dd('cc');
-            return redirect()->route('dashboard');
-            // return $next($request);
+            return redirect()->route('home');
         }
+        // return redirect()->route('dashboard');
+        return $next($request);
 
 
         // $item = Auth::user();
@@ -38,18 +36,6 @@ class UserNameValid
         // } else {
         //     // 
         //     return redirect()->route('dashboard');
-        // }
-
-
-        // $item = Auth::user();
-
-        // if ($item && $item->name === 'YZ') {
-        //     // dd($next($request));
-        //     return redirect()->route('dashboard');
-        //     // return $next($request);
-        // } else {
-        //     // dd('dd');
-        //     return redirect()->route('myprofile');
         // }
 
 
