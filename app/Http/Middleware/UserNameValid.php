@@ -18,10 +18,9 @@ class UserNameValid
 
     {
 
-        // return $next($request);
         $item = Auth::user();
 
-        if (!$item || $item->name !== 'YZ') {
+        if (!$item || $item->role !== '1') {
             // dd($item);
             return redirect()->route('myprofile');
         } else {

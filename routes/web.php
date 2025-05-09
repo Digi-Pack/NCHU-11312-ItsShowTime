@@ -20,7 +20,7 @@ Route::prefix('/')->group(function () {
 
 });
 
-
+// , 'user.name'
 Route::middleware(['auth', 'user.name'])->prefix('/')->group(function () {
 
     Route::get('/myprofile', [ItsshowtimeController::class, 'myprofile'])->name('myprofile');
@@ -30,8 +30,9 @@ Route::middleware(['auth', 'user.name'])->prefix('/')->group(function () {
     Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
 });
 
-
-Route::middleware(['auth','verified'])->get('dashboard', function () {
+// ,'verified'
+// middleware(['auth', 'user.name'])->
+Route::middleware(['auth'])->get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 
