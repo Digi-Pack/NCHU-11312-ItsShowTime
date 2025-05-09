@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class UserNameValid
+class AllUser
 {
     /**
      * Handle an incoming request.
@@ -16,27 +16,17 @@ class UserNameValid
      */
     public function handle(Request $request, Closure $next): Response
     {
-
         $item = Auth::user();
 
+
+        
         if ($item->role !== 1) {
-            // dd($item);
             return redirect()->route('home');
-        }
-        // return redirect()->route('dashboard');
-        return $next($request);
-
-
-        // $item = Auth::user();
-
-        // if (!$item || $item->name !== 'YZ') {
-        //     // dd($item);
-        //     return redirect()->route('myprofile');
-        // } else {
-        //     // 
+        } 
+        // else {
         //     return redirect()->route('dashboard');
-        // }
+        // };
 
-
+        return $next($request);
     }
 }

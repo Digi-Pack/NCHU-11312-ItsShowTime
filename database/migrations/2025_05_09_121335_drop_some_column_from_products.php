@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->unsignedSmallInteger('role')->default(2)->after('id')->comment('1是後台，2代表使用者');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropColumn('img_path');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('role');
+        Schema::table('products', function (Blueprint $table) {
+            $table->text('img_path')->comment('商品圖片');
         });
     }
 };

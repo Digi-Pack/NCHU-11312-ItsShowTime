@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('images', function (Blueprint $table) {
-            $table->text('img_name')->comment('圖片名稱');
+            $table->text('img_name')->after('id')->comment('圖片名稱');
         });
     }
 

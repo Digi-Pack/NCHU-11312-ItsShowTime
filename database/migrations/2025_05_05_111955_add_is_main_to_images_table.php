@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('images', function (Blueprint $table) {
-            $table->boolean('isMain')->default(false)->comment('圖片是否為主圖');
+            $table->boolean('isMain')->default(false)->after('img_path')->comment('圖片是否為主圖');
         });
     }
 

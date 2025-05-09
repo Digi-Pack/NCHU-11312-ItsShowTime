@@ -23,7 +23,7 @@ defineProps<Props>();
     <DropdownMenuItem as-child>
       <Link class="block w-full" :href="route('profile.edit')" as="button">
         <Settings class="mr-2 h-4 w-4" />
-        Settings
+        設定
       </Link>
     </DropdownMenuItem>
   </DropdownMenuGroup>
@@ -31,7 +31,7 @@ defineProps<Props>();
   <DropdownMenuItem as-child>
     <Link class="block w-full" method="post" :href="route('logout')" as="button">
       <LogOut class="mr-2 h-4 w-4" />
-      Log out
+      登入
     </Link>
   </DropdownMenuItem>
 </template>
