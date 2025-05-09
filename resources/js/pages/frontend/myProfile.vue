@@ -3,16 +3,16 @@ import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import LoadingAnimate from '@/pages/settings/animate.vue';
 
-// const props = defineProps({
-//   response: Array | Object,
-// });
-// console.log(props.response);
-// const props = defineProps({
-//     response: {
-//         type: Object,
-//         required: true,
-//     },
-// });
+
+
+
+const props = defineProps({
+    response: Object,
+});
+
+console.log(props.response); 
+
+
 
 
 const isOpen = ref(false)
@@ -60,20 +60,22 @@ function handleFileChange(event) {
 }
 
 
-// 編輯/儲存功能
+
+
+const response = ref(props.response || {});
 const isEditing = ref(false);
 
-// 目前是預設的，之後要依照信箱從資料庫抓資料
-const username = ref('Las123');
-const name = ref('廖小笙');
-const birthday = ref('2000-04-05');
-const phone = ref('0912345678');
-const email = ref('Las123@gmail.com');
+const username = ref(response.value.username || '');
+const name = ref(response.value.name || '');
+const birthday = ref(response.value.birthday || '2000-04-05');
+const phone = ref(response.value.phone || '0912345678');
+const email = ref(response.value.email || '');
 
 
+// 編輯/儲存功能
 const toggleEdit = () => {
     if (isEditing.value) {
-        // 此處，你可以執行保存邏輯，比如發送請求到服務器
+        // 保存資料
         console.log('保存:', {
             username: username.value,
             name: name.value,
@@ -92,7 +94,6 @@ const toggleEdit = () => {
 
     isEditing.value = !isEditing.value;
 };
-
 
 
 // loading動畫
@@ -250,9 +251,9 @@ onMounted(() => {
                             </div>
 
 
-
                             <div class="lg:w-[65%] lg:border-r border-[#801302] pr-0 lg:pr-8">
                                 <div class="space-y-10">
+                                    <!-- 使用者帳號 -->
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">使用者帳號</div>
                                         <div class="col-span-3">
@@ -261,7 +262,7 @@ onMounted(() => {
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
                                     </div>
-
+                                    <!-- 姓名欄位 -->
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">姓名</div>
                                         <div class="col-span-3">
@@ -270,16 +271,25 @@ onMounted(() => {
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
                                     </div>
+                                    <!-- <div v-if="response" class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
+                                        <div class="col-span-2 text-right">姓名</div>
+                                        <div class="col-span-3">
+                                            <span v-if="!isEditing">{{ response.name }}</span>
+                                            <input v-else v-model="name" type="text"
+                                                class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
+                                        </div>
+                                    </div> -->
 
-                                    <!-- <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
+
+                                    <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">生日</div>
                                         <div class="col-span-3">
                                             <span v-if="!isEditing">{{ birthday }}</span>
                                             <input v-else v-model="birthday" type="date"
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
-                                    </div> -->
-
+                                    </div>
+                                  
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">手機號碼</div>
                                         <div class="col-span-3">
@@ -295,6 +305,7 @@ onMounted(() => {
                                         <div class="col-span-3">{{ email }}</div>
                                     </div>
 
+
                                     <!-- 編輯/儲存 Btn -->
                                     <div class="grid grid-cols-5 gap-8 items-center text-[18px] lg:text-[24px] mt-10">
                                         <div class="col-span-2"></div>
@@ -308,6 +319,30 @@ onMounted(() => {
 
                                 </div>
                             </div>
+
+
+
+
+                            <div v-if="response">
+                                <p><strong>名稱：</strong> {{ response.name }}</p>
+                                <p><strong>Email：</strong> {{ response.email }}</p>
+
+                                <div v-if="response.usersInfo">
+                                    <p><strong>電話：</strong> {{ response.usersInfo.phonenumber }}</p>
+                                    <p><strong>地址：</strong> {{ response.usersInfo.address }}</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p v-if="response.usersInfo">
+                                    用戶電話: {{ response.usersInfo.phonenumber }}
+                                </p>
+                                <p v-else>
+                                    尚無用戶資料
+                                </p>
+                            </div>
+
+
 
                             <!-- 1024px以上 頭像區 -->
                             <div class="lg:w-[35%] hidden lg:flex flex-col items-center gap-4">

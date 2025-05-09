@@ -40,8 +40,8 @@ class UsersInfo extends Model
 		'img_path'
 	];
 
-	public function usersinfo()
+	public function user()
 	{
-		return $this->hasOne(UsersInfo::class, 'user_id', 'id');
+		return $this->belongsTo(User::class, 'user_id', 'id');
 	}
 }

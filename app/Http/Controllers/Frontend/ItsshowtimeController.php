@@ -3,14 +3,15 @@
 namespace App\Http\Controllers\Frontend;
 
 
-use App\Models\User;
 use App\Models\Type;
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Color;
 use App\Models\Banner;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class ItsshowtimeController extends Controller
 
@@ -194,24 +195,35 @@ class ItsshowtimeController extends Controller
     }
 
 
+    // public function myProfile()
+    // {
 
+    //     $user = User::with('usersInfo')->findOrFail(Auth::id());
 
-//     public function myProfile($email)
-// {
-//     $user = User::where('email', $email)->firstOrFail();
-//     return Inertia::render('frontend/myProfile', [
-//         'response' => $user,
-//     ]);
-// }
+    //     dd($user);
 
+    //     return Inertia::render('frontend/myProfile', [
+    //         'response' => $user,
+    //     ]);
+    // }
     public function myProfile()
     {
-        return Inertia::render('frontend/myProfile', [
+        $user = User::with('usersInfo')->findOrFail(Auth::id());
 
+        // 測試直接返回一個簡單的 response
+        return Inertia::render('frontend/myProfile', [
+            'response' => $user,
         ]);
     }
 
-    
+    // public function myProfile()
+    // {
+    //     return Inertia::render('frontend/myProfile', [
+
+    //     ]);
+    // }
+
+
 
     public function password()
     {

@@ -9,7 +9,7 @@ import InputError from '@/components/InputError.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { Head, useForm } from '@inertiajs/vue3';
-// import { ref } from 'vue';
+
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
@@ -51,8 +51,6 @@ const updatePassword = () => {
 
 
 
-
-
 const isOpen = ref(false)
 
 const toggleMenu = () => {
@@ -81,45 +79,7 @@ const toggleConfirmPasswordTwo = () => {
 };
 
 
-// 儲存
-// // const handleSave = () => {
-// //     if (newPassword.value !== confirmPassword.value) {
-// //         Swal.fire({
-// //             title: "儲存失敗",
-// //             text: "請確認輸入密碼是否相同",
-// //             icon: "warning"
-// //         });
-// //         return;
-// //     }
-
-//     // 在此處執行儲存邏輯（例如發送請求到後端）
-//     // console.log('儲存密碼:', newPassword.value);
-
-
-//     // Swal.fire({
-//     //     position: "center",
-//     //     icon: "success",
-//     //     title: "儲存成功",
-//     //     showConfirmButton: false,
-//     //     timer: 1500
-//     // });
-
-//     // 清空密碼欄位
-//     newPassword.value = '';
-//     confirmPassword.value = '';
-// };
-
-
-
-
-
-
-
-
-
 </script>
-
-
 
 
 <template>
@@ -201,16 +161,13 @@ const toggleConfirmPasswordTwo = () => {
                         </div>
                         <div class="2xl:text-[24px] text-[20px] font-bold mb-4">線上客服</div>
                         <div class="px-4">
-                            <!-- <div class="2xl:text-[20px] mb-4 cursor-pointer">我的詢價</div> -->
+
                             <Link :href="route('history')" class="2xl:text-[20px] text-white cursor-pointer">歷史詢價查詢
                             </Link>
 
                         </div>
                     </div>
                     <div class="flex justify-center">
-                        <!-- <button type="button"
-                                class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer">登出
-                            </button> -->
                         <Link class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer"
                             method="post" :href="route('logout')" as="button">
                         <LogOut class="mr-2 h-4 w-4" />
@@ -222,9 +179,8 @@ const toggleConfirmPasswordTwo = () => {
             </div>
 
 
-
-            <div class="2xl:w-[82%] w-full h-screen bg-[#D0D0D0] flex justify-center font-noto-jp p-4 lg:p-8">
-                <div class="w-full bg-white shadow-lg relative justify-center ">
+            <div class="2xl:w-[82%] w-full min-h-screen bg-[#D0D0D0] flex justify-center font-noto-jp p-4 lg:p-8">
+                <div class="w-full bg-white shadow-lg relative justify-center px-4 py-6">
 
                     <Link :href="route('home')"
                         class="hidden sm:flex items-center gap-2 px-4 py-2 absolute top-4 right-4">
@@ -236,23 +192,10 @@ const toggleConfirmPasswordTwo = () => {
                         <p class="text-lg mt-2">為了保護您帳號的安全，請不要分享密碼給其他人</p>
                     </div>
 
-
-                    <div class="w-1/3 space-y-6 pl-20">
+                    <div class="w-full space-y-6 sm:pl-20 sm:mx-0 mx-auto ">
                         <form @submit.prevent="updatePassword" class="space-y-6">
-                            <!-- <div class="grid gap-2">
-                                <Label for="current_password">現在密碼</Label>
-                                <Input id="current_password" ref="currentPasswordInput" v-model="form.current_password"
-                                    type="password" class="mt-1 block w-full" autocomplete="current-password"
-                                    placeholder="Current password" />
-                                <InputError :message="form.errors.current_password" />
-                                <img :src="PasswordVisibleOne ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
-                                            class="absolute top-1/2 right-3 transform -translate-y-1/2 w-6 cursor-pointer"
-                                            @click="toggleConfirmPasswordOne" />
-                            </div> -->
-
-
                             <div class="grid gap-2 relative">
-                                <Label for="current_password">現在密碼</Label>
+                                <Label for="current_password" class="text-[20px]">現在密碼</Label>
                                 <div class="relative">
                                     <Input id="current_password" ref="currentPasswordInput"
                                         v-model="form.current_password"
@@ -268,7 +211,7 @@ const toggleConfirmPasswordTwo = () => {
                             </div>
 
                             <div class="grid gap-2 relative">
-                                <Label for="password">新的密碼</Label>
+                                <Label for="password" class="text-[20px]">新的密碼</Label>
                                 <div class="relative">
                                     <Input id="password" ref="passwordInput" v-model="form.password"
                                         :type="PasswordVisibleOne ? 'text' : 'password'" class="mt-1 block w-full pr-10"
@@ -282,7 +225,7 @@ const toggleConfirmPasswordTwo = () => {
                             </div>
 
                             <div class="grid gap-2 relative">
-                                <Label for="password_confirmation">確認密碼</Label>
+                                <Label for="password_confirmation" class="text-[20px]">確認密碼</Label>
                                 <div class="relative">
                                     <Input id="password_confirmation" v-model="form.password_confirmation"
                                         :type="PasswordVisibleTwo ? 'text' : 'password'" class="mt-1 block w-full pr-10"
@@ -296,7 +239,7 @@ const toggleConfirmPasswordTwo = () => {
                             </div>
 
                             <div class="flex items-center gap-4">
-                                <Button :disabled="form.processing">儲存</Button>
+                                <Button :disabled="form.processing" class="border text-nowrap cursor-pointer">儲存</Button>
 
                                 <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
                                     leave-active-class="transition ease-in-out" leave-to-class="opacity-0">
@@ -305,10 +248,9 @@ const toggleConfirmPasswordTwo = () => {
                             </div>
                         </form>
                     </div>
-
-
                 </div>
             </div>
+            
         </div>
     </section>
 </template>

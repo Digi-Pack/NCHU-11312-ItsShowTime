@@ -47,9 +47,8 @@ class User extends Authenticatable
         ];
     }
 
-    // public function usersinfo()
-	// {
-	// 	return $this->hasOne(Usersinfo::class, 'user_id','id');
-	// }
-
+    public function usersInfo()
+    {
+        return $this->hasOne(UsersInfo::class, 'user_id', 'id');
+    }
 }
