@@ -58,11 +58,12 @@ const { response } = defineProps({
     // color: Array | Object,
     // type: Array | Object,
 });
-console.log(response);
+// console.log(response);
 // console.log(response[0].types);
 // console.log(color);
 // console.log(type);
 
+// 用新的變數來執行程式()
 const selectProducts = ref();
 // selectProducts.value = response;
 selectProducts.value = JSON.parse(JSON.stringify(response));
@@ -133,6 +134,7 @@ const handleQuantityUpdate = (style) => {
 // 點擊規格選擇出現選擇商品規格頁面
 const isFormatOpen = ref(false);
 const currentProductId = ref(null);
+const selectedIndex = ref();
 
 const openModal = (productId) => {
     currentProductId.value = productId;
@@ -245,6 +247,10 @@ const currentItem = computed(() => {
     return item || null;
 });
 
+const testTHisIndex = (index) => {
+    console.log('目前資料的index為: ', index);
+}
+
 const getDefaultValue = (arr) => {
     // 如果陣列不為 null 且長度大於 0，返回陣列的第一個值
     if (arr && Array.isArray(arr) && arr.length > 0) {
@@ -255,7 +261,6 @@ const getDefaultValue = (arr) => {
 
 // const updateShoppingCart = ref(null);
 const updateShoppingCart = ref([]);
-
 
 // 添加到購物車
 const addToCart = () => {
@@ -332,7 +337,7 @@ const test = (productId) => {
             color: spec.color ?? '',
             style: spec.style ?? '',
             size: spec.size ?? '',
-            quantity: spec.quantity
+            quantity: spec.quantity,
         }
     }
     return '';
@@ -461,23 +466,24 @@ onMounted(() => {
 });
 
 // 新增同商品但不同尺寸可以做選擇
-const addProductItem = (id) => {
-    const product = selectProducts.value.find(p => p.id === id);
+const addProductItem = (id, index) => {
+    const product = selectProducts.value[index];
 
-    if (!product) {
-        console.warn(`找不到 id=${id} 的產品`);
+    if (!product || product.id !== id) {
+        console.warn(`找不到對應 index=${index} 的產品`);
         return;
     }
 
-    // 可以根據需求複製一份（避免直接引用原物件）
     const newProduct = { ...product };
 
-    insertProductByNameGroup(selectProducts.value, newProduct);
-
+    const insertedIndex = insertProductByNameGroup(selectProducts.value, newProduct);
+    selectedIndex.value = index;
     console.log(`ID:${id} 已經被按到了`);
-    console.log(selectProducts.value);
-    console.log(product.id);
+    console.log('selectProducts:', selectProducts.value);
+    console.log('原資料 index:', selectedIndex.value);
+    console.log('新增資料插入 index:', insertedIndex);
 };
+
 
 
 // 將相同名稱的產品群組化，而不是添加在陣列的最後一筆位置
@@ -488,12 +494,13 @@ const insertProductByNameGroup = (arr, newItem) => {
     // 如果沒有相同 name，就直接 push
     if (index === -1) {
         arr.push(newItem);
+        return arr.length - 1;
     } else {
         const insertIndex = arr.length - index;
         arr.splice(insertIndex, 0, newItem); // 插入到對應位置
+        return insertIndex;
     }
 };
-
 
 </script>
 
@@ -590,10 +597,10 @@ const insertProductByNameGroup = (arr, newItem) => {
             <!-- min-[956px]以上的選擇規格商品圖 -->
             <div
                 class="flex-col 2xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center 2xl:font-bold font-noto-jp mb-12">
-                <div v-for="(product, index) in selectProducts" :key="product.id"
+                <div v-for="(product, index) in selectProducts" :key="index"
                     v-if="selectProducts && selectProducts.length > 0"
                     class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
-                    <button type="button" class="border text-white rounded-full" @click="addProductItem(product.id)">
+                    <button type="button" class="text-white rounded-full" @click="addProductItem(product.id, index)">
                         <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="">
                     </button>
                     <div class="flex 2xl:flex-1 items-center ml-4">

@@ -18,24 +18,22 @@ const { hideModal, getColor, getType, getSize, item } = defineProps({
     item: { type: Object },
 });
 
+
+// 商品顏色、款式、尺寸列表
 const colors = item.colors.map(item => item.name);
-
 const types = item.types.map(item => item.name);
-
 const sizes = item.sizes.map(item => item.name);
 
+// 用來判斷顏色、款式和尺寸是否存在(資料存在時顯示該規格選項，反之則隱藏)
 const hasValidColors = computed(() => {
     return Array.isArray(colors) && colors.some(c => c !== null);
 });
-
 const hasValidTypes = computed(() => {
     return Array.isArray(types) && types.some(t => t !== null);
 });
-
 const hasValidSize = computed(() => {
     return Array.isArray(sizes) && sizes.some(s => s !== null);
 });
-
 
 // 初始化縮圖輪播控制器
 const thumbsIndex = ref(0);
@@ -164,9 +162,63 @@ onMounted(() => {
 });
 
 // 觸發父層addToCart事件
-const handleAddToCart = function () {
+const handleAddToCart = () => {
     emit('addToCart');
+    // emit('addToCart', productId, selectedChoices.value[productId]);
 };
+
+// // 存儲每個商品的選擇狀態（顏色、款式、尺寸和數量）
+// const selectedChoices = ref({});
+
+// // 初始化選項
+// const setInitialSelection = (productId) => {
+//     selectedChoices.value[productId] = {
+//         color: colors.length > 0 ? colors[0] : null,
+//         style: types.length > 0 ? types[0] : null,
+//         size: sizes.length > 0 ? sizes[0] : null,
+//         quantity: 1
+//     };
+// };
+
+// // 根據商品ID更新顏色、款式、尺寸選擇
+// const selectColor = (productId, color) => {
+//     if (!selectedChoices.value[productId]) {
+//         setInitialSelection(productId);
+//     }
+//     selectedChoices.value[productId].color = color;
+//     emit('updateColor', color);
+// };
+
+// const selectStyle = (productId, style) => {
+//     if (!selectedChoices.value[productId]) {
+//         setInitialSelection(productId);
+//     }
+//     selectedChoices.value[productId].style = style;
+//     emit('updateStyle', style);
+// };
+
+// const selectSize = (productId, size) => {
+//     if (!selectedChoices.value[productId]) {
+//         setInitialSelection(productId);
+//     }
+//     selectedChoices.value[productId].size = size;
+//     emit('updateSize', size);
+// };
+
+// // 增減數量
+// const CalcQuantity = (productId, action) => {
+//     if (!selectedChoices.value[productId]) {
+//         setInitialSelection(productId);
+//     }
+//     if (action === '-') {
+//         if (selectedChoices.value[productId].quantity > 1) {
+//             selectedChoices.value[productId].quantity--;
+//         }
+//     } else {
+//         selectedChoices.value[productId].quantity++;
+//     }
+//     emit('updateQuantity', selectedChoices.value[productId].quantity);
+// };
 
 </script>
 
@@ -226,7 +278,7 @@ const handleAddToCart = function () {
                             <button v-for="color in colors" :key="color" type="button"
                                 class="border py-1 px-4 rounded transition-colors"
                                 :class="{ 'border-yellow-400': selectedColor === color }" @click="selectColor(color)">
-                                {{ color }}
+                                {{ `${color}色` }}
                             </button>
                         </div>
                     </div>
