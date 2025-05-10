@@ -60,8 +60,6 @@ function handleFileChange(event) {
 }
 
 
-
-
 const response = ref(props.response || {});
 const isEditing = ref(false);
 
@@ -199,9 +197,6 @@ onMounted(() => {
                             </div>
                         </div>
                         <div class="flex justify-center">
-                            <!-- <button type="button"
-                            class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer">登出
-                        </button> -->
                             <Link class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer"
                                 method="post" :href="route('logout')" as="button">
                             <LogOut class="mr-2 h-4 w-4" />
@@ -271,14 +266,6 @@ onMounted(() => {
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
                                     </div>
-                                    <!-- <div v-if="response" class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
-                                        <div class="col-span-2 text-right">姓名</div>
-                                        <div class="col-span-3">
-                                            <span v-if="!isEditing">{{ response.name }}</span>
-                                            <input v-else v-model="name" type="text"
-                                                class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
-                                        </div>
-                                    </div> -->
 
 
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">

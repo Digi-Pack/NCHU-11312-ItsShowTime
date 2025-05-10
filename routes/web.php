@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Frontend\ItsshowtimeController;
 
 
@@ -28,9 +29,10 @@ Route::prefix('/')->group(function () {
 // , 'user.name'
 Route::middleware(['auth'])->prefix('/')->group(function () {
 
-    Route::get('/myprofile', [ItsshowtimeController::class, 'myProfile'])->middleware('auth')->name('myprofile');;
+    Route::get('/myprofile', [ItsshowtimeController::class, 'myProfile'])->middleware('auth')->name('myprofile');
     // Route::get('/myprofile', [ItsshowtimeController::class, 'myprofile'])->name('myprofile');
 
+   Route::post('/update-profile', [UserController::class, 'updateProfile'])->name('updateProfile');
 
     Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
 

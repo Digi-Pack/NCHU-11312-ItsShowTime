@@ -210,11 +210,13 @@ class ItsshowtimeController extends Controller
     {
         $user = User::with('usersInfo')->findOrFail(Auth::id());
 
-        // 測試直接返回一個簡單的 response
         return Inertia::render('frontend/myProfile', [
             'response' => $user,
         ]);
     }
+
+
+
 
     // public function myProfile()
     // {
