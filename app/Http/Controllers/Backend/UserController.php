@@ -51,7 +51,7 @@ class UserController extends Controller
         if ($userInfo) {
             $userInfo->update([
                 'name' => $validatedData['username'],
-                'phone_number' => $validatedData['phonenumber'] ?? $userInfo->phonenumber,
+                'phonenumber' => $validatedData['phonenumber'] ?? $userInfo->phonenumber,
                 'email' => $validatedData['email'],
                 'img_path' => $validatedData['img_path'] ?? $userInfo->img_path,
             ]);
