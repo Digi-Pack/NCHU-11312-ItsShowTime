@@ -24,11 +24,12 @@ class UserController extends Controller
 
 
 
+
     public function updateProfile(Request $request)
     {
+
         $user = User::findOrFail(Auth::id());
 
-        // 驗證資料
         $validated = $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
@@ -37,14 +38,13 @@ class UserController extends Controller
             'img_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // 更新用戶基本資料
         $user->update([
             'name' => $validated['username'],
             'email' => $validated['email'],
         ]);
 
-        // 更新用戶額外資料
         $userInfo = $user->usersInfo;
+
         if ($userInfo) {
             $userInfo->update([
                 'phonenumber' => $validated['phone'] ?? $userInfo->phonenumber,
@@ -58,10 +58,17 @@ class UserController extends Controller
             ]);
         }
 
-        // 如果有上傳圖片
+
         if ($request->hasFile('img_path')) {
             $imagePath = $request->file('img_path')->store('avatars', 'public');
-            $userInfo->update(['img_path' => $imagePath]);
+            if ($userInfo) {
+                $userInfo->update(['img_path' => $imagePath]);
+            } else {
+                UsersInfo::create([
+                    'user_id' => $user->id,
+                    'img_path' => $imagePath,
+                ]);
+            }
 
             return response()->json([
                 'res' => 'success',
@@ -70,12 +77,13 @@ class UserController extends Controller
             ]);
         }
 
-        // 返回成功訊息
         return response()->json([
             'res' => 'success',
-            'msg' => '資料更新成功',
+            'msg' => '資料更新成功'
         ]);
     }
+
+
 
 
 

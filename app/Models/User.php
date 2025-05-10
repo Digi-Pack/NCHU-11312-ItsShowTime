@@ -51,4 +51,6 @@ class User extends Authenticatable
     {
         return $this->hasOne(UsersInfo::class, 'user_id', 'id');
     }
+
+   
 }

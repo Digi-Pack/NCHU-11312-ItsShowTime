@@ -21,10 +21,10 @@ const toggleMenu = () => {
 
 
 const avatarPreview = ref('');
-const uploadError = ref(''); 
+const uploadError = ref('');
 const fileInput = ref('');
 
-// 處理檔案變更
+
 const handleFileChange = (event) => {
     const file = event.target.files[0];
     uploadError.value = null;
@@ -74,6 +74,7 @@ const imgPath = ref(response.value.users_info?.img_path || '');
 
 
 const toggleEdit = () => {
+
     if (isEditing.value) {
         const formData = new FormData();
         formData.append('username', username.value);
@@ -81,13 +82,18 @@ const toggleEdit = () => {
         formData.append('birthday', birthday.value);
         formData.append('phone', phone.value);
 
+
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
+
         const file = fileInput.value?.files[0];
         if (file) {
             formData.append('img_path', file);
         }
 
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
+        if (file) {
+            console.log("Uploaded file:", file);
         }
 
         axios.post('/updateprofile', formData, {
@@ -131,6 +137,7 @@ const toggleEdit = () => {
 
     isEditing.value = !isEditing.value;
 };
+
 
 
 
