@@ -9,6 +9,7 @@ use App\Models\OrderList;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Mail\InquiryConfirmation;
 use Illuminate\Support\Facades\Mail;
 
 class InquiryController extends Controller
@@ -60,10 +61,8 @@ class InquiryController extends Controller
             };
 
             // 寄信功能
-            $testData = [
-                'name' => '詢價單送出測試成功',
-            ];
-            Mail::to($inquiry['email'])->send(new TestMail($testData));
+            Mail::to($inquiry['email'])->send(new InquiryConfirmation());
+
         } catch (\Throwable $th) {
             Log::info($th->getMessage());
             $res = 'fail';

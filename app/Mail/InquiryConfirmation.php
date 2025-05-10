@@ -3,13 +3,14 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class InquirySubmitted extends Mailable
+class InquiryConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -27,7 +28,8 @@ class InquirySubmitted extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Inquiry Submitted',
+            from: new Address('babyangelababy0405@gmail.com', "IT'S SHOW TIME"),
+            subject: '【詢價確認通知】',
         );
     }
 
@@ -37,7 +39,8 @@ class InquirySubmitted extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            html: 'mail.inquiry.confirmed-html',
+            // markdown: 'mail.inquiry.confirmed',
         );
     }
 

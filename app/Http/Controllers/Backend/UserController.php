@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 
 use App\Models\User;
-use App\Models\UserInfo;
+use App\Models\UsersInfo;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -51,13 +51,13 @@ class UserController extends Controller
         if ($userInfo) {
             $userInfo->update([
                 'name' => $validatedData['username'],
-                'phonenumber' => $validatedData['phonenumber'] ?? $userInfo->phonenumber,
+                'phone_number' => $validatedData['phonenumber'] ?? $userInfo->phonenumber,
                 'email' => $validatedData['email'],
                 'img_path' => $validatedData['img_path'] ?? $userInfo->img_path,
             ]);
         } else {
             // 如果沒有用戶的附加資料，則創建新的 UserInfo 資料
-            UserInfo::create([  // 這裡應該是 UserInfo 而不是 userInfo
+            UsersInfo::create([  // 這裡應該是 UserInfo 而不是 userInfo
                 'user_id' => $user->id,  // 使用 $user->id，而不是 $request->id
                 'name' => $validatedData['username'],
                 'phonenumber' => $validatedData['phonenumber'],
