@@ -10,7 +10,7 @@ const props = defineProps({
     response: Object,
 });
 
-console.log(props.response); 
+console.log(props.response);
 
 
 
@@ -92,6 +92,36 @@ const toggleEdit = () => {
 
     isEditing.value = !isEditing.value;
 };
+
+ const item = ref({
+        username: username.value,
+        phone: phone.value,
+        email: email.value,
+    });
+
+    // router.post(route('updateprofile'), item.value, {
+    //     onSuccess: (response) => {
+    //         const result = response?.props?.flash?.message ?? {};
+    //         if (result.res === 'success') {
+    //             Swal.fire({
+    //                 icon: "success",
+    //                 title: result.msg,
+    //                 showConfirmButton: false,
+    //                 timer: 1000,
+    //             }).then(() => {
+    //                 router.get(route('home'));
+    //             });
+    //         } else {
+    //             Swal.fire({
+    //                 icon: "error",
+    //                 title: result.msg,
+    //             });
+    //         };
+    //     },
+    // });
+
+
+
 
 
 // loading動畫
@@ -276,7 +306,7 @@ onMounted(() => {
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
                                     </div>
-                                  
+
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">手機號碼</div>
                                         <div class="col-span-3">
@@ -328,6 +358,9 @@ onMounted(() => {
                                     尚無用戶資料
                                 </p>
                             </div>
+
+                            <p>電子郵件: {{ response.email }}</p>
+                            <p>手機號碼: {{ response.users_info.phonenumber }}</p>
 
 
 
