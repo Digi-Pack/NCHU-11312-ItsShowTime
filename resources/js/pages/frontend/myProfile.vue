@@ -1,18 +1,12 @@
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
+import { ref, computed, defineProps, onMounted } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import LoadingAnimate from '@/pages/settings/animate.vue';
-
-
-
 
 const props = defineProps({
     response: Object,
 });
-
-console.log(props.response);
-
-
+// console.log(props.response);
 
 
 const isOpen = ref(false)
@@ -22,122 +16,210 @@ const toggleMenu = () => {
     document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
 }
 
-const fileInput = ref(null)
-const avatarPreview = ref(null)
-const uploadError = ref(null)
 
-function triggerFileInput() {
-    fileInput.value.click()
-}
 
-function handleFileChange(event) {
-    const file = event.target.files[0]
-    uploadError.value = null
 
-    if (!file) return
 
-    const isValidType = ['image/jpeg', 'image/png'].includes(file.type)
-    const isValidSize = file.size <= 1024 * 1024
 
-    if (!isValidType) {
-        uploadError.value = '請選擇 .jpg 或 .png 格式的圖片'
-        return
+// function handleFileChange(event) {
+//     const file = event.target.files[0]
+//     uploadError.value = null
+
+//     if (!file) return
+
+//     const isValidType = ['image/jpeg', 'image/png'].includes(file.type)
+//     const isValidSize = file.size <= 1024 * 1024
+
+//     if (!isValidType) {
+//         uploadError.value = '請選擇 .jpg 或 .png 格式的圖片'
+//         return
+//     }
+
+//     if (!isValidSize) {
+//         uploadError.value = '圖片大小不可超過 1MB'
+//         return
+//     }
+
+//     // 預覽圖片
+//     const reader = new FileReader()
+//     reader.onload = () => {
+//         avatarPreview.value = reader.result
+//     }
+//     reader.readAsDataURL(file)
+
+// }
+const handleFileChange = () => {
+    const file = fileInput.value?.files[0];
+    if (file) {
+        if (file.size > 1048576) { // 檔案大小限制 1MB
+            uploadError.value = "檔案大小不能超過1MB";
+            return;
+        }
+        if (!['image/jpeg', 'image/png'].includes(file.type)) { // 檔案類型檢查
+            uploadError.value = "只接受 .JPEG 和 .PNG 格式的檔案";
+            return;
+        }
+        uploadError.value = ""; // 清除錯誤訊息
+        avatarPreview.value = URL.createObjectURL(file); // 顯示預覽
     }
+};
 
-    if (!isValidSize) {
-        uploadError.value = '圖片大小不可超過 1MB'
-        return
-    }
 
-    // 預覽圖片
-    const reader = new FileReader()
-    reader.onload = () => {
-        avatarPreview.value = reader.result
-    }
-    reader.readAsDataURL(file)
 
-    // 若要實際上傳，可在此處執行 API 請求
-}
+// 當圖片選擇改變時，更新 avatarPreview 預覽圖片
+const avatarPreview = ref('');
 
+
+
+// 當用戶選擇圖片後，觸發 fileInput
+const triggerFileInput = () => {
+  fileInput.value.click();
+};
+
+// 綁定文件選擇的input元素
+const fileInput = ref(null);
+
+
+
+// 顯示 email 去除 @gmail.com 
+const formattedEmail = computed(() => {
+    return email.value.replace(/@gmail\.com$/, '');
+});
 
 const response = ref(props.response || {});
 const isEditing = ref(false);
 
-const username = ref(response.value.username || '');
+const username = ref(response.value.name || '');
 const name = ref(response.value.name || '');
-const birthday = ref(response.value.birthday || '2000-04-05');
-const phone = ref(response.value.phone || '0912345678');
+const birthday = ref(response.users_info?.birthday || '');
+const phone = ref(response.value.users_info?.phonenumber || '');
 const email = ref(response.value.email || '');
+const imgPath = ref(response.value.users_info?.img_path || '');
 
 
-// 編輯/儲存功能
 const toggleEdit = () => {
     if (isEditing.value) {
-        // 保存資料
-        console.log('保存:', {
-            username: username.value,
-            name: name.value,
-            birthday: birthday.value,
-            phone: phone.value,
-        });
+        const formData = new FormData();
+        formData.append('name', name.value);
+        formData.append('birthday', birthday.value);
+        formData.append('phone', phone.value);
 
-        Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "儲存成功",
-            showConfirmButton: false,
-            timer: 1500
+        // 如果選擇了新圖片，則將其添加到 formData 中
+        const file = fileInput.value?.files[0];
+        if (file) {
+            formData.append('img_path', file);
+        }
+
+        // 提交表單資料
+        router.post(route('updateprofile'), formData, {
+            onSuccess: (response) => {
+                const result = response?.props?.flash?.message ?? {};
+                if (result.res === 'success') {
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: result.msg,
+                        showConfirmButton: false,
+                        timer: 1500
+                    }).then(() => {
+                        router.get(route('home')); // 成功後跳轉到首頁
+                    });
+                } else {
+                    Swal.fire({
+                        position: "center",
+                        icon: "error",
+                        title: result.msg,
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            },
+            onError: (error) => {
+                Swal.fire({
+                    position: "center",
+                    icon: "error",
+                    title: "更新失败，请重试",
+                    showConfirmButton: true
+                });
+            }
         });
     }
 
-    isEditing.value = !isEditing.value;
+    isEditing.value = !isEditing.value;  // 切換編輯狀態
 };
 
- const item = ref({
-        username: username.value,
-        phone: phone.value,
-        email: email.value,
-    });
-
-    // router.post(route('updateprofile'), item.value, {
-    //     onSuccess: (response) => {
-    //         const result = response?.props?.flash?.message ?? {};
-    //         if (result.res === 'success') {
-    //             Swal.fire({
-    //                 icon: "success",
-    //                 title: result.msg,
-    //                 showConfirmButton: false,
-    //                 timer: 1000,
-    //             }).then(() => {
-    //                 router.get(route('home'));
-    //             });
-    //         } else {
-    //             Swal.fire({
-    //                 icon: "error",
-    //                 title: result.msg,
-    //             });
-    //         };
-    //     },
-    // });
 
 
+// 編輯/儲存功能
+// const toggleEdit = () => {
+//     if (isEditing.value) {
+//         console.log('保存:', {
+//             username: username.value,
+//             name: name.value,
+//             birthday: birthday.value,
+//             phone: phone.value,
+//             img_path: img_path.value,
+//         });
 
+//         Swal.fire({
+//             position: "center",
+//             icon: "success",
+//             title: "儲存成功",
+//             showConfirmButton: false,
+//             timer: 1500
+//         });
+//     }
 
+//     isEditing.value = !isEditing.value;
+// };
+
+// 編輯後提交表單
+// const item = ref({
+//     username: username.value,
+//     phone: phone.value,
+//     email: email.value,
+//     birthday: birthday.value,
+//     img_path: img_path.value,
+// });
+// router.post(route('updateprofile'), item.value, {
+//     onSuccess: (response) => {
+//         const result = response?.props?.flash?.message ?? {};
+//         if (result.res === 'success') {
+//             Swal.fire({
+//                 icon: "success",
+//                 title: result.msg,
+//                 showConfirmButton: false,
+//                 timer: 1000,
+//             }).then(() => {
+//                 router.get(route('home'));
+//             });
+//         } else {
+//             Swal.fire({
+//                 icon: "error",
+//                 title: result.msg,
+//             });
+//         }
+//     },
+// });
 
 // loading動畫
-const isLoading = ref(true);
+// const isLoading = ref(true);
 
-onMounted(() => {
-    setTimeout(() => {
-        isLoading.value = false;
-    }, 1900);
-});
+// onMounted(() => {
+//     setTimeout(() => {
+//         isLoading.value = false;
+//     }, 1900);
+// });
 
 
 </script>
 
 
+
+
 <template>
+
+
     <LoadingAnimate v-if="isLoading" />
     <section v-else>
         <nav class="w-full relative z-40 bg-white">
@@ -163,7 +245,7 @@ onMounted(() => {
                         <div class="w-[70px]">
                             <img src="/image/svg/avatar.svg" alt="avatar" class="w-full h-full" />
                         </div>
-                        <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">Las123</div>
+                        <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">{{ formattedEmail }}</div>
                     </div>
 
                     <!-- Home -->
@@ -198,7 +280,7 @@ onMounted(() => {
                                 <img src="/image/svg/avatar-1.svg" alt="" class="w-full h-full" />
                             </div>
                             <div class="flex-col font-noto-jp">
-                                <div class="text-white xl:text-[24px] mb-2">Las123</div>
+                                <div class="text-white xl:text-[24px] mb-2">{{ formattedEmail }}</div>
                                 <div class="flex cursor-pointer">
                                     <div class="w-[25px] mr-1">
                                         <img src="/image/svg/edit-sign.svg" alt="" class="w-full h-full" />
@@ -251,9 +333,9 @@ onMounted(() => {
 
                         <div class="flex flex-col lg:flex-row px-6 sm:px-20 gap-12 lg:mt-8 mt-0">
                             <!--  1024px以下 頭像區 -->
-                            <div
+                            <!-- <div
                                 class="lg:hidden w-full border-b border-[#801302] flex flex-col items-center gap-4 pb-8">
-                                <div
+                                <div v-if="avatarPreview"
                                     class="w-[160px] sm:w-[200px] aspect-square rounded-full overflow-hidden bg-gray-100">
                                     <img :src="avatarPreview || '/image/svg/avatar.svg'" alt="頭像預覽"
                                         class="w-full h-full object-cover" />
@@ -262,10 +344,13 @@ onMounted(() => {
                                 <input type="file" ref="fileInput" class="hidden" accept=".jpg,.jpeg,.png"
                                     @change="handleFileChange" />
                                 <button type="button"
-                                    class="border border-black text-[16px] sm:text-[20px] px-4 py-1 rounded hover:bg-black hover:text-white transition"
+                                    class="btn border border-black text-[16px] sm:text-[20px] px-4 py-1 rounded hover:bg-black hover:text-white transition"
                                     @click="triggerFileInput">
                                     選擇圖片
                                 </button>
+                                <input type="file" ref="fileInput" class="hidden" accept="image/*"
+                                    @change="handleFileChange" />
+
 
                                 <div class="text-[14px] text-gray-600 text-center leading-tight">
                                     檔案大小: 最大1MB<br />
@@ -273,26 +358,59 @@ onMounted(() => {
                                 </div>
 
                                 <div v-if="uploadError" class="text-red-600 text-sm mt-2">{{ uploadError }}</div>
+                            </div> -->
+                            <div
+                                class="lg:hidden w-full border-b border-[#801302] flex flex-col items-center gap-4 pb-8">
+                                <!-- 預覽圖片 -->
+                                <div v-if="avatarPreview || imgPath"
+                                    class="w-[160px] sm:w-[200px] aspect-square rounded-full overflow-hidden bg-gray-100">
+                                   
+                                    <img :src="avatarPreview || imgPath || '/image/svg/avatar.svg'" alt="頭像預覽"
+                                        class="w-full h-full object-cover" />
+                                </div>
+                                <!-- <div v-if="avatarPreview || imgPath"
+                                    class="w-[160px] sm:w-[200px] aspect-square rounded-full overflow-hidden bg-gray-100">
+                                    <img :src="avatarPreview || {{ response.users_info.img_path }} || '/image/svg/avatar.svg'" alt="頭像預覽"
+                                        class="w-full h-full object-cover" />
+                                </div> -->
+
+
+                                <!-- 隱藏的檔案選擇 input -->
+                                <input type="file" ref="fileInput" class="hidden" accept=".jpg,.jpeg,.png"
+                                    @change="handleFileChange" />
+
+                                <!-- 觸發文件選擇對話框的按鈕 -->
+                                <button type="button"
+                                    class="btn border border-black text-[16px] sm:text-[20px] px-4 py-1 rounded hover:bg-black hover:text-white transition"
+                                    @click="triggerFileInput">
+                                    選擇圖片
+                                </button>
+
+                                <!-- 檔案大小與格式限制提示 -->
+                                <div class="text-[14px] text-gray-600 text-center leading-tight">
+                                    檔案大小: 最大1MB<br />
+                                    檔案限制: .JPEG, .PNG
+                                </div>
+
+                                <!-- 顯示錯誤訊息 -->
+                                <div v-if="uploadError" class="text-red-600 text-sm mt-2">{{ uploadError }}</div>
                             </div>
+
 
 
                             <div class="lg:w-[65%] lg:border-r border-[#801302] pr-0 lg:pr-8">
                                 <div class="space-y-10">
-                                    <!-- 使用者帳號 -->
+
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">使用者帳號</div>
-                                        <div class="col-span-3">
-                                            <span v-if="!isEditing">{{ username }}</span>
-                                            <input v-else v-model="username" type="text"
-                                                class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
-                                        </div>
+                                        <div class="col-span-3">{{ formattedEmail }}</div>
                                     </div>
-                                    <!-- 姓名欄位 -->
+
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">姓名</div>
                                         <div class="col-span-3">
                                             <span v-if="!isEditing">{{ name }}</span>
-                                            <input v-else v-model="name" type="text"
+                                            <input v-else v-model="username" type="text" placeholder="用戶名"
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
                                     </div>
@@ -301,7 +419,7 @@ onMounted(() => {
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">生日</div>
                                         <div class="col-span-3">
-                                            <span v-if="!isEditing">{{ birthday }}</span>
+                                            <span v-if="!isEditing">{{ response.users_info.birthday }}</span>
                                             <input v-else v-model="birthday" type="date"
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
@@ -310,7 +428,7 @@ onMounted(() => {
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">手機號碼</div>
                                         <div class="col-span-3">
-                                            <span v-if="!isEditing">{{ phone }}</span>
+                                            <span v-if="!isEditing">{{ response.users_info.phonenumber }}</span>
                                             <input v-else v-model="phone" type="text"
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
@@ -336,33 +454,6 @@ onMounted(() => {
 
                                 </div>
                             </div>
-
-
-
-
-                            <div v-if="response">
-                                <p><strong>名稱：</strong> {{ response.name }}</p>
-                                <p><strong>Email：</strong> {{ response.email }}</p>
-
-                                <div v-if="response.usersInfo">
-                                    <p><strong>電話：</strong> {{ response.usersInfo.phonenumber }}</p>
-                                    <p><strong>地址：</strong> {{ response.usersInfo.address }}</p>
-                                </div>
-                            </div>
-
-                            <div>
-                                <p v-if="response.usersInfo">
-                                    用戶電話: {{ response.usersInfo.phonenumber }}
-                                </p>
-                                <p v-else>
-                                    尚無用戶資料
-                                </p>
-                            </div>
-
-                            <p>電子郵件: {{ response.email }}</p>
-                            <p>手機號碼: {{ response.users_info.phonenumber }}</p>
-
-
 
                             <!-- 1024px以上 頭像區 -->
                             <div class="lg:w-[35%] hidden lg:flex flex-col items-center gap-4">

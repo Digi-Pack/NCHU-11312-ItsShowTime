@@ -12,61 +12,64 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    // 顯示使用者資料
+
     public function myProfile()
     {
-        // 根據當前登入用戶的 ID 取得用戶資料及其相關的 usersInfo
         $user = User::with('usersInfo')->findOrFail(Auth::id());
 
-        // 將資料傳遞給前端視圖
         return Inertia::render('frontend/myProfile', [
             'response' => $user,
         ]);
     }
 
-    // 更新使用者資料
     public function updateProfile(Request $request)
     {
-        // 取得當前登入用戶的資料
+        // 获取当前登录用户
         $user = User::findOrFail(Auth::id());
 
-        // 驗證傳入的資料
-        $validatedData = $request->validate([
+        // 验证请求的数据
+        $validated = $request->validate([
             'username' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id, // 排除當前用戶的 email 驗證
-            'phonenumber' => 'nullable|string|max:15',
-            'img_path' => 'nullable|string',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone' => 'nullable|string|max:15',
+            'birthday' => 'nullable|date',
+            'img_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // 图片验证
         ]);
 
-        // 更新用戶的基本資料
+        // 更新用户基本资料
         $user->update([
-            'name' => $validatedData['username'],
-            'email' => $validatedData['email'],
+            'name' => $validated['username'],
+            'email' => $validated['email'],
         ]);
 
-        // 取得用戶的附加資料 (usersInfo)
+        // 如果有提供图片，进行处理并上传
+        if ($request->hasFile('img_path')) {
+            // 存儲圖片並更新其路徑
+            $imagePath = $request->file('img_path')->store('avatars', 'public');
+            $validated['img_path'] = $imagePath; // 更新用户资料中的图片路径
+        }
+
+        // 更新用户详细信息，如果没有则创建
         $userInfo = $user->usersInfo;
 
-        // 如果用戶有填寫過 usersInfo 資料，則更新它
         if ($userInfo) {
+            // 如果用户信息已经存在，更新相关数据
             $userInfo->update([
-                'name' => $validatedData['username'],
-                'phonenumber' => $validatedData['phonenumber'] ?? $userInfo->phonenumber,
-                'email' => $validatedData['email'],
-                'img_path' => $validatedData['img_path'] ?? $userInfo->img_path,
+                'phonenumber' => $validated['phone'] ?? $userInfo->phonenumber,
+                'birthday' => $validated['birthday'] ?? $userInfo->birthday,
+                'img_path' => $validated['img_path'] ?? $userInfo->img_path, // 使用新的圖片路徑
             ]);
         } else {
-            // 如果沒有用戶的附加資料，則創建新的 UserInfo 資料
-            UsersInfo::create([  // 這裡應該是 UserInfo 而不是 userInfo
-                'user_id' => $user->id,  // 使用 $user->id，而不是 $request->id
-                'name' => $validatedData['username'],
-                'phonenumber' => $validatedData['phonenumber'],
-                'email' => $validatedData['email'],
-                'img_path' => $validatedData['img_path'],
+            // 如果用户信息不存在，创建新记录
+            UsersInfo::create([
+                'user_id' => $user->id,
+                'phonenumber' => $validated['phone'],
+                'birthday' => $validated['birthday'],
+                'img_path' => $validated['img_path'],
             ]);
         }
 
-        // 可以加一個重定向回到資料更新頁面，並回傳成功訊息
-        return redirect()->route('myprofile')->with('success', '資料更新成功!');
+        // 返回成功信息
+        return redirect()->route('myprofile')->with('success', '資料更新成功');
     }
 }
