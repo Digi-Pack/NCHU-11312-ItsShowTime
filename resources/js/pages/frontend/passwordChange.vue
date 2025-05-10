@@ -17,6 +17,18 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 
+const props = defineProps({
+    response: Object,
+});
+console.log(props.response);
+
+const email = ref(props.response?.email || '');
+const formattedEmail = computed(() => {
+    return email.value.replace(/@gmail\.com$/, '');
+});
+
+
+
 const passwordInput = ref < HTMLInputElement | null > (null);
 
 const currentPasswordInput = ref < HTMLInputElement | null > (null);
@@ -107,7 +119,7 @@ const toggleConfirmPasswordTwo = () => {
                     <div class="w-[70px]">
                         <img src="/image/svg/avatar.svg" alt="avatar" class="w-full h-full" />
                     </div>
-                    <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">Las123</div>
+                    <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">{{ formattedEmail }}</div>
                 </div>
 
                 <!-- Home -->
@@ -142,7 +154,7 @@ const toggleConfirmPasswordTwo = () => {
                             <img src="/image/svg/avatar-1.svg" alt="" class="w-full h-full" />
                         </div>
                         <div class="flex-col font-noto-jp">
-                            <div class="text-white xl:text-[24px] mb-2">Las123</div>
+                            <div class="text-white xl:text-[24px] mb-2">{{ formattedEmail }}</div>
                             <Link :href="route('myprofile')" class="flex cursor-pointer">
                             <div class="w-[25px] mr-1">
                                 <img src="/image/svg/edit-sign.svg" alt="" class="w-full h-full" />
@@ -179,7 +191,7 @@ const toggleConfirmPasswordTwo = () => {
             </div>
 
 
-            <div class="2xl:w-[82%] w-full min-h-screen bg-[#D0D0D0] flex justify-center font-noto-jp p-4 lg:p-8">
+            <div class="2xl:w-[82%] w-full min-h-screen bg-[#D0D0D0] flex justify-center font-noto-jp p-4 lg:p-8 overflow-y-auto">
                 <div class="w-full bg-white shadow-lg relative justify-center px-4 py-6">
 
                     <Link :href="route('home')"

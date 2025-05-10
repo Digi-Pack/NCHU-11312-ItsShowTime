@@ -6,7 +6,7 @@ import LoadingAnimate from '@/pages/settings/animate.vue';
 import axios from 'axios';
 
 const props = defineProps({
-    response: Object,
+    response: Object ,
 });
 // console.log(props.response);
 
@@ -17,7 +17,6 @@ const toggleMenu = () => {
     isOpen.value = !isOpen.value
     document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
 }
-
 
 
 const avatarPreview = ref('');

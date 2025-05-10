@@ -3,20 +3,27 @@ import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import LoadingAnimate from '@/pages/settings/animate.vue';
 
+const props = defineProps({
+    response: Object,
+});
+console.log(props.response);
+
+
+const email = ref(props.response?.email || '');
+const formattedEmail = computed(() => {
+    return email.value.replace(/@gmail\.com$/, '');
+});
+
+
+
+
+
 const isOpen = ref(false)
 
 const toggleMenu = () => {
     isOpen.value = !isOpen.value
     document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
 }
-
-// const isLoading = ref(true);
-
-// onMounted(() => {
-//     setTimeout(() => {
-//         isLoading.value = false;
-//     }, 1900);
-// });
 
 </script>
 
@@ -47,7 +54,7 @@ const toggleMenu = () => {
                     <div class="w-[70px]">
                         <img src="/image/svg/avatar.svg" alt="avatar" class="w-full h-full" />
                     </div>
-                    <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">Las123</div>
+                    <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">{{ formattedEmail }}</div>
                 </div>
 
                 <!-- Home -->
@@ -81,7 +88,7 @@ const toggleMenu = () => {
                             <img src="/image/svg/avatar-1.svg" alt="" class="w-full h-full" />
                         </div>
                         <div class="flex-col font-noto-jp">
-                            <div class="text-white xl:text-[24px] mb-2">Las123</div>
+                            <div class="text-white xl:text-[24px] mb-2">{{ formattedEmail }}</div>
                             <Link :href="route('myprofile')" class="flex cursor-pointer">
                             <div class="w-[25px] mr-1">
                                 <img src="/image/svg/edit-sign.svg" alt="" class="w-full h-full" />
@@ -121,7 +128,7 @@ const toggleMenu = () => {
             </div>
 
 
-            <main class="flex-1 bg-[#D0D0D0] p-4 sm:p-8 font-noto-jp">
+            <main class="flex-1 bg-[#D0D0D0] p-4 sm:p-8 font-noto-jp overflow-y-auto">
                 <div class="bg-white shadow-lg p-6 sm:p-10 relative min-h-full">
 
                     <Link :href="route('home')" class="hidden sm:flex items-center gap-2 absolute top-4 right-4">
