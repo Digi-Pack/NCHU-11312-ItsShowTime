@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('name', 50)->comment('姓名');
-            $table->string('birthday')->nullable()->comment('生日');
+            $table->date('birthday')->nullable()->comment('生日');
             $table->string('phonenumber', 10)->nullable()->comment('電話');
             $table->string('email')->comment('信箱');
             $table->text('img_path')->nullable()->comment('頭貼路徑');

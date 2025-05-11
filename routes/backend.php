@@ -80,9 +80,13 @@ Route::middleware(['auth', 'allUser'])->prefix('admin/product')->group(function 
 
 
 // 新增顏色 類型 尺寸
-Route::get('/admin/productSpec/id={id}', [ProductOptionController::class, 'index'])->name('admin.productSpec');
+Route::middleware(['auth', 'allUser'])->prefix('admin/productSpec')->group(function () {
+  
+  Route::get('/id={id}', [ProductOptionController::class, 'index'])->name('admin.productSpec');
 
-Route::put('/admin/productSpec/update/id={id}', [ProductOptionController::class, 'update'])->name('admin.productSpec.update');
+  Route::put('/update/id={id}', [ProductOptionController::class, 'update'])->name('admin.productSpec.update');
+});
+
 
 
 

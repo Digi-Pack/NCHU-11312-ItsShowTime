@@ -219,7 +219,7 @@ const toggleEdit = () => {
                         <div class="flex mb-8">
                             <div class="2xl:w-[75px] w-[50px] mr-4">
 
-                                <img :src="response.users_info.img_path || '/image/svg/avatar-1.svg'" alt="avatar"
+                                <img :src="response.users_info?.img_path || '/image/svg/avatar-1.svg'" alt="avatar"
                                     class="w-full h-full" />
                             </div>
 
@@ -323,7 +323,7 @@ const toggleEdit = () => {
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">生日</div>
                                         <div class="col-span-3">
-                                            <span v-if="!isEditing">{{ response.users_info.birthday }}</span>
+                                            <span v-if="!isEditing">{{ response.users_info?.birthday }}</span>
                                             <input v-else v-model="birthday" type="date"
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
@@ -332,7 +332,7 @@ const toggleEdit = () => {
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">手機號碼</div>
                                         <div class="col-span-3">
-                                            <span v-if="!isEditing">{{ response.users_info.phonenumber }}</span>
+                                            <span v-if="!isEditing">{{ response.users_info?.phonenumber }}</span>
                                             <input v-else v-model="phone" type="text"
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>

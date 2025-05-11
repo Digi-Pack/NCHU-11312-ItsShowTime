@@ -27,6 +27,7 @@ const editorInit = {
   ],
   ai_request: (request, respondWith) =>
     respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+  content_style: 'body { background-color: #f3f4f6; }',
 };
 
 const props = defineProps({
@@ -116,25 +117,31 @@ const backBtn = () => router.get(route('admin.product.list'));
 
       <div class="flex items-center gap-2 mb-4">
         <p>顏色：</p>
-        <label v-for="(color, index) in colors" :key="index" :for="`${color?.color_name}`" class="flex gap-2 mr-3 cursor-pointer">
-          <input v-model="item.colors" :id="`${color?.color_name}`" class="border border-gray-400 rounded-sm cursor-pointer" :value="`${color?.id}`"
-            type="checkbox">{{ color?.color_name }}
+        <label v-for="(color, index) in colors" :key="index" :for="`${color?.color_name}`"
+          class="flex gap-2 mr-3 cursor-pointer">
+          <input v-model="item.colors" :id="`${color?.color_name}`"
+            class="border border-gray-400 rounded-sm cursor-pointer" :value="`${color?.id}`" type="checkbox">{{
+              color?.color_name }}
         </label>
       </div>
 
       <div class="flex items-center gap-2 mb-4">
         <p>款式：</p>
-        <label v-for="(type, index) in types" :key="index" :for="`${type?.type_name}`" class="flex gap-2 mr-3 cursor-pointer">
-          <input v-model="item.types" :id="`${type?.type_name}`" class="border border-gray-400 rounded-sm cursor-pointer" :value="`${type?.id}`" type="checkbox">{{
-            type?.type_name }}
+        <label v-for="(type, index) in types" :key="index" :for="`${type?.type_name}`"
+          class="flex gap-2 mr-3 cursor-pointer">
+          <input v-model="item.types" :id="`${type?.type_name}`"
+            class="border border-gray-400 rounded-sm cursor-pointer" :value="`${type?.id}`" type="checkbox">{{
+              type?.type_name }}
         </label>
       </div>
 
       <div class="flex items-center gap-2 mb-4">
         <p>尺寸：</p>
-        <label v-for="(size, index) in sizes" :key="index" :for="`${size?.size_name}`" class="flex gap-2 mr-3 cursor-pointer">
-          <input v-model="item.sizes" :id="`${size?.size_name}`" class="border border-gray-400 rounded-sm cursor-pointer" :value="`${size?.id}`" type="checkbox">{{
-            size?.size_name }}
+        <label v-for="(size, index) in sizes" :key="index" :for="`${size?.size_name}`"
+          class="flex gap-2 mr-3 cursor-pointer">
+          <input v-model="item.sizes" :id="`${size?.size_name}`"
+            class="border border-gray-400 rounded-sm cursor-pointer" :value="`${size?.id}`" type="checkbox">{{
+              size?.size_name }}
         </label>
       </div>
 
@@ -156,7 +163,8 @@ const backBtn = () => router.get(route('admin.product.list'));
       <div class="mt-2 mb-6">
         <p>圖片預覽：</p>
         <div class="flex items-center gap-4 ml-4 my-2">
-          <img v-if="subPreviewUrls" v-for="(url, index) in subPreviewUrls" :key="index" :src="url" class="w-[200px]" alt="輔助圖預覽">
+          <img v-if="subPreviewUrls" v-for="(url, index) in subPreviewUrls" :key="index" :src="url" class="w-[200px]"
+            alt="輔助圖預覽">
         </div>
       </div>
 
