@@ -24,7 +24,8 @@ class Size extends Model
 	protected $table = 'sizes';
 
 	protected $fillable = [
-		'size_name'
+		'size_name',
+		'sort_order',
 	];
 
 	public function product()

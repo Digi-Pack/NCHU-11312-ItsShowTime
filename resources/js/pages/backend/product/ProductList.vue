@@ -6,7 +6,7 @@ import { useAlert } from '@/lib/useAlert';
 import { flashMessage } from '@/lib/flashMessage';
 
 const props = defineProps({ response: Array | Object });
-// console.log(props.response);
+console.log(props.response);
 
 const addBtn = () => router.get(route('admin.product.create'));
 const editBtn = (id) => router.get(route('admin.product.edit', id));
@@ -19,6 +19,9 @@ const deleteSumbit = (id) => {
     },
   });
 };
+
+// 直接去 color 那頁
+const settingBtn = () => router.get(route('admin.productSpec',  { id: 1 }));
 </script>
 
 <template>
@@ -27,7 +30,7 @@ const deleteSumbit = (id) => {
       <button class="border border-black rounded-sm px-3 py-2 hover:bg-slate-300" type="button" @click="addBtn">
         新增商品
       </button>
-      <button class="border border-black rounded-sm ml-3 px-3 py-2 hover:bg-blue-200" type="button" @click="addBtn">
+      <button class="border border-black rounded-sm ml-3 px-3 py-2 hover:bg-blue-200" type="button" @click="settingBtn">
         相關設定
       </button>
       <div class="py-4">

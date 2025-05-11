@@ -35,7 +35,7 @@ class UsersInfo extends Model
 	protected $fillable = [
 		'user_id',
 		'name',
-		'phone_number',
+		'phonenumber',
 		'email',
 		'img_path'
 	];

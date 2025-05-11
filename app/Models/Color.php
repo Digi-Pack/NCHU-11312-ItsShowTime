@@ -24,7 +24,8 @@ class Color extends Model
 	protected $table = 'colors';
 
 	protected $fillable = [
-		'color_name'
+		'color_name',
+		'sort_order',
 	];
 
 	public function product()

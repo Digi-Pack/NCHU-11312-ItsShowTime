@@ -15,7 +15,7 @@ Thanks,<br>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>詢價確認通知</title>
+  <title>詢價確認自動通知</title>
 </head>
 <body>
   <p>親愛的顧客您好，</p>

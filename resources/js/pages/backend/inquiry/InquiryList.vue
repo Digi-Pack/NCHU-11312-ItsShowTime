@@ -2,13 +2,8 @@
 import { ref } from 'vue';
 import { router } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue';
-import { useAlert } from '@/lib/useAlert';
-import { flashMessage } from '@/lib/flashMessage';
-
 
 const props = defineProps({ response: Array | Object });
-// console.log(props.response);
-
 
 const formatDate = (datetime) => {
   if (!datetime) return '';
@@ -20,15 +15,6 @@ const formatDate = (datetime) => {
 };
 
 const detailBtn = (id) => router.get(route('admin.inquiry.edit', id));
-
-// const deleteSumbit = (id) => {
-//   router.delete(route('admin.inquiry.delete', id), {
-//     onSuccess: (response) => {
-//       const result = response?.props?.flash?.message ?? {};
-//       flashMessage(result, '刪除', route('admin.inquiry.list'));
-//     },
-//   });
-// };
 </script>
 
 <template>
@@ -42,9 +28,7 @@ const detailBtn = (id) => router.get(route('admin.inquiry.edit', id));
             <th class="border border-gray-700 px-4 py-2">姓名</th>
             <th class="border border-gray-700 px-4 py-2">信箱</th>
             <th class="border border-gray-700 px-4 py-2">電話</th>
-            <th class="border border-gray-700 px-4 py-2">詢價商品</th>
-            <!-- <th class="border border-gray-700 px-4 py-2 text-center">件數</th>
-            <th class="border border-gray-700 px-4 py-2 text-center">詢價時間</th> -->
+            <th class="border border-gray-700 px-4 py-2">詢價時間</th>
             <th class="border border-gray-700 px-4 py-2 text-center">操作</th>
           </tr>
         </thead>

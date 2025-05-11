@@ -19,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\BannerController;
 use App\Http\Controllers\Backend\InquiryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\ProductOptionController;
 
 // Banner 相關操作
-
 Route::middleware(['auth', 'allUser'])->prefix('admin/banner')->group(function () {
 
   Route::get('/', [BannerController::class, 'index'])->name('admin.banner.list');
@@ -79,6 +79,12 @@ Route::middleware(['auth', 'allUser'])->prefix('admin/product')->group(function 
 });
 
 
+// 新增顏色 類型 尺寸
+Route::get('/admin/productSpec/id={id}', [ProductOptionController::class, 'index'])->name('admin.productSpec');
+
+Route::put('/admin/productSpec/update/id={id}', [ProductOptionController::class, 'update'])->name('admin.productSpec.update');
+
+
 
 // Inquire 相關操作
 Route::middleware(['auth', 'allUser'])->prefix('admin/inquiry')->group(function () {
@@ -89,4 +95,7 @@ Route::middleware(['auth', 'allUser'])->prefix('admin/inquiry')->group(function 
 
   // 後台詢價詳細頁面
   Route::get('/edit/{id}', [InquiryController::class, 'edit'])->name('admin.inquiry.edit');
+
+  // 傳送信件給客人
+  Route::put('/update/{id}', [InquiryController::class, 'update'])->name('admin.inquiry.update');
 });
