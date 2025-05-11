@@ -1,9 +1,10 @@
 <script setup>
 import FrontendFooter from '@/components/FrontendFooter.vue';
 import LoadingAnimate from '@/pages/settings/animate.vue';
+import ShoppingCart from '@/components/ShoppingCart.vue'
 
 
-import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, defineProps, watch } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -14,7 +15,6 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
-import ShoppingCart from '@/components/ShoppingCart.vue'
 
 const isOpen = ref(false)
 
@@ -63,11 +63,27 @@ const { response } = defineProps({
 // console.log(color);
 // console.log(type);
 
-// 用新的變數來執行程式()
+// 用新的變數來執行程式並加上uid
 const selectProducts = ref();
-// selectProducts.value = response;
 selectProducts.value = JSON.parse(JSON.stringify(response));
+const addUid = () => {
+    selectProducts.value.forEach((item, index) => {
+        item.uid = index;
+    });
+};
+
+addUid();
 console.log(selectProducts.value);
+
+watch(
+    () => selectProducts.value.length,
+    (newLen, oldLen) => {
+        if (newLen > oldLen) {
+            addUid(); // 只在新增時執行
+        }
+    }
+);
+
 
 // 給子層的相關資料
 const getColor = () => {
@@ -106,39 +122,45 @@ const handleSize = ref(null);
 const handleQuantity = ref(1);
 
 // 選擇顏色
-const handleColorUpdate = (color) => {
-    handleColor.value = color;
+const handleUpdateColor = (uid, color) => {
+    const product = selectProducts.value.find(p => p.uid === uid);
+    if (product) {
+        handleColor.value = color;
+    }
 };
-
 // 選擇款式
-const handleStyleUpdate = (style) => {
-    handleStyle.value = style;
+const handleStyleUpdate = (uid, style) => {
+    const product = selectProducts.value.find(p => p.uid === uid);
+    if (product) {
+        handleStyle.value = style;
+    }
 };
 
 // 選擇尺寸
-const handleSizeUpdate = (size) => {
-    handleSize.value = size;
+const handleSizeUpdate = (uid, size) => {
+    const product = selectProducts.value.find(p => p.uid === uid);
+    if (product) {
+        handleSize.value = size;
+    }
 };
 
 // 增減數量
-const handleQuantityUpdate = (style) => {
-    if (style === '-') {
-        if (handleQuantity.value > 1) {
-            handleQuantity.value--;
-        }
-    } else {
-        handleQuantity.value++;
-    }
+// 更新數量
+const handleQuantityUpdate = (uid, quantity) => {
+  const product = selectProducts.value.find(p => p.uid === uid);
+  if (product) {
+    handleQuantity.value = quantity;
+  }
 };
 
 // 點擊規格選擇出現選擇商品規格頁面
 const isFormatOpen = ref(false);
-const currentProductId = ref(null);
+const currentProductUid = ref(null);
 const selectedIndex = ref();
 
 const openModal = (productId) => {
-    currentProductId.value = productId;
-
+    currentProductUid.value = productId;
+    console.log(currentProductUid.value);
     isFormatOpen.value = true;
     // 禁用body頁面滾動條
     if (isFormatOpen.value) {
@@ -152,12 +174,12 @@ const openModal = (productId) => {
 const hideModal = () => {
     isFormatOpen.value = false;
     document.body.style.overflow = 'auto';
-    currentProductId.value = null;
+    currentProductUid.value = null;
 }
 
 const currentProduct = () => {
-    if (!currentProductId.value) return null;
-    return selectProducts.value.find(product => product.id === currentProductId.value) || null;
+    if (!currentProductUid.value) return null;
+    return selectProducts.value.find(product => product.uid === currentProductUid.value) || null;
 };
 
 // 全部刪除
@@ -192,7 +214,7 @@ const clearAllBtn = () => {
 
 // 刪除個別資料(垃圾桶icon)
 const deleteProduct = (productId) => {
-    const index = selectProducts.value.findIndex(product => product.id === productId);
+    const index = selectProducts.value.findIndex(product => product.uid === productId);
 
     if (index !== -1) {
         Swal.fire({
@@ -242,8 +264,8 @@ const goHome = () => {
 
 // 列表當中被點選的欄位資料
 const currentItem = computed(() => {
-    const id = currentProductId.value;
-    const item = selectProducts.value.find(item => item.id === id);
+    const uid = currentProductUid.value;
+    const item = selectProducts.value.find(item => item.uid === uid);
     return item || null;
 });
 
@@ -264,7 +286,8 @@ const updateShoppingCart = ref([]);
 
 // 添加到購物車
 const addToCart = () => {
-    const id = currentProductId.value - 1;
+    // const id = currentProductUid.value - 1;
+    const id = currentProductUid.value;
     const item = currentItem.value;
 
     if (!item) {
@@ -303,7 +326,7 @@ const addToCart = () => {
     // console.log(updateShoppingCart.value);
 
     // 儲存選擇的規格到 selectedSpecs
-    selectedSpecs.value[item.id] = {
+    selectedSpecs.value[item.uid] = {
         color: selectedColor,
         style: selectedStyle,
         size: selectedSize,
@@ -477,14 +500,13 @@ const addProductItem = (id, index) => {
     const newProduct = { ...product };
 
     const insertedIndex = insertProductByNameGroup(selectProducts.value, newProduct);
+    addUid();
+
+    // 取得新加的那筆資料的 uid（用 index 方式重新加 uid，所以是這筆插入的位置）
+    currentProductUid.value = selectProducts.value[insertedIndex].uid;
     selectedIndex.value = index;
-    console.log(`ID:${id} 已經被按到了`);
-    console.log('selectProducts:', selectProducts.value);
-    console.log('原資料 index:', selectedIndex.value);
-    console.log('新增資料插入 index:', insertedIndex);
+
 };
-
-
 
 // 將相同名稱的產品群組化，而不是添加在陣列的最後一筆位置
 const insertProductByNameGroup = (arr, newItem) => {
@@ -613,10 +635,10 @@ const insertProductByNameGroup = (arr, newItem) => {
                         </p>
                     </div>
 
-                    <div v-if="!selectedSpecs[product.id]" class="xl:w-[300px] w-[240px] flex justify-center">
+                    <div v-if="!selectedSpecs[product.uid]" class="xl:w-[300px] w-[240px] flex justify-center">
                         <button type="button"
                             class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer"
-                            @click="openModal(product.id)">
+                            @click="openModal(product.uid)">
                             規格選擇
                         </button>
                     </div>
@@ -624,27 +646,27 @@ const insertProductByNameGroup = (arr, newItem) => {
                     <!-- 顯示選好的規格 -->
                     <div v-else
                         class="xl:w-[300px] w-[240px] flex justify-center items-center text-white xl:text-[20px] gap-6">
-                        {{ formatSpecs(product.id) }}
-                        <button v-show="selectedSpecs[product.id]" type="button"
-                            class="flex justify-end cursor-pointer z-10" @click="openModal(product.id)">
+                        {{ formatSpecs(product.uid) }}
+                        <button v-show="selectedSpecs[product.uid]" type="button"
+                            class="flex justify-end cursor-pointer z-10" @click="openModal(product.uid)">
                             <img class="xl:w-[28px] w-[20px]" src="/image/svg/edit.svg" alt="">
                         </button>
                     </div>
 
 
                     <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white">
-                        <!-- ${{ product.price * getQuantity(product.id) }} -->
+                        <!-- ${{ product.price * getQuantity(product.uid) }} -->
                         金額待確認
                     </p>
 
                     <!-- 編輯和刪除按鈕 -->
                     <div class="flex justify-around xl:w-[200px] w-[120px]">
-                        <!-- <button v-show="selectedSpecs[product.id]" type="button"
-                            class="flex justify-end cursor-pointer z-10" @click="openModal(product.id)">
+                        <!-- <button v-show="selectedSpecs[product.uid]" type="button"
+                            class="flex justify-end cursor-pointer z-10" @click="openModal(product.uid)">
                             <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="">
                         </button> -->
                         <button type="button" class="flex justify-center xl:mr-2 cursor-pointer"
-                            @click="deleteProduct(product.id)">
+                            @click="deleteProduct(product.uid)">
                             <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
                         </button>
                     </div>
@@ -653,7 +675,7 @@ const insertProductByNameGroup = (arr, newItem) => {
 
                 <!-- min-[956px]以下才出現的選擇規格商品圖 -->
                 <div class="flex flex-wrap">
-                    <div v-for="(product, index) in selectProducts" :key="product.id"
+                    <div v-for="(product, index) in selectProducts" :key="product.uid"
                         class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
                         <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.first_img.img_path"
                             alt="Product Image">
@@ -662,29 +684,29 @@ const insertProductByNameGroup = (arr, newItem) => {
                             <p class="text-left font-noto-jp leading-[1.2]">
                                 {{ product.name }}
                             </p>
-                            <p v-show="selectedSpecs[product.id]">
-                                {{ formatSpecs(product.id) }}
+                            <p v-show="selectedSpecs[product.uid]">
+                                {{ formatSpecs(product.uid) }}
                             </p>
                         </div>
                         <div
                             class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-10 pb-16">
-                            <button v-show="!selectedSpecs[product.id]"
+                            <button v-show="!selectedSpecs[product.uid]"
                                 class="border-[#F0BD22] border-2 text-[#F0BD22] px-6 py-2 rounded-md"
-                                @click="openModal(product.id)">
+                                @click="openModal(product.uid)">
                                 規格
                             </button>
                         </div>
                         <div class="flex justify-center gap-4">
                             <button type="button" class="text-white rounded-full z-10"
-                                @click="addProductItem(product.id)">
-                                <img class="size-8 rounded-full hover:bg-[#F0BD22]" src="/image/svg/plus.svg" alt="">
+                                @click="addProductItem(product.id, index)">
+                                <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="">
                             </button>
-                            <button v-show="selectedSpecs[product.id]" type="button"
-                                class="flex justify-end cursor-pointer z-10" @click="openModal(product.id)">
+                            <button v-show="selectedSpecs[product.uid]" type="button"
+                                class="flex justify-end cursor-pointer z-10" @click="openModal(product.uid)">
                                 <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="">
                             </button>
                             <button type="button" class="flex justify-end cursor-pointer z-10"
-                                @click="deleteProduct(product.id)">
+                                @click="deleteProduct(product.uid)">
                                 <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
                             </button>
                         </div>
@@ -705,8 +727,9 @@ const insertProductByNameGroup = (arr, newItem) => {
                 class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
                 @click="hideModal">
                 <ShoppingCart :hideModal='hideModal' :getColor="getColor" :getType="getType" :getSize="getSize"
-                    :item="currentItem" @updateColor="handleColorUpdate" @updateStyle="handleStyleUpdate"
-                    @updateSize="handleSizeUpdate" @updateQuantity="handleQuantityUpdate" @addToCart="addToCart" />
+                    :item="currentItem" :uid="currentProductUid" @updateColor="handleColorUpdate"
+                    @updateStyle="handleStyleUpdate" @updateSize="handleSizeUpdate"
+                    @updateQuantity="handleQuantityUpdate" @addToCart="addToCart" />
             </div>
 
 

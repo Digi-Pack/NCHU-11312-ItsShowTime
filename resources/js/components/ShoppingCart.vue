@@ -10,14 +10,14 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 
 // 從父層取得的資料
-const { hideModal, getColor, getType, getSize, item } = defineProps({
+const { hideModal, getColor, getType, getSize, item, uid } = defineProps({
     hideModal: { type: Function },
     getColor: { type: Function },
     getType: { type: Function },
     getSize: { type: Function },
     item: { type: Object },
+    uid: { type: Number },
 });
-
 
 // 商品顏色、款式、尺寸列表
 const colors = item.colors.map(item => item.name);
@@ -93,19 +93,19 @@ const quantity = ref(1);
 // 選擇顏色
 const selectColor = (color) => {
     selectedColor.value = color;
-    emit('updateColor', color);
+    emit('updateColor', uid, color);
 };
 
 // 選擇款式
 const selectStyle = (style) => {
     selectedStyle.value = style;
-    emit('updateStyle', style);
+    emit('updateStyle', uid, style);
 };
 
 // 選擇尺寸
 const selectSize = (size) => {
     selectedSize.value = size;
-    emit('updateSize', size);
+    emit('updateSize', uid, size);
 };
 
 // 增減數量
@@ -117,7 +117,7 @@ const CalcQuantity = (style) => {
     } else {
         quantity.value++;
     }
-    emit('updateQuantity', quantity.value);
+    emit('updateQuantity', uid, quantity.value);
 };
 
 // 記錄螢幕寬度並監控變化
@@ -136,26 +136,26 @@ onMounted(() => {
     // 直接使用處理好的 colors、types 和 sizes 資料來設定初始值
     if (colors && colors.length > 0) {
         selectedColor.value = colors[0];
-        emit('updateColor', selectedColor.value);
+        emit('updateColor', uid, selectedColor.value);
     } else {
         selectedColor.value = null;
-        emit('updateColor', null);
+        emit('updateColor', uid, null);
     }
 
     if (types && types.length > 0) {
         selectedStyle.value = types[0];
-        emit('updateStyle', selectedStyle.value);
+        emit('updateStyle', uid, selectedStyle.value);
     } else {
         selectedStyle.value = null;
-        emit('updateStyle', null);
+        emit('updateStyle', uid, null);
     }
 
     if (sizes && sizes.length > 0) {
         selectedSize.value = sizes[0];
-        emit('updateSize', selectedSize.value);
+        emit('updateSize', uid, selectedSize.value);
     } else {
         selectedSize.value = null;
-        emit('updateSize', null);
+        emit('updateSize', uid, null);
     }
 
     thumbsIndex.value = 0;
@@ -166,60 +166,6 @@ const handleAddToCart = () => {
     emit('addToCart');
     // emit('addToCart', productId, selectedChoices.value[productId]);
 };
-
-// // 存儲每個商品的選擇狀態（顏色、款式、尺寸和數量）
-// const selectedChoices = ref({});
-
-// // 初始化選項
-// const setInitialSelection = (productId) => {
-//     selectedChoices.value[productId] = {
-//         color: colors.length > 0 ? colors[0] : null,
-//         style: types.length > 0 ? types[0] : null,
-//         size: sizes.length > 0 ? sizes[0] : null,
-//         quantity: 1
-//     };
-// };
-
-// // 根據商品ID更新顏色、款式、尺寸選擇
-// const selectColor = (productId, color) => {
-//     if (!selectedChoices.value[productId]) {
-//         setInitialSelection(productId);
-//     }
-//     selectedChoices.value[productId].color = color;
-//     emit('updateColor', color);
-// };
-
-// const selectStyle = (productId, style) => {
-//     if (!selectedChoices.value[productId]) {
-//         setInitialSelection(productId);
-//     }
-//     selectedChoices.value[productId].style = style;
-//     emit('updateStyle', style);
-// };
-
-// const selectSize = (productId, size) => {
-//     if (!selectedChoices.value[productId]) {
-//         setInitialSelection(productId);
-//     }
-//     selectedChoices.value[productId].size = size;
-//     emit('updateSize', size);
-// };
-
-// // 增減數量
-// const CalcQuantity = (productId, action) => {
-//     if (!selectedChoices.value[productId]) {
-//         setInitialSelection(productId);
-//     }
-//     if (action === '-') {
-//         if (selectedChoices.value[productId].quantity > 1) {
-//             selectedChoices.value[productId].quantity--;
-//         }
-//     } else {
-//         selectedChoices.value[productId].quantity++;
-//     }
-//     emit('updateQuantity', selectedChoices.value[productId].quantity);
-// };
-
 </script>
 
 <template>
