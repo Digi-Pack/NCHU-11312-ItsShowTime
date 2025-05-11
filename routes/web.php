@@ -32,7 +32,7 @@ Route::middleware(['auth'])->prefix('/')->group(function () {
     Route::get('/myprofile', [ItsshowtimeController::class, 'myProfile'])->middleware('auth')->name('myprofile');
     // Route::get('/myprofile', [ItsshowtimeController::class, 'myprofile'])->name('myprofile');
 
-  Route::post('/updateprofile', [UserController::class, 'updateProfile'])->name('updateprofile');
+    Route::put('/updateprofile', [UserController::class, 'updateProfile'])->name('updateprofile');
 
 
 // Route::post('/updateProfileImage', [UserController::class, 'updateProfileImage'])->name('updateProfileImage');

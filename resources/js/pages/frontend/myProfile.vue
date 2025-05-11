@@ -1,28 +1,27 @@
 <script setup>
-import { ref, computed, defineProps, onMounted } from 'vue'
-import { Link, router } from '@inertiajs/vue3'
+import { ref, computed, defineProps } from 'vue';
+import { Link, router } from '@inertiajs/vue3';
 import LoadingAnimate from '@/pages/settings/animate.vue';
+import { flashMessage } from '@/lib/flashMessage';
 
-import axios from 'axios';
 
 const props = defineProps({
-    response: Object ,
+    response: Object,
 });
-// console.log(props.response);
+console.log(props.response);
 
 
-const isOpen = ref(false)
+const isOpen = ref(false);
 
 const toggleMenu = () => {
-    isOpen.value = !isOpen.value
-    document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
-}
+    isOpen.value = !isOpen.value;
+    document.body.style.overflow = isOpen.value ? 'hidden' : 'auto';
+};
 
 
 const avatarPreview = ref('');
 const uploadError = ref('');
 const fileInput = ref('');
-
 
 const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -80,61 +79,31 @@ const toggleEdit = () => {
         formData.append('email', email.value);
         formData.append('birthday', birthday.value);
         formData.append('phone', phone.value);
+        formData.append('_method', 'put');
 
 
         for (let pair of formData.entries()) {
             console.log(pair[0] + ': ' + pair[1]);
-        }
+        };
 
         const file = fileInput.value?.files[0];
         if (file) {
             formData.append('img_path', file);
-        }
+        };
 
         if (file) {
             console.log("Uploaded file:", file);
-        }
+        };
 
-        axios.post('/updateprofile', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            }
-        })
-            .then(response => {
-                const result = response?.data ?? {};
-                if (result.res === 'success') {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'success',
-                        title: result.msg,
-                        showConfirmButton: false,
-                        timer: 1500,
-                    }).then(() => {
-                        imgPath.value = result.img_url || imgPath.value;
-                    });
-                } else {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: result.msg,
-                        showConfirmButton: false,
-                        timer: 1500,
-                    });
-                }
-            })
-            .catch(error => {
-                console.error(error);
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    title: '更新失敗，請重新嘗試',
-                    showConfirmButton: true,
-                });
-            });
-
+        router.post('/updateprofile', formData, {
+            onSuccess: (response) => {
+                const result = response?.props?.flash?.message ?? {};
+                flashMessage(result, '更新', route('myprofile'));
+            },
+        });
     }
 
-    isEditing.value = !isEditing.value;
+isEditing.value = !isEditing.value;
 };
 
 
@@ -253,9 +222,9 @@ const toggleEdit = () => {
                             </div>
                         </div>
                         <div class="flex justify-center">
-                            <Link class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer"
+                            <Link class="border border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer"
                                 method="post" :href="route('logout')" as="button">
-                            <LogOut class="mr-2 h-4 w-4" />
+                            <LogOut class="h-4 w-4" />
                             登出
                             </Link>
                         </div>
@@ -323,7 +292,7 @@ const toggleEdit = () => {
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">生日</div>
                                         <div class="col-span-3">
-                                            <span v-if="!isEditing">{{ response.users_info?.birthday }}</span>
+                                            <span v-if="!isEditing">{{ response.users_info?.birthday?.split('-').join('/') }}</span>
                                             <input v-else v-model="birthday" type="date"
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>
