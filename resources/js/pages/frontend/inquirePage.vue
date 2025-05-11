@@ -122,35 +122,29 @@ const handleSize = ref(null);
 const handleQuantity = ref(1);
 
 // 選擇顏色
-const handleUpdateColor = (uid, color) => {
-    const product = selectProducts.value.find(p => p.uid === uid);
-    if (product) {
-        handleColor.value = color;
-    }
+const handleColorUpdate = (color) => {
+    handleColor.value = color;
 };
+
 // 選擇款式
-const handleStyleUpdate = (uid, style) => {
-    const product = selectProducts.value.find(p => p.uid === uid);
-    if (product) {
-        handleStyle.value = style;
-    }
+const handleStyleUpdate = (style) => {
+    handleStyle.value = style;
 };
 
 // 選擇尺寸
-const handleSizeUpdate = (uid, size) => {
-    const product = selectProducts.value.find(p => p.uid === uid);
-    if (product) {
-        handleSize.value = size;
-    }
+const handleSizeUpdate = (size) => {
+    handleSize.value = size;
 };
 
 // 增減數量
-// 更新數量
-const handleQuantityUpdate = (uid, quantity) => {
-  const product = selectProducts.value.find(p => p.uid === uid);
-  if (product) {
-    handleQuantity.value = quantity;
-  }
+const handleQuantityUpdate = (style) => {
+    if (style === '-') {
+        if (handleQuantity.value > 1) {
+            handleQuantity.value--;
+        }
+    } else {
+        handleQuantity.value++;
+    }
 };
 
 // 點擊規格選擇出現選擇商品規格頁面

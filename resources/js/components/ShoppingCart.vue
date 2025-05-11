@@ -10,13 +10,12 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 
 // 從父層取得的資料
-const { hideModal, getColor, getType, getSize, item, uid } = defineProps({
+const { hideModal, getColor, getType, getSize, item } = defineProps({
     hideModal: { type: Function },
     getColor: { type: Function },
     getType: { type: Function },
     getSize: { type: Function },
     item: { type: Object },
-    uid: { type: Number },
 });
 
 // 商品顏色、款式、尺寸列表
@@ -93,19 +92,19 @@ const quantity = ref(1);
 // 選擇顏色
 const selectColor = (color) => {
     selectedColor.value = color;
-    emit('updateColor', uid, color);
+    emit('updateColor', color);
 };
 
 // 選擇款式
 const selectStyle = (style) => {
     selectedStyle.value = style;
-    emit('updateStyle', uid, style);
+    emit('updateStyle', style);
 };
 
 // 選擇尺寸
 const selectSize = (size) => {
     selectedSize.value = size;
-    emit('updateSize', uid, size);
+    emit('updateSize', size);
 };
 
 // 增減數量
@@ -117,7 +116,7 @@ const CalcQuantity = (style) => {
     } else {
         quantity.value++;
     }
-    emit('updateQuantity', uid, quantity.value);
+    emit('updateQuantity', quantity.value);
 };
 
 // 記錄螢幕寬度並監控變化
@@ -136,26 +135,26 @@ onMounted(() => {
     // 直接使用處理好的 colors、types 和 sizes 資料來設定初始值
     if (colors && colors.length > 0) {
         selectedColor.value = colors[0];
-        emit('updateColor', uid, selectedColor.value);
+        emit('updateColor', selectedColor.value);
     } else {
         selectedColor.value = null;
-        emit('updateColor', uid, null);
+        emit('updateColor', null);
     }
 
     if (types && types.length > 0) {
         selectedStyle.value = types[0];
-        emit('updateStyle', uid, selectedStyle.value);
+        emit('updateStyle', selectedStyle.value);
     } else {
         selectedStyle.value = null;
-        emit('updateStyle', uid, null);
+        emit('updateStyle', null);
     }
 
     if (sizes && sizes.length > 0) {
         selectedSize.value = sizes[0];
-        emit('updateSize', uid, selectedSize.value);
+        emit('updateSize', selectedSize.value);
     } else {
         selectedSize.value = null;
-        emit('updateSize', uid, null);
+        emit('updateSize', null);
     }
 
     thumbsIndex.value = 0;
