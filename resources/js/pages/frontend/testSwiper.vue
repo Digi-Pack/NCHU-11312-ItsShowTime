@@ -29,6 +29,8 @@ const modules = [FreeMode, Pagination, Navigation, Thumbs, Autoplay];
 const props = defineProps({
   response: Array,
 });
+console.log(props.response);
+
 
 const isMoreOpen = ref(false);
 const currentProductId = ref(null);

@@ -19,7 +19,6 @@ class ColorSeeder extends Seeder
             Color::create([
                 'color_name' => $name,
                 'sort_order' => $index + 1,
-
             ]);
         };
     }
