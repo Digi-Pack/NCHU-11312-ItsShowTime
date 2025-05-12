@@ -15,9 +15,10 @@ class SizeSeeder extends Seeder
     {
         $sizeNames = ['S', 'M', 'L', 'XL', '2XL', '3XL', '5XL'];
 
-        foreach ($sizeNames as $name) {
+        foreach ($sizeNames as $index => $name) {
             Size::create([
                 'size_name' => $name,
+                'sort_order' => $index + 1,
             ]);
         };
     }

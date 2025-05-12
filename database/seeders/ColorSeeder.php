@@ -15,9 +15,11 @@ class ColorSeeder extends Seeder
     {
         $colorNames = ['黑', '紅'];
 
-        foreach ($colorNames as $name) {
+        foreach ($colorNames as $index => $name) {
             Color::create([
                 'color_name' => $name,
+                'sort_order' => $index + 1,
+
             ]);
         };
     }
