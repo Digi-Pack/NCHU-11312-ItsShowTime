@@ -14,19 +14,12 @@ import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import { FreeMode, Pagination, Navigation, Thumbs, Autoplay } from 'swiper/modules';
 import { gsap } from 'gsap';
-// import { Link } from 'lucide-vue-next';
 
 
 // 商品製作的 thumbsSwiper
 const thumbsSwiper1 = ref(null);
 const setThumbsSwiper1 = (swiper) => {
   thumbsSwiper1.value = swiper;
-};
-
-// 下單購買的 thumbsSwiper
-const thumbsSwiper2 = ref(null);
-const setThumbsSwiper2 = (swiper) => {
-  thumbsSwiper2.value = swiper;
 };
 
 const modules = [FreeMode, Pagination, Navigation, Thumbs, Autoplay];
@@ -131,17 +124,27 @@ const hideImage = () => {
   isShowImage.value = false;
 };
 
+
+// 下單購買的 thumbsSwiper
+const thumbsSwiper2 = ref(null);
+// const setThumbsSwiper2 = (swiper) => {
+//   thumbsSwiper2.value = swiper;
+// };
+
+const setThumbsSwiper2 = (swiper) => {
+  if (!thumbsSwiper2.value) {
+    thumbsSwiper2.value = swiper;
+  }
+};
+
 // 點擊MORE出現更多資訊頁面
 const isMoreOpen = ref(false);
-
+const mainSwiper = ref(null);
 const selectedProduct = ref([]);
-// const mainImage = ref('');
 
 let scrollPosition = 0;
 const openModal = (productId) => {
   selectedProduct.value = props.response.find(product => product.id === productId) || null;
-  console.log(selectedProduct.value);
-  // mainImage.value = selectedProduct.value?.product_image.find(image => image.isMain)?.img_path;
 
   isMoreOpen.value = true;
   // 禁用body頁面滾動條
@@ -149,7 +152,11 @@ const openModal = (productId) => {
   document.body.style.overflow = 'hidden';
   document.body.style.position = 'fixed';
   document.body.style.top = `-${scrollPosition}px`;
-  // document.body.style.width = '100%';
+
+  nextTick(() => {
+    mainSwiper.value?.slideTo(0, 0);
+    // mainSwiper.value?.slideToLoop(0, 0);
+  });
 }
 
 const hideModal = () => {
@@ -157,9 +164,13 @@ const hideModal = () => {
   document.body.style.overflow = 'auto';
   document.body.style.position = '';
   document.body.style.top = '';
-  // document.body.style.width = '';
 
   window.scrollTo(0, scrollPosition);
+
+  if (mainSwiper.value) {
+    mainSwiper.value.slideTo(0, 0); 
+    // slideToLoop(0, 0)
+  }
 }
 
 
@@ -534,7 +545,7 @@ onUnmounted(() => {
             </p>
           </div>
           <!-- 商品列表 Swiper -->
-          <div class="product-swiper-container">
+          <div class="relative w-full m-0 p-0">
             <div class="custom-swiper-pagination"></div>
             <swiper :loop="true" :navigation="true" :spaceBetween="20" :centeredSlides="true" :slidesPerView="'auto'"
               :pagination="{
@@ -543,10 +554,15 @@ onUnmounted(() => {
               }" :modules="modules" class="product-swiper">
               <swiper-slide v-for="product in props.response" :key="product.id">
                 <div
-                  class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
-                  <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" alt="">
-                  <div class="flex flex-col gap-2 px-2">
-                    <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
+                  class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group p-2 cursor-pointer">
+                  <div class="relative z-10 group">
+                    <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" alt="">
+                    <div
+                      class="absolute inset-0 group-hover:bg-black/50 transition duration-300 rounded-tl-2xl rounded-tr-2xl">
+                    </div>
+                  </div>
+                  <div class="flex-1 flex flex-col justify-between gap-2 px-2">
+                    <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2] line-clamp-2">
                       {{ product.name }}
                     </p>
                     <p
@@ -554,15 +570,11 @@ onUnmounted(() => {
                       {{ product.price }}
                     </p>
                   </div>
-                  <!-- 遮罩 -->
-                  <div
-                    class="absolute inset-0 z-10 transition-all duration-300 ease-in-out group-hover:bg-black group-hover:bg-opacity-50">
-                  </div>
                   <!-- More -->
                   <div
-                    class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-20">
+                    class="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-20">
                     <button
-                      class="border-2 border-[#FFD83C] rounded-[8px] font-noto-jp text-[#FFD83C] text-2xl font-medium px-5 py-2"
+                      class="border-2 border-[#FFD83C] rounded-[8px] font-noto-jp text-[#FFD83C] min-[1535px]:text-2xl text-xl font-medium px-5 py-2"
                       type="button" @click="openModal(product.id)">
                       MORE
                     </button>
@@ -606,8 +618,8 @@ onUnmounted(() => {
               class="w-full min-[1150px]:w-3/5 flex min-[769px]:flex-row flex-col justify-center min-[641px]:items-center min-[1150px]:gap-6 min-[500px]:gap-[40px] gap-4">
               <!-- 縮圖 -->
               <swiper @swiper="setThumbsSwiper2" :loop="true"
-                :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'" :spaceBetween="windowWidth <= 500 ? 16 : 24"
-                :slidesPerView="'auto'" :freeMode="true" :modules="modules"
+                :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'" :spaceBetween="windowWidth <= 500 ? 16 : 18"
+                :slidesPerView="'auto'" :freeMode="true" :watchSlidesProgress="true" :modules="modules"
                 class="mySwiper min-[769px]:order-0 order-1">
                 <swiper-slide v-for="(item, index) in selectedProduct.images" :key="index">
                   <img :src="item?.img_path" alt="">
@@ -645,34 +657,37 @@ onUnmounted(() => {
         </div>
         <!-- 推薦商品 -->
         <div class="w-full py-12">
-          <p class="text-2xl font-semibold border-b-2 border-white min-[641px]:mx-16 mx-4 pb-6 mb-10">推薦商品</p>
+          <p class="text-2xl font-semibold border-b-2 border-white min-[641px]:mx-16 mx-4 pb-6 mb-10">
+            推薦商品
+          </p>
           <!-- 商品列表 Swiper -->
-          <div class="product-swiper-container">
+          <div class="relative w-full m-0 p-0">
             <swiper :loop="false" :navigation="true" :spaceBetween="50" :centeredSlides="false"
               :slidesPerView="windowWidth <= 768 ? 'auto' : 2" :watchOverflow="true" :modules="modules"
               class="product-swiper">
               <swiper-slide v-for="product in props.response" :key="product.id">
                 <div
-                  class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group">
-                  <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" alt="">
-                  <div class="flex flex-col gap-2 px-2">
-                    <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2]">
+                  class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group p-2 cursor-pointer">
+                  <div class="relative z-10 group">
+                    <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" alt="">
+                    <div
+                      class="absolute inset-0 group-hover:bg-black/50 transition duration-300 rounded-tl-2xl rounded-tr-2xl">
+                    </div>
+                  </div>
+                  <div class="flex-1 flex flex-col justify-between gap-2 px-2">
+                    <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2] line-clamp-2">
                       {{ product.name }}
                     </p>
                     <p
-                      class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-normal leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
-                      ${{ product.price }}
+                      class="hidden 2xl:block font-pingfang-r text-[32px] text-[#C89E51] font-bold leading-[100%] tracking-[0.08em] opacity-80 custom-shadow">
+                      {{ product.price }}
                     </p>
-                  </div>
-                  <!-- 遮罩 -->
-                  <div
-                    class="absolute inset-0 z-10 transition-all duration-300 ease-in-out group-hover:bg-black group-hover:bg-opacity-50">
                   </div>
                   <!-- More -->
                   <div
-                    class="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-20">
+                    class="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-20">
                     <button
-                      class="border-2 border-[#FFD83C] rounded-[8px] font-noto-jp text-[#FFD83C] text-2xl font-medium px-5 py-2"
+                      class="border-2 border-[#FFD83C] rounded-[8px] font-noto-jp text-[#FFD83C] min-[1535px]:text-2xl text-xl font-medium px-5 py-2"
                       type="button" @click="openModal(product.id)">
                       MORE
                     </button>
@@ -681,6 +696,7 @@ onUnmounted(() => {
               </swiper-slide>
             </swiper>
           </div>
+
         </div>
       </div>
     </div>
@@ -827,17 +843,18 @@ button {
 }
 
 /* 商品列表swiper */
-.product-swiper-container {
+/* .product-swiper-container {
   position: relative;
   width: 100%;
   margin: 0;
   padding: 0;
-}
+} */
 
 .product-swiper {
   width: 100%;
-  height: auto;
+  padding: 4px;
 }
+
 
 .custom-swiper-pagination {
   position: absolute;
@@ -861,6 +878,8 @@ button {
 
 @media (max-width: 640px) {
   .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
     margin: 0 4px !important;
   }
 }
@@ -925,6 +944,7 @@ button {
 
 .more-container .mySwiper2 {
   width: 450px;
+  height: auto;
 }
 
 @media (max-width: 640px) {
@@ -937,6 +957,14 @@ button {
   .more-container .mySwiper2 {
     width: 300px;
   }
+}
+
+.more-container .mySwiper2 .swiper-slide {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
 }
 
 .more-container .mySwiper2 .swiper-slide img {
