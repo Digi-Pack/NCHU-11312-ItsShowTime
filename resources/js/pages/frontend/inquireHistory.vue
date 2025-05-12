@@ -3,10 +3,26 @@ import { ref, onMounted, onBeforeUnmount, computed, defineProps } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import LoadingAnimate from '@/pages/settings/animate.vue';
 
+
+
+// const props = defineProps({
+//     response: Object,
+// });
+// console.log(props.response);
 const props = defineProps({
-    response: Object,
+    response: {
+        type: Object,
+        required: true,
+    },
 });
-console.log(props.response);
+
+// 從 response 中解構出 user 和 inquiries
+const { user, inquiries } = props.response;
+
+console.log(user);  // 用來檢查 user 資料
+console.log(inquiries);  // 用來檢查 inquiries 資料
+
+
 
 
 const email = ref(props.response?.email || '');
@@ -131,21 +147,6 @@ const toggleMenu = () => {
 
 
             <main class="flex-1 bg-[#D0D0D0] p-4 sm:p-8 font-noto-jp overflow-y-auto">
-
-
-   <li v-for="inquiry in props.response.inquiries" :key="inquiry.id">
-          <p><strong>Product:</strong> {{ inquiry.product }}</p>
-        
-        </li>
-
-
-
-
-
-
-
-
-
                 <div class="bg-white shadow-lg p-6 sm:p-10 relative min-h-full">
 
                     <Link :href="route('home')" class="hidden sm:flex items-center gap-2 absolute top-4 right-4">
@@ -162,17 +163,88 @@ const toggleMenu = () => {
                         <span class="w-[150px] text-center">金額</span>
                     </div>
 
-                    <div class="hidden xl:flex items-center mb-8 px-6">
+                    <!-- <div class="hidden xl:flex items-center mb-8 px-6">
                         <div class="flex items-center flex-1">
                             <img src="/image/4-4.webp" alt="商品圖"
                                 class="w-[96px] h-auto mr-4 rounded-tl-2xl rounded-tr-2xl" />
                             <p>【IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨</p>
                         </div>
-                        <div class="w-[250px] text-center text-nowrap">紅色 / 特攻特 / 1件</div>
+                        <div class="w-[250px] text-center text-nowrap">紅色 / 特攻 / 1件</div>
                         <div class="w-[150px] text-center">$2000</div>
+                    </div> -->
+
+                    <div v-if="inquiries.length > 0">
+                        <div v-for="(inquiry, index) in inquiries" :key="index"
+                            class="hidden xl:flex items-center mb-8 px-6">
+                            <div v-if="inquiry.order_lists && inquiry.order_lists.length > 0"
+                                class="flex items-center flex-1">
+
+                                <div v-for="(order, orderIndex) in inquiry.order_lists" :key="orderIndex"
+                                    class="flex items-center flex-1">
+                                    <div class="flex items-center flex-1">
+                                        <img src="/image/4-4.webp" alt="商品圖"
+                                            class="w-[96px] h-auto mr-4 rounded-tl-2xl rounded-tr-2xl" />
+                                        <p>{{ order.product }}</p>
+                                    </div>
+
+                                    <div v-if="order.color || order.type || order.size || order.quantity"
+                                        class="w-[250px] text-center text-nowrap">
+
+                                        <span v-if="order.color">{{ order.color }} / </span>
+                                        <span v-if="order.type">{{ order.type }} / </span>
+                                        <span v-if="order.size">{{ order.size }} / </span>
+                                        <span v-if="order.quantity">{{ order.quantity }} 件</span>
+                                    </div>
+                                    <div class="w-[150px] text-center text-[#B41900]">待確認</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
+                    <!-- <div v-else class="text-center w-full text-lg font-bold text-gray-500">
+                        <p>目前沒有訂單資料</p>
+                    </div> -->
 
+
+                    <div class="xl:hidden flex flex-col gap-4 mb-8 px-2">
+                        <div v-if="inquiries.length > 0">
+                            <div v-for="(inquiry, index) in inquiries" :key="index"
+                                class="rounded-xl overflow-hidden shadow bg-white">
+                                <div class="flex flex-col sm:flex-row">
+            
+                                    <div class="sm:w-[40%] w-full">
+                                        <img src="/image/4-4.webp" alt="商品圖" class="w-full h-full object-cover" />
+                                    </div>
+
+                            
+                                    <div class="p-4 sm:w-[60%] space-y-1">
+                        
+                                        <p class="font-bold leading-snug">
+                            
+                                            <span v-for="(order, orderIndex) in inquiry.order_lists" :key="orderIndex">
+                                                {{ order.product }}
+                                            </span>
+                                        </p>
+
+                                        <p class="text-[#B41900]" v-for="(order, orderIndex) in inquiry.order_lists"
+                                            :key="orderIndex">
+                                            <span v-if="order.color">{{ order.color }} / </span>
+                                            <span v-if="order.type">{{ order.type }} / </span>
+                                            <span v-if="order.size">{{ order.size }} / </span>
+                                            <span v-if="order.quantity">{{ order.quantity }} 件</span>
+                                        </p>
+
+                                        <p class="text-[#B41900]">待確認</p> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div v-else class="text-center w-full text-lg font-bold text-gray-500">
+                            <p>目前沒有訂單資料</p>
+                        </div> -->
+                    </div>
+                    <!-- 
                     <div class="xl:hidden flex flex-col gap-4 mb-8 px-2">
                         <div class="rounded-xl overflow-hidden shadow bg-white">
                             <div class="flex flex-col sm:flex-row">
@@ -188,7 +260,7 @@ const toggleMenu = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
             </main>

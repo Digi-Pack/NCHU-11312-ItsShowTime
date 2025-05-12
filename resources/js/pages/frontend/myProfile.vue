@@ -111,13 +111,14 @@ const toggleEdit = () => {
 
 
 // loading動畫
-// const isLoading = ref(true);
+const isLoading = ref(true);
 
-// onMounted(() => {
-//     setTimeout(() => {
-//         isLoading.value = false;
-//     }, 1900);
-// });
+onMounted(() => {
+    setTimeout(() => {
+        isLoading.value = false;
+    }, 1900);
+});
+
 
 
 </script>
@@ -151,10 +152,10 @@ const toggleEdit = () => {
                 <div class="flex items-center absolute lg:top-5 lg:right-8 right-2">
                     <div class="hidden lg:flex items-center">
                         <div class="w-[50px] h-[50px] flex items-center mr-2">
-                           <img :src="response.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
-                                    class="w-full h-full object-cover rounded-[50px] bg-gray-100" />
+                            <img :src="response.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
+                                class="w-full h-full object-cover rounded-[50px] bg-gray-100" />
                         </div>
-                       
+
 
 
                         <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">{{ formattedEmail }}</div>

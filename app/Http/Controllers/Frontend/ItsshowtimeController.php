@@ -8,6 +8,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Color;
 use App\Models\Banner;
+use App\Models\Inquiry;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -213,13 +214,44 @@ class ItsshowtimeController extends Controller
         ]);
     }
 
-    public function history()
-    {
+    // public function history()
+    // {
 
-        $user = User::with('usersInfo', 'inquiries')->findOrFail(Auth::id());
-        return Inertia::render('frontend/inquireHistory', [
-            'response' => $user,
-            // 'response' => $inquires,
-        ]);
-    }
+    //     $user = User::with('usersInfo', 'inquiries')->findOrFail(Auth::id());
+    //     return Inertia::render('frontend/inquireHistory', [
+    //         'response' => $user,
+    //     ]);
+    // }
+
+
+    // public function history()
+    // {
+    //     $user = User::with('usersInfo')->findOrFail(Auth::id());
+
+    //     $inquiries = Inquiry::with('orderLists')->where('user_id', $user->id)->get();
+
+    //     return Inertia::render('frontend/inquireHistory', [
+    //         'response' => $user,
+    //         'inquiries' => $inquiries,
+    //     ]);
+    // }
+
+
+    public function history()
+{
+    $user = User::with('usersInfo')->findOrFail(Auth::id());
+    $inquiries = Inquiry::with('orderLists')->where('user_id', $user->id)->get();
+
+    // 將 user 和 inquiries 包裝在 response 中
+    $response = [
+        'user' => $user,
+        'inquiries' => $inquiries,
+    ];
+
+    return Inertia::render('frontend/inquireHistory', [
+        'response' => $response, // 傳遞整個 response 資料
+    ]);
 }
+}
+
+

@@ -51,6 +51,7 @@ class User extends Authenticatable
     {
         return $this->hasOne(UsersInfo::class, 'user_id', 'id');
     }
+    
 
     // public function inquiries()
     // {
@@ -59,6 +60,6 @@ class User extends Authenticatable
     
     public function inquiries()
     {
-        return $this->hasMany(Inquiry::class, 'email', 'email');
+        return $this->hasMany(Inquiry::class, 'user_id', 'id');
     }
 }

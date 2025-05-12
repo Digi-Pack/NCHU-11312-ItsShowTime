@@ -53,13 +53,5 @@ class Inquiry extends Model
 		return $this->hasMany(OrderList::class);
 	}
 
-	// public function orderLists()
-	// {
-	// 	return $this->hasMany(OrderList::class, 'inquiry_id');
-	// }
 
-	// public function user()
-	// {
-	// 	return $this->belongsTo(User::class, 'email', 'email');
-	// }
 }
