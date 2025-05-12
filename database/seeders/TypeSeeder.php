@@ -15,9 +15,10 @@ class TypeSeeder extends Seeder
     {
         $typeNames = ['神風', '特攻', '極惡', '暴走', '台灣聯合', '客製化'];
 
-        foreach ($typeNames as $name) {
+        foreach ($typeNames as $index => $name) {
             Type::create([
                 'type_name' => $name,
+                'sort_order' => $index + 1,
             ]);
         };
     }
