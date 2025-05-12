@@ -10,12 +10,13 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 
 // 從父層取得的資料
-const { hideModal, getColor, getType, getSize, item } = defineProps({
+const { hideModal, getColor, getType, getSize, item, selectedSpec } = defineProps({
     hideModal: { type: Function },
     getColor: { type: Function },
     getType: { type: Function },
     getSize: { type: Function },
     item: { type: Object },
+    selectedSpec: { type: Object },
 });
 
 // 商品顏色、款式、尺寸列表
@@ -132,31 +133,16 @@ onMounted(() => {
         screenWidth.value = window.innerWidth;
     });
 
-    // 直接使用處理好的 colors、types 和 sizes 資料來設定初始值
-    if (colors && colors.length > 0) {
-        selectedColor.value = colors[0];
-        emit('updateColor', selectedColor.value);
-    } else {
-        selectedColor.value = null;
-        emit('updateColor', null);
-    }
+    // 優先讀取 selectedSpec 裡的值（如果存在）
+    selectedColor.value = selectedSpec?.color ?? (colors.length > 0 ? colors[0] : null);
+    selectedStyle.value = selectedSpec?.style ?? (types.length > 0 ? types[0] : null);
+    selectedSize.value = selectedSpec?.size ?? (sizes.length > 0 ? sizes[0] : null);
+    quantity.value = selectedSpec?.quantity ?? 1;
 
-    if (types && types.length > 0) {
-        selectedStyle.value = types[0];
-        emit('updateStyle', selectedStyle.value);
-    } else {
-        selectedStyle.value = null;
-        emit('updateStyle', null);
-    }
-
-    if (sizes && sizes.length > 0) {
-        selectedSize.value = sizes[0];
-        emit('updateSize', selectedSize.value);
-    } else {
-        selectedSize.value = null;
-        emit('updateSize', null);
-    }
-
+    emit('updateColor', selectedColor.value);
+    emit('updateStyle', selectedStyle.value);
+    emit('updateSize', selectedSize.value);
+    emit('updateQuantity', quantity.value);
     thumbsIndex.value = 0;
 });
 

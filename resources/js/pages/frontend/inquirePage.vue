@@ -62,15 +62,17 @@ const { response } = defineProps({
 
 // 用新的變數來執行程式並加上uid
 const selectProducts = ref();
+const uidCounter = ref(0);
 selectProducts.value = JSON.parse(JSON.stringify(response));
 const addUid = () => {
-    selectProducts.value.forEach((item, index) => {
-        item.uid = index;
+    selectProducts.value.forEach(item => {
+        if (item.uid === undefined || item.uid === null) {
+            item.uid = uidCounter.value++;
+        }
     });
 };
 
 addUid();
-console.log(selectProducts.value);
 
 watch(
     () => selectProducts.value.length,
@@ -134,14 +136,8 @@ const handleSizeUpdate = (size) => {
 };
 
 // 增減數量
-const handleQuantityUpdate = (style) => {
-    if (style === '-') {
-        if (handleQuantity.value > 1) {
-            handleQuantity.value--;
-        }
-    } else {
-        handleQuantity.value++;
-    }
+const handleQuantityUpdate = (newQuantity) => {
+    handleQuantity.value = newQuantity;
 };
 
 // 點擊規格選擇出現選擇商品規格頁面
@@ -339,6 +335,7 @@ const addToCart = () => {
     hideModal();
 };
 
+// 用來存取當前點擊的該筆資料當中規格選擇的結果
 const selectedSpecs = ref({});
 
 const test = (productId) => {
@@ -487,15 +484,12 @@ const addProductItem = (id, index) => {
     const newProduct = JSON.parse(JSON.stringify(product));
 
     const insertedIndex = insertProductByNameGroup(selectProducts.value, newProduct);
-    addUid();
+    // 只給新資料一個新的 uid
+    selectProducts.value[insertedIndex].uid = uidCounter.value++;
 
     // 取得新加的那筆資料的 uid（用 index 方式重新加 uid，所以是這筆插入的位置）
     currentProductUid.value = selectProducts.value[insertedIndex].uid;
     selectedIndex.value = index;
-
-
-    console.log(newProduct);
-
 
 };
 
@@ -721,10 +715,16 @@ onMounted(() => {
             <div v-if="isFormatOpen && currentItem"
                 class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
                 @click="hideModal">
-                <ShoppingCart :hideModal='hideModal' :getColor="getColor" :getType="getType" :getSize="getSize"
-                    :item="currentItem" :uid="currentProductUid" @updateColor="handleColorUpdate"
-                    @updateStyle="handleStyleUpdate" @updateSize="handleSizeUpdate"
-                    @updateQuantity="handleQuantityUpdate" @addToCart="addToCart" />
+                <ShoppingCart 
+                    :hideModal='hideModal'
+                    :item="currentItem"
+                    :selectedSpec="selectedSpecs[currentProductUid]"
+                    @updateColor="handleColorUpdate"
+                    @updateStyle="handleStyleUpdate"
+                    @updateSize="handleSizeUpdate"
+                    @updateQuantity="handleQuantityUpdate"
+                    @addToCart="addToCart"
+                />
             </div>
 
 
@@ -753,7 +753,8 @@ onMounted(() => {
 
                         <div class="relative">
                             <input id="birthday" type="date" required
-                                class="w-full h-[50px] bg-transparent border border-white rounded-[8px] px-3 py-3 pr-12 text-[20px] text-white/50 custom-date" placeholder="年/月/日"/>
+                                class="w-full h-[50px] bg-transparent border border-white rounded-[8px] px-3 py-3 pr-12 text-[20px] text-white/50 custom-date"
+                                placeholder="年/月/日" />
 
                             <div class="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer">
                                 <img src="/image/svg/calendar.svg" alt="calendar icon" class="w-[24px] h-[24px]"
