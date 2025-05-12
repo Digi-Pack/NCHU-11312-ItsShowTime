@@ -261,7 +261,6 @@ const handleAddToCart = () => {
                                 -
                             </button>
                             <input class="text-center bg-black border w-20" type="text" name="" id="" :value="quantity">
-                            <!-- <p class="border-t border-b py-1 w-20 text-center">{{ quantity }}</p> -->
                             <button type="button" class="border py-1 px-4 hover:bg-gray-700 transition-colors rounded-r"
                                 @click="CalcQuantity('+')">
                                 +

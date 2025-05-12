@@ -56,13 +56,9 @@ onBeforeUnmount(() => {
 // 把下單購買資料傳過來 , color, type
 const { response } = defineProps({
     response: Array | Object,
-    // color: Array | Object,
-    // type: Array | Object,
 });
 // console.log(response);
-// console.log(response[0].types);
-// console.log(color);
-// console.log(type);
+
 
 // 用新的變數來執行程式並加上uid
 const selectProducts = ref();
@@ -155,7 +151,7 @@ const selectedIndex = ref();
 
 const openModal = (productId) => {
     currentProductUid.value = productId;
-    console.log(currentProductUid.value);
+
     isFormatOpen.value = true;
     // 禁用body頁面滾動條
     if (isFormatOpen.value) {
@@ -210,7 +206,6 @@ const clearAllBtn = () => {
 // 刪除個別資料(垃圾桶icon)
 const deleteProduct = (productId) => {
     const index = selectProducts.value.findIndex(product => product.uid === productId);
-
     if (index !== -1) {
         Swal.fire({
             title: "是否清除該商品資料？",
@@ -223,6 +218,9 @@ const deleteProduct = (productId) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 selectProducts.value.splice(index, 1);
+
+                // 刪除商品後清空規格選項
+                delete selectedSpecs.value[productId];
 
                 Swal.fire({
                     title: "確認刪除",
@@ -264,10 +262,7 @@ const currentItem = computed(() => {
     return item || null;
 });
 
-const testTHisIndex = (index) => {
-    console.log('目前資料的index為: ', index);
-}
-
+// 當顏色、風格或尺寸有資料時回傳第一個值(用來)
 const getDefaultValue = (arr) => {
     // 如果陣列不為 null 且長度大於 0，返回陣列的第一個值
     if (arr && Array.isArray(arr) && arr.length > 0) {
@@ -344,7 +339,6 @@ const addToCart = () => {
     hideModal();
 };
 
-
 const selectedSpecs = ref({});
 
 const test = (productId) => {
@@ -358,7 +352,12 @@ const test = (productId) => {
             quantity: spec.quantity,
         }
     }
-    return '';
+    return {
+        color: '',
+        style: '',
+        size: '',
+        quantity: 1,  // 預設數量
+    };
 };
 
 // 在模板中使用的動態格式化函數
@@ -475,14 +474,6 @@ const triggerDatePicker = () => {
     }
 };
 
-const isLoading = ref(false);
-
-onMounted(() => {
-    setTimeout(() => {
-        isLoading.value = false;
-    }, 1900);
-});
-
 // 新增同商品但不同尺寸可以做選擇
 const addProductItem = (id, index) => {
     const product = selectProducts.value[index];
@@ -492,7 +483,8 @@ const addProductItem = (id, index) => {
         return;
     }
 
-    const newProduct = { ...product };
+    // const newProduct = { ...product };
+    const newProduct = JSON.parse(JSON.stringify(product));
 
     const insertedIndex = insertProductByNameGroup(selectProducts.value, newProduct);
     addUid();
@@ -500,6 +492,10 @@ const addProductItem = (id, index) => {
     // 取得新加的那筆資料的 uid（用 index 方式重新加 uid，所以是這筆插入的位置）
     currentProductUid.value = selectProducts.value[insertedIndex].uid;
     selectedIndex.value = index;
+
+
+    console.log(newProduct);
+
 
 };
 
@@ -518,6 +514,15 @@ const insertProductByNameGroup = (arr, newItem) => {
         return insertIndex;
     }
 };
+
+// 跳轉頁面loading
+const isLoading = ref(false);
+onMounted(() => {
+    setTimeout(() => {
+        isLoading.value = false;
+    }, 1900);
+});
+
 
 </script>
 
@@ -650,16 +655,11 @@ const insertProductByNameGroup = (arr, newItem) => {
 
 
                     <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white">
-                        <!-- ${{ product.price * getQuantity(product.uid) }} -->
                         金額待確認
                     </p>
 
                     <!-- 編輯和刪除按鈕 -->
                     <div class="flex justify-around xl:w-[200px] w-[120px]">
-                        <!-- <button v-show="selectedSpecs[product.uid]" type="button"
-                            class="flex justify-end cursor-pointer z-10" @click="openModal(product.uid)">
-                            <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="">
-                        </button> -->
                         <button type="button" class="flex justify-center xl:mr-2 cursor-pointer"
                             @click="deleteProduct(product.uid)">
                             <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
