@@ -52,5 +52,13 @@ class User extends Authenticatable
         return $this->hasOne(UsersInfo::class, 'user_id', 'id');
     }
 
-   
+    // public function inquiries()
+    // {
+    //     return $this->hasMany(Inquiry::class);
+    // }
+    
+    public function inquiries()
+    {
+        return $this->hasMany(Inquiry::class, 'email', 'email');
+    }
 }

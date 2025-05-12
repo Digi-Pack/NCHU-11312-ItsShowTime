@@ -131,6 +131,21 @@ const toggleMenu = () => {
 
 
             <main class="flex-1 bg-[#D0D0D0] p-4 sm:p-8 font-noto-jp overflow-y-auto">
+
+
+   <li v-for="inquiry in props.response.inquiries" :key="inquiry.id">
+          <p><strong>Product:</strong> {{ inquiry.product }}</p>
+        
+        </li>
+
+
+
+
+
+
+
+
+
                 <div class="bg-white shadow-lg p-6 sm:p-10 relative min-h-full">
 
                     <Link :href="route('home')" class="hidden sm:flex items-center gap-2 absolute top-4 right-4">

@@ -184,7 +184,6 @@ class ItsshowtimeController extends Controller
         return Inertia::render('frontend/inquirePage', [
             'response' => $product,
         ]);
-
     }
 
 
@@ -210,15 +209,17 @@ class ItsshowtimeController extends Controller
 
         return Inertia::render('frontend/passwordChange', [
             'response' => $user,
+
         ]);
     }
 
     public function history()
     {
-        $user = User::with('usersInfo')->findOrFail(Auth::id());
 
+        $user = User::with('usersInfo', 'inquiries')->findOrFail(Auth::id());
         return Inertia::render('frontend/inquireHistory', [
             'response' => $user,
+            // 'response' => $inquires,
         ]);
     }
 }
