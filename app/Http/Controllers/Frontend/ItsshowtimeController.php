@@ -223,33 +223,18 @@ class ItsshowtimeController extends Controller
     //     ]);
     // }
 
-
-    // public function history()
-    // {
-    //     $user = User::with('usersInfo')->findOrFail(Auth::id());
-
-    //     $inquiries = Inquiry::with('orderLists')->where('user_id', $user->id)->get();
-
-    //     return Inertia::render('frontend/inquireHistory', [
-    //         'response' => $user,
-    //         'inquiries' => $inquiries,
-    //     ]);
-    // }
-
-
     public function history()
 {
     $user = User::with('usersInfo')->findOrFail(Auth::id());
     $inquiries = Inquiry::with('orderLists')->where('user_id', $user->id)->get();
 
-    // 將 user 和 inquiries 包裝在 response 中
     $response = [
         'user' => $user,
         'inquiries' => $inquiries,
     ];
 
     return Inertia::render('frontend/inquireHistory', [
-        'response' => $response, // 傳遞整個 response 資料
+        'response' => $response,
     ]);
 }
 }
