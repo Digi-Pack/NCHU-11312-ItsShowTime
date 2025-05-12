@@ -171,7 +171,7 @@ const backBtn = () => router.get(route('admin.product.list'));
       <div class="flex flex-col gap-1 mb-4">
         <p>簡介：</p>
         <main id="sample" class="relative max-w-[1000px]">
-          <Editor v-model="item.introduction" api-key="u7fewj6ygvrabi62o1x3yo4q1icxanoadqqrmlk80apmj8vz"
+          <Editor v-model="item.introduction" api-key="8okv62o6rg25pd2ma694ju1axy7984vjrk3mmled1k2rl25a"
             :init="editorInit" />
         </main>
       </div>

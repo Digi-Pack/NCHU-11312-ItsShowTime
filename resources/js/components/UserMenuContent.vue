@@ -31,7 +31,7 @@ defineProps<Props>();
   <DropdownMenuItem as-child>
     <Link class="block w-full" method="post" :href="route('logout')" as="button">
       <LogOut class="mr-2 h-4 w-4" />
-      登入
+      登出
     </Link>
   </DropdownMenuItem>
 </template>

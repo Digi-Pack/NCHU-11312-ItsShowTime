@@ -7,5 +7,4 @@ export {
   phoneRegex,
   emailRegex,
   dateRegex,
-  flashMessage,
 };
