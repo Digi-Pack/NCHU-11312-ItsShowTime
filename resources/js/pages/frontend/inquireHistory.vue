@@ -45,8 +45,7 @@ const toggleMenu = () => {
 
 
 <template>
-    <!-- <LoadingAnimate v-if="isLoading" />
-    <section v-else> -->
+ 
     <nav class="w-full relative z-40 bg-white">
         <div class="h-10 bg-[#801302] px-2"></div>
 
@@ -132,12 +131,9 @@ const toggleMenu = () => {
                         </div>
                     </div>
                     <div class="flex justify-center">
-                        <!-- <button type="button"
-                            class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer">登出
-                        </button> -->
                         <Link class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer"
                             method="post" :href="route('logout')" as="button">
-                        <LogOut class="mr-2 h-4 w-4" />
+                        <LogOut class="h-4 w-4" />
                         登出
                         </Link>
                     </div>
@@ -201,9 +197,9 @@ const toggleMenu = () => {
                         </div>
                     </div>
 
-                    <!-- <div v-else class="text-center w-full text-lg font-bold text-gray-500">
+                    <div v-else class="hidden xl:flex justify-center text-center w-full text-lg font-bold text-[#B41900]">
                         <p>目前沒有訂單資料</p>
-                    </div> -->
+                    </div>
 
 
                     <div class="xl:hidden flex flex-col gap-4 mb-8 px-2">
@@ -240,9 +236,9 @@ const toggleMenu = () => {
                             </div>
                         </div>
 
-                        <!-- <div v-else class="text-center w-full text-lg font-bold text-gray-500">
+                        <div v-else class="text-center w-full text-lg font-bold text-[#B41900]">
                             <p>目前沒有訂單資料</p>
-                        </div> -->
+                        </div>
                     </div>
                     <!-- 
                     <div class="xl:hidden flex flex-col gap-4 mb-8 px-2">
@@ -266,7 +262,7 @@ const toggleMenu = () => {
             </main>
         </div>
     </section>
-    <!-- </section> -->
+
 </template>
 
 

@@ -185,7 +185,7 @@ const toggleConfirmPasswordTwo = () => {
                     <div class="flex justify-center">
                         <Link class="border-[1px] border-white text-white 2xl:text-[24px] px-6 py-2 cursor-pointer"
                             method="post" :href="route('logout')" as="button">
-                        <LogOut class="mr-2 h-4 w-4" />
+                        <LogOut class="h-4 w-4" />
                         登出
                         </Link>
                     </div>
