@@ -185,10 +185,6 @@ class ItsshowtimeController extends Controller
             'response' => $product,
         ]);
 
-
-        // return Inertia::render('settings/animate', [
-        //     'response' => $product,
-        // ]);
     }
 
 
@@ -198,17 +194,6 @@ class ItsshowtimeController extends Controller
     }
 
 
-    // public function myProfile()
-    // {
-
-    //     $user = User::with('usersInfo')->findOrFail(Auth::id());
-
-    //     dd($user);
-
-    //     return Inertia::render('frontend/myProfile', [
-    //         'response' => $user,
-    //     ]);
-    // }
     public function myProfile()
     {
         $user = User::with('usersInfo')->findOrFail(Auth::id());
@@ -217,17 +202,6 @@ class ItsshowtimeController extends Controller
             'response' => $user,
         ]);
     }
-
-
-
-
-    // public function myProfile()
-    // {
-    //     return Inertia::render('frontend/myProfile', [
-
-    //     ]);
-    // }
-
 
 
     public function password()
