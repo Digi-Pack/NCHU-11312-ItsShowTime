@@ -124,9 +124,9 @@ class ProductController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'price' =>  'string|max:255',
-                'colors' =>  'array',
-                'types' =>  'array',
-                'sizes' =>  'array',
+                // 'colors' =>  'array',
+                // 'types' =>  'array',
+                // 'sizes' =>  'array',
                 'mainImg_file' => 'file|mimes:jpg,jpeg,png,webp',
                 'subImg_files' => 'array|max:4',
                 'subImg_files.*' => 'file|mimes:jpg,jpeg,png,webp',
