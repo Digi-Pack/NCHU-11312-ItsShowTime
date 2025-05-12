@@ -2,6 +2,7 @@
 import FrontendFooter from '@/components/FrontendFooter.vue';
 import LoadingAnimate from '@/pages/settings/animate.vue';
 import ShoppingCart from '@/components/ShoppingCart.vue'
+import { phoneRegex, emailRegex, dateRegex } from '@/lib/regex';
 
 
 import { ref, onMounted, onBeforeUnmount, computed, defineProps, watch } from 'vue'
@@ -387,10 +388,10 @@ const address = ref('');
 const remark = ref('');
 const products = ref([]);
 
-// 正則表達式 regex
-const phoneRegex = /^[0-9]{10}$/; // 10位數的電話號碼
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email 格式
-const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // 日期格式 (YYYY-MM-DD)
+// // 正則表達式 regex
+// const phoneRegex = /^[0-9]{10}$/; // 10位數的電話號碼
+// const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email 格式
+// const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // 日期格式 (YYYY-MM-DD)
 
 const handleSubmit = () => {
     console.log(selectProducts.value);
