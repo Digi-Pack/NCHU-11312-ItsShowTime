@@ -20,6 +20,7 @@ import { Label } from '@/components/ui/label';
 const props = defineProps({
     response: Object,
 });
+
 console.log(props.response);
 
 const email = ref(props.response?.email || '');
@@ -114,10 +115,11 @@ const toggleConfirmPasswordTwo = () => {
                 </p>
             </div>
 
-            <div class="flex items-center absolute lg:top-3 lg:right-8 right-2">
+            <div class="flex items-center absolute lg:top-5 lg:right-8 right-2">
                 <div class="hidden lg:flex items-center">
-                    <div class="w-[70px]">
-                        <img src="/image/svg/avatar.svg" alt="avatar" class="w-full h-full" />
+                    <div class="w-[50px] h-[50px] flex items-center mr-2">
+                        <img :src="response.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
+                            class="w-full h-full object-cover rounded-[50px] bg-gray-100" />
                     </div>
                     <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">{{ formattedEmail }}</div>
                 </div>
@@ -150,8 +152,9 @@ const toggleConfirmPasswordTwo = () => {
 
                 <div class="flex flex-col">
                     <div class="flex mb-8">
-                        <div class="2xl:w-[75px] w-[50px] mr-4">
-                            <img src="/image/svg/avatar-1.svg" alt="" class="w-full h-full" />
+                        <div class="2xl:w-[65px] 2xl:h-[65px] w-[60px] h-[60px] mr-4">
+                            <img :src="response.users_info?.img_path || '/image/svg/avatar-1.svg'" alt="avatar"
+                                class="w-full h-full object-cover rounded-[50px]" />
                         </div>
                         <div class="flex-col font-noto-jp">
                             <div class="text-white xl:text-[24px] mb-2">{{ formattedEmail }}</div>
@@ -191,7 +194,8 @@ const toggleConfirmPasswordTwo = () => {
             </div>
 
 
-            <div class="2xl:w-[82%] w-full min-h-screen bg-[#D0D0D0] flex justify-center font-noto-jp p-4 lg:p-8 overflow-y-auto">
+            <div
+                class="2xl:w-[82%] w-full min-h-screen bg-[#D0D0D0] flex justify-center font-noto-jp p-4 lg:p-8 overflow-y-auto">
                 <div class="w-full bg-white shadow-lg relative justify-center px-4 py-6">
 
                     <Link :href="route('home')"
@@ -204,7 +208,7 @@ const toggleConfirmPasswordTwo = () => {
                         <p class="text-lg mt-2">為了保護您帳號的安全，請不要分享密碼給其他人</p>
                     </div>
 
-                    <div class="w-full space-y-6 sm:pl-20 sm:mx-0 mx-auto ">
+                    <div class="w-2/3 space-y-6 sm:pl-20 sm:mx-0 mx-auto">
                         <form @submit.prevent="updatePassword" class="space-y-6">
                             <div class="grid gap-2 relative">
                                 <Label for="current_password" class="text-[20px]">現在密碼</Label>
@@ -212,8 +216,7 @@ const toggleConfirmPasswordTwo = () => {
                                     <Input id="current_password" ref="currentPasswordInput"
                                         v-model="form.current_password"
                                         :type="PasswordVisibleCurrent ? 'text' : 'password'"
-                                        class="mt-1 block w-full pr-10" autocomplete="current-password"
-                                        placeholder="Current password" />
+                                        class="mt-1 block w-full pr-10" autocomplete="current-password" />
 
                                     <img :src="PasswordVisibleCurrent ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
                                         alt="Toggle password visibility"
@@ -227,7 +230,7 @@ const toggleConfirmPasswordTwo = () => {
                                 <div class="relative">
                                     <Input id="password" ref="passwordInput" v-model="form.password"
                                         :type="PasswordVisibleOne ? 'text' : 'password'" class="mt-1 block w-full pr-10"
-                                        autocomplete="new-password" placeholder="New password" />
+                                        autocomplete="new-password"/>
                                     <InputError :message="form.errors.password" />
                                     <img :src="PasswordVisibleOne ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
                                         alt="Toggle password visibility"
@@ -241,7 +244,7 @@ const toggleConfirmPasswordTwo = () => {
                                 <div class="relative">
                                     <Input id="password_confirmation" v-model="form.password_confirmation"
                                         :type="PasswordVisibleTwo ? 'text' : 'password'" class="mt-1 block w-full pr-10"
-                                        autocomplete="new-password" placeholder="Confirm password" />
+                                        autocomplete="new-password"/>
                                     <InputError :message="form.errors.password_confirmation" />
                                     <img :src="PasswordVisibleTwo ? '/image/svg/eye-open.svg' : '/image/svg/eye-close.svg'"
                                         alt="Toggle password visibility"
@@ -251,7 +254,8 @@ const toggleConfirmPasswordTwo = () => {
                             </div>
 
                             <div class="flex items-center gap-4">
-                                <Button :disabled="form.processing" class="border text-nowrap cursor-pointer">儲存</Button>
+                                <Button :disabled="form.processing"
+                                    class="border text-nowrap cursor-pointer">儲存</Button>
 
                                 <Transition enter-active-class="transition ease-in-out" enter-from-class="opacity-0"
                                     leave-active-class="transition ease-in-out" leave-to-class="opacity-0">
@@ -262,7 +266,7 @@ const toggleConfirmPasswordTwo = () => {
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </section>
 </template>

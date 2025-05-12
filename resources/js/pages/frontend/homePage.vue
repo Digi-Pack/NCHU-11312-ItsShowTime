@@ -88,22 +88,35 @@ const handleResize = () => {
   }
 };
 
+
+
+
+// 判斷使用者是否登入
+const isLoggedIn = computed(() => !!props.auth?.user);
+
 // nav menu links
-const menuItems = [
+const menuItems = computed(() => [
   { id: 'portfolio', name: '作品集', href: '#portfolio' },
   { id: 'about', name: '品牌理念', href: '#about' },
   { id: 'method', name: '製作方式', href: '#method' },
   { id: 'product', name: '商品列表', href: '#product' },
   { id: 'contact', name: '聯絡方式', href: '#contact' },
-  { id: 'contact', name: '會員登入', href: 'myprofile' },
-]
+  {
+    id: 'profile',
+    name: isLoggedIn.value ? '我的檔案' : '會員登入',
+    href: isLoggedIn.value ? '/myprofile' : '/login',
+  },
+]);
 
 
 const props = defineProps({
   banners: Array | Object,
   response: Array | Object,
+  auth: Object,
 });
 console.log(props.response);
+
+
 
 // 商品製作點擊按鈕顯示圖片
 const isShowImage = ref(false);

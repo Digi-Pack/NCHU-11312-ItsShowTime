@@ -49,10 +49,11 @@ const toggleMenu = () => {
                 </p>
             </div>
 
-            <div class="flex items-center absolute lg:top-3 lg:right-8 right-2">
+            <div class="flex items-center absolute lg:top-5 lg:right-8 right-2">
                 <div class="hidden lg:flex items-center">
-                    <div class="w-[70px]">
-                        <img src="/image/svg/avatar.svg" alt="avatar" class="w-full h-full" />
+                    <div class="w-[50px] h-[50px] flex items-center mr-2">
+                        <img :src="response.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
+                            class="w-full h-full object-cover rounded-[50px] bg-gray-100" />
                     </div>
                     <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">{{ formattedEmail }}</div>
                 </div>
@@ -84,8 +85,9 @@ const toggleMenu = () => {
 
                 <div class="flex flex-col">
                     <div class="flex mb-8">
-                        <div class="2xl:w-[75px] w-[50px] mr-4">
-                            <img src="/image/svg/avatar-1.svg" alt="" class="w-full h-full" />
+                        <div class="2xl:w-[65px] 2xl:h-[65px] w-[60px] h-[60px] mr-4">
+                            <img :src="response.users_info?.img_path || '/image/svg/avatar-1.svg'" alt="avatar"
+                                class="w-full h-full object-cover rounded-[50px]" />
                         </div>
                         <div class="flex-col font-noto-jp">
                             <div class="text-white xl:text-[24px] mb-2">{{ formattedEmail }}</div>

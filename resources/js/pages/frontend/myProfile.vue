@@ -103,7 +103,7 @@ const toggleEdit = () => {
         });
     }
 
-isEditing.value = !isEditing.value;
+    isEditing.value = !isEditing.value;
 };
 
 
@@ -148,12 +148,14 @@ isEditing.value = !isEditing.value;
                     </p>
                 </div>
 
-                <div class="flex items-center absolute lg:top-3 lg:right-8 right-2">
+                <div class="flex items-center absolute lg:top-5 lg:right-8 right-2">
                     <div class="hidden lg:flex items-center">
-                        <div class="w-[70px] flex items-center">
-                            <!-- <img :src="response.users_info.img_path" alt="avatar" class="w-full h-full" /> -->
-                            <img src="/image/svg/avatar.svg" alt="avatar" class="w-full h-full" />
+                        <div class="w-[50px] h-[50px] flex items-center mr-2">
+                           <img :src="response.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
+                                    class="w-full h-full object-cover rounded-[50px] bg-gray-100" />
                         </div>
+                       
+
 
                         <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">{{ formattedEmail }}</div>
                     </div>
@@ -186,10 +188,9 @@ isEditing.value = !isEditing.value;
 
                     <div class="flex flex-col">
                         <div class="flex mb-8">
-                            <div class="2xl:w-[75px] w-[50px] mr-4">
-
+                            <div class="2xl:w-[65px] 2xl:h-[65px] w-[60px] h-[60px] mr-4">
                                 <img :src="response.users_info?.img_path || '/image/svg/avatar-1.svg'" alt="avatar"
-                                    class="w-full h-full" />
+                                    class="w-full h-full object-cover rounded-[50px]" />
                             </div>
 
                             <div class="flex-col font-noto-jp">
@@ -292,7 +293,8 @@ isEditing.value = !isEditing.value;
                                     <div class="grid grid-cols-5 gap-8 items-center lg:text-[24px]">
                                         <div class="col-span-2 text-right">生日</div>
                                         <div class="col-span-3">
-                                            <span v-if="!isEditing">{{ response.users_info?.birthday?.split('-').join('/') }}</span>
+                                            <span v-if="!isEditing">{{
+                                                response.users_info?.birthday?.split('-').join('/') }}</span>
                                             <input v-else v-model="birthday" type="date"
                                                 class="w-2/3 px-4 py-2 border border-gray-300 rounded" />
                                         </div>

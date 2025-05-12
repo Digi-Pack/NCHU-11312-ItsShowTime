@@ -96,6 +96,9 @@ class ItsshowtimeController extends Controller
         return Inertia::render('frontend/homePage', [
             'banners' => $banners,
             'response' => $products,
+            'auth' => [
+                'user' => Auth::user(),
+            ]
         ]);
     }
 
@@ -229,11 +232,19 @@ class ItsshowtimeController extends Controller
 
     public function password()
     {
-        return Inertia::render('frontend/passwordChange', []);
+        $user = User::with('usersInfo')->findOrFail(Auth::id());
+
+        return Inertia::render('frontend/passwordChange', [
+            'response' => $user,
+        ]);
     }
 
     public function history()
     {
-        return Inertia::render('frontend/inquireHistory', []);
+        $user = User::with('usersInfo')->findOrFail(Auth::id());
+
+        return Inertia::render('frontend/inquireHistory', [
+            'response' => $user,
+        ]);
     }
 }

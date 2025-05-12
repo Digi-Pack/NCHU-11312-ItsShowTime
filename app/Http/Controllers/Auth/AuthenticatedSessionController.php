@@ -33,6 +33,16 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
         // dd(Auth::user());
+
+         $item = Auth::user();
+
+        if ($item->role !== 1) {
+            return redirect()->route('home');
+        } 
+        else {
+            return redirect()->route('dashboard');
+        };
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 
@@ -46,6 +56,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        
         return redirect('/');
     }
 }

@@ -29,14 +29,9 @@ Route::prefix('/')->group(function () {
 // , 'user.name'
 Route::middleware(['auth'])->prefix('/')->group(function () {
 
-    Route::get('/myprofile', [ItsshowtimeController::class, 'myProfile'])->middleware('auth')->name('myprofile');
-    // Route::get('/myprofile', [ItsshowtimeController::class, 'myprofile'])->name('myprofile');
+    Route::get('/myprofile', [ItsshowtimeController::class, 'myProfile'])->name('myprofile');
 
     Route::put('/updateprofile', [UserController::class, 'updateProfile'])->name('updateprofile');
-
-
-// Route::post('/updateProfileImage', [UserController::class, 'updateProfileImage'])->name('updateProfileImage');
-
 
     Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
 
