@@ -7,7 +7,7 @@ import { Link, usePage } from '@inertiajs/vue3';
 
 const sidebarNavItems: NavItem[] = [
   {
-    title: '個人資訊',
+    title: '個人資料',
     href: '/settings/profile',
   },
   {
@@ -27,7 +27,7 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
 
 <template>
   <div class="px-4 py-6">
-    <Heading title="設定" description="管理您的個人資料和帳戶設置" />
+    <Heading title="設定" description="管理您的個人資料和帳號設置" />
 
     <div class="flex flex-col space-y-8 md:space-y-0 lg:flex-row lg:space-x-12 lg:space-y-0">
       <aside class="w-full max-w-xl lg:w-48">

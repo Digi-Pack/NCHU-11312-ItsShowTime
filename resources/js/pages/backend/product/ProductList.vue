@@ -36,7 +36,7 @@ const settingBtn = () => router.get(route('admin.productSpec', { id: 1 }));
     <Head title="商品管理" />
 
     <div class="p-4">
-      <button class="border border-black rounded-sm px-3 py-2 hover:bg-slate-300" type="button" @click="addBtn">
+      <button class="border border-black rounded-sm px-3 py-2 hover:bg-blue-200" type="button" @click="addBtn">
         新增商品
       </button>
       <button class="border border-black rounded-sm ml-3 px-3 py-2 hover:bg-blue-200" type="button" @click="settingBtn">

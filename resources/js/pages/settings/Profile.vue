@@ -42,11 +42,11 @@ const submit = () => {
 
 <template>
   <AppLayout :breadcrumbs="breadcrumbs">
-    <Head title="Profile settings" />
+    <Head title="個人資料設定" />
 
     <SettingsLayout>
       <div class="flex flex-col space-y-6">
-        <HeadingSmall title="個人資訊" description="更新您的姓名和電子信箱" />
+        <HeadingSmall title="個人資料" description="更新您的姓名和電子信箱" />
 
         <form @submit.prevent="submit" class="space-y-6">
           <div class="grid gap-2">

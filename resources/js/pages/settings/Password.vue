@@ -52,7 +52,7 @@ const updatePassword = () => {
 
 <template>
   <AppLayout :breadcrumbs="breadcrumbItems">
-    <Head title="Password settings" />
+    <Head title="密碼設定" />
 
     <SettingsLayout>
       <div class="space-y-6">

@@ -73,8 +73,8 @@ const backBtn = () => router.get(route('admin.banner.list'));
         </div> -->
       </section>
       <section class="flex justify-between mt-3">
-        <button class="border border-black px-4 py-2 rounded-sm" type="button" @click="backBtn">返回</button>
-        <button class="border border-black px-4 py-2 rounded-sm" type="button" @click="useAlert('確定要儲存嗎?', submit)">
+        <button class="border border-black px-4 py-2 rounded-sm hover:bg-slate-300" type="button" @click="backBtn">返回</button>
+        <button class="border border-black px-4 py-2 rounded-sm hover:bg-green-300" type="button" @click="useAlert('確定要儲存嗎?', submit)">
           更新資料
         </button>
       </section>

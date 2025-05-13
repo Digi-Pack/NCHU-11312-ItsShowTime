@@ -5,6 +5,17 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { useAlert } from '@/lib/useAlert';
 import { flashMessage } from '@/lib/flashMessage';
 
+const breadcrumbItems = [
+  {
+    title: '詢價單管理',
+    href: route('admin.inquiry.list'),
+  },
+  {
+    title: '查看詳細資訊',
+    href: 'admin/inquiry/edit/{id}',
+  },
+];
+
 const props = defineProps({
   response: Array | Object,
 });
@@ -57,7 +68,7 @@ const backBtn = () => router.get(route('admin.inquiry.list'));
 </script>
 
 <template>
-  <AppLayout>
+  <AppLayout :breadcrumbs="breadcrumbItems">
     <div class="w-full p-4">
       <!-- 個人資料 -->
       <div>
@@ -118,12 +129,12 @@ const backBtn = () => router.get(route('admin.inquiry.list'));
 
       <!-- 按鈕 -->
       <div class="w-[755px] flex justify-between">
-        <button class="border border-black px-6 py-1 rounded-sm hover:bg-gray-300" type="button" @click="backBtn">
+        <button class="border border-black px-6 py-2 rounded-sm hover:bg-gray-300" type="button" @click="backBtn">
           取消
         </button>
-        <button class="border border-black px-6 py-1 rounded-sm hover:bg-blue-300" type="button"
-          @click="useAlert('確定要儲存嗎?', submit)">
-          儲存
+        <button class="border border-black px-6 py-2 rounded-sm hover:bg-red-200" type="button"
+          @click="useAlert('確定要回覆嗎?', submit)">
+          回覆
         </button>
       </div>
 

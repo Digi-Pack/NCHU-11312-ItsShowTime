@@ -2,18 +2,17 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
-    title: 'Dashboard',
+    title: '後台首頁',
     href: '/dashboard',
   },
 ];
 </script>
 
 <template>
-  <Head title="Dashboard" />
+  <Head title="後台首頁" />
 
   <AppLayout :breadcrumbs="breadcrumbs">
     <div class="h-full font-sans flex justify-center items-center text-[60px] font-bold tracking-widest">

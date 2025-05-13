@@ -175,10 +175,10 @@ const backBtn = () => router.get(route('admin.product.list'));
       </div>
 
       <div class="max-w-[1000px] flex justify-between mt-4">
-        <button class="border border-black px-4 py-1 rounded-sm" type="button" @click="backBtn">
+        <button class="border border-black px-4 py-2 rounded-sm hover:bg-slate-300" type="button" @click="backBtn">
           返回
         </button>
-        <button class="border border-black px-4 py-1 rounded-sm" type="button" @click="useAlert('確定要儲存嗎?', submit)">
+        <button class="border border-black px-4 py-2 rounded-sm hover:bg-blue-200" type="button" @click="useAlert('確定要儲存嗎?', submit)">
           新增資料
         </button>
       </div>
