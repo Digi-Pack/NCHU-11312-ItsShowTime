@@ -157,12 +157,12 @@ const toggleMenu = () => {
 
                     <div v-if="inquiries.length > 0">
                         <div v-for="(inquiry, index) in inquiries" :key="index"
-                            class="hidden xl:flex items-center mb-8 px-6">
+                            class="hidden xl:flex items-center px-6">
                             <div v-if="inquiry.order_lists && inquiry.order_lists.length > 0"
-                                class="flex items-center flex-1">
+                                class="flex items-center flex-1 flex-wrap">
 
                                 <div v-for="(order, orderIndex) in inquiry.order_lists" :key="orderIndex"
-                                    class="flex items-center flex-1">
+                                    class="w-full flex items-center mb-8">
                                     <div class="flex items-center flex-1">
                                         <img :src="productImg[0]?.first_img?.img_path" alt="商品圖"
                                             class="w-[96px] h-auto mr-4 rounded-sm" />
