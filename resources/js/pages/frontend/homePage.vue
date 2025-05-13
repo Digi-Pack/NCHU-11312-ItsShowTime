@@ -591,7 +591,7 @@ onUnmounted(() => {
       <div ref="modalContainer"
         class="more-container relative min-[1200px]:w-[1110px] w-[97%] overflow-y-auto h-full bg-[#2F2F2F] text-white mx-auto z-50"
         @click.stop>
-        <button type="button" class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2"
+        <button type="button" class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2 hover:bg-white/80 hover:text-[#2F2F2F]"
           @click="hideModal">
           <i class="fa-solid fa-xmark text-5xl"></i>
         </button>

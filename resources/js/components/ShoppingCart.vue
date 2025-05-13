@@ -76,7 +76,6 @@ const handleSlideChange = () => {
 // 商品圖片列表
 const images = item.images.map(path => path.img_path);
 
-console.log(item);
 
 // 圖片加載錯誤處理
 const handleImageError = (e) => {
@@ -159,7 +158,7 @@ const handleAddToCart = () => {
     <div class="w-full min-h-screen flex justify-center items-center bg-black/50 p-4">
         <div class="relative text-white p-4 md:p-8 w-full lg:w-[80%] 2xl:w-[60%] bg-black rounded-xl" @click.stop>
             <button type="button"
-                class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2 mb-7"
+                class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2 mb-7 hover:bg-white/80 hover:text-[#2F2F2F]"
                 @click="hideModal">
                 <i class="fa-solid fa-xmark text-5xl"></i>
             </button>
