@@ -328,10 +328,6 @@ class ProductController extends Controller
                 'colors' =>  'array',
                 'types' =>  'array',
                 'sizes' =>  'array',
-                // 'mainImg_file' => 'file|mimes:jpg,jpeg,png,webp',
-                // 'subImg_files' => 'array|max:4',
-                // 'subImg_files.*' => 'file|mimes:jpg,jpeg,png,webp',
-                'introduction' => 'string',
 
                 'new_mainFile' => $request->hasFile('new_mainFile') ? 'file|mimes:jpg,jpeg,png,webp' : '',
                 'new_subFiles' => $request->hasFile('new_subFiles') ? 'array|max:4' : '',
