@@ -91,8 +91,7 @@ Route::middleware(['auth', 'allUser'])->prefix('admin/productSpec')->group(funct
 Route::middleware(['auth', 'allUser'])->prefix('admin/inquiry')->group(function () {
   Route::get('/', [InquiryController::class, 'index'])->name('admin.inquiry.list');
 
-  // 儲存前端送來的資料
-  Route::post('/', [InquiryController::class, 'store'])->name('admin.inquiry.store');
+
 
   // 後台詢價詳細頁面
   Route::get('/edit/{id}', [InquiryController::class, 'edit'])->name('admin.inquiry.edit');
@@ -100,3 +99,6 @@ Route::middleware(['auth', 'allUser'])->prefix('admin/inquiry')->group(function 
   // 傳送信件給客人
   Route::put('/update/{id}', [InquiryController::class, 'update'])->name('admin.inquiry.update');
 });
+
+  // 儲存前端送來的資料
+  Route::post('/', [InquiryController::class, 'store'])->name('admin.inquiry.store');
