@@ -3,7 +3,7 @@ import BannerSwiper from '@/components/BannerSwiper.vue';
 import DetailSwiper from '@/components/DetailSwiper.vue';
 import FrontendLayout from '@/layouts/FrontendLayout.vue';
 
-import { ref, computed, onMounted, onUnmounted, onBeforeUnmount, watch, nextTick } from 'vue'
+import { ref, computed, onMounted, onUnmounted, onBeforeUnmount, watch, nextTick, defineProps } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 
 
@@ -88,6 +88,19 @@ const handleResize = () => {
   }
 };
 
+
+const props = defineProps({
+  banners: Array | Object,
+  response: Array | Object,
+  auth: Object,
+});
+console.log(props.response);
+
+
+// 判斷會員是否登入判斷
+const isLoggedIn = computed(() => !!props.auth?.user);
+
+
 // nav menu links
 const menuItems = [
   { id: 'portfolio', name: '作品集', href: '#portfolio' },
@@ -95,15 +108,15 @@ const menuItems = [
   { id: 'method', name: '製作方式', href: '#method' },
   { id: 'product', name: '商品列表', href: '#product' },
   { id: 'contact', name: '聯絡方式', href: '#contact' },
-  { id: 'contact', name: '會員登入', href: 'myprofile' },
-]
+  {
+    id: 'profile',
+    name: isLoggedIn.value ? '我的檔案' : '會員登入',
+    href: isLoggedIn.value ? '/myprofile' : '/login',
+  },
+
+];
 
 
-const props = defineProps({
-  banners: Array | Object,
-  response: Array | Object,
-});
-console.log(props.response);
 
 // 商品製作點擊按鈕顯示圖片
 const isShowImage = ref(false);
@@ -236,7 +249,7 @@ onUnmounted(() => {
           </p>
         </div>
       </div>
-      <div 
+      <div
         :class="[isFixed ? 'max-w-[1903px] mx-auto fixed top-[40px] left-0 right-0 shadow-[0px_4px_8px_0px_rgba(0,0,0,0.1)] z-10 bg-white' : ' ']">
         <div
           :class="[isFixed ? 'justify-between 2xl:px-[200px] lg:px-[100px] px-5 py-[10px]' : 'mt-[40px] min-[577px]:h-[363px]']"
