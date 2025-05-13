@@ -30,7 +30,6 @@ const { response, auth } = defineProps({
     response: Array | Object,
     auth: Array | Object,
 });
-// console.log(response);
 
 const isLoggedIn = computed(() => !!auth?.user);
 
@@ -285,7 +284,6 @@ const addToCart = () => {
     const item = currentItem.value;
 
     if (!item) {
-        console.log('選擇的商品無效');
         return;
     }
 
@@ -320,8 +318,6 @@ const addToCart = () => {
         // 新增
         updateShoppingCart.value.push(newData);
     }
-
-    console.log(updateShoppingCart.value);
 
     // 儲存選擇的規格到 selectedSpecs
     selectedSpecs.value[item.uid] = {
@@ -397,7 +393,6 @@ const remark = ref('');
 const products = ref([]);
 
 const handleSubmit = () => {
-    console.log(selectProducts.value);
 
     if (username.value === "") {
         Swal.fire("姓名欄位必填！請填寫您的姓名");
@@ -483,7 +478,6 @@ const addProductItem = (id, index) => {
     const product = selectProducts.value[index];
 
     if (!product || product.id !== id) {
-        console.warn(`找不到對應 index=${index} 的產品`);
         return;
     }
 

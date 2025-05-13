@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('inquiry_id')->comment('詢價清單id');
             $table->string('product')->comment('商品名稱');
-            $table->string('color')->comment('顏色');
-            $table->string('type')->comment('款式');
-            $table->string('size')->comment('尺寸');
+            $table->string('color')->nullable()->comment('顏色');
+            $table->string('type')->nullable()->comment('款式');
+            $table->string('size')->nullable()->comment('尺寸');
             $table->unsignedSmallInteger('quantity')->comment('數量');
             $table->timestamps();
         });
