@@ -20,8 +20,10 @@ const props = defineProps({
   response: Array | Object,
 });
 
+// 這邊要改
 const isReplyLocked = computed(() => {
-  return props.response?.reply_mail_sent || props.response?.cancel_mail_sent;
+  return (props.response?.reply_mail_sent && item.value.status === 1) ||
+         (props.response?.cancel_mail_sent && item.value.status === 2);
 });
 
 const formatDate = (datetime) => {
