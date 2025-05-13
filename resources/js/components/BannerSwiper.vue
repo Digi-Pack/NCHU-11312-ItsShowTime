@@ -143,7 +143,7 @@ onMounted(() => {
       <div class="absolute inset-0 bg-cover bg-center blur-sm brightness-50"
         :style="{ backgroundImage: `url(${slides[index].img_path})` }"></div>
       <div class="relative w-full h-full flex justify-center items-center">
-        <img :src="slides[index].img_path" class="md:h-full h-[50%] object-contain" alt="">
+        <img :src="slides[index].img_path" class="md:h-full h-[50%] object-contain" :alt="slides[index].img_name">
         <div class="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2">
           <span v-for="(char, charIndex) in chars" :key="charIndex" 
             :ref="el => charRefs[index][charIndex] = el"

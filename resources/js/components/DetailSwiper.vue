@@ -56,7 +56,7 @@ const props = defineProps({
     :modules="modules" class="detailThumbsSwiper min-[769px]:order-0 order-1">
 
     <swiper-slide v-for="(item, index) in props.images" :key="index">
-      <img :src="item?.img_path" alt="">
+      <img :src="item?.img_path" :alt="item?.img_name">
     </swiper-slide>
 
   </swiper>
@@ -67,7 +67,7 @@ const props = defineProps({
     class="detailMainSwiper min-[769px]:order-1 order-0">
 
     <swiper-slide v-for="(item, index) in props.images" :key="index">
-      <img :src="item?.img_path" alt="">
+      <img :src="item?.img_path" :alt="item?.img_name">
     </swiper-slide>
 
   </swiper>
