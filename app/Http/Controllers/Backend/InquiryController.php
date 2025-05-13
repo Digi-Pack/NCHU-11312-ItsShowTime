@@ -38,7 +38,7 @@ class InquiryController extends Controller
             ]);
 
             $user = User::where('email', $request->email)->first();
-// dd($request->all());
+
             $res = 'success';
             $message = '詢價單已成功送出！';
 
@@ -52,7 +52,6 @@ class InquiryController extends Controller
             ]);
 
             foreach ($request->products as $product) {
-                // dd($product);
                 OrderList::create([
                     'product_id' => $product['id'],
                     'inquiry_id' => $inquiry->id,
