@@ -47,7 +47,6 @@ const props = defineProps({
   types: { type: Object },
   sizes: { type: Object },
 });
-console.log(props.response);
 
 
 const item = ref({

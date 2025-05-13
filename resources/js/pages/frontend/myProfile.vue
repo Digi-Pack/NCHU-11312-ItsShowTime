@@ -8,7 +8,6 @@ import { flashMessage } from '@/lib/flashMessage';
 const props = defineProps({
     response: Object,
 });
-console.log(props.response);
 
 
 const isOpen = ref(false);
@@ -81,18 +80,9 @@ const toggleEdit = () => {
         formData.append('phone', phone.value);
         formData.append('_method', 'put');
 
-
-        for (let pair of formData.entries()) {
-            console.log(pair[0] + ': ' + pair[1]);
-        };
-
         const file = fileInput.value?.files[0];
         if (file) {
             formData.append('img_path', file);
-        };
-
-        if (file) {
-            console.log("Uploaded file:", file);
         };
 
         router.post('/updateprofile', formData, {

@@ -42,6 +42,8 @@ class Inquiry extends Model
 		'remark',
 		'status',
 		'mail_message',
+		'reply_mail_sent',
+		'cancel_mail_sent',
 	];
 
 	public function product()
@@ -53,6 +55,4 @@ class Inquiry extends Model
 	{
 		return $this->hasMany(OrderList::class);
 	}
-
-
 }

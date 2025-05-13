@@ -4,11 +4,6 @@ import { Link, router } from '@inertiajs/vue3'
 import LoadingAnimate from '@/pages/settings/animate.vue';
 
 
-
-// const props = defineProps({
-//     response: Object,
-// });
-// console.log(props.response);
 const props = defineProps({
     response: {
         type: Object,
@@ -19,19 +14,10 @@ const props = defineProps({
 // 從 response 中解構出 user 和 inquiries
 const { user, inquiries, productImg } = props.response;
 
-//console.log(user);  // 用來檢查 user 資料
-//console.log(inquiries);  // 用來檢查 inquiries 資料
-console.log(productImg[0]?.first_img?.img_path);  // 用來檢查 inquiries 資料
-
-
-
 const email = ref(user?.email || '');
 const formattedEmail = computed(() => {
     return email.value.replace(/@gmail\.com$/, '');
 });
-
-
-
 
 
 const isOpen = ref(false)
@@ -40,7 +26,6 @@ const toggleMenu = () => {
     isOpen.value = !isOpen.value
     document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
 }
-
 </script>
 
 

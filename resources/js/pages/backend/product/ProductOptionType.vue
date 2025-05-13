@@ -40,8 +40,7 @@ const editTypeName = (type) => {
 };
 
 const onDragEnd = () => {
-  console.log(sortedList.value);
-  
+
 };
 
 

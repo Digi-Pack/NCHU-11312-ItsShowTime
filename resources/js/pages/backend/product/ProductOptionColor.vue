@@ -40,8 +40,6 @@ const editColorName = (color) => {
 };
 
 const onDragEnd = () => {
-  console.log(sortedList.value);
-
 };
 
 

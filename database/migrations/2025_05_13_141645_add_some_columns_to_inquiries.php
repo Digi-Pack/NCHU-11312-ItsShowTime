@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('inquiries', function (Blueprint $table) {
-            $table->string('address')->comment('地址')->nullable()->after('email');
-            $table->unsignedInteger('status')->default(0)->comment('訂單狀態(0:未回覆，1:已回覆，2:取消)')->after('address');
+            $table->boolean('reply_mail_sent')->default(false)->after('mail_message')->comment('記錄已回覆狀態是否已發送郵件');
+            $table->boolean('cancel_mail_sent')->default(false)->after('reply_mail_sent')->comment('記錄取消狀態是否發送郵件');
         });
     }
 
@@ -23,12 +23,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('inquiries', function (Blueprint $table) {
-            $table->dropColumn('address');
-            // $table->dropColumn('product');
-            // $table->dropColumn('color');
-            // $table->dropColumn('type');
-            // $table->dropColumn('size');
-            $table->dropColumn('status');
+            $table->dropColumn('reply_mail_sent');
+            $table->dropColumn('cancel_mail_sent');
         });
     }
 };

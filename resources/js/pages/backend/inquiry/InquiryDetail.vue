@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useAlert } from '@/lib/useAlert';
@@ -19,7 +19,10 @@ const breadcrumbItems = [
 const props = defineProps({
   response: Array | Object,
 });
-console.log(props.response);
+
+const isReplyLocked = computed(() => {
+  return props.response?.reply_mail_sent || props.response?.cancel_mail_sent;
+});
 
 const formatDate = (datetime) => {
   if (!datetime) return '';
@@ -35,19 +38,17 @@ const formatSpec = (item) => {
 };
 
 const handleReplyInput = () => {
-  // const msg = item.value.replyMailMessage.trim();
-  // item.value.status = msg === '' ? '0' : '1';
   const msg = item.value.replyMailMessage.trim();
 
   // 如果狀態原本是 0（未回覆），輸入文字就自動變成 1（已回覆）
   if (msg !== '' && item.value.status === 0) {
     item.value.status = 1;
-  }
+  };
 
   // 如果文字被清空，且目前狀態是 1（已回覆），則還原成 0（未回覆）
   if (msg === '' && item.value.status === 1) {
     item.value.status = 0;
-  }
+  };
 };
 
 const item = ref({
@@ -56,6 +57,29 @@ const item = ref({
 })
 
 const submit = () => {
+  const status = item.value.status;
+  const msg = item.value.replyMailMessage.trim();
+
+  // 狀態為「未回覆」時不能填寫回覆訊息
+  if (status === 0 && msg !== '') {
+    Swal.fire({
+      icon: "error",
+      title: "狀態為「未回覆」時不能填寫回覆訊息",
+    });
+    item.value.status = 0;
+    return;
+  }
+
+  // 狀態為「已回覆」或「取消」時必須填寫回覆訊息
+  if ((status === 1 || status === 2) && msg === '') {
+    Swal.fire({
+      icon: "error",
+      title: "狀態為「已回覆」或「取消」時必須填寫回覆訊息",
+    });
+    item.value.status = 0;
+    return;
+  }
+
   router.put(route('admin.inquiry.update', props.response.id), item.value, {
     onSuccess: (response) => {
       const result = response?.props?.flash?.message ?? {};
@@ -121,8 +145,8 @@ const backBtn = () => router.get(route('admin.inquiry.list'));
           <div class="w-[750px] h-[200px] flex">
             <p class="whitespace-nowrap">訊息回覆：</p>
             <textarea v-model="item.replyMailMessage"
-              class="flex-1 h-full resize-none border border-gray-400 p-2 rounded-sm"
-              @input="handleReplyInput" :readonly="props.response?.status === 1"></textarea>
+              class="flex-1 h-full resize-none border border-gray-400 p-2 rounded-sm" @input="handleReplyInput"
+              :readonly="isReplyLocked"></textarea>
           </div>
         </div>
       </div>

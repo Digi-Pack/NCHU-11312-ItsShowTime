@@ -72,6 +72,7 @@ class ItsshowtimeController extends Controller
                     return [
                         'id' => $info->image_id,
                         'img_path' => $info->image->img_path,
+                        'img_name' => $info->image->img_name,
                         'isMain' => $info->image->isMain,
                     ];
                 })
@@ -166,6 +167,7 @@ class ItsshowtimeController extends Controller
                     return [
                         'id' => $info->image_id,
                         'img_path' => $info->image->img_path,
+                        'img_name' => $info->image->img_name,
                         'isMain' => $info->image->isMain,
                     ];
                 })

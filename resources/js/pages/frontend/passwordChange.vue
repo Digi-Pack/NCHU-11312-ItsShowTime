@@ -21,8 +21,6 @@ const props = defineProps({
     response: Object,
 });
 
-console.log(props.response);
-
 const email = ref(props.response?.email || '');
 const formattedEmail = computed(() => {
     return email.value.replace(/@gmail\.com$/, '');

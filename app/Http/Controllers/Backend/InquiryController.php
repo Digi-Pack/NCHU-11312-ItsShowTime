@@ -117,26 +117,41 @@ class InquiryController extends Controller
                 ]]);
             };
 
-            $shouldSendMail = in_array($request->status, [1, 2]) && empty($inquiry->mail_message);
-        
-            $inquiry->update([
-                'status'=>  $request->status,
-                'mail_message' =>  $request->replyMailMessage,
-            ]);
+            $shouldSendMail = false;
+            $content = $request->replyMailMessage;
+
+            $updateData = [
+                'status' => $request->status,
+            ];
+
+            // 狀態是「已回覆」且還沒寄
+            if ($request->status == 1 && !$inquiry->reply_mail_sent) {
+                $shouldSendMail = true;
+                $updateData['reply_mail_sent'] = true;
+                $updateData['mail_message'] = $request->replyMailMessage;
+                $content = $request->replyMailMessage;
+            }
+
+            // 狀態是「已取消」且還沒寄
+            elseif ($request->status == 2 && !$inquiry->cancel_mail_sent) {
+                $shouldSendMail = true;
+                $updateData['cancel_mail_sent'] = true;
+                $updateData['mail_message'] = $request->replyMailMessage;
+                $content = '您的詢價已取消，取消原因為：' . $request->replyMailMessage;
+            }
+
+            $inquiry->update($updateData);
 
             if ($shouldSendMail) {
-                Mail::to($inquiry['email'])->send(new InquiryReply($request->replyMailMessage));
-            };
-
+                Mail::to($inquiry['email'])->send(new InquiryReply($content));
+            }
 
             $res = 'success';
-            $message = $shouldSendMail ? '儲存成功（信件已送出）' : '儲存成功（未重新寄送信件）';
-
-
+            $message = $shouldSendMail ? '信件已成功送出' : '未重新寄送信件';
         } catch (\Throwable $th) {
             Log::info($th->getMessage());
             $res = 'fail';
-            $message = $th->getMessage() ?? '儲存失敗(信件未送出)';
+            $message = $th->getMessage() ?? '信件未送出';
         };
 
         return back()->with(['message' => [

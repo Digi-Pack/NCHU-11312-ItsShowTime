@@ -23,12 +23,6 @@ const setThumbsSwiper1 = (swiper) => {
   thumbsSwiper1.value = swiper;
 };
 
-// 下單購買的 thumbsSwiper
-// const thumbsSwiper2 = ref(null);
-// const setThumbsSwiper2 = (swiper) => {
-//   thumbsSwiper2.value = swiper;
-// };
-
 const modules = [FreeMode, Pagination, Navigation, Thumbs, Autoplay];
 
 // nav fixed
@@ -94,7 +88,6 @@ const props = defineProps({
   response: Array | Object,
   auth: Object,
 });
-console.log(props.response);
 
 
 // 判斷會員是否登入判斷
@@ -115,7 +108,6 @@ const menuItems = [
   },
 
 ];
-
 
 
 // 商品製作點擊按鈕顯示圖片
@@ -195,9 +187,7 @@ const addProductId = (productId) => {
   // 確保商品不重複加入詢價
   if (!productIds.value.includes(product.id)) {
     productIds.value.push(product.id);
-    // console.log(`商品ID ${product.id} 已加入詢價`);
   } else {
-    // console.log(`商品ID ${product.id} 已存在於詢價清單中`);
     Swal.fire({
       title: "您已將該商品加入詢價!",
       icon: "success",
@@ -216,7 +206,6 @@ const gotoinquire = (ids) => {
   }
 
   const data = { id: ids };
-  // console.log(data);
   router.get(route('inquirePage'), data);
 };
 
@@ -287,13 +276,13 @@ onUnmounted(() => {
               <!-- menu -->
               <div :class="[isFixed ? ' ' : 'flex flex-col gap-4']">
                 <div :class="[isFixed ? 'hidden' : 'flex items-center gap-[5px]']">
-                  <img src="/image/svg/Polygon 1.svg" alt="">
+                  <img src="/image/svg/Polygon 1.svg" alt="Polygon_icon">
                   <p class="font-noto font-normal leading-[1.2]">Menu</p>
                 </div>
                 <div
                   :class="[isFixed ? 'hidden min-[1201px]:flex gap-6 pl-6' : 'flex flex-wrap min-[577px]:gap-4 gap-x-8 gap-y-4 min-[577px]:pl-4 min-[577px]:flex-col']">
                   <a v-for="item in menuItems" :key="item.id" :href="item.href" class="flex items-center gap-[9px]">
-                    <img src="/image/svg/Arrow 2.svg" alt="">
+                    <img src="/image/svg/Arrow 2.svg" alt="Arrow_icon">
                     <p class="font-normal leading-[1.2]">{{ item.name }}</p>
                   </a>
                 </div>
@@ -306,7 +295,7 @@ onUnmounted(() => {
           class="min-[1201px]:hidden w-full h-[calc(100vh-100px)] flex flex-col justify-center items-center gap-8 text-xl">
           <a v-for="item in menuItems" :key="item.id" :href="item.href" class="flex items-center gap-[9px]"
             @click="closeHamMenu">
-            <img src="/image/svg/Arrow 2.svg" alt="">
+            <img src="/image/svg/Arrow 2.svg" alt="Arrow_icon">
             <p class="font-normal leading-[1.2]">{{ item.name }}</p>
           </a>
         </div>
@@ -353,7 +342,7 @@ onUnmounted(() => {
             <div class="flex flex-col sm:flex-row justify-start items-center sm:items-end md:gap-[15px] text-[#444444]">
               <div class="h-[96px] flex items-center">
                 <img class="w-[55.05px] xl:w-[70.78px] xl:h-[35.63px] 2xl:w-[151px] 2xl:h-full"
-                  src="/image/svg/infinity.svg" alt="">
+                  src="/image/svg/infinity.svg" alt="infinity_icon">
               </div>
               <p
                 class="font-pingfang text-nowrap text-[16px] xl:text-[24px] 2xl:text-[30px] font-medium leading-[1.14] tracking-[2.25px] pb-4">
@@ -379,7 +368,7 @@ onUnmounted(() => {
           </p>
         </div>
         <div class="w-full order-0 2xl:order-1">
-          <img class="w-full object-cover" src="/image/2.webp" alt="">
+          <img class="w-full object-cover" src="/image/2.webp" alt="/image/2.webp">
         </div>
       </section>
       <!-- 商品製作 -->
@@ -393,7 +382,7 @@ onUnmounted(() => {
               <div class="w-full flex flex-col justify-center gap-6 min-[1120px]:py-6 py-4">
                 <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">訂製方式</p>
                 <div class="flex items-center min-[769px]:gap-6 gap-3">
-                  <img src="/image/svg/Polygon 1.svg" class="w-6 h-6" alt="">
+                  <img src="/image/svg/Polygon 1.svg" class="w-6 h-6" alt="Polygon_icon">
                   <p
                     class="font-noto-cjk text-[#444444] min-[1501px]:text-[64px] min-[769px]:text-[48px] text-[32px] font-bold leading-[1.2]">
                     設計自己的暴走魂</p>
@@ -442,7 +431,7 @@ onUnmounted(() => {
               <!-- 價目樣式參考表 -->
               <div class="hidden min-[1120px]:flex flex-col gap-6 py-6">
                 <div class="flex min-[769px]:gap-6 gap-3 mb-6">
-                  <img src="/image/svg/Polygon 1.svg" class="w-6 h-6" alt="">
+                  <img src="/image/svg/Polygon 1.svg" class="w-6 h-6" alt="Polygon_icon">
                   <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">
                     價目樣式參考表
                   </p>
@@ -468,7 +457,7 @@ onUnmounted(() => {
                   </button>
                   <a href="#">
                     <div class="h-10 bg-[#FFC051] flex justify-center items-center gap-1 rounded-[8px] px-10 py-2">
-                      <img src="/image/svg/material-symbols_download.svg" alt="">
+                      <img src="/image/svg/material-symbols_download.svg" alt="download_svg">
                       <span
                         class="font-Microsoft text-lg text-[#4D4D4D] font-bold leading-[100%] tracking-[1.35px] text-nowrap">
                         下載模板</span>
@@ -483,19 +472,19 @@ onUnmounted(() => {
                 disableOnInteraction: false
               }" class="process-swiper">
               <swiper-slide>
-                <img src="/image/3-1.webp" alt="" />
+                <img src="/image/3-1.webp" alt="/image/3-1.webp" />
               </swiper-slide>
               <swiper-slide>
-                <img src="/image/3-2.webp" alt="" />
+                <img src="/image/3-2.webp" alt="/image/3-2.webp" />
               </swiper-slide>
               <swiper-slide>
-                <img src="/image/3-3.webp" alt="" />
+                <img src="/image/3-3.webp" alt="/image/3-3.webp" />
               </swiper-slide>
             </swiper>
             <!-- 價目參考樣式(後面) -->
             <div class="w-full flex min-[1120px]:hidden flex-col gap-6 py-6">
               <div class="flex min-[769px]:gap-6 gap-3 mb-6">
-                <img src="/image/svg/Polygon 1.svg" class="w-6 h-6" alt="">
+                <img src="/image/svg/Polygon 1.svg" class="w-6 h-6" alt="Polygon_icon">
                 <p class="font-noto-cjk text-[#7A7A7A] font-normal leading-[1.2]">
                   價目樣式參考表
                 </p>
@@ -521,7 +510,7 @@ onUnmounted(() => {
                 </button>
                 <a href="#">
                   <div class="h-10 bg-[#FFC051] flex justify-center items-center gap-1 rounded-[8px] py-2">
-                    <img src="/image/svg/material-symbols_download.svg" alt="">
+                    <img src="/image/svg/material-symbols_download.svg" alt="download_icon">
                     <span
                       class="font-Microsoft text-lg text-[#4D4D4D] font-bold leading-[100%] tracking-[1.35px] text-nowrap">
                       下載模板</span>
@@ -552,7 +541,7 @@ onUnmounted(() => {
                 <div
                   class="w-full h-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group p-2 cursor-pointer">
                   <div class="relative z-10 group">
-                    <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" alt="">
+                    <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" :alt="product.first_img?.img_name">
                     <div
                       class="absolute inset-0 group-hover:bg-black/50 transition duration-300 rounded-tl-2xl rounded-tr-2xl">
                     </div>
@@ -582,9 +571,9 @@ onUnmounted(() => {
           <div class="w-full flex justify-center">
             <a href="#"
               class="bg-white flex items-center gap-[10px] px-10 py-4 rounded-2xl shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)]">
-              <img src="/image/svg/Shopee_logo.svg" alt="">
+              <img src="/image/svg/Shopee_logo.svg" alt="Shopee_logo">
               <p class="font-noto-cjk text-[#444444] text-lg font-normal leading-[1.5]">蝦皮賣場</p>
-              <img src="/image/svg/icon-arrow.svg" alt="">
+              <img src="/image/svg/icon-arrow.svg" alt="arrow_icon">
             </a>
           </div>
         </div>
@@ -593,7 +582,7 @@ onUnmounted(() => {
     <!-- 商品製作 點擊按鈕出現圖片 -->
     <div v-if="isShowImage" class="w-full fixed bg-black/50 inset-0 z-50" @click="hideImage">
       <div class="w-full absolute inset-0 flex justify-center items-center">
-        <img :src="currentImage" class="w-full xl:w-[808px] lg:w-[900px] z-50" alt="">
+        <img :src="currentImage" class="w-full xl:w-[808px] lg:w-[900px] z-50" :alt="currentImage">
       </div>
     </div>
     <!-- 下單購買 點擊MORE相關資訊 -->
@@ -614,24 +603,6 @@ onUnmounted(() => {
               class="w-full min-[1150px]:w-3/5 flex min-[769px]:flex-row flex-col justify-center min-[641px]:items-center min-[1150px]:gap-6 min-[500px]:gap-[40px] gap-4">
 
               <DetailSwiper :images="selectedProduct.images" :key="selectedProduct.id"></DetailSwiper>
-              <!-- 縮圖 -->
-              <!-- <swiper @swiper="setThumbsSwiper2" :loop="true"
-                :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'" :spaceBetween="windowWidth <= 500 ? 16 : 18"
-                :slidesPerView="'auto'" :freeMode="true" :watchSlidesProgress="true" :modules="modules"
-                class="mySwiper min-[769px]:order-0 order-1">
-                <swiper-slide v-for="(item, index) in selectedProduct.images" :key="index">
-                  <img :src="item?.img_path" alt="">
-                </swiper-slide>
-              </swiper> -->
-              <!-- 大圖 -->
-              <!-- <swiper :loop="true" :spaceBetween="5" :pagination="{
-                type: 'fraction',
-              }" :navigation="true" :thumbs="{ swiper: thumbsSwiper2 }" :modules="modules"
-                class="mySwiper2 min-[769px]:order-1 order-0">
-                <swiper-slide v-for="(item, index) in selectedProduct.images" :key="index">
-                  <img :src="item?.img_path" alt="">
-                </swiper-slide>
-              </swiper> -->
             </div>
             <!-- 右側商品資訊 -->
             <div class="w-full min-[1150px]:w-2/5 flex flex-col gap-4">
@@ -646,7 +617,7 @@ onUnmounted(() => {
               <div class="flex justify-end">
                 <button type="button" class="border border-white rounded-[18px] flex items-center gap-2 px-10 py-3"
                   @click="addProductId(productId)">
-                  <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="" />
+                  <img src="/image/svg/inquiry.svg" class="w-[34px] h-[28px]" alt="inquiry_icon" />
                   <p class="text-white text-2xl font-bold">加入詢價</p>
                 </button>
               </div>
@@ -667,7 +638,7 @@ onUnmounted(() => {
                 <div
                   class="w-full h-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group p-2 cursor-pointer">
                   <div class="relative z-10 group">
-                    <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" alt="">
+                    <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" :alt="product.first_img?.img_name">
                     <div
                       class="absolute inset-0 group-hover:bg-black/50 transition duration-300 rounded-tl-2xl rounded-tr-2xl">
                     </div>
@@ -703,7 +674,7 @@ onUnmounted(() => {
     <button v-if="isLargeScreen && inquiryCount > 0" type="button"
       class="w-[100px] fixed top-60 right-2 z-10 cursor-pointer" @click="gotoinquire(productIds)">
       <div class="relative w-full h-full">
-        <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover" />
+        <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover" alt="shipping-icon"/>
         <p class="absolute top-[19px] right-[79px] translate-x-1/2 -translate-y-1/2 md:text-xl text-[0px] font-bold">
           {{ inquiryCount }}
         </p>
@@ -714,7 +685,7 @@ onUnmounted(() => {
     <Link v-if="!isLargeScreen && inquiryCount > 0" :href="route('inquirePage')"
       class="w-[50px] fixed top-80 left-2 z-10 cursor-pointer" @click="gotoinquire(productIds)">
     <div class="relative w-full h-full">
-      <img src="/image/svg/shipping-cart-small.svg" class="w-full h-full object-cover" />
+      <img src="/image/svg/shipping-cart-small.svg" class="w-full h-full object-cover" alt="shipping-cart-icon"/>
       <p
         class="absolute top-[-2px] right-[3px] translate-x-1/2 -translate-y-1/2 md:text-[0px] min-[476px]:font-bold text-white bg-red-600 rounded-full md:w-0 min-[476px]:w-[24px] w-[18px] md:h-0 min-[476px]:h-[24px] h-[18px] flex justify-center items-center">
         {{ inquiryCount }}
@@ -841,13 +812,6 @@ button {
 }
 
 /* 商品列表swiper */
-/* .product-swiper-container {
-  position: relative;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-} */
-
 .product-swiper {
   width: 100%;
   padding: 4px;
@@ -945,113 +909,6 @@ button {
   transform: scale(1.1);
   transition: transform 0.1s linear;
 }
-
-
-/* more 頁面的 Swiper */
-/* .more-container .swiper {
-  width: auto;
-  height: auto;
-  margin: 0;
-  box-sizing: border-box;
-  cursor: pointer;
-} */
-
-/*.more-container .mySwiper2 {
-  width: 450px;
-  height: auto;
-}
-
-@media (max-width: 640px) {
-  .more-container .mySwiper2 {
-    margin: 0 auto;
-  }
-}
-
-@media (max-width: 499px) {
-  .more-container .mySwiper2 {
-    width: 300px;
-  }
-}
-
-.more-container .mySwiper2 .swiper-slide {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-}
-
-.more-container .mySwiper2 .swiper-slide img {
-  margin: 0 auto;
-  border-radius: 5px;
-  object-fit: contain;
-  object-position: center;
-}
-
-.more-container .mySwiper {
-  display: inline-flex;
-}
-
-.more-container .mySwiper .swiper-wrapper {
-  width: auto;
-}
-
-@media (max-width: 640px) {
-  .more-container .mySwiper .swiper-wrapper {
-    margin-left: 0 !important;
-    margin-right: auto !important;
-  }
-}
-
-.more-container .mySwiper .swiper-slide {
-  width: auto;
-  height: auto;
-}
-
-.more-container .mySwiper .swiper-slide:last-child {
-  margin: 0 !important;
-}
-
-.more-container .mySwiper .swiper-slide img {
-  width: 100px;
-  aspect-ratio: 1;
-  object-fit: contain;
-  object-position: center;
-  border-radius: 3px;
-}
-
-@media (max-width: 640px) {
-  .more-container .mySwiper .swiper-slide img {
-    width: 70px;
-  }
-}
-
-@media (max-width: 499px) {
-  .more-container .mySwiper .swiper-slide img {
-    width: 60px;
-  }
-}
-
-.more-container .mySwiper .swiper-slide-thumb-active {
-  border-radius: 3px;
-  border: 2px solid #FFD83C;
-}
-
-.more-container .swiper-pagination-fraction {
-  position: absolute;
-  left: 85%;
-  right: 0;
-  bottom: 0;
-  background-color: black;
-  width: auto;
-  color: white;
-  padding: 5px 0;
-}
-
-.more-container .swiper-button-next,
-.more-container .swiper-button-prev {
-  color: white;
-} */
 
 /* more 商品列表swiper */
 .more-container .product-swiper-container {
