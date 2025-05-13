@@ -769,13 +769,11 @@ button {
   width: 626.9px;
   height: auto;
   object-fit: contain;
-  border-radius: 6.86px;
 }
 
 @media (max-width: 1200px) {
   .swiper-slide img {
     width: 100%;
-    border-radius: 6.86px;
   }
 }
 
