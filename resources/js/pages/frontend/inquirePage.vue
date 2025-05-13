@@ -214,6 +214,7 @@ const deleteProduct = (productId) => {
         }).then((result) => {
             if (result.isConfirmed) {
                 selectProducts.value.splice(index, 1);
+                updateShoppingCart.value.splice(index, 1);
 
                 // 刪除商品後清空規格選項
                 delete selectedSpecs.value[productId];
@@ -288,6 +289,7 @@ const addToCart = () => {
     const selectedQuantity = handleQuantity.value || 1;
 
     const newData = {
+        uid: item.uid,
         id: item.id,
         product: item.name,
         color: selectedColor,
@@ -296,20 +298,23 @@ const addToCart = () => {
         quantity: selectedQuantity
     };
 
+    // updateShoppingCart.value.push(newData);
+
+
     // 檢查是否已經存在相同 id 的商品
     const existingIndex = updateShoppingCart.value.findIndex(
-        (product) => product.id === item.id
+        (product) => product.uid === item.uid
     );
 
     if (existingIndex !== -1) {
-        // 覆蓋
+        // 覆蓋已存在的項目（根據 uid）
         updateShoppingCart.value[existingIndex] = newData;
     } else {
         // 新增
         updateShoppingCart.value.push(newData);
     }
 
-    // console.log(updateShoppingCart.value);
+    console.log(updateShoppingCart.value);
 
     // 儲存選擇的規格到 selectedSpecs
     selectedSpecs.value[item.uid] = {
@@ -715,16 +720,10 @@ onMounted(() => {
             <div v-if="isFormatOpen && currentItem"
                 class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
                 @click="hideModal">
-                <ShoppingCart 
-                    :hideModal='hideModal'
-                    :item="currentItem"
-                    :selectedSpec="selectedSpecs[currentProductUid]"
-                    @updateColor="handleColorUpdate"
-                    @updateStyle="handleStyleUpdate"
-                    @updateSize="handleSizeUpdate"
-                    @updateQuantity="handleQuantityUpdate"
-                    @addToCart="addToCart"
-                />
+                <ShoppingCart :hideModal='hideModal' :item="currentItem"
+                    :selectedSpec="selectedSpecs[currentProductUid]" @updateColor="handleColorUpdate"
+                    @updateStyle="handleStyleUpdate" @updateSize="handleSizeUpdate"
+                    @updateQuantity="handleQuantityUpdate" @addToCart="addToCart" />
             </div>
 
 
