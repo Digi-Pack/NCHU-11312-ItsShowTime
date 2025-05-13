@@ -13,6 +13,8 @@ const props = defineProps({
 
 // 從 response 中解構出 user 和 inquiries
 const { user, inquiries, productImg } = props.response;
+console.log(productImg);
+
 
 const email = ref(user?.email || '');
 const formattedEmail = computed(() => {
@@ -53,7 +55,7 @@ const toggleMenu = () => {
             
                 <div class="hidden lg:flex items-center">
                     <div class="w-[50px] h-[50px] flex items-center mr-2">
-                        <img :src="user?.users_info?.img_path || '/image/svg/avatar-1.svg'" alt="avatar"
+                        <img :src="user?.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
                             class="w-full h-full object-cover rounded-[50px] bg-gray-100" />
                     </div>
                     <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">{{ formattedEmail }}</div>
@@ -87,7 +89,7 @@ const toggleMenu = () => {
                 <div class="flex flex-col">
                     <div class="flex mb-8">
                         <div class="2xl:w-[65px] 2xl:h-[65px] w-[60px] h-[60px] mr-4">
-                            <img :src="user?.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
+                            <img :src="user?.users_info?.img_path || '/image/svg/avatar-1.svg'" alt="avatar"
                                 class="w-full h-full object-cover rounded-[50px]" />
                         </div>
                         <div class="flex-col font-noto-jp">

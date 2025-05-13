@@ -33,9 +33,11 @@ class ItsshowtimeController extends Controller
                     return [
                         'id' => $info->color_id,
                         'name' => $info->color->color_name,
+                        'sort_order' => $info->color->sort_order,
                     ];
                 })
                 ->unique('id')
+                ->sortBy('sort_order')
                 ->values();
 
             $sizes = $product->productsInfo
@@ -46,9 +48,11 @@ class ItsshowtimeController extends Controller
                     return [
                         'id' => $info->size_id,
                         'name' => $info->size->size_name,
+                        'sort_order' => $info->size->sort_order,
                     ];
                 })
                 ->unique('id')
+                ->sortBy('sort_order')
                 ->values();
 
             $types = $product->productsInfo
@@ -59,9 +63,11 @@ class ItsshowtimeController extends Controller
                     return [
                         'id' => $info->type_id,
                         'name' => $info->type->type_name,
+                        'sort_order' => $info->type->sort_order,
                     ];
                 })
                 ->unique('id')
+                ->sortBy('sort_order')
                 ->values();
 
             $images = $product->productsInfo
