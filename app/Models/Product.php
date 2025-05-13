@@ -28,7 +28,6 @@ class Product extends Model
 
 	protected $fillable = [
 		'name',
-		'img_path',
 		'price',
 		'introduction'
 	];
@@ -61,5 +60,10 @@ class Product extends Model
 	public function inquiries()
 	{
 		return $this->hasMany(Inquiry::class);
+	}
+
+	public function orderLists()
+	{
+		return $this->hasMany(OrderList::class,'product_id');
 	}
 }

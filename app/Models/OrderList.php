@@ -35,6 +35,7 @@ class OrderList extends Model
 
 	protected $fillable = [
 		'inquiry_id',
+		'product_id',
 		'product',
 		'color',
 		'type',
@@ -46,4 +47,13 @@ class OrderList extends Model
 	{
 		return $this->belongsTo(Inquiry::class);
 	}
+
+	// public function product()
+	// {
+	// 	return $this->belongsTo(Product::class, 'product_id');
+	// }
+	public function product()
+{
+    return $this->belongsTo(Product::class);
+}
 }

@@ -45,7 +45,7 @@ const toggleMenu = () => {
 
 
 <template>
- 
+
     <nav class="w-full relative z-40 bg-white">
         <div class="h-10 bg-[#801302] px-2"></div>
 
@@ -178,8 +178,8 @@ const toggleMenu = () => {
                                 <div v-for="(order, orderIndex) in inquiry.order_lists" :key="orderIndex"
                                     class="flex items-center flex-1">
                                     <div class="flex items-center flex-1">
-                                        <img src="/image/4-4.webp" alt="商品圖"
-                                            class="w-[96px] h-auto mr-4 rounded-tl-2xl rounded-tr-2xl" />
+                                        <!-- <img v-if="order.img_path" :src="order.img_path" alt="商品圖"
+                                            class="w-[96px] h-auto mr-4 rounded-tl-2xl rounded-tr-2xl" /> -->
                                         <p>{{ order.product }}</p>
                                     </div>
 
@@ -197,7 +197,8 @@ const toggleMenu = () => {
                         </div>
                     </div>
 
-                    <div v-else class="hidden xl:flex justify-center text-center w-full text-lg font-bold text-[#B41900]">
+                    <div v-else
+                        class="hidden xl:flex justify-center text-center w-full text-lg font-bold text-[#B41900]">
                         <p>目前沒有訂單資料</p>
                     </div>
 
@@ -207,16 +208,14 @@ const toggleMenu = () => {
                             <div v-for="(inquiry, index) in inquiries" :key="index"
                                 class="rounded-xl overflow-hidden shadow bg-white">
                                 <div class="flex flex-col sm:flex-row">
-            
+
                                     <div class="sm:w-[40%] w-full">
                                         <img src="/image/4-4.webp" alt="商品圖" class="w-full h-full object-cover" />
                                     </div>
 
-                            
                                     <div class="p-4 sm:w-[60%] space-y-1">
-                        
                                         <p class="font-bold leading-snug">
-                            
+
                                             <span v-for="(order, orderIndex) in inquiry.order_lists" :key="orderIndex">
                                                 {{ order.product }}
                                             </span>
@@ -230,7 +229,7 @@ const toggleMenu = () => {
                                             <span v-if="order.quantity">{{ order.quantity }} 件</span>
                                         </p>
 
-                                        <p class="text-[#B41900]">待確認</p> 
+                                        <p class="text-[#B41900]">待確認</p>
                                     </div>
                                 </div>
                             </div>
@@ -240,6 +239,8 @@ const toggleMenu = () => {
                             <p>目前沒有訂單資料</p>
                         </div>
                     </div>
+
+
                     <!-- 
                     <div class="xl:hidden flex flex-col gap-4 mb-8 px-2">
                         <div class="rounded-xl overflow-hidden shadow bg-white">

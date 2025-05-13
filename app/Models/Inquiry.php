@@ -34,6 +34,7 @@ class Inquiry extends Model
 	];
 
 	protected $fillable = [
+		'user_id',
 		'name',
 		'email',
 		'phone',

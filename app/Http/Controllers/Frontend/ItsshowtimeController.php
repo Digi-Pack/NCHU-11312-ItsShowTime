@@ -214,29 +214,37 @@ class ItsshowtimeController extends Controller
         ]);
     }
 
+
+
     // public function history()
     // {
+    //     $user = User::with('usersInfo')->findOrFail(Auth::id());
+    //     $inquiries = Inquiry::with('orderLists','product')->where('user_id', $user->id)->get();
 
-    //     $user = User::with('usersInfo', 'inquiries')->findOrFail(Auth::id());
+    //     $response = [
+    //         'user' => $user,
+    //         'inquiries' => $inquiries,
+    //     ];
+
     //     return Inertia::render('frontend/inquireHistory', [
-    //         'response' => $user,
+    //         'response' => $response,
     //     ]);
     // }
 
     public function history()
-{
-    $user = User::with('usersInfo')->findOrFail(Auth::id());
-    $inquiries = Inquiry::with('orderLists')->where('user_id', $user->id)->get();
+    {
+        $user = User::with('usersInfo')->findOrFail(Auth::id());
 
-    $response = [
-        'user' => $user,
-        'inquiries' => $inquiries,
-    ];
+        $inquiries = Inquiry::with('orderLists', 'product.productsinfo')->where('user_id', $user->id)->get();
 
-    return Inertia::render('frontend/inquireHistory', [
-        'response' => $response,
-    ]);
+        $response = [
+            'user' => $user,
+            'inquiries' => $inquiries,
+        ];
+
+        return Inertia::render('frontend/inquireHistory', [
+            'response' => $response,
+        ]);
+    }
+   
 }
-}
-
-
