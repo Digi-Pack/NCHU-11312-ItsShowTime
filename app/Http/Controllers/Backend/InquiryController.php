@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Mail\InquiryConfirmation;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Mail;
 
 class InquiryController extends Controller
@@ -36,11 +37,13 @@ class InquiryController extends Controller
                 'products' => 'required|array',
             ]);
 
-
+            $user = User::where('email', $request->email)->first();
+// dd($request->all());
             $res = 'success';
             $message = '詢價單已成功送出！';
 
             $inquiry = Inquiry::create([
+                'user_id' => $user->id,
                 'name' =>  $request->username,
                 'phone' =>  $request->phone,
                 'email' =>  $request->email,
@@ -51,6 +54,7 @@ class InquiryController extends Controller
             foreach ($request->products as $product) {
                 // dd($product);
                 OrderList::create([
+                    'product_id' => $product['id'],
                     'inquiry_id' => $inquiry->id,
                     'product' => $product['product'],  // product_name
                     'color' => $product['color'],
