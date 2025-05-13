@@ -53,7 +53,7 @@ const toggleMenu = () => {
             
                 <div class="hidden lg:flex items-center">
                     <div class="w-[50px] h-[50px] flex items-center mr-2">
-                        <img :src="user?.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
+                        <img :src="user?.users_info?.img_path || '/image/svg/avatar-1.svg'" alt="avatar"
                             class="w-full h-full object-cover rounded-[50px] bg-gray-100" />
                     </div>
                     <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">{{ formattedEmail }}</div>
