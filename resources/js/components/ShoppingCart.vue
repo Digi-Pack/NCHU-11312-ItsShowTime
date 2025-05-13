@@ -180,13 +180,24 @@ const handleAddToCart = () => {
                         </div>
                         <!-- 縮圖垂直排列在左側 -->
                         <div class="flex flex-col justify-center order-2 md:order-1">
-                            <Swiper :loop="true" :modules="[FreeMode, Thumbs]"
+                            <Swiper 
+                                :loop="true"
+                                :modules="[FreeMode, Thumbs]"
                                 :direction="screenWidth < 768 ? 'horizontal' : 'vertical'"
-                                :slides-per-view="screenWidth < 768 ? 4 : 5" :space-between="10" :free-mode="true"
-                                watch-slides-progress class="w-60 h-15 md:w-20 md:h-full max-h-[250px] md:max-h-[400px]"
-                                @swiper="(swiper) => updateThumbsSwiper = swiper">
-                                <SwiperSlide class="h-16" v-for="(img, i) in images" :key="'thumb-' + i"
-                                    @click="setActiveThumb(i)">
+                                :slides-per-view="screenWidth < 768 ? 4 : 5" 
+                                :space-between="10" :slidesPerView="'auto'"
+                                :free-mode="false" 
+                                watch-slides-progress
+                                class="w-60 h-15 md:w-20 md:h-full max-h-[250px] md:max-h-[400px]"
+                                @swiper="updateThumbsSwiper"
+                            >
+                                <SwiperSlide 
+                                    class="h-16" 
+                                    v-for="(img, i) in images" 
+                                    :key="'thumb-' + i"
+                                    @click="setActiveThumb(i)"
+                                    :style="{ height: screenWidth < 768 ? '40px' : '72px', width: screenWidth < 768 ? '40px' : '80px' }"
+                                >
                                     <img :src="img" @error="handleImageError"
                                         class="w-full h-full object-cover cursor-pointer rounded border"
                                         :class="{ 'border-yellow-400 border-2': i === thumbsIndex }" loading="lazy"
@@ -197,7 +208,7 @@ const handleAddToCart = () => {
                     </div>
                 </div>
                 <!-- 右側商品資訊 -->
-                <div class="w-full lg:w-1/2 flex flex-col gap-3 mr-10">
+                <div class="w-full md:w-[60%] lg:w-1/2 flex flex-col gap-3 mr-10">
                     <div class="text-xl font-medium">{{ item?.name }}</div>
                     <hr class="border">
                     <div class="text-2xl text-[#C89E51] font-bold">{{ item?.price }}</div>
