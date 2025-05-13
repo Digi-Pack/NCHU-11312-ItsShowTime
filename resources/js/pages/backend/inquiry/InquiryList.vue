@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue';
 import { router } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue';
 

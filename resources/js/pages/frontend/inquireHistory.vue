@@ -16,11 +16,12 @@ const props = defineProps({
     },
 });
 
+// 從 response 中解構出 user 和 inquiries
+const { user, inquiries, productImg } = props.response;
 
-const { user, inquiries } = props.response;
-
-console.log(user);
-console.log(inquiries);
+//console.log(user);  // 用來檢查 user 資料
+//console.log(inquiries);  // 用來檢查 inquiries 資料
+console.log(productImg[0]?.first_img?.img_path);  // 用來檢查 inquiries 資料
 
 
 
@@ -178,8 +179,8 @@ const toggleMenu = () => {
                                 <div v-for="(order, orderIndex) in inquiry.order_lists" :key="orderIndex"
                                     class="flex items-center flex-1">
                                     <div class="flex items-center flex-1">
-                                        <!-- <img v-if="order.img_path" :src="order.img_path" alt="商品圖"
-                                            class="w-[96px] h-auto mr-4 rounded-tl-2xl rounded-tr-2xl" /> -->
+                                        <img :src="productImg[0]?.first_img?.img_path" alt="商品圖"
+                                            class="w-[96px] h-auto mr-4 rounded-sm" />
                                         <p>{{ order.product }}</p>
                                     </div>
 
@@ -210,7 +211,7 @@ const toggleMenu = () => {
                                 <div class="flex flex-col sm:flex-row">
 
                                     <div class="sm:w-[40%] w-full">
-                                        <img src="/image/4-4.webp" alt="商品圖" class="w-full h-full object-cover" />
+                                        <img :src="productImg[0]?.first_img?.img_path" alt="商品圖" class="w-full h-full object-cover" />
                                     </div>
 
                                     <div class="p-4 sm:w-[60%] space-y-1">
