@@ -24,6 +24,18 @@ const toggleMenu = () => {
     document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
 }
 
+
+// 把下單購買資料傳過來 , color, type
+const { response } = defineProps({
+    response: Array | Object,
+});
+// console.log(response);
+
+
+// 判斷會員是否登入判斷
+const isLoggedIn = computed(() => !!props.response?.auth?.user);
+
+
 // nav
 const menuItems = [
     { id: 'about', name: '品牌理念', href: 'home' },
@@ -31,7 +43,11 @@ const menuItems = [
     { id: 'method', name: '製作方式', href: 'home' },
     { id: 'product', name: '商品列表', href: 'home' },
     { id: 'contact', name: '聯絡方式', href: 'home' },
-    // { id: 'userlogin', name: '會員登入', href:'userlogin'},
+     {
+    id: 'profile',
+    name: isLoggedIn.value ? '我的檔案' : '會員登入',
+    href: isLoggedIn.value ? '/myprofile' : '/login',
+  },
 ]
 
 const isScrolled = ref(false) // 用來控制是否超過 230px
@@ -53,11 +69,6 @@ onBeforeUnmount(() => {
 })
 
 
-// 把下單購買資料傳過來 , color, type
-const { response } = defineProps({
-    response: Array | Object,
-});
-// console.log(response);
 
 
 // 用新的變數來執行程式並加上uid
