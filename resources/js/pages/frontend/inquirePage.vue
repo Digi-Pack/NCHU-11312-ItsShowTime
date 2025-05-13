@@ -273,7 +273,6 @@ const updateShoppingCart = ref([]);
 
 // 添加到購物車
 const addToCart = () => {
-    // const id = currentProductUid.value - 1;
     const id = currentProductUid.value;
     const item = currentItem.value;
 
@@ -343,7 +342,7 @@ const addToCart = () => {
 // 用來存取當前點擊的該筆資料當中規格選擇的結果
 const selectedSpecs = ref({});
 
-const test = (productId) => {
+const getSelectSpecs = (productId) => {
     const spec = selectedSpecs.value[productId];
     if (spec) {
         // return `${spec.color} / ${spec.style}`;
@@ -364,7 +363,7 @@ const test = (productId) => {
 
 // 在模板中使用的動態格式化函數
 const formatSpecs = (productId) => {
-    const specs = test(productId);
+    const specs = getSelectSpecs(productId);
     const parts = [];
 
     if (specs.color) parts.push(specs.color);
@@ -388,11 +387,6 @@ const email = ref('');
 const address = ref('');
 const remark = ref('');
 const products = ref([]);
-
-// // 正則表達式 regex
-// const phoneRegex = /^[0-9]{10}$/; // 10位數的電話號碼
-// const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/; // email 格式
-// const dateRegex = /^\d{4}-\d{2}-\d{2}$/; // 日期格式 (YYYY-MM-DD)
 
 const handleSubmit = () => {
     console.log(selectProducts.value);
@@ -514,8 +508,16 @@ const insertProductByNameGroup = (arr, newItem) => {
     }
 };
 
+// 檢查當前商品名稱是否為該名稱的最後一筆(判斷只有相同名稱的最後一筆才有新增的按鈕)
+const isLastProductName = (product, index) => {
+    // 找到所有與當前商品名稱相同的商品
+    const sameNameProducts = selectProducts.value.filter(p => p.name === product.name);
+
+    return sameNameProducts.indexOf(product) === sameNameProducts.length - 1;
+}
+
 // 跳轉頁面loading
-const isLoading = ref(false);
+const isLoading = ref(true);
 onMounted(() => {
     setTimeout(() => {
         isLoading.value = false;
@@ -621,9 +623,10 @@ onMounted(() => {
                 <div v-for="(product, index) in selectProducts" :key="index"
                     v-if="selectProducts && selectProducts.length > 0"
                     class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
-                    <button type="button" class="text-white rounded-full" @click="addProductItem(product.id, index)">
+                    <button v-if="isLastProductName(product, index)" type="button" class="text-white rounded-full" @click="addProductItem(product.id, index)">
                         <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="">
                     </button>
+                    <div v-else class="size-8"></div>
                     <div class="flex 2xl:flex-1 items-center ml-4">
                         <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
                             <img class="rounded-tl-md rounded-tr-md" :src="product.first_img.img_path"
@@ -691,7 +694,7 @@ onMounted(() => {
                             </button>
                         </div>
                         <div class="flex justify-center gap-4">
-                            <button type="button" class="text-white rounded-full z-10"
+                            <button v-if="isLastProductName(product, index)" type="button" class="text-white rounded-full z-10"
                                 @click="addProductItem(product.id, index)">
                                 <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="">
                             </button>
