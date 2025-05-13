@@ -76,6 +76,8 @@ const handleSlideChange = () => {
 // 商品圖片列表
 const images = item.images.map(path => path.img_path);
 
+console.log(item);
+
 // 圖片加載錯誤處理
 const handleImageError = (e) => {
     e.target.src = '/image/svg/no_img.svg';
@@ -174,7 +176,7 @@ const handleAddToCart = () => {
                                 @swiper="(swiper) => { mainSwiper = swiper; }" @slideChange="handleSlideChange">
                                 <SwiperSlide v-for="(img, i) in images" :key="'main-' + i">
                                     <img :src="img" @error="handleImageError" class="w-full h-full object-cover rounded"
-                                        loading="lazy" a lt="商品圖片" />
+                                        loading="lazy" :alt="img" />
                                 </SwiperSlide>
                             </Swiper>
                         </div>
@@ -201,7 +203,7 @@ const handleAddToCart = () => {
                                     <img :src="img" @error="handleImageError"
                                         class="w-full h-full object-cover cursor-pointer rounded border"
                                         :class="{ 'border-yellow-400 border-2': i === thumbsIndex }" loading="lazy"
-                                        alt="商品縮圖" />
+                                        :alt="img" />
                                 </SwiperSlide>
                             </Swiper>
                         </div>
@@ -270,7 +272,7 @@ const handleAddToCart = () => {
                         <button type="button"
                             class="py-2 px-6 border rounded-xl flex items-center gap-2 hover:bg-gray-700 transition-colors"
                             @click="handleAddToCart">
-                            <img class="size-[30px]" src="image/svg/ShoppingCartIcon.svg" alt="">
+                            <img class="size-[30px]" src="image/svg/ShoppingCartIcon.svg" alt="ShoppingCartIcon.icon">
                             <span class="text-lg">確認規格</span>
                         </button>
                     </div>

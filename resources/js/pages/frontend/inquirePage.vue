@@ -478,6 +478,7 @@ const addProductItem = (id, index) => {
     const product = selectProducts.value[index];
 
     if (!product || product.id !== id) {
+        console.warn(`找不到對應 index=${index} 的產品`);
         return;
     }
 
@@ -561,7 +562,7 @@ onMounted(() => {
                         ]">
                             <Link :href="route(item.href)" v-for="item in menuItems" :key="item.id" @click="toggleMenu"
                                 class="flex items-center gap-[9px] text-xl ">
-                             <img src="/image/svg/Arrow 2.svg" alt="" />
+                             <img src="/image/svg/Arrow 2.svg" alt="Arrow_2.icon" />
                             <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
                            
                             </Link>
@@ -574,14 +575,14 @@ onMounted(() => {
             <!-- NavBar 1680px以上 -->
             <nav class="hidden min-[1680px]:flex flex-col fixed top-64 2xl:left-16 z-10 font-noto-cjk text-white">
                 <div class="w-[80px] mb-4">
-                    <img src="/image/LOGO-底部有字.webp" class="w-full h-full object-cover">
+                    <img src="/image/LOGO-底部有字.webp" class="w-full h-full object-cover" alt="LOGO-底部有字.icon">
                 </div>
-                <img src="/image/svg/Menu.svg" class="w-full h-full object-cover mb-4">
+                <img src="/image/svg/Menu.svg" class="w-full h-full object-cover mb-4" alt="Menu.icon">
                 <div class="gap-6">
                     <Link :href="route(item.href)" v-for="item in menuItems" :key="item.id"
                         class="flex items-center gap-[9px]" @click="goHome">
                     <p class="font-normal leading-[1.8]">{{ item.name }}</p>
-                    <img src="/image/svg/Arrow.svg" alt="">
+                    <img src="/image/svg/Arrow.svg" alt="Arrow.icon">
                     </Link>
                 </div>
             </nav>
@@ -589,7 +590,7 @@ onMounted(() => {
 
             <!-- Banner -->
             <div class="2xl:w-[821.46px] md:w-[45%] w-[80%] mb-12">
-                <img src="/image/ITS SHOW TIME.webp" class="w-full h-full object-cover">
+                <img src="/image/ITS SHOW TIME.webp" class="w-full h-full object-cover" alt="ITS_SHOW_TIME">
             </div>
             <p
                 class="2xl:w-[493px] font-noto-jp font-bold 2xl:text-[32px] sm:text-[20px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[4px] py-3 px-5 tracking-[-0.08em] text-nowrap">
@@ -628,7 +629,7 @@ onMounted(() => {
                     class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
                     <button v-if="isLastProductName(product, index)" type="button" class="text-white rounded-full"
                         @click="addProductItem(product.id, index)">
-                        <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="">
+                        <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="plus.icon">
                     </button>
                     <div v-else class="size-8"></div>
                     <div class="flex 2xl:flex-1 items-center ml-4">
@@ -655,7 +656,7 @@ onMounted(() => {
                         {{ formatSpecs(product.uid) }}
                         <button v-show="selectedSpecs[product.uid]" type="button"
                             class="flex justify-end cursor-pointer z-10" @click="openModal(product.uid)">
-                            <img class="xl:w-[28px] w-[20px]" src="/image/svg/edit.svg" alt="">
+                            <img class="xl:w-[28px] w-[20px]" src="/image/svg/edit.svg" alt="edit.icon">
                         </button>
                     </div>
 
@@ -668,7 +669,7 @@ onMounted(() => {
                     <div class="flex justify-around xl:w-[200px] w-[120px]">
                         <button type="button" class="flex justify-center xl:mr-2 cursor-pointer"
                             @click="deleteProduct(product.uid)">
-                            <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
+                            <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="trash.icon">
                         </button>
                     </div>
                 </div>
@@ -700,15 +701,15 @@ onMounted(() => {
                         <div class="flex justify-center gap-4">
                             <button v-if="isLastProductName(product, index)" type="button"
                                 class="text-white rounded-full z-10" @click="addProductItem(product.id, index)">
-                                <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="">
+                                <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="plus.icon">
                             </button>
                             <button v-show="selectedSpecs[product.uid]" type="button"
                                 class="flex justify-end cursor-pointer z-10" @click="openModal(product.uid)">
-                                <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="">
+                                <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="edit.icon">
                             </button>
                             <button type="button" class="flex justify-end cursor-pointer z-10"
                                 @click="deleteProduct(product.uid)">
-                                <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="">
+                                <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="trash.icon">
                             </button>
                         </div>
                     </div>
