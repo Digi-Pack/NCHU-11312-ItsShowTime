@@ -1,8 +1,9 @@
 <script setup>
 import BannerSwiper from '@/components/BannerSwiper.vue';
+import DetailSwiper from '@/components/DetailSwiper.vue';
 import FrontendLayout from '@/layouts/FrontendLayout.vue';
 
-import { ref, computed, onMounted, onUnmounted, onBeforeUnmount, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, onBeforeUnmount, watch, nextTick } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 
 
@@ -13,7 +14,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import { FreeMode, Pagination, Navigation, Thumbs, Autoplay } from 'swiper/modules';
-import { gsap } from 'gsap';
+// import { gsap } from 'gsap';
 
 
 // 商品製作的 thumbsSwiper
@@ -21,6 +22,12 @@ const thumbsSwiper1 = ref(null);
 const setThumbsSwiper1 = (swiper) => {
   thumbsSwiper1.value = swiper;
 };
+
+// 下單購買的 thumbsSwiper
+// const thumbsSwiper2 = ref(null);
+// const setThumbsSwiper2 = (swiper) => {
+//   thumbsSwiper2.value = swiper;
+// };
 
 const modules = [FreeMode, Pagination, Navigation, Thumbs, Autoplay];
 
@@ -81,35 +88,22 @@ const handleResize = () => {
   }
 };
 
-
-
-
-// 判斷使用者是否登入
-const isLoggedIn = computed(() => !!props.auth?.user);
-
 // nav menu links
-const menuItems = computed(() => [
+const menuItems = [
   { id: 'portfolio', name: '作品集', href: '#portfolio' },
   { id: 'about', name: '品牌理念', href: '#about' },
   { id: 'method', name: '製作方式', href: '#method' },
   { id: 'product', name: '商品列表', href: '#product' },
   { id: 'contact', name: '聯絡方式', href: '#contact' },
-  {
-    id: 'profile',
-    name: isLoggedIn.value ? '我的檔案' : '會員登入',
-    href: isLoggedIn.value ? '/myprofile' : '/login',
-  },
-]);
+  { id: 'contact', name: '會員登入', href: 'myprofile' },
+]
 
 
 const props = defineProps({
   banners: Array | Object,
   response: Array | Object,
-  auth: Object,
 });
 console.log(props.response);
-
-
 
 // 商品製作點擊按鈕顯示圖片
 const isShowImage = ref(false);
@@ -124,54 +118,43 @@ const hideImage = () => {
   isShowImage.value = false;
 };
 
-
-// 下單購買的 thumbsSwiper
-const thumbsSwiper2 = ref(null);
-// const setThumbsSwiper2 = (swiper) => {
-//   thumbsSwiper2.value = swiper;
-// };
-
-const setThumbsSwiper2 = (swiper) => {
-  if (!thumbsSwiper2.value) {
-    thumbsSwiper2.value = swiper;
-  }
-};
-
 // 點擊MORE出現更多資訊頁面
 const isMoreOpen = ref(false);
-const mainSwiper = ref(null);
 const selectedProduct = ref([]);
+
+const modalContainer = ref(null);
 
 let scrollPosition = 0;
 const openModal = (productId) => {
   selectedProduct.value = props.response.find(product => product.id === productId) || null;
 
+  if (!isMoreOpen.value) {
+    // 禁用body頁面滾動條
+    scrollPosition = window.pageYOffset;
+    document.body.style.top = `-${scrollPosition}px`;
+    // document.body.style.position = 'fixed';
+    document.body.style.overflow = 'hidden';
+  }
+
   isMoreOpen.value = true;
-  // 禁用body頁面滾動條
-  scrollPosition = window.pageYOffset;
-  document.body.style.overflow = 'hidden';
-  document.body.style.position = 'fixed';
-  document.body.style.top = `-${scrollPosition}px`;
 
   nextTick(() => {
-    mainSwiper.value?.slideTo(0, 0);
-    // mainSwiper.value?.slideToLoop(0, 0);
+    if (modalContainer.value) {
+      modalContainer.value.scrollTop = 0;
+    }
   });
-}
+};
 
 const hideModal = () => {
+
   isMoreOpen.value = false;
   document.body.style.overflow = 'auto';
-  document.body.style.position = '';
+  // document.body.style.position = '';
   document.body.style.top = '';
 
   window.scrollTo(0, scrollPosition);
 
-  if (mainSwiper.value) {
-    mainSwiper.value.slideTo(0, 0); 
-    // slideToLoop(0, 0)
-  }
-}
+};
 
 
 // 新增商品ID到購物車
@@ -253,7 +236,7 @@ onUnmounted(() => {
           </p>
         </div>
       </div>
-      <div id="portfolio"
+      <div 
         :class="[isFixed ? 'max-w-[1903px] mx-auto fixed top-[40px] left-0 right-0 shadow-[0px_4px_8px_0px_rgba(0,0,0,0.1)] z-10 bg-white' : ' ']">
         <div
           :class="[isFixed ? 'justify-between 2xl:px-[200px] lg:px-[100px] px-5 py-[10px]' : 'mt-[40px] min-[577px]:h-[363px]']"
@@ -319,7 +302,7 @@ onUnmounted(() => {
     </nav>
     <main class="max-w-[1903px] mx-auto">
       <!-- banner -->
-      <section class="w-full">
+      <section id="portfolio" class="w-full">
         <BannerSwiper :bannerData="props.banners"></BannerSwiper>
       </section>
       <!-- 網站功能簡介 -->
@@ -554,14 +537,14 @@ onUnmounted(() => {
               }" :modules="modules" class="product-swiper">
               <swiper-slide v-for="product in props.response" :key="product.id">
                 <div
-                  class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group p-2 cursor-pointer">
+                  class="w-full h-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group p-2 cursor-pointer">
                   <div class="relative z-10 group">
                     <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" alt="">
                     <div
                       class="absolute inset-0 group-hover:bg-black/50 transition duration-300 rounded-tl-2xl rounded-tr-2xl">
                     </div>
                   </div>
-                  <div class="flex-1 flex flex-col justify-between gap-2 px-2">
+                  <div class="h-full flex flex-col justify-between gap-2 px-2">
                     <p class="font-noto-cjk text-[24px] text-white font-bold leading-[1.2] line-clamp-2">
                       {{ product.name }}
                     </p>
@@ -601,9 +584,9 @@ onUnmounted(() => {
       </div>
     </div>
     <!-- 下單購買 點擊MORE相關資訊 -->
-    <div v-show="isMoreOpen" class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12" @click="hideModal"
+    <div v-if="isMoreOpen" class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12" @click="hideModal"
       :keyup.enter="hideModal">
-      <div
+      <div ref="modalContainer"
         class="more-container relative min-[1200px]:w-[1110px] w-[97%] overflow-y-auto h-full bg-[#2F2F2F] text-white mx-auto z-50"
         @click.stop>
         <button type="button" class="w-14 h-14 absolute top-6 right-6 flex justify-center items-center border-2"
@@ -616,24 +599,26 @@ onUnmounted(() => {
           <div class="flex items-center min-[1150px]:flex-nowrap flex-wrap min-[641px]:gap-6 gap-4">
             <div
               class="w-full min-[1150px]:w-3/5 flex min-[769px]:flex-row flex-col justify-center min-[641px]:items-center min-[1150px]:gap-6 min-[500px]:gap-[40px] gap-4">
+
+              <DetailSwiper :images="selectedProduct.images" :key="selectedProduct.id"></DetailSwiper>
               <!-- 縮圖 -->
-              <swiper @swiper="setThumbsSwiper2" :loop="true"
+              <!-- <swiper @swiper="setThumbsSwiper2" :loop="true"
                 :direction="windowWidth <= 768 ? 'horizontal' : 'vertical'" :spaceBetween="windowWidth <= 500 ? 16 : 18"
                 :slidesPerView="'auto'" :freeMode="true" :watchSlidesProgress="true" :modules="modules"
                 class="mySwiper min-[769px]:order-0 order-1">
                 <swiper-slide v-for="(item, index) in selectedProduct.images" :key="index">
                   <img :src="item?.img_path" alt="">
                 </swiper-slide>
-              </swiper>
+              </swiper> -->
               <!-- 大圖 -->
-              <swiper :loop="true" :spaceBetween="5" :pagination="{
+              <!-- <swiper :loop="true" :spaceBetween="5" :pagination="{
                 type: 'fraction',
               }" :navigation="true" :thumbs="{ swiper: thumbsSwiper2 }" :modules="modules"
                 class="mySwiper2 min-[769px]:order-1 order-0">
                 <swiper-slide v-for="(item, index) in selectedProduct.images" :key="index">
                   <img :src="item?.img_path" alt="">
                 </swiper-slide>
-              </swiper>
+              </swiper> -->
             </div>
             <!-- 右側商品資訊 -->
             <div class="w-full min-[1150px]:w-2/5 flex flex-col gap-4">
@@ -667,7 +652,7 @@ onUnmounted(() => {
               class="product-swiper">
               <swiper-slide v-for="product in props.response" :key="product.id">
                 <div
-                  class="w-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group p-2 cursor-pointer">
+                  class="w-full h-full relative flex flex-col gap-2 shadow-[0px_0px_4px_0px_rgba(0,0,0,0.1)] rounded-tl-2xl rounded-tr-2xl group p-2 cursor-pointer">
                   <div class="relative z-10 group">
                     <img class="rounded-tl-2xl rounded-tr-2xl" :src="product.first_img?.img_path" alt="">
                     <div
@@ -876,10 +861,10 @@ button {
   opacity: 0.2;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {
   .swiper-pagination-bullet {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
     margin: 0 4px !important;
   }
 }
@@ -891,6 +876,7 @@ button {
 
 .product-swiper .swiper-slide {
   width: 490.33px;
+  height: 429.42px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -899,6 +885,20 @@ button {
 @media (max-width: 1535px) {
   .product-swiper .swiper-slide {
     width: 362.67px;
+    height: 306.56px;
+  }
+}
+
+.product-swiper .swiper-slide img {
+  width: 100%;
+  height: 307.83px;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 1535px) {
+  .product-swiper .swiper-slide img {
+    height: 224.97px;
   }
 }
 
@@ -933,16 +933,17 @@ button {
   transition: transform 0.1s linear;
 }
 
+
 /* more 頁面的 Swiper */
-.more-container .swiper {
+/* .more-container .swiper {
   width: auto;
   height: auto;
   margin: 0;
   box-sizing: border-box;
   cursor: pointer;
-}
+} */
 
-.more-container .mySwiper2 {
+/*.more-container .mySwiper2 {
   width: 450px;
   height: auto;
 }
@@ -1037,7 +1038,7 @@ button {
 .more-container .swiper-button-next,
 .more-container .swiper-button-prev {
   color: white;
-}
+} */
 
 /* more 商品列表swiper */
 .more-container .product-swiper-container {

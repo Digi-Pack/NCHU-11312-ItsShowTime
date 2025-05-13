@@ -5,6 +5,13 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { useAlert } from '@/lib/useAlert';
 import { flashMessage } from '@/lib/flashMessage';
 
+const breadcrumbItems = [
+  {
+    title: '商品管理',
+    href: route('admin.product.list'),
+  },
+];
+
 const props = defineProps({ response: Array | Object });
 console.log(props.response);
 
@@ -21,11 +28,13 @@ const deleteSumbit = (id) => {
 };
 
 // 直接去 color 那頁
-const settingBtn = () => router.get(route('admin.productSpec',  { id: 1 }));
+const settingBtn = () => router.get(route('admin.productSpec', { id: 1 }));
 </script>
 
 <template>
-  <AppLayout>
+  <AppLayout :breadcrumbs="breadcrumbItems">
+    <Head title="商品管理" />
+
     <div class="p-4">
       <button class="border border-black rounded-sm px-3 py-2 hover:bg-slate-300" type="button" @click="addBtn">
         新增商品

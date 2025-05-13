@@ -26,9 +26,6 @@ Route::middleware(['auth', 'allUser'])->prefix('admin/banner')->group(function (
 
   Route::get('/', [BannerController::class, 'index'])->name('admin.banner.list');
 
-
-  Route::get('/', [BannerController::class, 'index'])->name('admin.banner.list');
-
   // 新增頁
   Route::get('/create', [BannerController::class, 'create'])->name('admin.banner.create');
 

@@ -7,6 +7,17 @@ import { flashMessage } from '@/lib/flashMessage';
 
 import Editor from '@tinymce/tinymce-vue';
 
+const breadcrumbItems = [
+  {
+    title: '商品管理',
+    href: route('admin.product.list'),
+  },
+  {
+    title: '編輯',
+    href: 'admin/product/edit/{id}',
+  },
+];
+
 // 編輯器初始設定
 const editorInit = {
   height: 400,
@@ -102,7 +113,7 @@ const backBtn = () => router.get(route('admin.product.list'));
 </script>
 
 <template>
-  <AppLayout>
+  <AppLayout :breadcrumbs="breadcrumbItems">
     <section class="flex flex-col gap-1 mb-4 p-4">
 
       <label for="" class="flex gap-2 mb-4">
@@ -146,7 +157,7 @@ const backBtn = () => router.get(route('admin.product.list'));
       </div>
 
       <label for="main-pic" class="flex items-center gap-2">
-        <p>首圖：</p>
+        <p>主要圖片：</p>
         <input id="main-pic" type="file" accept="image/*"
           class="w-[calc(60%-100px)] border border-gray-400 rounded-sm cursor-pointer" @change="putFile">
       </label>
@@ -156,7 +167,7 @@ const backBtn = () => router.get(route('admin.product.list'));
       </div>
 
       <label for="sub-pics" class="flex items-center gap-2">
-        <p>輔助圖：</p>
+        <p>詳細圖片：</p>
         <input id="sub-pics" type="file" accept="image/*" multiple
           class="w-[calc(60%-100px)] border border-gray-400 rounded-sm cursor-pointer" @change="checkFiles">
       </label>

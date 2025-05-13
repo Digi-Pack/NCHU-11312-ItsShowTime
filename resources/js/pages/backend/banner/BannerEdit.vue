@@ -5,6 +5,17 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { useAlert } from '@/lib/useAlert';
 import { flashMessage } from '@/lib/flashMessage';
 
+const breadcrumbItems = [
+  {
+    title: '橫幅管理',
+    href: route('admin.banner.list'),
+  },
+  {
+    title: '編輯',
+    href: 'admin/banner/edit/{id}',
+  },
+];
+
 const props = defineProps({ response: Array | Object });
 
 const item = ref({
@@ -41,7 +52,7 @@ const backBtn = () => router.get(route('admin.banner.list'));
 </script>
 
 <template>
-  <AppLayout>
+  <AppLayout :breadcrumbs="breadcrumbItems">
     <section class="flex flex-col gap-3 w-[500px] p-4">
       <section class="flex flex-col gap-3 w-full">
         <label for="" class="flex gap-2">

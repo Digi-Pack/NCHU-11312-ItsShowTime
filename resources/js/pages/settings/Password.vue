@@ -13,7 +13,7 @@ import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbItems: BreadcrumbItem[] = [
   {
-    title: 'Password settings',
+    title: '密碼設定',
     href: '/settings/password',
   },
 ];
@@ -56,11 +56,11 @@ const updatePassword = () => {
 
     <SettingsLayout>
       <div class="space-y-6">
-        <HeadingSmall title="Update password" description="Ensure your account is using a long, random password to stay secure" />
+        <HeadingSmall title="更新密碼" description="請確保您的帳號使用較長的隨機密碼以確保安全" />
 
         <form @submit.prevent="updatePassword" class="space-y-6">
           <div class="grid gap-2">
-            <Label for="current_password">Current password</Label>
+            <Label for="current_password">目前的密碼</Label>
             <Input
               id="current_password"
               ref="currentPasswordInput"
@@ -74,7 +74,7 @@ const updatePassword = () => {
           </div>
 
           <div class="grid gap-2">
-            <Label for="password">New password</Label>
+            <Label for="password">新密碼</Label>
             <Input
               id="password"
               ref="passwordInput"
@@ -88,7 +88,7 @@ const updatePassword = () => {
           </div>
 
           <div class="grid gap-2">
-            <Label for="password_confirmation">Confirm password</Label>
+            <Label for="password_confirmation">確認新密碼</Label>
             <Input
               id="password_confirmation"
               v-model="form.password_confirmation"
@@ -101,7 +101,7 @@ const updatePassword = () => {
           </div>
 
           <div class="flex items-center gap-4">
-            <Button :disabled="form.processing">Save password</Button>
+            <Button :disabled="form.processing">儲存密碼</Button>
 
             <Transition
               enter-active-class="transition ease-in-out"
@@ -109,7 +109,7 @@ const updatePassword = () => {
               leave-active-class="transition ease-in-out"
               leave-to-class="opacity-0"
             >
-              <p v-show="form.recentlySuccessful" class="text-sm text-neutral-600">Saved.</p>
+              <p v-show="form.recentlySuccessful" class="text-sm text-neutral-600">已儲存</p>
             </Transition>
           </div>
         </form>

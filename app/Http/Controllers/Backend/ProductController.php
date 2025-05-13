@@ -124,9 +124,9 @@ class ProductController extends Controller
             $request->validate([
                 'name' => 'required|string|max:255',
                 'price' =>  'string|max:255',
-                // 'colors' =>  'array',
-                // 'types' =>  'array',
-                // 'sizes' =>  'array',
+                'colors' =>  'array',
+                'types' =>  'array',
+                'sizes' =>  'array',
                 'mainImg_file' => 'file|mimes:jpg,jpeg,png,webp',
                 'subImg_files' => 'array|max:4',
                 'subImg_files.*' => 'file|mimes:jpg,jpeg,png,webp',
@@ -192,38 +192,44 @@ class ProductController extends Controller
 
             // productsinfo 資料表新增
             $imageIndex = 0;
+
             // color
-            foreach ($request->colors as $colorId) {
-                ProductsInfo::create([
-                    'product_id' => $product->id,
-                    'color_id' => $colorId,
-                    'size_id' => null,
-                    'type_id' => null,
-                    'image_id' => $imageIds[$imageIndex++] ?? null,
-                ]);
-            }
+            if (!empty($request->colors)) {
+                foreach ($request->colors as $colorId) {
+                    ProductsInfo::create([
+                        'product_id' => $product->id,
+                        'color_id' => $colorId,
+                        'size_id' => null,
+                        'type_id' => null,
+                        'image_id' => $imageIds[$imageIndex++] ?? null,
+                    ]);
+                };
+            };
 
             // size
-            foreach ($request->sizes as $sizeId) {
-                ProductsInfo::create([
-                    'product_id' => $product->id,
-                    'color_id' => null,
-                    'size_id' => $sizeId,
-                    'type_id' => null,
-                    'image_id' => $imageIds[$imageIndex++] ?? null,
-                ]);
-            }
-
+            if (!empty($request->sizes)) {
+                foreach ($request->sizes as $sizeId) {
+                    ProductsInfo::create([
+                        'product_id' => $product->id,
+                        'color_id' => null,
+                        'size_id' => $sizeId,
+                        'type_id' => null,
+                        'image_id' => $imageIds[$imageIndex++] ?? null,
+                    ]);
+                };
+            };
             // type
-            foreach ($request->types as $typeId) {
-                ProductsInfo::create([
-                    'product_id' => $product->id,
-                    'color_id' => null,
-                    'size_id' => null,
-                    'type_id' => $typeId,
-                    'image_id' => $imageIds[$imageIndex++] ?? null,
-                ]);
-            }
+            if (!empty($request->types)) {
+                foreach ($request->types as $typeId) {
+                    ProductsInfo::create([
+                        'product_id' => $product->id,
+                        'color_id' => null,
+                        'size_id' => null,
+                        'type_id' => $typeId,
+                        'image_id' => $imageIds[$imageIndex++] ?? null,
+                    ]);
+                };
+            };
 
             // 圖片數量 > 顏色.款式.尺寸相加
             for (; $imageIndex < count($imageIds); $imageIndex++) {
@@ -331,8 +337,6 @@ class ProductController extends Controller
                 'new_mainFile' => $request->hasFile('new_mainFile') ? 'file|mimes:jpg,jpeg,png,webp' : '',
                 'new_subFiles' => $request->hasFile('new_subFiles') ? 'array|max:4' : '',
                 'new_subFiles.*' => $request->hasFile('new_subFiles') ? 'file|mimes:jpg,jpeg,png,webp' : '',
-
-
             ]);
 
             $product = Product::with('productsInfo.color', 'productsInfo.size', 'productsInfo.type', 'productsInfo.image')->find($id);
@@ -456,7 +460,7 @@ class ProductController extends Controller
 
             // ProductsInfo 資料表更新
             // color 部分
-            $newColors = $request->colors;
+            $newColors = (array) $request->colors;
             // 找出舊color
             $oldColors = $product->productsInfo
                 ->filter(fn($info) => $info->color_id !== null)
@@ -465,38 +469,39 @@ class ProductController extends Controller
                 ->values()
                 ->toArray();
 
-            // 要把舊的資料(沒有在新的color裡面)刪掉
-            $removedOldColors = array_diff($oldColors, $newColors);
-            foreach ($removedOldColors as $removedOldColor) {
-                ProductsInfo::where('product_id', $product->id)
-                    ->where('color_id', $removedOldColor)
-                    ->update(['color_id' => null]);
-            }
-
-            // 找出新增的 color
-            $AddNewColors = array_diff($newColors, $oldColors);
-            foreach ($AddNewColors as $AddNewColor) {
-                $nullInfo = $product->productsInfo
-                    ->filter(
-                        fn($info) => is_null($info->color_id) && is_null($info->type_id) && is_null($info->size_id)
-                    )
-                    ->first();
-
-                if ($nullInfo) {
-                    $nullInfo->update([
-                        'color_id' => $AddNewColor,
-                    ]);
-                } else {
-                    ProductsInfo::create([
-                        'product_id' => $product->id,
-                        'color_id' => $AddNewColor,
-                    ]);
+            if ($newColors || $oldColors) {
+                // 要把舊的資料(沒有在新的color裡面)刪掉
+                $removedOldColors = array_diff($oldColors, $newColors);
+                foreach ($removedOldColors as $removedOldColor) {
+                    ProductsInfo::where('product_id', $product->id)
+                        ->where('color_id', $removedOldColor)
+                        ->update(['color_id' => null]);
                 }
+
+                // 找出新增的 color
+                $AddNewColors = array_diff($newColors, $oldColors);
+                foreach ($AddNewColors as $AddNewColor) {
+                    $nullInfo = $product->productsInfo
+                        ->filter(
+                            fn($info) => is_null($info->color_id) && is_null($info->type_id) && is_null($info->size_id)
+                        )
+                        ->first();
+
+                    if ($nullInfo) {
+                        $nullInfo->update([
+                            'color_id' => $AddNewColor,
+                        ]);
+                    } else {
+                        ProductsInfo::create([
+                            'product_id' => $product->id,
+                            'color_id' => $AddNewColor,
+                        ]);
+                    }
+                };
             };
 
-
             // type 部分
-            $newTypes = $request->types;
+            $newTypes = (array) $request->types;
             // 找出舊 type
             $oldTypes = $product->productsInfo
                 ->filter(fn($info) => $info->type_id !== null)
@@ -505,38 +510,39 @@ class ProductController extends Controller
                 ->values()
                 ->toArray();
 
-            // 要把舊的資料(沒有在新的type裡面)刪掉
-            $removedOldTypes = array_diff($oldTypes, $newTypes);
-            foreach ($removedOldTypes as $removedOldType) {
-                ProductsInfo::where('product_id', $product->id)
-                    ->where('type_id', $removedOldType)
-                    ->update(['type_id' => null]);
-            }
-
-            // 找出新增的 type
-            $AddNewTypes = array_diff($newTypes, $oldTypes);
-            foreach ($AddNewTypes as $AddNewType) {
-                $nullInfo = $product->productsInfo
-                    ->filter(
-                        fn($info) => is_null($info->color_id) && is_null($info->type_id) && is_null($info->size_id)
-                    )
-                    ->first();
-
-                if ($nullInfo) {
-                    $nullInfo->update([
-                        'type_id' => $AddNewType,
-                    ]);
-                } else {
-                    ProductsInfo::create([
-                        'product_id' => $product->id,
-                        'type_id' => $AddNewType,
-                    ]);
+            if ($newTypes || $oldTypes) {
+                // 要把舊的資料(沒有在新的type裡面)刪掉
+                $removedOldTypes = array_diff($oldTypes, $newTypes);
+                foreach ($removedOldTypes as $removedOldType) {
+                    ProductsInfo::where('product_id', $product->id)
+                        ->where('type_id', $removedOldType)
+                        ->update(['type_id' => null]);
                 }
+
+                // 找出新增的 type
+                $AddNewTypes = array_diff($newTypes, $oldTypes);
+                foreach ($AddNewTypes as $AddNewType) {
+                    $nullInfo = $product->productsInfo
+                        ->filter(
+                            fn($info) => is_null($info->color_id) && is_null($info->type_id) && is_null($info->size_id)
+                        )
+                        ->first();
+
+                    if ($nullInfo) {
+                        $nullInfo->update([
+                            'type_id' => $AddNewType,
+                        ]);
+                    } else {
+                        ProductsInfo::create([
+                            'product_id' => $product->id,
+                            'type_id' => $AddNewType,
+                        ]);
+                    }
+                };
             };
 
-
             // size 部分
-            $newSizes = $request->sizes;
+            $newSizes = (array) $request->sizes;
             // 找出舊 type
             $oldSizes = $product->productsInfo
                 ->filter(fn($info) => $info->size_id !== null)
@@ -545,33 +551,35 @@ class ProductController extends Controller
                 ->values()
                 ->toArray();
 
-            // 要把舊的資料(沒有在新的size裡面)刪掉
-            $removedOldSizes = array_diff($oldSizes, $newSizes);
-            foreach ($removedOldSizes as $removedOldSize) {
-                ProductsInfo::where('product_id', $product->id)
-                    ->where('type_id', $removedOldSize)
-                    ->update(['type_id' => null]);
-            }
-
-            // 找出新增的 type
-            $AddNewSizes = array_diff($newSizes, $oldSizes);
-            foreach ($AddNewSizes as $AddNewSize) {
-                $nullInfo = $product->productsInfo
-                    ->filter(
-                        fn($info) => is_null($info->color_id) && is_null($info->type_id) && is_null($info->size_id)
-                    )
-                    ->first();
-
-                if ($nullInfo) {
-                    $nullInfo->update([
-                        'type_id' => $AddNewSize,
-                    ]);
-                } else {
-                    ProductsInfo::create([
-                        'product_id' => $product->id,
-                        'type_id' => $AddNewSize,
-                    ]);
+            if ($newSizes || $oldSizes) {
+                // 要把舊的資料(沒有在新的size裡面)刪掉
+                $removedOldSizes = array_diff($oldSizes, $newSizes);
+                foreach ($removedOldSizes as $removedOldSize) {
+                    ProductsInfo::where('product_id', $product->id)
+                        ->where('size_id', $removedOldSize)
+                        ->update(['size_id' => null]);
                 }
+
+                // 找出新增的 size
+                $AddNewSizes = array_diff($newSizes, $oldSizes);
+                foreach ($AddNewSizes as $AddNewSize) {
+                    $nullInfo = $product->productsInfo
+                        ->filter(
+                            fn($info) => is_null($info->color_id) && is_null($info->type_id) && is_null($info->size_id)
+                        )
+                        ->first();
+
+                    if ($nullInfo) {
+                        $nullInfo->update([
+                            'size_id' => $AddNewSize,
+                        ]);
+                    } else {
+                        ProductsInfo::create([
+                            'product_id' => $product->id,
+                            'size_id' => $AddNewSize,
+                        ]);
+                    }
+                };
             };
 
             $product->update([

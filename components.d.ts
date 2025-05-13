@@ -41,6 +41,7 @@ declare module 'vue' {
     CollapsibleContent: typeof import('./resources/js/Components/ui/collapsible/CollapsibleContent.vue')['default']
     CollapsibleTrigger: typeof import('./resources/js/Components/ui/collapsible/CollapsibleTrigger.vue')['default']
     DeleteUser: typeof import('./resources/js/Components/DeleteUser.vue')['default']
+    DetailSwiper: typeof import('./resources/js/Components/DetailSwiper.vue')['default']
     Dialog: typeof import('./resources/js/Components/ui/dialog/Dialog.vue')['default']
     DialogClose: typeof import('./resources/js/Components/ui/dialog/DialogClose.vue')['default']
     DialogContent: typeof import('./resources/js/Components/ui/dialog/DialogContent.vue')['default']

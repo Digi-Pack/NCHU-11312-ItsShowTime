@@ -3,6 +3,13 @@ import { ref } from 'vue';
 import { router } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue';
 
+const breadcrumbItems = [
+  {
+    title: '詢價單管理',
+    href: route('admin.inquiry.list'),
+  },
+];
+
 const props = defineProps({ response: Array | Object });
 
 const formatDate = (datetime) => {
@@ -18,9 +25,9 @@ const detailBtn = (id) => router.get(route('admin.inquiry.edit', id));
 </script>
 
 <template>
-  <Head title="詢價單管理" />
+  <AppLayout :breadcrumbs="breadcrumbItems">
+    <Head title="詢價單管理" />
 
-  <AppLayout>
     <div class="p-4">
       <table class="w-full table-auto border border-gray-700 border-collapse text-center">
         <thead class="bg-gray-100">

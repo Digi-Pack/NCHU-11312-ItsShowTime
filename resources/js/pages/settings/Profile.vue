@@ -20,7 +20,7 @@ defineProps<Props>();
 
 const breadcrumbs: BreadcrumbItem[] = [
   {
-    title: 'Profile settings',
+    title: '個人資料設定',
     href: '/settings/profile',
   },
 ];
@@ -46,17 +46,17 @@ const submit = () => {
 
     <SettingsLayout>
       <div class="flex flex-col space-y-6">
-        <HeadingSmall title="Profile information" description="Update your name and email address" />
+        <HeadingSmall title="個人資訊" description="更新您的姓名和電子信箱" />
 
         <form @submit.prevent="submit" class="space-y-6">
           <div class="grid gap-2">
-            <Label for="name">Name</Label>
+            <Label for="name">姓名</Label>
             <Input id="name" class="mt-1 block w-full" v-model="form.name" required autocomplete="name" placeholder="Full name" />
             <InputError class="mt-2" :message="form.errors.name" />
           </div>
 
           <div class="grid gap-2">
-            <Label for="email">Email address</Label>
+            <Label for="email">電子信箱</Label>
             <Input
               id="email"
               type="email"
@@ -71,24 +71,24 @@ const submit = () => {
 
           <div v-if="mustVerifyEmail && !user.email_verified_at">
             <p class="-mt-4 text-sm text-muted-foreground">
-              Your email address is unverified.
+              你的電子郵件地址尚未驗證
               <Link
                 :href="route('verification.send')"
                 method="post"
                 as="button"
                 class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:!decoration-current dark:decoration-neutral-500"
               >
-                Click here to resend the verification email.
+                按一下此處重新發送驗證電子郵件
               </Link>
             </p>
 
             <div v-if="status === 'verification-link-sent'" class="mt-2 text-sm font-medium text-green-600">
-              A new verification link has been sent to your email address.
+              新的驗證連結已發送至您的信箱。
             </div>
           </div>
 
           <div class="flex items-center gap-4">
-            <Button :disabled="form.processing">Save</Button>
+            <Button :disabled="form.processing">儲存</Button>
 
             <Transition
               enter-active-class="transition ease-in-out"
@@ -96,7 +96,7 @@ const submit = () => {
               leave-active-class="transition ease-in-out"
               leave-to-class="opacity-0"
             >
-              <p v-show="form.recentlySuccessful" class="text-sm text-neutral-600">Saved.</p>
+              <p v-show="form.recentlySuccessful" class="text-sm text-neutral-600">已儲存</p>
             </Transition>
           </div>
         </form>
