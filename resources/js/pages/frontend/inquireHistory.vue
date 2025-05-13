@@ -25,8 +25,7 @@ console.log(productImg[0]?.first_img?.img_path);  // 用來檢查 inquiries 資�
 
 
 
-
-const email = ref(props.response?.email || '');
+const email = ref(user?.email || '');
 const formattedEmail = computed(() => {
     return email.value.replace(/@gmail\.com$/, '');
 });
@@ -66,9 +65,10 @@ const toggleMenu = () => {
             </div>
 
             <div class="flex items-center absolute lg:top-5 lg:right-8 right-2">
+            
                 <div class="hidden lg:flex items-center">
                     <div class="w-[50px] h-[50px] flex items-center mr-2">
-                        <img :src="response.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
+                        <img :src="user?.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
                             class="w-full h-full object-cover rounded-[50px] bg-gray-100" />
                     </div>
                     <div class="text-2xl leading-none tracking-wide mr-4 font-noto-jp">{{ formattedEmail }}</div>
@@ -102,7 +102,7 @@ const toggleMenu = () => {
                 <div class="flex flex-col">
                     <div class="flex mb-8">
                         <div class="2xl:w-[65px] 2xl:h-[65px] w-[60px] h-[60px] mr-4">
-                            <img :src="response.users_info?.img_path || '/image/svg/avatar-1.svg'" alt="avatar"
+                            <img :src="user?.users_info?.img_path || '/image/svg/avatar.svg'" alt="avatar"
                                 class="w-full h-full object-cover rounded-[50px]" />
                         </div>
                         <div class="flex-col font-noto-jp">
@@ -211,7 +211,8 @@ const toggleMenu = () => {
                                 <div class="flex flex-col sm:flex-row">
 
                                     <div class="sm:w-[40%] w-full">
-                                        <img :src="productImg[0]?.first_img?.img_path" alt="商品圖" class="w-full h-full object-cover" />
+                                        <img :src="productImg[0]?.first_img?.img_path" alt="商品圖"
+                                            class="w-full h-full object-cover" />
                                     </div>
 
                                     <div class="p-4 sm:w-[60%] space-y-1">

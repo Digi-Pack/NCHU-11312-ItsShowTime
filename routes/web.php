@@ -35,10 +35,7 @@ Route::middleware(['auth'])->prefix('/')->group(function () {
 
     Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
 
-    // Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
-   Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
-
-
+    Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
 });
 
 

@@ -220,8 +220,7 @@ class ItsshowtimeController extends Controller
         $user = User::with('usersInfo')->findOrFail(Auth::id());
 
         $inquiries = Inquiry::with('orderLists')->where('user_id', $user->id)->get();
-        // $inquiries = Inquiry::with('orderLists', 'product.productsinfo')->where('user_id', $user->id)->get();
-
+    
         $productId = $inquiries->pluck('orderLists')
             ->flatten()
             ->pluck('product_id')
@@ -229,23 +228,8 @@ class ItsshowtimeController extends Controller
             ->filter()
             ->values();
 
-        // $products = Product::with('productsInfo.image')->whereIn('id', $productId)->get();
-        // dump($products);
         $product = Product::with('productsInfo.image')->find($productId);
-// dd($product);
-        // $images = $product->productsInfo
-        //     ->filter(fn($info) => $info->image_id !== null && $info->image !== null)
-        //     ->map(fn($info) => [
-        //         'id' => $info->image_id,
-        //         'img_path' => $info->image->img_path,
-        //         'isMain' => $info->image->isMain,
-        //     ])
-        //     ->unique('id')
-        //     ->values();
-
-        // $first_img = $images->first(fn($img) => $img['isMain'] === 1);
-
-        // dd($first_img);
+        
         $productImg = $product->map(function ($product) {
             $images = $product->productsInfo
                 ->filter(function ($info) {
