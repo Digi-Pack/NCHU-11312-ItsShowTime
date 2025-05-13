@@ -16,11 +16,11 @@ const props = defineProps({
     },
 });
 
-// 從 response 中解構出 user 和 inquiries
+
 const { user, inquiries } = props.response;
 
-console.log(user);  // 用來檢查 user 資料
-console.log(inquiries);  // 用來檢查 inquiries 資料
+console.log(user);
+console.log(inquiries);
 
 
 

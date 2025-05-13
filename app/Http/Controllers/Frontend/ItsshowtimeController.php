@@ -215,22 +215,6 @@ class ItsshowtimeController extends Controller
     }
 
 
-
-    // public function history()
-    // {
-    //     $user = User::with('usersInfo')->findOrFail(Auth::id());
-    //     $inquiries = Inquiry::with('orderLists','product')->where('user_id', $user->id)->get();
-
-    //     $response = [
-    //         'user' => $user,
-    //         'inquiries' => $inquiries,
-    //     ];
-
-    //     return Inertia::render('frontend/inquireHistory', [
-    //         'response' => $response,
-    //     ]);
-    // }
-
     public function history()
     {
         $user = User::with('usersInfo')->findOrFail(Auth::id());
