@@ -130,7 +130,6 @@ class ProductController extends Controller
                 'mainImg_file' => 'file|mimes:jpg,jpeg,png,webp',
                 'subImg_files' => 'array|max:4',
                 'subImg_files.*' => 'file|mimes:jpg,jpeg,png,webp',
-                'introduction' => 'string',
             ]);
 
             $imageIds = [];
