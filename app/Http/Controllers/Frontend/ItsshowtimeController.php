@@ -190,6 +190,9 @@ class ItsshowtimeController extends Controller
 
         return Inertia::render('frontend/inquirePage', [
             'response' => $product,
+            'auth' => [
+                'user' => Auth::user(),
+                ]
         ]);
     }
 

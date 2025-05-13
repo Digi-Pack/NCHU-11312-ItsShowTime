@@ -26,29 +26,26 @@ const toggleMenu = () => {
 
 
 // 把下單購買資料傳過來 , color, type
-const { response } = defineProps({
+const { response, auth } = defineProps({
     response: Array | Object,
+    auth: Array | Object,
 });
 // console.log(response);
 
+const isLoggedIn = computed(() => !!auth?.user);
 
-// 判斷會員是否登入判斷
-const isLoggedIn = computed(() => !!props.response?.auth?.user);
-
-
-// nav
-const menuItems = [
-    { id: 'about', name: '品牌理念', href: 'home' },
-    { id: 'portfolio', name: '作品集', href: 'home' },
-    { id: 'method', name: '製作方式', href: 'home' },
-    { id: 'product', name: '商品列表', href: 'home' },
-    { id: 'contact', name: '聯絡方式', href: 'home' },
-     {
+const menuItems = computed(() => [
+  { id: 'about', name: '品牌理念', href: 'home' },
+  { id: 'portfolio', name: '作品集', href: 'home' },
+  { id: 'method', name: '製作方式', href: 'home' },
+  { id: 'product', name: '商品列表', href: 'home' },
+  { id: 'contact', name: '聯絡方式', href: 'home' },
+  {
     id: 'profile',
     name: isLoggedIn.value ? '我的檔案' : '會員登入',
-    href: isLoggedIn.value ? '/myprofile' : '/login',
+    href: isLoggedIn.value ? 'myprofile' : 'login',
   },
-]
+]);
 
 const isScrolled = ref(false) // 用來控制是否超過 230px
 
@@ -570,8 +567,9 @@ onMounted(() => {
                         ]">
                             <Link :href="route(item.href)" v-for="item in menuItems" :key="item.id" @click="toggleMenu"
                                 class="flex items-center gap-[9px] text-xl ">
-                            <img src="/image/svg/Arrow 2.svg" alt="" />
+                             <img src="/image/svg/Arrow 2.svg" alt="" />
                             <p class="font-normal leading-[1.2] text-[#1f1b1b]">{{ item.name }}</p>
+                           
                             </Link>
                         </div>
                     </nav>
@@ -586,7 +584,7 @@ onMounted(() => {
                 </div>
                 <img src="/image/svg/Menu.svg" class="w-full h-full object-cover mb-4">
                 <div class="gap-6">
-                    <Link :href="route('home')" v-for="item in menuItems" :key="item.id"
+                    <Link :href="route(item.href)" v-for="item in menuItems" :key="item.id"
                         class="flex items-center gap-[9px]" @click="goHome">
                     <p class="font-normal leading-[1.8]">{{ item.name }}</p>
                     <img src="/image/svg/Arrow.svg" alt="">
@@ -634,7 +632,8 @@ onMounted(() => {
                 <div v-for="(product, index) in selectProducts" :key="index"
                     v-if="selectProducts && selectProducts.length > 0"
                     class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
-                    <button v-if="isLastProductName(product, index)" type="button" class="text-white rounded-full" @click="addProductItem(product.id, index)">
+                    <button v-if="isLastProductName(product, index)" type="button" class="text-white rounded-full"
+                        @click="addProductItem(product.id, index)">
                         <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="">
                     </button>
                     <div v-else class="size-8"></div>
@@ -705,8 +704,8 @@ onMounted(() => {
                             </button>
                         </div>
                         <div class="flex justify-center gap-4">
-                            <button v-if="isLastProductName(product, index)" type="button" class="text-white rounded-full z-10"
-                                @click="addProductItem(product.id, index)">
+                            <button v-if="isLastProductName(product, index)" type="button"
+                                class="text-white rounded-full z-10" @click="addProductItem(product.id, index)">
                                 <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="">
                             </button>
                             <button v-show="selectedSpecs[product.uid]" type="button"
