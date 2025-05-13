@@ -200,7 +200,7 @@ class ItsshowtimeController extends Controller
             'response' => $product,
             'auth' => [
                 'user' => Auth::user(),
-                ]
+            ]
         ]);
     }
 
@@ -237,7 +237,7 @@ class ItsshowtimeController extends Controller
         $user = User::with('usersInfo')->findOrFail(Auth::id());
 
         $inquiries = Inquiry::with('orderLists')->where('user_id', $user->id)->get();
-    
+
         $productId = $inquiries->pluck('orderLists')
             ->flatten()
             ->pluck('product_id')
@@ -246,7 +246,7 @@ class ItsshowtimeController extends Controller
             ->values();
 
         $product = Product::with('productsInfo.image')->find($productId);
-        
+
         $productImg = $product->map(function ($product) {
             $images = $product->productsInfo
                 ->filter(function ($info) {
@@ -265,11 +265,21 @@ class ItsshowtimeController extends Controller
             $first_img = $images->first(function ($image) {
                 return $image['isMain'] === 1;
             });
+
             return [
+                'product_id' => $product->id,
                 'first_img' => $first_img,
+                'all_imgs' => $images,
             ];
         });
 
+        // 把圖片加進每筆 orderList
+        // $inquiries->each(function ($inquiry) use ($productImg) {
+        //     $inquiry->orderLists->each(function ($order) use ($productImg) {
+        //         $images = $productImg[$order->product_id] ?? ['first_img' => null, 'all_imgs' => collect()];
+        //         $order->first_img = $images['first_img'];
+        //     });
+        // });
 
         $response = [
             'user' => $user,

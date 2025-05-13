@@ -13,7 +13,21 @@ const props = defineProps({
 
 // 從 response 中解構出 user 和 inquiries
 const { user, inquiries, productImg } = props.response;
-console.log(productImg);
+
+const productImgMap = {};
+
+productImg.forEach(item => {
+  productImgMap[item.product_id] = item.first_img;
+});
+
+inquiries.forEach(inquiry => {
+  inquiry.order_lists.forEach(order => {
+    order.first_img = productImgMap[order.product_id] || null;
+  });
+});
+
+console.log(inquiries);
+// console.log(productImg);
 
 
 const email = ref(user?.email || '');
@@ -147,16 +161,6 @@ const toggleMenu = () => {
                         <span class="w-[150px] text-center">金額</span>
                     </div>
 
-                    <!-- <div class="hidden xl:flex items-center mb-8 px-6">
-                        <div class="flex items-center flex-1">
-                            <img src="/image/4-4.webp" alt="商品圖"
-                                class="w-[96px] h-auto mr-4 rounded-tl-2xl rounded-tr-2xl" />
-                            <p>【IST】日式暴走頭帶 ⛩ 台灣連合 神風 暴走 特攻 極惡 客製化 刺繡 現貨 快速出貨</p>
-                        </div>
-                        <div class="w-[250px] text-center text-nowrap">紅色 / 特攻 / 1件</div>
-                        <div class="w-[150px] text-center">$2000</div>
-                    </div> -->
-
                     <div v-if="inquiries.length > 0">
                         <div v-for="(inquiry, index) in inquiries" :key="index"
                             class="hidden xl:flex items-center px-6">
@@ -164,9 +168,9 @@ const toggleMenu = () => {
                                 class="flex items-center flex-1 flex-wrap">
 
                                 <div v-for="(order, orderIndex) in inquiry.order_lists" :key="orderIndex"
-                                    class="w-full flex items-center mb-8">
+                                    class="w-full flex items-center mb-6">
                                     <div class="flex items-center flex-1">
-                                        <img :src="productImg[0]?.first_img?.img_path" alt="商品圖"
+                                        <img :src="order?.first_img?.img_path" alt="商品圖"
                                             class="w-[96px] h-auto mr-4 rounded-sm" />
                                         <p>{{ order.product }}</p>
                                     </div>
@@ -194,11 +198,11 @@ const toggleMenu = () => {
                     <div class="xl:hidden flex flex-col gap-4 mb-8 px-2">
                         <div v-if="inquiries.length > 0">
                             <div v-for="(inquiry, index) in inquiries" :key="index"
-                                class="rounded-xl overflow-hidden shadow bg-white">
+                                class="rounded-xl overflow-hidden shadow-md bg-white m-3">
                                 <div class="flex flex-col sm:flex-row">
 
                                     <div class="sm:w-[40%] w-full">
-                                        <img :src="productImg[0]?.first_img?.img_path" alt="商品圖"
+                                        <img :src="inquiry.order_lists[0]?.first_img?.img_path" alt="商品圖"
                                             class="w-full h-full object-cover" />
                                     </div>
 
@@ -257,6 +261,10 @@ const toggleMenu = () => {
 
 
 <style>
+html, body {
+  font-size: 16px;
+}
+
 ::-webkit-scrollbar {
     width: 17px;
     height: 14px;
