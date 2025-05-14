@@ -7,6 +7,17 @@ import { useAlert } from '@/lib/useAlert';
 import { flashMessage } from '@/lib/flashMessage';
 import draggable from 'vuedraggable';
 
+const breadcrumbItems = [
+  {
+    title: '商品管理',
+    href: route('admin.product.list'),
+  },
+  {
+    title: '相關設定-顏色',
+    href: route('admin.productSpec',  { id: 1 }),
+  },
+];
+
 const props = defineProps({
   response: Array | Object
 });
@@ -71,7 +82,7 @@ const submit = () => {
   router.put(route('admin.productSpec.update', { id: 1 }), { newItem }, {
     onSuccess: (response) => {
       const result = response?.props?.flash?.message ?? {};
-      flashMessage(result, '儲存', route('admin.product.list'));
+      flashMessage(result, '儲存', route('admin.productSpec',  { id: 1 }));
     },
   });
 };
@@ -80,7 +91,7 @@ const backBtn = () => router.get(route('admin.product.list'));
 </script>
 
 <template>
-  <AppLayout>
+  <AppLayout :breadcrumbs="breadcrumbItems">
     <div class="p-4">
       <Link :href="route('admin.productSpec', { id: 1 })"
         class="border border-black rounded-sm mr-4 px-4 py-2 bg-blue-300">
