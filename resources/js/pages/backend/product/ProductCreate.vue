@@ -4,8 +4,7 @@ import { router } from '@inertiajs/vue3';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useAlert } from '@/lib/useAlert';
 import { flashMessage } from '@/lib/flashMessage';
-
-import Editor from '@tinymce/tinymce-vue';
+import Editor from '@/components/Editor.vue';
 
 const breadcrumbItems = [
   {
@@ -18,28 +17,6 @@ const breadcrumbItems = [
   },
 ];
 
-// 編輯器初始設定
-const editorInit = {
-  height: 400,
-  menubar: false,
-  branding: false,
-  toolbar_mode: 'sliding',
-  plugins: [
-    'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-    'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown', 'importword', 'exportword', 'exportpdf'
-  ],
-  toolbar:
-    'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-  tinycomments_mode: 'embedded',
-  tinycomments_author: 'Author name',
-  mergetags_list: [
-    { value: 'First.Name', title: 'First Name' },
-    { value: 'Email', title: 'Email' },
-  ],
-  ai_request: (request, respondWith) =>
-    respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-  content_style: 'body { background-color: #f3f4f6; }',
-};
 
 const props = defineProps({
   colors: { type: Object },
@@ -161,16 +138,17 @@ const backBtn = () => router.get(route('admin.product.list'));
       <div class="mt-2 mb-6">
         <p>圖片預覽：</p>
         <div class="flex items-center gap-4 ml-4 my-2">
-          <img v-if="subPreviewUrls" v-for="(url, index) in subPreviewUrls" :key="index" :src="url" class="w-[200px]" alt="輔助圖預覽">
+          <div v-if="subPreviewUrls">
+            <img  v-for="(url, index) in subPreviewUrls" :key="index" :src="url" class="w-[200px]" alt="輔助圖預覽">
+          </div>
         </div>
       </div>
 
       <div class="flex flex-col gap-1 mb-4">
         <p>簡介：</p>
-        <main id="sample" class="relative max-w-[1000px]">
-          <Editor v-model="item.introduction" api-key="8okv62o6rg25pd2ma694ju1axy7984vjrk3mmled1k2rl25a"
-            :init="editorInit" />
-        </main>
+        <div id="sample" class="relative max-w-[1000px] h-[300px]">
+          <Editor v-model="item.introduction" />
+        </div>
       </div>
 
       <div class="max-w-[1000px] flex justify-between mt-4">
