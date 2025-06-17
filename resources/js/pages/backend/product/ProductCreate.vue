@@ -88,12 +88,12 @@ const backBtn = () => router.get(route('admin.product.list'));
 
       <label for="" class="flex gap-2 mb-4">
         <p>名稱：</p>
-        <input v-model="item.name" class="w-[calc(60%-100px)] border border-gray-400 rounded-sm" type="text">
+        <input v-model="item.name" class="w-[calc(60%-100px)] dark:bg-black dark:text-white border border-gray-400 rounded-sm" type="text">
       </label>
 
       <label for="" class="flex gap-2 mb-4">
         <p>價格：</p>
-        <input v-model="item.price" class="w-[calc(60%-100px)] border border-gray-400 rounded-sm" type="text">
+        <input v-model="item.price" class="w-[calc(60%-100px)] dark:bg-black dark:text-white border border-gray-400 rounded-sm" type="text">
       </label>
 
       <div class="flex items-center gap-2 mb-4">
@@ -152,10 +152,10 @@ const backBtn = () => router.get(route('admin.product.list'));
       </div>
 
       <div class="max-w-[1000px] flex justify-between mt-4">
-        <button class="border border-black px-4 py-2 rounded-sm hover:bg-slate-300" type="button" @click="backBtn">
+        <button class="border border-black dark:border-gray-700 px-4 py-2 rounded-sm hover:bg-slate-300 dark:hover:bg-slate-700" type="button" @click="backBtn">
           返回
         </button>
-        <button class="border border-black px-4 py-2 rounded-sm hover:bg-blue-200" type="button" @click="useAlert('確定要儲存嗎?', submit)">
+        <button class="border border-black dark:border-gray-700 px-4 py-2 rounded-sm hover:bg-blue-200 dark:hover:bg-blue-950" type="button" @click="useAlert('確定要儲存嗎?', submit)">
           新增資料
         </button>
       </div>

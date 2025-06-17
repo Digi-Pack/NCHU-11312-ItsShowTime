@@ -94,25 +94,25 @@ const backBtn = () => router.get(route('admin.product.list'));
   <AppLayout :breadcrumbs="breadcrumbItems">
 
     <div class="p-4">
-      <Link :href="route('admin.productSpec', { id: 1 })" class="border border-black rounded-sm mr-4 px-4 py-2 hover:bg-slate-300">
+      <Link :href="route('admin.productSpec', { id: 1 })" class="border border-black dark:border-gray-700 rounded-sm mr-4 px-4 py-2 hover:bg-slate-300 dark:hover:bg-slate-700">
         顏色
       </Link>
-      <Link :href="route('admin.productSpec', { id: 2 })" class="border border-black rounded-sm mr-4 px-4 py-2 hover:bg-slate-300">
+      <Link :href="route('admin.productSpec', { id: 2 })" class="border border-black dark:border-gray-700 rounded-sm mr-4 px-4 py-2 hover:bg-slate-300 dark:hover:bg-slate-700">
         類型
       </Link>
-      <Link :href="route('admin.productSpec', { id: 3 })" class="border border-black rounded-sm mr-4 px-4 py-2 bg-blue-300">
+      <Link :href="route('admin.productSpec', { id: 3 })" class="border border-black dark:border-gray-700 rounded-sm mr-4 px-4 py-2 bg-blue-300 dark:bg-blue-950">
         尺寸
       </Link>
 
       <div class="py-4">
-        <button class="border border-black rounded-sm px-4 py-2 hover:bg-gray-100 my-4" type="button" @click="addSize">
+        <button class="border border-black dark:border-gray-700 rounded-sm px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 my-4" type="button" @click="addSize">
           新增尺寸
         </button>
         <draggable v-model="sortedList" item-key="id" class="flex flex-col gap-4" @end="onDragEnd">
           <template #item="{ element, index }">
             <div class="w-full flex items-center gap-4">
               <div
-                class="flex items-center gap-4 w-[500px] bg-gray-100 border border-gray-400 rounded-md p-3 cursor-grab"
+                class="flex items-center gap-4 w-[500px] bg-gray-100 dark:bg-black border border-gray-400 rounded-md p-3 cursor-grab"
                 :class="{ 'border-2 border-red-500': element.hasError }">
                 <i class="fa-solid fa-bars"></i>
                 <div class="flex-grow">
@@ -127,7 +127,7 @@ const backBtn = () => router.get(route('admin.product.list'));
               </div>
               <!-- 刪除該顏色 -->
               <button
-                class="w-8 h-8 flex justify-center items-center p-3 bg-gray-200 hover:bg-red-300 rounded-full cursor-pointer"
+                class="w-8 h-8 flex justify-center items-center p-3 bg-gray-200 dark:bg-gray-600 hover:bg-red-300 dark:hover:bg-red-400 rounded-full cursor-pointer"
                 type="button" @click="deleteSize(index)">
                 <i class="fa-solid fa-minus"></i>
               </button>
@@ -137,10 +137,10 @@ const backBtn = () => router.get(route('admin.product.list'));
       </div>
 
       <div class="w-[500px] flex justify-between mt-8">
-        <button class="border border-black px-4 py-2 rounded-sm hover:bg-gray-100" type="button" @click="backBtn">
+        <button class="border border-black dark:border-gray-700 px-4 py-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700" type="button" @click="backBtn">
           取消
         </button>
-        <button class="border border-black px-4 py-2 rounded-sm hover:bg-gray-100" type="button" @click="useAlert('確定要儲存嗎?', submit)">
+        <button class="border border-black dark:border-gray-700 px-4 py-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700" type="button" @click="useAlert('確定要儲存嗎?', submit)">
           儲存
         </button>
       </div>

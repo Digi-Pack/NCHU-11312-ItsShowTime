@@ -32,11 +32,11 @@ const deleteSumbit = (id) => {
     <Head title="橫幅管理" />
 
     <div class="p-4">
-      <button class="border border-black rounded-sm px-5 py-2 hover:bg-blue-200" type="button"
+      <button class="border border-black dark:border-gray-700 rounded-sm px-5 py-2 hover:bg-blue-200 dark:hover:bg-blue-950" type="button"
         @click="addBtn">新增</button>
       <div class="overflow-x-auto py-4">
         <table class="w-full border border-gray-700 border-collapse">
-          <thead class="bg-gray-100">
+          <thead class="bg-gray-100 dark:bg-black">
             <tr>
               <th class="border border-gray-700 px-4 py-2 text-center">標題</th>
               <th class="border border-gray-700 px-4 py-2 text-center">圖片</th>
@@ -53,11 +53,11 @@ const deleteSumbit = (id) => {
               </td>
               <td class="border border-gray-700 px-4 py-2">
                 <div class="flex justify-center items-center">
-                  <button class="border border-green-500 px-4 py-2 rounded-sm hover:bg-green-300 mr-3" type="button"
+                  <button class="border border-green-500 px-4 py-2 rounded-sm hover:bg-green-300 dark:hover:bg-green-950 mr-3" type="button"
                     @click="editBtn(banner.id)">
                     編輯
                   </button>
-                  <button class="border border-red-500 px-4 py-2 rounded-sm hover:bg-red-300" type="button"
+                  <button class="border border-red-500 px-4 py-2 rounded-sm hover:bg-red-300 dark:hover:bg-red-950" type="button"
                     @click="useAlert('確定要刪除嗎?', () => deleteSumbit(banner.id))">
                     刪除
                   </button>

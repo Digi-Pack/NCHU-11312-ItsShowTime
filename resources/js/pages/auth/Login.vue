@@ -66,7 +66,7 @@ const submit = () => {
         <div class="grid gap-2">
           <Label for="email">帳號</Label>
           <Input id="email" type="email" required autofocus :tabindex="1" autocomplete="email" v-model="form.email"
-            placeholder="email@example.com" class="text-black" />
+            placeholder="email@example.com" class="text-black dark:text-white" />
           <InputError :message="form.errors.email" />
         </div>
 
@@ -77,7 +77,7 @@ const submit = () => {
               :tabindex="5"> 忘記密碼? </TextLink>
           </div>
           <Input id="password" type="password" required :tabindex="2" autocomplete="current-password"
-            v-model="form.password" placeholder="Password" class="text-black bg-white" />
+            v-model="form.password" placeholder="Password" class="text-black bg-white dark:bg-black dark:text-white" />
           <InputError :message="form.errors.password" />
         </div>
 

@@ -35,15 +35,15 @@ const settingBtn = () => router.get(route('admin.productSpec', { id: 1 }));
     <Head title="商品管理" />
 
     <div class="p-4">
-      <button class="border border-black rounded-sm px-3 py-2 hover:bg-blue-200" type="button" @click="addBtn">
+      <button class="border border-black dark:border-gray-700 rounded-sm px-3 py-2 hover:bg-blue-200 dark:hover:bg-blue-950" type="button" @click="addBtn">
         新增商品
       </button>
-      <button class="border border-black rounded-sm ml-3 px-3 py-2 hover:bg-blue-200" type="button" @click="settingBtn">
+      <button class="border border-black dark:border-gray-700 rounded-sm ml-3 px-3 py-2 hover:bg-blue-200 dark:hover:bg-blue-950" type="button" @click="settingBtn">
         相關設定
       </button>
       <div class="py-4">
         <table class="w-full table-fixed border border-gray-700 border-collapse">
-          <thead class="bg-gray-100">
+          <thead class="bg-gray-100 dark:bg-black ">
             <tr>
               <th class="w-[350px] border border-gray-700 px-4 py-2 text-center">名稱</th>
               <th class="w-[200px] border border-gray-700 px-4 py-2 text-center">價格</th>
@@ -90,11 +90,11 @@ const settingBtn = () => router.get(route('admin.productSpec', { id: 1 }));
               </td>
               <td class="border border-gray-700 px-4 py-2">
                 <div class="flex justify-center items-center">
-                  <button class="border border-green-500 px-4 py-2 rounded-sm hover:bg-green-300 mr-4" type="button"
+                  <button class="border border-green-500 px-4 py-2 rounded-sm hover:bg-green-300 dark:hover:bg-green-950 mr-4" type="button"
                     @click="editBtn(product.id)">
                     編輯
                   </button>
-                  <button class="border border-red-500 px-4 py-2 rounded-sm hover:bg-red-300" type="button"
+                  <button class="border border-red-500 px-4 py-2 rounded-sm hover:bg-red-300 dark:hover:bg-red-950" type="button"
                     @click="useAlert('確定要刪除嗎?', () => deleteSumbit(product.id))">
                     刪除
                   </button>

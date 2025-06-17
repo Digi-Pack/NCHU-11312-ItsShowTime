@@ -29,7 +29,7 @@ const detailBtn = (id) => router.get(route('admin.inquiry.edit', id));
 
     <div class="p-4">
       <table class="w-full table-auto border border-gray-700 border-collapse text-center">
-        <thead class="bg-gray-100">
+        <thead class="bg-gray-100 dark:bg-black">
           <tr>
             <th class="border border-gray-700 px-4 py-2">姓名</th>
             <th class="border border-gray-700 px-4 py-2">信箱</th>

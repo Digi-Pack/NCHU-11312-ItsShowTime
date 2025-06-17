@@ -54,7 +54,7 @@ const backBtn = () => router.get(route('admin.banner.list'));
       <section class="w-full flex flex-col gap-4 mb-4">
         <label for="" class="flex gap-2">
           <p>標題</p>
-          <input v-model="item.title" type="text" class="w-[calc(100%-60px)] border border-gray-400 rounded-sm">
+          <input v-model="item.title" type="text" class="w-[calc(100%-60px)] dark:bg-black dark:text-white border border-gray-400 rounded-sm">
         </label>
         <label for="" accept="image/*" class="flex items-center gap-2">
           <p>圖片</p>
@@ -66,10 +66,10 @@ const backBtn = () => router.get(route('admin.banner.list'));
         </div>
       </section>
       <section class="flex justify-between">
-        <button class="border border-black px-4 py-2 rounded-sm hover:bg-slate-300" type="button" @click="backBtn">
+        <button class="border border-black dark:border-gray-700 px-4 py-2 rounded-sm hover:bg-slate-300 dark:hover:bg-slate-700" type="button" @click="backBtn">
           返回
         </button>
-        <button class="border border-black px-4 py-2 rounded-sm hover:bg-blue-200" type="button" @click="useAlert('確定要儲存嗎?', submit)">
+        <button class="border border-black dark:border-gray-700 px-4 py-2 rounded-sm hover:bg-blue-200 dark:hover:bg-blue-950" type="button" @click="useAlert('確定要儲存嗎?', submit)">
           送出
         </button>
       </section>
