@@ -101,11 +101,11 @@ const menuItems = [
   { id: 'method', name: '製作方式', href: '#method' },
   { id: 'product', name: '商品列表', href: '#product' },
   { id: 'contact', name: '聯絡方式', href: '#contact' },
-  {
-    id: 'profile',
-    name: isLoggedIn.value ? '我的檔案' : '會員登入',
-    href: isLoggedIn.value ? '/myprofile' : '/login',
-  },
+  // {
+  //   id: 'profile',
+  //   name: isLoggedIn.value ? '我的檔案' : '會員登入',
+  //   href: isLoggedIn.value ? '/myprofile' : '/login',
+  // },
 
 ];
 

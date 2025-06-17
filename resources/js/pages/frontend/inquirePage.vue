@@ -39,11 +39,11 @@ const menuItems = computed(() => [
   { id: 'method', name: '製作方式', href: 'home' },
   { id: 'product', name: '商品列表', href: 'home' },
   { id: 'contact', name: '聯絡方式', href: 'home' },
-  {
-    id: 'profile',
-    name: isLoggedIn.value ? '我的檔案' : '會員登入',
-    href: isLoggedIn.value ? 'myprofile' : 'login',
-  },
+//   {
+//     id: 'profile',
+//     name: isLoggedIn.value ? '我的檔案' : '會員登入',
+//     href: isLoggedIn.value ? 'myprofile' : 'login',
+//   },
 ]);
 
 const isScrolled = ref(false) // 用來控制是否超過 230px

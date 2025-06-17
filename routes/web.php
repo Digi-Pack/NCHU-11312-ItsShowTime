@@ -16,7 +16,7 @@ require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
 require __DIR__ . '/backend.php';
 
-Route::middleware(['auth', 'allUser'])->get('dashboard', function () {
+Route::middleware(['auth', 'allUser'])->get('admin', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
 
@@ -31,27 +31,19 @@ Route::prefix('/')->group(function () {
 });
 
 
-Route::middleware(['auth'])->prefix('/')->group(function () {
+// Route::middleware(['auth'])->prefix('/')->group(function () {
 
-    Route::get('/myprofile', [ItsshowtimeController::class, 'myProfile'])->name('myprofile');
+//     Route::get('/myprofile', [ItsshowtimeController::class, 'myProfile'])->name('myprofile');
 
-    Route::put('/updateprofile', [UserController::class, 'updateProfile'])->name('updateprofile');
+//     Route::put('/updateprofile', [UserController::class, 'updateProfile'])->name('updateprofile');
 
-    Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
+//     Route::get('/password', [ItsshowtimeController::class, 'password'])->name('password');
 
-    Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
-});
-
-
-
+//     Route::get('/history', [ItsshowtimeController::class, 'history'])->name('history');
+// });
 
 
 // // 後台頁
 // Route::get('/backend', function () {
 //     return Inertia::render('backend/homePage');
 // })->name('backend.home');
-
-
-
-
-
