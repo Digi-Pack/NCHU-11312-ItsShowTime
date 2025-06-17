@@ -114,6 +114,7 @@ class ItsshowtimeController extends Controller
 
     public function inquire(Request $request)
     {
+
         $id_array = $request->id;
 
         $product = Product::with('productsInfo.color', 'productsInfo.size', 'productsInfo.type', 'productsInfo.image')

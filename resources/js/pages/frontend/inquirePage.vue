@@ -624,53 +624,55 @@ onMounted(() => {
             <!-- min-[956px]以上的選擇規格商品圖 -->
             <div
                 class="flex-col 2xl:w-[1399px] w-[70%] border-y-2 border-[#F0BD22] text-center 2xl:font-bold font-noto-jp mb-12">
-                <div v-for="(product, index) in selectProducts" :key="index"
-                    v-if="selectProducts && selectProducts.length > 0"
-                    class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
-                    <button v-if="isLastProductName(product, index)" type="button" class="text-white rounded-full"
-                        @click="addProductItem(product.id, index)">
-                        <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="plus.icon">
-                    </button>
-                    <div v-else class="size-8"></div>
-                    <div class="flex 2xl:flex-1 items-center ml-4">
-                        <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
-                            <img class="rounded-tl-md rounded-tr-md" :src="product.first_img.img_path"
-                                alt="Product Image">
+                <div v-if="selectProducts && selectProducts.length > 0">
+
+                    <div v-for="(product, index) in selectProducts" :key="index"
+                        class="min-[956px]:w-full min-[956px]:flex hidden items-center my-10">
+                        <!-- <button v-if="isLastProductName(product, index)" type="button" class="text-white rounded-full"
+                            @click="addProductItem(product.id, index)">
+                            <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="plus.icon">
+                        </button> -->
+                        <div class="size-8"></div>
+                        <div class="flex 2xl:flex-1 items-center ml-4">
+                            <div class="2xl:w-[125.07px] w-[65px] 2xl:mr-8 mr-4">
+                                <img class="rounded-tl-md rounded-tr-md" :src="product.first_img.img_path"
+                                    alt="Product Image">
+                            </div>
+                            <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">
+                                {{ product.name }}
+                            </p>
                         </div>
-                        <p class="2xl:w-[394px] lg:w-[200px] md:w-[160px] 2xl:text-[20px] text-white text-left">
-                            {{ product.name }}
+    
+                        <div v-if="!selectedSpecs[product.uid]" class="xl:w-[300px] w-[240px] flex justify-center">
+                            <button type="button"
+                                class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer"
+                                @click="openModal(product.uid)">
+                                規格選擇
+                            </button>
+                        </div>
+    
+                        <!-- 顯示選好的規格 -->
+                        <div v-else
+                            class="xl:w-[300px] w-[240px] flex justify-center items-center text-white xl:text-[20px] gap-6">
+                            {{ formatSpecs(product.uid) }}
+                            <button v-show="selectedSpecs[product.uid]" type="button"
+                                class="flex justify-end cursor-pointer z-10" @click="openModal(product.uid)">
+                                <img class="xl:w-[28px] w-[20px]" src="/image/svg/edit.svg" alt="edit.icon">
+                            </button>
+                        </div>
+    
+    
+                        <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white">
+                            金額待確認
                         </p>
-                    </div>
-
-                    <div v-if="!selectedSpecs[product.uid]" class="xl:w-[300px] w-[240px] flex justify-center">
-                        <button type="button"
-                            class="xl:w-[146px] w-[86px] xl:text-[24px] text-white border-white border-[3px] rounded-[5px] p-2 cursor-pointer"
-                            @click="openModal(product.uid)">
-                            規格選擇
-                        </button>
-                    </div>
-
-                    <!-- 顯示選好的規格 -->
-                    <div v-else
-                        class="xl:w-[300px] w-[240px] flex justify-center items-center text-white xl:text-[20px] gap-6">
-                        {{ formatSpecs(product.uid) }}
-                        <button v-show="selectedSpecs[product.uid]" type="button"
-                            class="flex justify-end cursor-pointer z-10" @click="openModal(product.uid)">
-                            <img class="xl:w-[28px] w-[20px]" src="/image/svg/edit.svg" alt="edit.icon">
-                        </button>
-                    </div>
-
-
-                    <p class="xl:w-[200px] w-[140px] flex justify-center xl:text-[24px] text-white">
-                        金額待確認
-                    </p>
-
-                    <!-- 編輯和刪除按鈕 -->
-                    <div class="flex justify-around xl:w-[200px] w-[120px]">
-                        <button type="button" class="flex justify-center xl:mr-2 cursor-pointer"
-                            @click="deleteProduct(product.uid)">
-                            <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="trash.icon">
-                        </button>
+    
+                        <!-- 編輯和刪除按鈕 -->
+                        <div class="flex justify-around xl:w-[200px] w-[120px]">
+                            <button type="button" class="flex justify-center xl:mr-2 cursor-pointer"
+                                @click="deleteProduct(product.uid)">
+                                <img class="xl:w-[33px] w-[25px]" src="/image/svg/trash.svg" alt="trash.icon">
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -699,10 +701,10 @@ onMounted(() => {
                             </button>
                         </div>
                         <div class="flex justify-center gap-4">
-                            <button v-if="isLastProductName(product, index)" type="button"
+                            <!-- <button v-if="isLastProductName(product, index)" type="button"
                                 class="text-white rounded-full z-10" @click="addProductItem(product.id, index)">
                                 <img class="size-8 rounded-full hover:bg-slate-300" src="/image/svg/plus.svg" alt="plus.icon">
-                            </button>
+                            </button> -->
                             <button v-show="selectedSpecs[product.uid]" type="button"
                                 class="flex justify-end cursor-pointer z-10" @click="openModal(product.uid)">
                                 <img class="xl:w-[33px] w-[25px]" src="/image/svg/edit.svg" alt="edit.icon">

@@ -91,7 +91,7 @@ const props = defineProps({
 
 
 // 判斷會員是否登入判斷
-const isLoggedIn = computed(() => !!props.auth?.user);
+// const isLoggedIn = computed(() => !!props.auth?.user);
 
 
 // nav menu links
@@ -187,27 +187,29 @@ const addProductId = (productId) => {
   // 確保商品不重複加入詢價
   if (!productIds.value.includes(product.id)) {
     productIds.value.push(product.id);
-  } else {
-    Swal.fire({
-      title: "您已將該商品加入詢價!",
-      icon: "success",
-      draggable: true
-    });
-    return;
+    router.get(route('inquirePage'), { id: productIds.value });
   }
+  // else {
+  //   Swal.fire({
+  //     title: "您已將該商品加入詢價!",
+  //     icon: "success",
+  //     draggable: true
+  //   });
+  //   return;
+  // }
 };
 
 // 點選購物車跳轉至詢價頁
-const gotoinquire = (ids) => {
-  if (!ids || ids.length === 0) {
-    // !ids-> 防止傳進來的是 undefined 或 null(確保空陣列也會被擋下)
-    alert('您尚未添加任何商品，無法進入詢價頁面');
-    return;
-  }
+// const gotoinquire = (ids) => {
+//   if (!ids || ids.length === 0) {
+//     // !ids-> 防止傳進來的是 undefined 或 null(確保空陣列也會被擋下)
+//     alert('您尚未添加任何商品，無法進入詢價頁面');
+//     return;
+//   }
 
-  const data = { id: ids };
-  router.get(route('inquirePage'), data);
-};
+//   const data = { id: ids };
+//   router.get(route('inquirePage'), data);
+// };
 
 
 // 偵測螢幕寬度變化並更新購物車顯示
@@ -671,7 +673,7 @@ onUnmounted(() => {
     </div>
 
     <!-- 購物車icon -769px以上 -->
-    <button v-if="isLargeScreen && inquiryCount > 0" type="button"
+    <!-- <button v-if="isLargeScreen && inquiryCount > 0" type="button"
       class="w-[100px] fixed top-60 right-2 z-10 cursor-pointer" @click="gotoinquire(productIds)">
       <div class="relative w-full h-full">
         <img src="/image/svg/shipping-icon.svg" class="w-full h-full object-cover" alt="shipping-icon"/>
@@ -679,10 +681,10 @@ onUnmounted(() => {
           {{ inquiryCount }}
         </p>
       </div>
-    </button>
+    </button> -->
 
     <!-- 購物車icon - 769px以下 -->
-    <Link v-if="!isLargeScreen && inquiryCount > 0" :href="route('inquirePage')"
+    <!-- <Link v-if="!isLargeScreen && inquiryCount > 0" :href="route('inquirePage')"
       class="w-[50px] fixed top-80 left-2 z-10 cursor-pointer" @click="gotoinquire(productIds)">
     <div class="relative w-full h-full">
       <img src="/image/svg/shipping-cart-small.svg" class="w-full h-full object-cover" alt="shipping-cart-icon"/>
@@ -691,7 +693,7 @@ onUnmounted(() => {
         {{ inquiryCount }}
       </p>
     </div>
-    </Link>
+    </Link> -->
 
   </FrontendLayout>
 </template>
