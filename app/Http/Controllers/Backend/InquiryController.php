@@ -18,7 +18,7 @@ class InquiryController extends Controller
 {
     public function index()
     {
-        $inquiries = Inquiry::with('product')->get();
+        $inquiries = Inquiry::with('product')->orderBy('id', 'desc')->get();
 
         return Inertia::render('backend/inquiry/InquiryList', [
             'response' => $inquiries,
