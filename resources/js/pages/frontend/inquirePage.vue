@@ -18,7 +18,7 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 
 const isOpen = ref(false)
-
+const submitWait = ref(false); // 用來控制送出詢價單的按鈕是否可以點擊
 const toggleMenu = () => {
     isOpen.value = !isOpen.value
     document.body.style.overflow = isOpen.value ? 'hidden' : 'auto'
@@ -436,11 +436,12 @@ const handleSubmit = () => {
         remark: remark.value,
         products: updateShoppingCart.value,
     });
-    
+    submitWait.value = true; // 禁用送出按鈕
     router.post(route('admin.inquiry.store'), item.value, {
         onSuccess: (response) => {
             const result = response?.props?.flash?.message ?? {};
             if (result.res === 'success') {
+                submitWait.value = false; // 啟用送出按鈕
                 Swal.fire({
                     icon: "success",
                     title: result.msg,
@@ -450,6 +451,7 @@ const handleSubmit = () => {
                     router.get(route('home'));
                 });
             } else {
+                submitWait.value = false; // 啟用送出按鈕
                 Swal.fire({
                     icon: "error",
                     title: result.msg,
@@ -814,7 +816,7 @@ onMounted(() => {
             </div>
 
             <button @click="handleSubmit" type="button"
-                class="font-noto-jp font-bold md:text-[24px] text-[18px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[5px] px-12 py-4 cursor-pointer mb-36">
+                class="font-noto-jp font-bold md:text-[24px] text-[18px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[5px] px-12 py-4 cursor-pointer mb-36" :disabled="submitWait" >
                 送出詢價單
             </button>
         </div>
