@@ -27,6 +27,7 @@ class InquiryController extends Controller
 
     public function store(Request $request)
     {
+
         try {
             $request->validate([
                 'username' => 'required|string',
@@ -43,26 +44,25 @@ class InquiryController extends Controller
             $message = '詢價單已成功送出！';
 
             $inquiry = Inquiry::create([
-                'user_id' => $user->id,
+                'user_id' => $user->id ?? null, // 如果沒有找到用戶，則設為 null
                 'name' =>  $request->username,
                 'phone' =>  $request->phone,
                 'email' =>  $request->email,
                 'address' => $request->address,
                 'remark' =>  $request->remark,
             ]);
-
             foreach ($request->products as $product) {
                 OrderList::create([
                     'product_id' => $product['id'],
                     'inquiry_id' => $inquiry->id,
-                    'product' => $product['product'],  // product_name
-                    'color' => $product['color'],
-                    'type' => $product['style'],
-                    'size' => $product['size'],
-                    'quantity' => $product['quantity'],
+                    'product' => $product['name'],  // product_name
+                    // 'product' => $product['product'],  // product_name
+                    'color' => $product['color'] ?? '',
+                    'type' => $product['style'] ?? '',
+                    'size' => $product['size'] ?? '',
+                    'quantity' => $product['quantity'] ?? 1,
                 ]);
             };
-
             // 寄信功能
             Mail::to($inquiry['email'])->send(new InquiryConfirmation());
         } catch (\Throwable $th) {

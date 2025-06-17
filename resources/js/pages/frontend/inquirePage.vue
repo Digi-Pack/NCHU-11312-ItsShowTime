@@ -296,14 +296,14 @@ const addToCart = () => {
     const newData = {
         uid: item.uid,
         id: item.id,
-        product: item.name,
+        name: item.name,
         color: selectedColor,
         style: selectedStyle,
         size: selectedSize,
         quantity: selectedQuantity
     };
 
-    // updateShoppingCart.value.push(newData);
+    updateShoppingCart.value.push(newData);
 
 
     // 檢查是否已經存在相同 id 的商品
@@ -425,7 +425,9 @@ const handleSubmit = () => {
         Swal.fire("生日格式不正確！請填寫有效的日期（YYYY-MM-DD）");
         return;
     }
-
+    if(updateShoppingCart.value.length === 0){
+        updateShoppingCart.value.push(...selectProducts.value);
+    }
     const item = ref({
         username: username.value,
         phone: phone.value,
@@ -434,7 +436,7 @@ const handleSubmit = () => {
         remark: remark.value,
         products: updateShoppingCart.value,
     });
-
+    
     router.post(route('admin.inquiry.store'), item.value, {
         onSuccess: (response) => {
             const result = response?.props?.flash?.message ?? {};
@@ -552,7 +554,7 @@ onMounted(() => {
                         <button type="button"
                             class="w-9 h-9 flex justify-center items-center cursor-pointer p-6 fixed min-[476px]:top-4 top-2 right-4 z-20"
                             @click="toggleMenu">
-                            <i class="fa-solid fa-bars text-3xl" style="color:#F0BD22"></i>
+                            <i class="fa-solid fa-bars text-3xl text-[#F0BD22]"></i>
                         </button>
 
                         <div :class="[
@@ -679,7 +681,7 @@ onMounted(() => {
 
                 <!-- min-[956px]以下才出現的選擇規格商品圖 -->
                 <div class="flex flex-wrap">
-                    <div v-for="(product, index) in selectProducts" :key="product.uid"
+                    <div v-for="product in selectProducts" :key="product.uid"
                         class="min-[956px]:hidden md:w-[30%] flex flex-col gap-2 rounded-tl-2xl rounded-tr-2xl my-8 p-1 group relative overflow-hidden ml-4">
                         <img class="rounded-tl-2xl rounded-tr-2xl w-full" :src="product.first_img.img_path"
                             alt="Product Image">
@@ -694,7 +696,7 @@ onMounted(() => {
                         </div>
                         <div
                             class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center z-10 pb-16">
-                            <button v-show="!selectedSpecs[product.uid]"
+                            <button type="button" v-show="!selectedSpecs[product.uid]"
                                 class="border-[#F0BD22] border-2 text-[#F0BD22] px-6 py-2 rounded-md"
                                 @click="openModal(product.uid)">
                                 規格
@@ -811,7 +813,7 @@ onMounted(() => {
 
             </div>
 
-            <button @click="handleSubmit"
+            <button @click="handleSubmit" type="button"
                 class="font-noto-jp font-bold md:text-[24px] text-[18px] text-center text-[#F0BD22] border-[#F0BD22] border-[3px] rounded-[5px] px-12 py-4 cursor-pointer mb-36">
                 送出詢價單
             </button>
