@@ -76,7 +76,7 @@ const submit = () => {
                 :href="route('verification.send')"
                 method="post"
                 as="button"
-                class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:!decoration-current dark:decoration-neutral-500"
+                class="text-foreground underline decoration-neutral-300 underline-offset-4 transition-colors duration-300 ease-out hover:!decoration-current "
               >
                 按一下此處重新發送驗證電子郵件
               </Link>

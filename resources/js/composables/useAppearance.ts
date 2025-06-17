@@ -2,19 +2,12 @@ import { onMounted, ref } from 'vue';
 
 type Appearance = 'light' | 'dark' | 'system';
 
-export function updateTheme(value: Appearance) {
+export function updateTheme() {
   if (typeof window === 'undefined') {
     return;
   }
-
-  if (value === 'system') {
-    const mediaQueryList = window.matchMedia('(prefers-color-scheme: dark)');
-    const systemTheme = mediaQueryList.matches ? 'dark' : 'light';
-
-    document.documentElement.classList.toggle('dark', systemTheme === 'dark');
-  } else {
-    document.documentElement.classList.toggle('dark', value === 'dark');
-  }
+  // 永遠移除 dark class，強制淺色模式
+  document.documentElement.classList.remove('dark');
 }
 
 const setCookie = (name: string, value: string, days = 365) => {
@@ -53,7 +46,7 @@ export function initializeTheme() {
   if (typeof window === 'undefined') {
     return;
   }
-
+  document.documentElement.classList.remove('dark'); // 強制移除
   // Initialize theme from saved preference or default to system...
   const savedAppearance = getStoredAppearance();
   updateTheme(savedAppearance || 'system');
