@@ -18,13 +18,15 @@ class InquiryController extends Controller
 {
     public function index()
     {
-        $inquiries = Inquiry::with('product')->orderBy('id', 'desc')->get();
-
+        $inquiries = Inquiry::with(['orderLists' => function($query) {
+            $query->select('inquiry_id', 'type')
+                  ->limit(1);
+        }])->orderBy('id', 'desc')->get();
         return Inertia::render('backend/inquiry/InquiryList', [
             'response' => $inquiries,
         ]);
     }
-
+    // 前胎詢價單送出
     public function store(Request $request)
     {
 

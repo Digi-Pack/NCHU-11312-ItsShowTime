@@ -1,6 +1,8 @@
 <script setup>
 import { router } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue';
+import starWhite from '/images/icon/star_white.png';
+import starYellow from '/images/icon/star_yellow.png';
 
 const breadcrumbItems = [
   {
@@ -41,25 +43,24 @@ const detailBtn = (id) => router.get(route('admin.inquiry.edit', id));
         <tbody>
           <tr v-for="inquiry in props.response" :key="inquiry.id">
             <td class="border border-gray-700 px-4 py-2">
-              {{ inquiry?.name }}
+              <div class="flex items-center justify-start gap-3">
+                <span>
+                   <img v-if="inquiry?.order_lists?.[0]?.type !== '客製化'" :src="starWhite" alt="">
+                   <img v-else :src="starYellow" alt="">
+                 </span>
+               {{ inquiry?.name }}
+              </div>
             </td>
             <td class="border border-gray-700 px-4 py-2">
-              {{ inquiry?.email }}
+                {{ inquiry?.email }} {{ inquiry?.order_lists?.[0]?.type !== '客製化' ? '' : '(客製化訂單)' }}
             </td>
             <td class="border border-gray-700 px-4 py-2">
               {{ inquiry?.phone }}
             </td>
-            <!-- <td class="border border-gray-700 px-4 py-2">
-              {{ inquiry?.product.name }}
-            </td>
-            <td class="border border-gray-700 px-4 py-2 text-center">
-              {{ inquiry?.quantity }}
-            </td> -->
             <td class="border border-gray-700 px-4 py-2">
               {{ formatDate(inquiry?.created_at) }}
             </td>
             <td class="border border-gray-700 px-4 py-2">
-              <!-- @click="useAlert('確定要刪除嗎?', () => deleteSumbit(inquiry.id))" -->
               <button class="border border-green-500 px-4 py-2 rounded-sm hover:bg-green-300" type="button"
                 @click="detailBtn(inquiry.id)">
                 查看

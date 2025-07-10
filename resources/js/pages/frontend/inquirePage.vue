@@ -150,7 +150,7 @@ const handleQuantityUpdate = (newQuantity) => {
 // 點擊規格選擇出現選擇商品規格頁面
 const isFormatOpen = ref(false);
 const currentProductUid = ref(null);
-const selectedIndex = ref();
+// const selectedIndex = ref();
 
 const openModal = (productId) => {
     currentProductUid.value = productId;
@@ -378,10 +378,6 @@ const formatSpecs = (productId) => {
     return specText ? `${specText} / ${specs.quantity}件` : `${specs.quantity}件`;
 };
 
-// 取得數量
-const getQuantity = (productId) => {
-    return selectedSpecs.value[productId]?.quantity ?? handleQuantity.value;
-};
 
 // 送出詢價單篩選(這裡要記得加上規格要選完才能送出)
 
@@ -390,11 +386,13 @@ const phone = ref('');
 const email = ref('');
 const address = ref('');
 const remark = ref('');
-const products = ref([]);
 
 const handleSubmit = () => {
+    if(updateShoppingCart.value.length === 0){
+        updateShoppingCart.value.push(...selectProducts.value);
+    }
 
-    if (username.value === "") {
+    if (username.value === '') {
         Swal.fire("姓名欄位必填！請填寫您的姓名");
         return;
     }
@@ -425,8 +423,10 @@ const handleSubmit = () => {
         Swal.fire("生日格式不正確！請填寫有效的日期（YYYY-MM-DD）");
         return;
     }
-    if(updateShoppingCart.value.length === 0){
-        updateShoppingCart.value.push(...selectProducts.value);
+    if(updateShoppingCart.value[0].style === '客製化' && remark.value === '') {
+        Swal.fire("客製化商品需要填寫備註！請填寫您的需求");
+        return;
+
     }
     const item = ref({
         username: username.value,
@@ -478,50 +478,49 @@ const triggerDatePicker = () => {
 };
 
 // 新增同商品但不同尺寸可以做選擇
-const addProductItem = (id, index) => {
-    const product = selectProducts.value[index];
+// const addProductItem = (id, index) => {
+//     const product = selectProducts.value[index];
 
-    if (!product || product.id !== id) {
-        console.warn(`找不到對應 index=${index} 的產品`);
-        return;
-    }
+//     if (!product || product.id !== id) {
+//         console.warn(`找不到對應 index=${index} 的產品`);
+//         return;
+//     }
 
-    // const newProduct = { ...product };
-    const newProduct = JSON.parse(JSON.stringify(product));
+//     // const newProduct = { ...product };
+//     const newProduct = JSON.parse(JSON.stringify(product));
 
-    const insertedIndex = insertProductByNameGroup(selectProducts.value, newProduct);
-    // 只給新資料一個新的 uid
-    selectProducts.value[insertedIndex].uid = uidCounter.value++;
+//     const insertedIndex = insertProductByNameGroup(selectProducts.value, newProduct);
+//     // 只給新資料一個新的 uid
+//     selectProducts.value[insertedIndex].uid = uidCounter.value++;
 
-    // 取得新加的那筆資料的 uid（用 index 方式重新加 uid，所以是這筆插入的位置）
-    currentProductUid.value = selectProducts.value[insertedIndex].uid;
-    selectedIndex.value = index;
+//     // 取得新加的那筆資料的 uid（用 index 方式重新加 uid，所以是這筆插入的位置）
+//     currentProductUid.value = selectProducts.value[insertedIndex].uid;
+//     selectedIndex.value = index;
 
-};
+// };
 
 // 將相同名稱的產品群組化，而不是添加在陣列的最後一筆位置
-const insertProductByNameGroup = (arr, newItem) => {
-    // 找出陣列中最後一個相同 name 的索引
-    const index = [...arr].reverse().findIndex(item => item.name === newItem.name);
+// const insertProductByNameGroup = (arr, newItem) => {
+//     // 找出陣列中最後一個相同 name 的索引
+//     const index = [...arr].reverse().findIndex(item => item.name === newItem.name);
 
-    // 如果沒有相同 name，就直接 push
-    if (index === -1) {
-        arr.push(newItem);
-        return arr.length - 1;
-    } else {
-        const insertIndex = arr.length - index;
-        arr.splice(insertIndex, 0, newItem); // 插入到對應位置
-        return insertIndex;
-    }
-};
+//     // 如果沒有相同 name，就直接 push
+//     if (index === -1) {
+//         arr.push(newItem);
+//         return arr.length - 1;
+//     }
+//         const insertIndex = arr.length - index;
+//         arr.splice(insertIndex, 0, newItem); // 插入到對應位置
+//         return insertIndex;
+// };
 
 // 檢查當前商品名稱是否為該名稱的最後一筆(判斷只有相同名稱的最後一筆才有新增的按鈕)
-const isLastProductName = (product, index) => {
-    // 找到所有與當前商品名稱相同的商品
-    const sameNameProducts = selectProducts.value.filter(p => p.name === product.name);
+// const isLastProductName = (product, index) => {
+//     // 找到所有與當前商品名稱相同的商品
+//     const sameNameProducts = selectProducts.value.filter(p => p.name === product.name);
 
-    return sameNameProducts.indexOf(product) === sameNameProducts.length - 1;
-}
+//     return sameNameProducts.indexOf(product) === sameNameProducts.length - 1;
+// }
 
 // 跳轉頁面loading
 const isLoading = ref(true);
@@ -724,12 +723,12 @@ onMounted(() => {
             </div>
 
 
+            <span class="2xl:text-[24px] font-semibold text-[#F0BD22]">客製化需求請填寫在備註</span>
             <!-- 商品項目計數 -->
             <div class="2xl:w-[1399px] w-[70%] flex-col flex items-end mb-60">
                 <p class="2xl:text-[24px] text-white mb-2">總計 {{ productCount }} 款商品</p>
                 <p class="2xl:text-[24px] text-white">總金額待訂單確認後提供</p>
             </div>
-
             <!-- 選擇商品規格 -->
             <div v-if="isFormatOpen && currentItem"
                 class="w-full h-dvh fixed bg-black/50 inset-0 z-50  py-12 flex justify-center items-center"
@@ -806,9 +805,10 @@ onMounted(() => {
                 </div>
 
                 <div class="flex flex-col mb-10">
-                    <label for="remark" class="text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
-                        備註 | Remark ( 選填 )
+                    <label for="remark" class="flex flex-col lg:flex-row gap-3 text-white font-noto-jp 2xl:text-[28px] tracking-[0.02em] mb-4">
+                      <span> 備註 | Remark</span>  <span> ( 如選擇客製化需求，請在此填寫 )</span> 
                     </label>
+
                     <textarea v-model="remark" id="remark"
                         class="resize-none 2xl:w-[895px] w-full h-[220px] bg-transparent border border-white rounded-[8px] px-4 py-3 placeholder:text-[20px] "></textarea>
                 </div>
