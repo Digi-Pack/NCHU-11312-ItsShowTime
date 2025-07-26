@@ -3,7 +3,10 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        @if (env('GOOGLE_REBOT_BAN', false))
+          <meta name="robots" content="noindex, nofollow">
+          <meta name="googlebot" content="noindex">
+        @endif
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
         <script>
             (function() {
